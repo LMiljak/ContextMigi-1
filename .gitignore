@@ -1,0 +1,14 @@
+# Ignore windows files
+Thumbs.db
+# Ignore eclipse project files
+.classpath
+.project
+.pmd
+.settings/
+# Ignore binary files
+*.class
+/bin/
+# Ignore maven folders
+/target
+# Ignore our logs
+/target/

@@ -12,3 +12,4 @@ Thumbs.db
 /target
 # Ignore our logs
 /target/
+*.class

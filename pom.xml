@@ -14,6 +14,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>jme3-repo</id>
+      <url>http://updates.jmonkeyengine.org/maven/</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -33,6 +40,90 @@
 	  <groupId>io.netty</groupId>
 	  <artifactId>netty-all</artifactId>
 	  <version>5.0.0.Alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-core</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-effects</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-networking</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-plugins</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-jogg</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-terrain</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-blender</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-bullet</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-bullet-native</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-bullet-native-android</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-desktop</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-lwjgl</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-android</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-android-native</artifactId>
+	  <version>3.1.0-alpha2</version>
 	</dependency>
 	
   </dependencies>

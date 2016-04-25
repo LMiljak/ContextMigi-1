@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>Migi-1</groupId>
+  <groupId>com.github.migi-1</groupId>
   <artifactId>Context</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -13,6 +13,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>jme3-repo</id>
+      <url>http://updates.jmonkeyengine.org/maven/</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
@@ -28,12 +35,103 @@
 	  <version>1.6.3</version>
 	  <scope>test</scope>
     </dependency>
-    
-    <dependency>
-	  <groupId>io.netty</groupId>
-	  <artifactId>netty-all</artifactId>
-	  <version>5.0.0.Alpha2</version>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-core</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-effects</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-networking</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-plugins</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-jogg</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-terrain</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-blender</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-bullet</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-bullet-native</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-bullet-native-android</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-desktop</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-lwjgl</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-android</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-android-native</artifactId>
+	  <version>3.1.0-alpha2</version>
 	</dependency>
 	
   </dependencies>
+  
+  <reporting>
+    <plugins>
+    
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-surefire-report-plugin</artifactId>
+	    <version>2.18.1</version>
+	  </plugin>
+	  
+    </plugins>
+  </reporting>
+  
 </project>

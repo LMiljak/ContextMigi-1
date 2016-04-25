@@ -1,4 +1,4 @@
-package Migi_1.Context;
+package com.github.migi_1.Context;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

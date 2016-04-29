@@ -1,4 +1,4 @@
-package com.github.migi_1.networking.serverside;
+package com.github.migi_1.context.networking.serverside;
 
 import java.io.IOException;
 

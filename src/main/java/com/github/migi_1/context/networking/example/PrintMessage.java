@@ -1,4 +1,4 @@
-package com.github.migi_1.networking.example;
+package com.github.migi_1.context.networking.example;
 
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;

@@ -1,4 +1,4 @@
-package com.github.migi_1.networking.example;
+package com.github.migi_1.context.networking.example;
 
 import java.io.IOException;
 

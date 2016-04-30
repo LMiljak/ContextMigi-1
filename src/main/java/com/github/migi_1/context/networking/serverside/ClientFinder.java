@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,6 +31,26 @@ public class ClientFinder {
 	private DatagramSocket socket;
 	
 	private boolean running;
+	
+	/**
+	 * Launches the ClientFinder. Upon pressing the enter key in the console
+	 * the ClientFinder terminates. This main method is mainly used for testing 
+	 * purposes only and should be removed for the final version.
+	 * 
+	 * @param args
+	 * 		ignored.
+	 */
+	public static void main(String[] args) {
+		ExecutorService es = Executors.newFixedThreadPool(10);
+		
+		INSTANCE.findClients(es);
+		es.execute(() -> {
+			(new Scanner(System.in)).nextLine();
+			INSTANCE.stop();
+			System.out.println("Stopping ClientFinder");
+		});
+		es.shutdown();
+	}
 	
 	/**
 	 * Gets the instance of this shingleton class.
@@ -89,9 +110,7 @@ public class ClientFinder {
 				}
 			}
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) { }
 		
 	}
 	

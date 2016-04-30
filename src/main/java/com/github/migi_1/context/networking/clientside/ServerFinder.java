@@ -8,6 +8,7 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Collections;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,6 +34,27 @@ public class ServerFinder {
 	private DatagramSocket socket;
 	
 	private boolean running;
+	
+	/**
+	 * Launches the ServerFinder. Upon pressing the enter key in the console
+	 * the ServerFinder terminates. If a server has been found, it gets printed
+	 * to the console. This main method is mainly used for testing purposes only 
+	 * and should be removed for the final version.
+	 * 
+	 * @param args
+	 * 		ignored.
+	 */
+	public static void main(String[] args) {
+		ExecutorService es = Executors.newFixedThreadPool(10);
+		
+		INSTANCE.findServers(es, (foundServer) -> System.out.println("Found a server: " + foundServer));
+		es.execute(() -> {
+			(new Scanner(System.in)).nextLine();
+			INSTANCE.stop();
+			System.out.println("Stopping ServerFinder");
+		});
+		es.shutdown();
+	}
 	
 	/**
 	 * Gets the instance of this shingleton class.

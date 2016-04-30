@@ -14,10 +14,10 @@ import java.net.InetAddress;
  * 
  * SHINGLETON class.
  */
-public class Discoverer {
+public class ClientFinder {
 
 	/** The shingleton instance of this class. */
-	private static final Discoverer INSTANCE = new Discoverer();
+	private static final ClientFinder INSTANCE = new ClientFinder();
 	
 	/** The password used to validate whether a received package is from an user of this game. */
 	private static final String PASSWORD = "yo man, kan ik joinen?";
@@ -28,12 +28,12 @@ public class Discoverer {
 	 * @return
 	 * 		The shingleton instance of this class.
 	 */
-	public static Discoverer getInstance() {
+	public static ClientFinder getInstance() {
 		return INSTANCE;
 	}
 	
 	/** Private empty constructor so it can't be instantiated (shingleton class property). */
-	private Discoverer() { }
+	private ClientFinder() { }
 	
 	/**
 	 * Does the following things in order.
@@ -42,6 +42,9 @@ public class Discoverer {
 	 * 3. Checks whether that packet is valid (from a user of this game).
 	 * 4. If the check passed, sends a response back.
 	 * 5. Repeats from 2.
+	 * 
+	 * Make sure to call this method on a new Thread, otherwise the code will be caught
+	 * in an infinite loop.
 	 * 
 	 * @throws IOException
 	 */

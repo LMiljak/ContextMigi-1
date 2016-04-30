@@ -52,6 +52,7 @@ public class Host {
 	 */
 	public Server startServer() throws IOException {
 		server = Network.createServer(PORT);
+		server.start();
 		return server;
 	}
 	
@@ -59,7 +60,10 @@ public class Host {
 	 * Closes the Server.
 	 */
 	public void closeServer() {
-		server.close();
+		if (server != null) {
+			server.close();
+			server = null;
+		}
 	}
 	
 	/**

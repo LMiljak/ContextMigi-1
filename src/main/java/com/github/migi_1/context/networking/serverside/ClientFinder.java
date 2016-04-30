@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Used on the server side to help devices on the LAN
@@ -46,15 +47,12 @@ public class ClientFinder {
 	/**
 	 * Allows the findServer method from the ServerFinder class to find this server.
 	 * 
-	 * Does the following things in order:
-	 * 1. Opens a socket using the port of the Host that can listen to UDP requests.
+	 * It executes the following tasks:
+	 * 1. Opens a socket that can listen to UDP requests.
 	 * 2. Waits for a packet to be received.
 	 * 3. Checks whether that packet is valid (from a user of this game).
 	 * 4. If the check passed, sends a response back.
 	 * 5. Repeats from 2.
-	 * 
-	 * Make sure to call this method on a new Thread, otherwise the code will be caught
-	 * in an infinite loop.
 	 * 
 	 * @param executorService
 	 * 		The executorService used to run this task on a new Thread.
@@ -82,7 +80,7 @@ public class ClientFinder {
 			socket.setBroadcast(true);
 			
 			while (running) {
-				DatagramPacket packet = waitForPacket(socket);
+				DatagramPacket packet = waitForPacket();
 				
 				if (checkReceivedPacket(packet)) {
 					byte[] responseData = "Yea dude, Im a real server".getBytes();
@@ -98,7 +96,7 @@ public class ClientFinder {
 	}
 	
 	/**
-	 * Waits for a packet to arrive in a socket.
+	 * Waits for a packet to arrive in the socket.
 	 * 
 	 * @param socket
 	 * 		The socket we're waiting the package to arrive in.
@@ -106,7 +104,7 @@ public class ClientFinder {
 	 * 		The received packet.
 	 * @throws IOException
 	 */
-	private DatagramPacket waitForPacket(DatagramSocket socket) throws IOException {
+	private DatagramPacket waitForPacket() throws IOException {
 		final int bufferSize = 15000; //The maximum size of the packet.
 		DatagramPacket packet = new DatagramPacket(new byte[bufferSize], bufferSize);
 		

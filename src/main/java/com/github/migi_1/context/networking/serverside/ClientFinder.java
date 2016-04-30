@@ -26,6 +26,10 @@ public class ClientFinder {
 	/** The port to which clients should try and connect. */
 	private static final int PORT = 4269;
 	
+	private DatagramSocket socket;
+	
+	private boolean running;
+	
 	/**
 	 * Gets the instance of this shingleton class.
 	 * 
@@ -35,10 +39,6 @@ public class ClientFinder {
 	public static ClientFinder getInstance() {
 		return INSTANCE;
 	}
-	
-	private DatagramSocket socket;
-	
-	private boolean running;
 	
 	/** Private empty constructor so it can't be instantiated (shingleton class property). */
 	private ClientFinder() { }

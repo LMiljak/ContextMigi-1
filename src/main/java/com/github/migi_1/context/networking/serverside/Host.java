@@ -30,18 +30,8 @@ public class Host {
 		return INSTANCE;
 	}
 	
-	/**
-	 * Private Constructor to prevent instantiation.
-	 * 
-	 * @throws IOException 
-	 */
-	private Host() {
-		try {
-			server = Network.createServer(PORT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	/** Private Constructor to prevent instantiation. */
+	private Host() { }
 	
 	/**
 	 * Gets the port on which the server is running.
@@ -54,10 +44,29 @@ public class Host {
 	}
 	
 	/**
-	 * Gets the wrapped server object.
+	 * Starts the Server.
 	 * 
 	 * @return
-	 * 		The wrapped server object.
+	 * 		The started server.
+	 * @throws IOException 
+	 */
+	public Server startServer() throws IOException {
+		server = Network.createServer(PORT);
+		return server;
+	}
+	
+	/**
+	 * Closes the Server.
+	 */
+	public void closeServer() {
+		server.close();
+	}
+	
+	/**
+	 * Gets the Server.
+	 * 
+	 * @return
+	 * 		The wrapped server object. Null if the server isn't started.
 	 */
 	public Server getServer() {
 		return server;

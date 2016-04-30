@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Used on the server side to help devices on the LAN
@@ -22,6 +23,9 @@ public class ClientFinder {
 	/** The password used to validate whether a received package is from a client of this game. */
 	private static final String PASSWORD = "yo man, kan ik joinen?";
 	
+	/** The port to which clients should try and connect. */
+	private static final int PORT = 4269;
+	
 	/**
 	 * Gets the instance of this shingleton class.
 	 * 
@@ -31,6 +35,10 @@ public class ClientFinder {
 	public static ClientFinder getInstance() {
 		return INSTANCE;
 	}
+	
+	private DatagramSocket socket;
+	
+	private boolean running;
 	
 	/** Private empty constructor so it can't be instantiated (shingleton class property). */
 	private ClientFinder() { }
@@ -48,21 +56,45 @@ public class ClientFinder {
 	 * Make sure to call this method on a new Thread, otherwise the code will be caught
 	 * in an infinite loop.
 	 * 
-	 * @throws IOException
+	 * @param executorService
+	 * 		The executorService used to run this task on a new Thread.
 	 */
-	public void findClients() throws IOException {
-		DatagramSocket socket = new DatagramSocket(Host.getInstance().getPort(), InetAddress.getByName("0.0.0.0"));
-		socket.setBroadcast(true);
-		
-		while (true) {
-			DatagramPacket packet = waitForPacket(socket);
+	public void findClients(ExecutorService executorService) {
+		running = true;
+		executorService.execute(() -> findClients());
+	}
+	
+	/**
+	 * Stops the ClientFinder from finding clients. This method only has effect if the findClients method
+	 * has been called.
+	 */
+	public void stop() {
+		running = false;
+		socket.close();
+	}
+	
+	/**
+	 * Helper method for the other findClients method.
+	 */
+	private void findClients() {
+		try {
+			socket = new DatagramSocket(PORT, InetAddress.getByName("0.0.0.0"));
+			socket.setBroadcast(true);
 			
-			if (checkReceivedPacket(packet)) {
-				byte[] responseData = "Yea dude, Im a real server".getBytes();
-				DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, packet.getAddress(), packet.getPort());
-				socket.send(responsePacket);
+			while (running) {
+				DatagramPacket packet = waitForPacket(socket);
+				
+				if (checkReceivedPacket(packet)) {
+					byte[] responseData = "Yea dude, Im a real server".getBytes();
+					DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, packet.getAddress(), packet.getPort());
+					socket.send(responsePacket);
+				}
 			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		
 	}
 	
 	/**

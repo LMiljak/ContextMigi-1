@@ -141,6 +141,7 @@ public class ServerFinder {
 						if (broadcast == null) {
 							continue;
 						}
+						sendPasswordTo(broadcast);
 					}
 				}
 			} catch (IOException e) { }

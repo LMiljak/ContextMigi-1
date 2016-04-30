@@ -19,7 +19,7 @@ public class ClientFinder {
 	/** The shingleton instance of this class. */
 	private static final ClientFinder INSTANCE = new ClientFinder();
 	
-	/** The password used to validate whether a received package is from an user of this game. */
+	/** The password used to validate whether a received package is from a client of this game. */
 	private static final String PASSWORD = "yo man, kan ik joinen?";
 	
 	/**
@@ -36,7 +36,9 @@ public class ClientFinder {
 	private ClientFinder() { }
 	
 	/**
-	 * Does the following things in order.
+	 * Allows the findServer method from the ServerFinder class to find this server.
+	 * 
+	 * Does the following things in order:
 	 * 1. Opens a socket using the port of the Host that can listen to UDP requests.
 	 * 2. Waits for a packet to be received.
 	 * 3. Checks whether that packet is valid (from a user of this game).
@@ -48,7 +50,7 @@ public class ClientFinder {
 	 * 
 	 * @throws IOException
 	 */
-	public void handleMessages() throws IOException {
+	public void findClients() throws IOException {
 		DatagramSocket socket = new DatagramSocket(Host.getInstance().getPort(), InetAddress.getByName("0.0.0.0"));
 		socket.setBroadcast(true);
 		
@@ -56,7 +58,7 @@ public class ClientFinder {
 			DatagramPacket packet = waitForPacket(socket);
 			
 			if (checkReceivedPacket(packet)) {
-				byte[] responseData = "Sure thing bro".getBytes();
+				byte[] responseData = "Yea dude, Im a real server".getBytes();
 				DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, packet.getAddress(), packet.getPort());
 				socket.send(responsePacket);
 			}

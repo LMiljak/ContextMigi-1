@@ -1,4 +1,4 @@
-package com.github.migi_1.context.networking.clientside;
+package com.github.migi_1.Context.clientside;
 
 import java.net.InetAddress;
 

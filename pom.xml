@@ -19,6 +19,16 @@
       <id>jme3-repo</id>
       <url>http://updates.jmonkeyengine.org/maven/</url>
     </repository>
+    
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+    
+    <repository>
+      <id>nifty-maven-repo.sourceforge.net</id>
+      <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -118,6 +128,18 @@
 	  <groupId>org.jmonkeyengine</groupId>
 	  <artifactId>jme3-android-native</artifactId>
 	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-niftygui</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>com.github.nifty-gui</groupId>
+      <artifactId>nifty</artifactId>
+      <version>1.4.2-SNAPSHOT</version>
 	</dependency>
 	
   </dependencies>

@@ -15,8 +15,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
- *
- * @author TUDelft SID
+ * The Environement class handles all visual aspects of the world, excluding the characters and enemies etc.
+ * @author Damian
  */
 public class Environment {    
     private ViewPort viewPort;
@@ -24,6 +24,13 @@ public class Environment {
     private Node rootNode;
     private FlyByCamera flyCam;
     
+    /**
+     * Constructor for the environment object
+     * @param flyCam, The camera for flying around in the world (will be removed)
+     * @param viewPort, Main screen of the game, this will be rendered
+     * @param assetManager, loads and manages all assets of the world
+     * @param rootNode, origin of the app
+     */
     public Environment(FlyByCamera flyCam, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
         this.flyCam = flyCam;
         this.viewPort = viewPort;
@@ -32,8 +39,9 @@ public class Environment {
     }
 
     public void init() {
-        assetManager.registerLocator("assets", FileLocator.class);   
-
+        //deprecated method, it does however make it possible to load assets from a non default location
+        assetManager.registerLocator("assets", FileLocator.class);           
+        
         flyCam.setMoveSpeed(50);      
         viewPort.setBackgroundColor(ColorRGBA.Blue);
 

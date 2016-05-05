@@ -14,7 +14,7 @@ public class App extends SimpleApplication {
         App app = new App();
         app.start();
     }
-
+    
     @Override
     public void simpleInitApp() {
         world = new World(flyCam, viewPort, assetManager, rootNode);

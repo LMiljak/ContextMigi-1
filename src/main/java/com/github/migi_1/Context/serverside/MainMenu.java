@@ -101,6 +101,8 @@ public class MainMenu extends SimpleApplication {
                       valignCenter();
                       height("50%");
                       width("50%");
+                      visibleToMouse(true);
+                      interactOnClick("toScreen(host)");
                     }});
                 }});
  
@@ -117,6 +119,8 @@ public class MainMenu extends SimpleApplication {
                       valignCenter();
                       height("50%");
                       width("50%");
+                      visibleToMouse(true);
+                      interactOnClick("quitGame()");
                     }});
  
                 }});
@@ -168,6 +172,8 @@ public class MainMenu extends SimpleApplication {
                    valignCenter();
                    height("50%");
                    width("50%");
+                   visibleToMouse(true);
+                   interactOnClick("toScreen(start)");
                 }});
 
             }}); // panel added

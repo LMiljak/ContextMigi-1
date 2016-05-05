@@ -54,7 +54,7 @@ public class Environment {
         sun.setColor(ColorRGBA.White);
         sun.setDirection(new Vector3f(0, -1f, -.2f).normalizeLocal());      
 
-        rootNode.addLight(sun2);
+        rootNode.addLight(sun);
         rootNode.addLight(sun2);
 
         Spatial testWorld = assetManager.loadModel("Models/testWorld.j3o");

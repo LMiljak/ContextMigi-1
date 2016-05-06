@@ -1,12 +1,12 @@
 package com.github.migi_1.Context.serverside;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
@@ -15,63 +15,85 @@ import com.jme3.network.Server;
 /**
  * Test suite for the ServerWrapper class.
  * 
- * These are tests in its simplest forms. The tests can't get much more complicated
- * than this since somehow these tests get messed up if the server opens and closes
- * too often.
+ * This test suite contains only one real test method, because
+ * having many of them and repeatedly starting/closing the server
+ * may mess things up.
  */
 public class TestServerWrapper {
-
-	private ServerWrapper server;
 	
 	/**
-	 * Initializes the server field before each test case
-	 */
-	@Before
-	public void setup() {
-		server = ServerWrapper.getInstance();
-	}
-	
-	/**
-	 * Helper method that loops until the server has succesfully stopped.
-	 */
-	private void waitForServerToStop(Server server) {
-		while (server.isRunning());
-	}
-	
-	/**
-	 * Asserts that the getServer returns null if the server hasn't started yet.
+	 * Tests the following states of the serverwrapper in order:
+	 *   1. Asserts that getServer returns null.
+	 *   2. Calls the startServer method.
+	 *   3. Asserts that getServer does not return null.
+	 *   4. Asserts that the server is running.
+	 *   5. Calls the startServer method and verify that nothing has changed.
+	 *   6. Stops the server.
+	 *   7. Asserts that the server is no longer running.
+	 *   8. Asserts that getServer returns null.
+	 * 
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGetUnstartedServer() {
+	public void testServerWrapper() throws IOException {
+		ServerWrapper server = ServerWrapper.getInstance();
+		
+		testGetNotStartedServer(server);
+		testStartServer(server);
+		testStartServer(server);
+		testCloseServer(server);
+		testGetNotStartedServer(server);
+	}
+	
+	/**
+	 * Asserts that the getServer method returns null.
+	 * 
+	 * @param server
+	 * 		A not-started or stopped serverwrapper.
+	 */
+	private void testGetNotStartedServer(ServerWrapper server) {
 		assertNull(server.getServer());
 	}
 	
 	/**
-	 * Asserts that startServer() returns the same server getServer() returns after it has been started.
+	 * Starts the server and asserts that the getServer method
+	 * returns the same server object as the startServer method.
+	 * Also asserts that the server is running after the startServer call.
+	 * 
+	 * @param server
+	 * 		A not-started serverwrapper.
 	 * @throws IOException 
 	 */
-	@Test
-	public void testGetStartedServer() throws IOException {
-		Server s = server.startServer();
-		
-		assertSame(s, server.getServer());
-		
-		server.closeServer();
-		waitForServerToStop(s);
+	private void testStartServer(ServerWrapper server) throws IOException {
+		server.startServer();
+		assertTrue(server.getServer().isRunning());
 	}
 	
 	/**
-	 * Asserts that the port on which the server was created is the correct one.
-	 * @throws IOException
+	 * Asserts that the closeServer method stops the server.
+	 * 
+	 * @param server
+	 * 		The started serverwrapper.
+	 */
+	private void testCloseServer(ServerWrapper server) {
+		Server s = server.getServer();
+		
+		server.closeServer();
+		
+		assertFalse(s.isRunning());
+	}
+	
+	/**
+	 * Asserts that getPort returns the same port on which the
+	 * the server should be running.
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
 	 */
 	@Test
 	public void testGetPort() throws IllegalArgumentException, IllegalAccessException {
-		//Cheaty way using PowerMockito to get a private static field of a class.
-		int correctPort = Whitebox.getField(ServerWrapper.class, "PORT").getInt(null); 
+		int expectedPort = Whitebox.getField(ServerWrapper.class, "PORT").getInt(null);
+		int actualPort = ServerWrapper.getInstance().getPort();
 		
-		assertEquals(correctPort, server.getPort());
+		assertEquals(expectedPort, actualPort);
 	}
-	
 }

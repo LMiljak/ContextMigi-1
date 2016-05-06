@@ -46,14 +46,13 @@ public class ServerWrapper {
 	/**
 	 * Starts the Server.
 	 * 
-	 * @return
-	 * 		The started server.
 	 * @throws IOException 
 	 */
-	public Server startServer() throws IOException {
-		server = Network.createServer(PORT);
-		server.start();
-		return server;
+	public void startServer() throws IOException {
+		if (server == null) {
+			server = Network.createServer(PORT);
+			server.start();
+		}
 	}
 	
 	/**

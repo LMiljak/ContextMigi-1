@@ -91,7 +91,9 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testGetPort() throws IllegalArgumentException, IllegalAccessException {
+		//Cheaty way of getting private static fields using PowerMockito.
 		int expectedPort = Whitebox.getField(ServerWrapper.class, "PORT").getInt(null);
+		
 		int actualPort = ServerWrapper.getInstance().getPort();
 		
 		assertEquals(expectedPort, actualPort);

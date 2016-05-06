@@ -59,7 +59,10 @@ public class Environment {
 
         Spatial testWorld = assetManager.loadModel("Models/testWorld.j3o");
         testWorld.move(0, -20, 0);
+        Spatial testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
+        testPlatform.move(20, -18, -3);
         rootNode.attachChild(testWorld);
+        rootNode.attachChild(testPlatform);
 
     }
 }

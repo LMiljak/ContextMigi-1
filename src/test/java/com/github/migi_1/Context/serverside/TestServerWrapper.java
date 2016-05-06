@@ -14,10 +14,6 @@ import com.jme3.network.Server;
 
 /**
  * Test suite for the ServerWrapper class.
- * 
- * This test suite contains only one real test method, because
- * having many of them and repeatedly starting/closing the server
- * may mess things up.
  */
 public class TestServerWrapper {
 	

@@ -17,11 +17,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class MainMenuFunctions extends AbstractAppState implements ScreenController {
     
     Nifty nifty;
-    
-    public MainMenuFunctions MainMenuFunctions(Nifty n) {
-        this.nifty = n;
-        return this;
-    }
+    Application app;
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -44,15 +40,15 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     }
     
     public void bind(Nifty nifty, Screen screen) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
  
     public void onStartScreen() {
-        throw new UnsupportedOperationException("Not supported yet.");
+       // throw new UnsupportedOperationException("Not supported yet.");
     }
  
     public void onEndScreen() {
-        throw new UnsupportedOperationException("Not supported yet.");
+       // throw new UnsupportedOperationException("Not supported yet.");
     }
     
     /**custom methods*/
@@ -61,6 +57,6 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     }
     
     public void quitGame() {
-        app.exit()
+        app.stop();
     }
 }

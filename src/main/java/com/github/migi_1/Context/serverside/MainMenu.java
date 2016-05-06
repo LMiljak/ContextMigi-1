@@ -37,7 +37,7 @@ public class MainMenu extends SimpleApplication {
  
     // <screen>
     nifty.addScreen("start", new ScreenBuilder("start") {{
-        controller(new DefaultScreenController());
+        controller(new com.github.migi_1.Context.serverside.MainMenuFunctions());
         layer(new LayerBuilder("background") {{
             childLayoutCenter();
             backgroundColor("#000f");
@@ -131,7 +131,7 @@ public class MainMenu extends SimpleApplication {
     // </screen>
     
     nifty.addScreen("host", new ScreenBuilder("host"){{
-        controller(new DefaultScreenController());
+        controller(new com.github.migi_1.Context.serverside.MainMenuFunctions());
  
          // layer added
          layer(new LayerBuilder("background") {{

@@ -10,9 +10,12 @@ import com.jme3.input.FlyByCamera;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.shadow.DirectionalLightShadowFilter;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 
 /**
  * The Environement class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -56,6 +59,19 @@ public class Environment {
 
         rootNode.addLight(sun);
         rootNode.addLight(sun2);
+        
+        
+        final int SHADOWMAP_SIZE=1024;
+        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, 3);
+        dlsr.setLight(sun);
+        viewPort.addProcessor(dlsr);
+ 
+        DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, 3);
+        dlsf.setLight(sun);
+        dlsf.setEnabled(true);
+        FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
+        fpp.addFilter(dlsf);
+        viewPort.addProcessor(fpp);
 
         Spatial testWorld = assetManager.loadModel("Models/testWorld.j3o");
         testWorld.move(0, -20, 0);

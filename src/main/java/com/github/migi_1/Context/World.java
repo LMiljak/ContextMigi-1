@@ -4,6 +4,7 @@ package com.github.migi_1.Context;
 import com.github.migi_1.Context.design.Environment;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.FlyByCamera;
+import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 
@@ -37,6 +38,14 @@ public class World {
     public void init() {
         env = new Environment(flyCam, viewPort, assetManager, rootNode);
         env.init();
+    }
+    
+    public void update() {
+        env.update();
+    }
+    public void render(RenderManager rm) {
+        env.render(rm);
+        
     }
     
 }

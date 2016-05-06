@@ -11,7 +11,9 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
+import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
@@ -27,6 +29,8 @@ public class Environment {
     private Node rootNode;
     private FlyByCamera flyCam;
     
+    private Spatial testPlatform;
+    private Spatial testWorld;
     /**
      * Constructor for the environment object
      * @param flyCam, The camera for flying around in the world (will be removed)
@@ -58,8 +62,7 @@ public class Environment {
         sun.setDirection(new Vector3f(0, -1f, -.2f).normalizeLocal());      
 
         rootNode.addLight(sun);
-        rootNode.addLight(sun2);
-        
+        rootNode.addLight(sun2);        
         
         final int SHADOWMAP_SIZE=1024;
         DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, 3);
@@ -73,12 +76,21 @@ public class Environment {
         fpp.addFilter(dlsf);
         viewPort.addProcessor(fpp);
 
-        Spatial testWorld = assetManager.loadModel("Models/testWorld.j3o");
+        testWorld = assetManager.loadModel("Models/testWorld.j3o");
         testWorld.move(0, -20, 0);
-        Spatial testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
+        testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.move(20, -18, -3);
+        testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         rootNode.attachChild(testWorld);
         rootNode.attachChild(testPlatform);
 
+    }
+    
+    public void update() {
+        testPlatform.move(-0.02f, 0, 0);
+    }
+
+    public void render(RenderManager rm) {        
+        
     }
 }

@@ -23,11 +23,11 @@ public class App extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
-        //TODO: add update code
+        world.update();
     }
 
     @Override
     public void simpleRender(RenderManager rm) {
-        //TODO: add render code
+        world.render(rm);
     }
 }

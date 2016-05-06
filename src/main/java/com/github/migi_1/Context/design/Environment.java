@@ -52,7 +52,8 @@ public class Environment {
         
         flyCam.setMoveSpeed(50);      
         viewPort.setBackgroundColor(ColorRGBA.Blue);
-
+        
+        //creates the lights 
         DirectionalLight sun = new DirectionalLight();
         DirectionalLight sun2 = new DirectionalLight();
 
@@ -61,22 +62,26 @@ public class Environment {
 
         sun.setColor(ColorRGBA.White);
         sun.setDirection(new Vector3f(0, -1f, -.2f).normalizeLocal());      
-
+        
+        //adds the lights to the root pane
         rootNode.addLight(sun);
         rootNode.addLight(sun2);        
         
+        //creates shadowmap and attach it to the sun
         final int SHADOWMAP_SIZE=1024;
         DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, 3);
         dlsr.setLight(sun);
         viewPort.addProcessor(dlsr);
- 
+        
+        //adds shadow filter and attaches it to the viewport
         DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, 3);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
         fpp.addFilter(dlsf);
         viewPort.addProcessor(fpp);
-
+        
+        //initializes all spatials and set the positions
         testWorld = assetManager.loadModel("Models/testWorld.j3o");
         testWorld.move(0, -20, 0);
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
@@ -86,17 +91,25 @@ public class Environment {
         testCommander.rotate(0, -1.5f, 0);
         testCommander.move(23, -14, -3.5f);
         
+        //attach all objects to the root pane
         rootNode.attachChild(testWorld);
         rootNode.attachChild(testPlatform);
         rootNode.attachChild(testCommander);
 
     }
     
+    /**
+     * update the entities
+     */
     public void update() {
         testPlatform.move(-0.02f, 0, 0);
         testCommander.move(-0.02f, 0, 0);
     }
-
+    
+    /**
+     * render the entities
+     * @param rm manager of the renderengine
+     */
     public void render(RenderManager rm) {        
         
     }

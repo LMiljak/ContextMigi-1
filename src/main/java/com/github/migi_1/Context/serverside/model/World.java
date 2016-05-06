@@ -1,7 +1,6 @@
 
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.serverside.model;
 
-import com.github.migi_1.Context.design.Environment;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.FlyByCamera;
 import com.jme3.renderer.RenderManager;

@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.design;
+package com.github.migi_1.Context.serverside.model;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;

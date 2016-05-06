@@ -31,6 +31,7 @@ public class Environment {
     
     private Spatial testPlatform;
     private Spatial testWorld;
+    private Spatial testCommander;
     /**
      * Constructor for the environment object
      * @param flyCam, The camera for flying around in the world (will be removed)
@@ -79,15 +80,21 @@ public class Environment {
         testWorld = assetManager.loadModel("Models/testWorld.j3o");
         testWorld.move(0, -20, 0);
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
-        testPlatform.move(20, -18, -3);
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        testPlatform.move(20, -18, -3);
+        testCommander = assetManager.loadModel("Models/ninja.j3o");
+        testCommander.rotate(0, -1.5f, 0);
+        testCommander.move(23, -14, -3.5f);
+        
         rootNode.attachChild(testWorld);
         rootNode.attachChild(testPlatform);
+        rootNode.attachChild(testCommander);
 
     }
     
     public void update() {
         testPlatform.move(-0.02f, 0, 0);
+        testCommander.move(-0.02f, 0, 0);
     }
 
     public void render(RenderManager rm) {        

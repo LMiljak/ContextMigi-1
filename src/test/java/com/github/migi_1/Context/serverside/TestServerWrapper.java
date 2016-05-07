@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -23,10 +24,11 @@ public class TestServerWrapper {
 	 *   2. Calls the startServer method.
 	 *   3. Asserts that getServer does not return null.
 	 *   4. Asserts that the server is running.
-	 *   5. Calls the startServer method and verify that nothing has changed.
+	 *   5. Asserts that calling the startServer method again gives an Exception.
 	 *   6. Stops the server.
 	 *   7. Asserts that the server is no longer running.
 	 *   8. Asserts that getServer returns null.
+	 *   9. Asserts that calling the closeServer method again gives an Exception.
 	 * 
 	 * @throws IOException 
 	 */
@@ -36,9 +38,10 @@ public class TestServerWrapper {
 		
 		testGetNotStartedServer(server);
 		testStartServer(server);
-		testStartServer(server);
+		testStartStartedServer(server);
 		testCloseServer(server);
 		testGetNotStartedServer(server);
+		testCloseClosedServer(server);
 	}
 	
 	/**
@@ -66,6 +69,21 @@ public class TestServerWrapper {
 	}
 	
 	/**
+	 * Asserts that the startServer method throws an IllegalStateException
+	 * if the server is already running.
+	 * 
+	 * @param server
+	 * 		The running serverwrapper.
+	 * @throws IOException 
+	 */
+	private void testStartStartedServer(ServerWrapper server) throws IOException {
+		try {
+			server.startServer();
+			fail();
+		} catch (IllegalStateException e) { }
+	}
+	
+	/**
 	 * Asserts that the closeServer method stops the server.
 	 * 
 	 * @param server
@@ -77,6 +95,21 @@ public class TestServerWrapper {
 		server.closeServer();
 		
 		assertFalse(s.isRunning());
+	}
+	
+	/**
+	 * Asserts that the stopServer method throws an IllegalStateException
+	 * if the server is not already running.
+	 * 
+	 * @param server
+	 * 		The closed serverwrapper.
+	 * @throws IOException 
+	 */
+	private void testCloseClosedServer(ServerWrapper server) throws IOException {
+		try {
+			server.closeServer();
+			fail();
+		} catch (IllegalStateException e) { }
 	}
 	
 	/**

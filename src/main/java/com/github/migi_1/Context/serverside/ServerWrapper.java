@@ -47,21 +47,28 @@ public class ServerWrapper {
 	 * Starts the Server.
 	 * 
 	 * @throws IOException 
+	 * @throws IllegalStateException if the server is already running.
 	 */
-	public void startServer() throws IOException {
+	public void startServer() throws IOException, IllegalStateException {
 		if (server == null) {
 			server = Network.createServer(PORT);
 			server.start();
+		} else {
+			throw new IllegalStateException("Server is already running");
 		}
 	}
 	
 	/**
 	 * Closes the Server.
+	 * 
+	 * @throws IllegalStateException if the server is not running.
 	 */
-	public void closeServer() {
+	public void closeServer() throws IllegalStateException {
 		if (server != null) {
 			server.close();
 			server = null;
+		} else {
+			throw new IllegalStateException("Server has already stopped");
 		}
 	}
 	

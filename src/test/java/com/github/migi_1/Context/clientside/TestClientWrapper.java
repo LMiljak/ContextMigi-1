@@ -49,7 +49,7 @@ public class TestClientWrapper {
 	 */
 	@Test(timeout = 1000)
 	public void testClientWrapper() throws IllegalArgumentException, IllegalAccessException, IOException {
-		final int fakePort = 42;
+		final int fakePort = 22312;
 		int actualPort = Whitebox.getField(ServerWrapper.class, "PORT").getInt(null);
 		
 		Server server = Network.createServer(fakePort);

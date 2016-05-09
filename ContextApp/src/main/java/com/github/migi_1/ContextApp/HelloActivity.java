@@ -1,4 +1,4 @@
-package org.hello;
+package com.github.migi_1.ContextApp;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;

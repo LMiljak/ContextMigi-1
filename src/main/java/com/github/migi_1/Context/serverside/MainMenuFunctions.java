@@ -22,6 +22,7 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
+        super.initialize(stateManager, app);
         this.app = app;
     }
     
@@ -55,7 +56,8 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     }
     
     public void quitGame() {
-        app.stop();
+        // app.stop();
+        System.exit(0);
     }
     
     public MainMenuFunctions() {

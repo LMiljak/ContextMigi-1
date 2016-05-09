@@ -16,39 +16,37 @@ import de.lessvoid.nifty.screen.ScreenController;
  */
 public class MainMenuFunctions extends AbstractAppState implements ScreenController {
     
-    Nifty nifty;
-    Application app;
+    private Nifty nifty;
+    private Screen screen;
+    private Application app;
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-        super.initialize(stateManager, app);
-        //TODO: initialize your AppState, e.g. attach spatials to rootNode
-        //this is called on the OpenGL thread after the AppState has been attached
+        this.app = app;
     }
     
     @Override
     public void update(float tpf) {
-        //TODO: implement behavior during runtime
+        if (screen.getScreenId().equals("host")) {
+            // execute functions to update the lobby screen.
+        }
     }
     
     @Override
     public void cleanup() {
         super.cleanup();
-        //TODO: clean up what you initialized in the initialize method,
-        //e.g. remove all spatials from rootNode
-        //this is called on the OpenGL thread after the AppState has been detached
     }
     
+    @Override
     public void bind(Nifty nifty, Screen screen) {
-        //throw new UnsupportedOperationException("Not supported yet.");
+        this.nifty = nifty;
+        this.screen = screen;
     }
  
     public void onStartScreen() {
-       // throw new UnsupportedOperationException("Not supported yet.");
     }
  
     public void onEndScreen() {
-       // throw new UnsupportedOperationException("Not supported yet.");
     }
     
     /**custom methods*/
@@ -58,5 +56,8 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     
     public void quitGame() {
         app.stop();
+    }
+    
+    public MainMenuFunctions() {
     }
 }

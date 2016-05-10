@@ -7,6 +7,7 @@ package com.github.migi_1.Context.serverside;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -15,11 +16,11 @@ import de.lessvoid.nifty.screen.ScreenController;
  * @author Remi
  */
 public class MainMenuFunctions extends AbstractAppState implements ScreenController {
-    
+
     private Nifty nifty;
     private Screen screen;
     private Application app;
-    
+
     /**
      * This function initializes MainMenuFunctions and sets app.
      * @param stateManager AppStateManager
@@ -30,7 +31,7 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
         super.initialize(stateManager, app);
         this.app = app;
     }
-    
+
     /**
      * This function executes code every unit of time according to tpf to update
      * the gui.
@@ -43,7 +44,7 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
             // execute functions to update the lobby screen.
         }
     }
-    
+
     /**
      * Binds the nifty and the screen that is shown to the functions.
      * @param nifty Nifty
@@ -54,21 +55,23 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
         this.nifty = nifty;
         this.screen = screen;
     }
- 
+
     /**
      * Function needs to exist to be called when a screen is started.
      * Doesn't currently have any other functions.
      */
+    @Override
     public void onStartScreen() {
     }
- 
+
     /**
      * Function needs to exist to be called when a screen is ended.
      * Doesn't currently have any other functions.
      */
+    @Override
     public void onEndScreen() {
     }
-    
+
     /**
      * This function makes the program switch to a different screen.
      * @param scr String
@@ -76,12 +79,11 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     public void toScreen(String scr) {
         nifty.gotoScreen(scr);
     }
-    
+
     /**
      * This function quits the game
      */
     public void quitGame() {
-        // app.stop();
         System.exit(0);
     }
 }

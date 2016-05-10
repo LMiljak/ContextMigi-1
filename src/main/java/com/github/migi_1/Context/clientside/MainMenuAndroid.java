@@ -73,7 +73,7 @@ public class MainMenuAndroid extends SimpleApplication {
                 
                 // add text
                 text(new TextBuilder() {{
-                    text("Press Start to host a server"+
+                    text("Press Start to choose and join a server"+
                             "\nPress Quit to exit the game");
                     font("Interface/Fonts/Default.fnt");
                     height("100%");
@@ -102,7 +102,7 @@ public class MainMenuAndroid extends SimpleApplication {
                       height("50%");
                       width("50%");
                       visibleToMouse(true);
-                      interactOnClick("toScreen(host)");
+                      interactOnClick("toScreen(join)");
                     }});
                 }});
  
@@ -130,7 +130,7 @@ public class MainMenuAndroid extends SimpleApplication {
     }}.build(nifty));
     // </screen>
     
-    nifty.addScreen("host", new ScreenBuilder("host"){{
+    nifty.addScreen("join", new ScreenBuilder("join"){{
         controller(new com.github.migi_1.Context.serverside.MainMenuFunctions());
  
          // layer added

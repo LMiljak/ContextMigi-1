@@ -17,22 +17,31 @@ import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
 
 /**
  * The main menu for the Android App
- * @author Remi
+ * @author Remi & Nils
  */
 public class MainMenuAndroid extends SimpleApplication {
 
-    private Nifty nifty;
     /**
-     * main function
+     * A private variable to be able to split up the creation of the screen in separate methods.
+     */
+    private Nifty nifty;
+
+    /**
+     * Main method that starts the class.
      * @param args String[]
      */
     public static void main(String[] args) {
         MainMenuAndroid app = new MainMenuAndroid();
+        //Remove the text in the bottom left of the screen.
+        app.setDisplayFps(false);
+        app.setDisplayStatView(false);
+        //Start the application
         app.start();
     }
 
     /**
-     * Builds the menu.
+     * Method that creates the screen.
+     * The startscreen will be the first screen that is visible after startup.
      */
      @Override
     public void simpleInitApp() {
@@ -45,65 +54,89 @@ public class MainMenuAndroid extends SimpleApplication {
         nifty.loadStyleFile("nifty-default-styles.xml");
         nifty.loadControlFile("nifty-default-controls.xml");
 
+        //Create the start menu
         createStartScreen();
+        //Create the join menu.
         createJoinScreen();
 
-        nifty.gotoScreen("start"); // start the screen
+        nifty.gotoScreen("start"); //Go to the start screen.
     }
 
+     /**
+      * Creates the start screen.
+      */
      private void createStartScreen() {
          nifty.addScreen("start", new ScreenBuilder("start") {{
              controller(new com.github.migi_1.Context.clientside.MainMenuFunctionsAndroid());
+             //Create the background layer (completely black)
              layer(createBGLayer());
 
              layer(new LayerBuilder("foreground") {{
                      childLayoutVertical();
                      backgroundColor("#0000");
+
+                     //Create the "Carried away bar at the top of the screen.
                      panel(panelWithText("panel_top", "center", "center", "none", "#f008", "25%", "75%",
                              createDefaultText("CarriedAway")));
+
+                     //Create an info panel in the middle of the screen.
                      panel(panelWithText("panel_mid", "center", "center", "center", "#0f08", "50%", "75%",
                              createDefaultText("Press Start to choose and join a server \n Press Quit to exit the game")));
 
-                 panel(new PanelBuilder("panel_bottom") {{
-                     childLayoutHorizontal();
-                     alignCenter();
-                     backgroundColor("#00f8");
-                     height("25%");
-                     width("75%");
-                     panel(panelWithControl("panel_botton_left", "center", "none", "center", "#44f8", "50%", "50%",
-                             createButtonControl("StartButton", "Start", "none", "center", "center", "50%", "50%", "toScreen(join)")));
-                     panel(panelWithControl("panel_botton_right", "center", "none", "center", "#88f8", "50%", "50%",
-                             createButtonControl("QuitButton", "Quit", "none", "center", "center", "50%", "50%", "quitGame()")));
+                     //Create a panel at the bottom of the screen in which there will be buttons to go to the join screen or to exit the game.
+                     panel(new PanelBuilder("panel_bottom") {{
+                         childLayoutHorizontal();
+                         alignCenter();
+                         backgroundColor("#00f8");
+                         height("25%");
+                         width("75%");
+                         panel(panelWithControl("panel_botton_left", "center", "none", "center", "#44f8", "50%", "50%",
+                                 createButtonControl("StartButton", "Start", "none", "center", "center", "50%", "50%", "toScreen(join)")));
+                         panel(panelWithControl("panel_botton_right", "center", "none", "center", "#88f8", "50%", "50%",
+                                 createButtonControl("QuitButton", "Quit", "none", "center", "center", "50%", "50%", "quitGame()")));
 
-                 }}); // panel added
+                     }});
              }});
-
+             //Build the screen.
          }}.build(nifty));
      }
 
+     /**
+      * Creates the join screen.
+      */
      private void createJoinScreen() {
          nifty.addScreen("join", new ScreenBuilder("join"){{
              controller(new MainMenuFunctionsAndroid());
-             //Add bg layer
+             //Add background layer (completely black)
              layer(createBGLayer());
 
+             //Create a foreground layer in which there are two panels:
+             //1: An info panel in the center.
+             //2: A panel at the bottom of the screen that contains a back to main button.
              layer(new LayerBuilder("foreground") {{
                      childLayoutVertical();
                      backgroundColor("#0000");
 
+                     //Create panel 1
                      panel(panelWithText("panel_mid", "center", "center", "none", "#0f08", "50%", "75%",
                              createDefaultText("There is literally nothing here, go back")));
 
+                     //Create panel 2
                      panel(panelWithControl("panel_bottom", "horizontal", "center", "none", "#00f8", "75%", "25%",
-                             createButtonControl("BackButton", "Back", "none", "center", "center", "50%", "50%", "toScreen(start)")));
+                             createButtonControl("BackButton", "Back to main", "none", "center", "center", "50%", "50%", "toScreen(start)")));
 
              }});
-             // layer added
-
+             //Build the screen
            }}.build(nifty));
 
      }
 
+     /**
+      * Method that creates a completely black layer
+      * Used to generate the background of screens.
+      * @return A layer that is completely black
+      * @NOTE usage: layer(createBGLayer())
+      */
      private LayerBuilder createBGLayer() {
          return new LayerBuilder("background") {{
              childLayoutCenter();
@@ -111,6 +144,12 @@ public class MainMenuAndroid extends SimpleApplication {
           }};
      }
 
+     /**
+      * Method that creates text for in panels.
+      * Uses default font and default 100% height and 100% width.
+      * @param txt (String) the text that must be displayed on the panels.
+      * @return A textfield used in a panel.
+      */
      private TextBuilder createDefaultText(String txt) {
          return new TextBuilder() {{
              text(txt);
@@ -120,6 +159,23 @@ public class MainMenuAndroid extends SimpleApplication {
          }};
      }
 
+     //TODO: The following methods all contain switch cases, and I am aware that it looks really ugly.
+     //If you have another suggestion on how to do this, please suggest them.
+
+     /**
+      * Method that creates a button, using the following parameters:
+      * @param buttonId the id of the button
+      * @param buttonLabel the label of the button (will be displayed on the screen)
+      * The following 3 Strings only support either "none" (dont use) or "center" (center the button).
+      * If needed this can be expanded.
+      * @param childLayout ChildLayout of the button.
+      * @param align horizontal alignment of the button
+      * @param valign vertical alignment of the button
+      * @param height the height of the button in respect to the panel that it is in. Must be a percentage ("100%").
+      * @param width the width of the button in respect to the panel that it is in. Must be a percentage ("100%").
+      * @param func the function that should be executed when the button is pressed. Function must be present in the MainMenuFunctionAndroid class.
+      * @return A button that will be placed on top of the panel.
+      */
      private ButtonBuilder createButtonControl(String buttonId, String buttonLabel, String childLayout, String align, String valign, String height, String width, String func) {
          return new ButtonBuilder(buttonId, buttonLabel) {{
              switch (childLayout) {
@@ -151,6 +207,20 @@ public class MainMenuAndroid extends SimpleApplication {
           }};
      }
 
+     /**
+      * Method that creates a panel with text using the following parameters:
+      * @param id The id of the panel
+      * The following 3 Strings only support either "none" (dont use) or "center" (center the button).
+      * If needed this can be expanded.
+      * @param childLayout the child layout of the panel
+      * @param align the horizontal alignment of the panel
+      * @param valign the vertical alignment of the panel
+      * @param color the color of the panel, must be the hexadecimal value of the color, started with "#" (e.g. #0000 or #ffff)
+      * @param height the height of the panel. Must be a percentage ("100%").
+      * @param width the width of the panel. Must be a percentage ("100%").
+      * @param txt the text that will be displayed on the panel.
+      * @return A panel with text.
+      */
      private PanelBuilder panelWithText(String id, String childLayout, String align, String valign, String color, String height, String width, TextBuilder txt) {
          return new PanelBuilder(id) {{
              switch (childLayout) {
@@ -183,6 +253,20 @@ public class MainMenuAndroid extends SimpleApplication {
          }};
      }
 
+     /**
+      * Method to create a panel with a button on it using the following parameters:
+      * @param id the id of the panel
+      * The following 3 Strings only support either "none" (dont use) or "center" (center the button). The childLayout parameter also supports "horizontal" layout.
+      * If needed this can be expanded.
+      * @param childLayout the child layout of the panel
+      * @param align the horizontal alignment of the panel
+      * @param valign the vertical alignment of the panel
+      * @param color the color of the panel, must be the hexadecimal value of the color, started with "#" (e.g. #0000 or #ffff)
+      * @param height the height of the button in respect to the panel that it is in. Must be a percentage ("100%").
+      * @param width the width of the button in respect to the panel that it is in. Must be a percentage ("100%").
+      * @param con the control of the panel (the ControlBuilder, can be acquired via the createButtonControl)
+      * @return A panel with a functional button.
+      */
      private PanelBuilder panelWithControl(String id, String childLayout, String align, String valign, String color, String width, String heigth, ControlBuilder con) {
          return new PanelBuilder(id) {{
              switch (childLayout) {

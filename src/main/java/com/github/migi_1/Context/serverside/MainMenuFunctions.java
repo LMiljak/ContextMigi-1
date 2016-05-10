@@ -13,7 +13,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 /**
  *
- * @author Remi
+ * @author Remi & Nils
  */
 public class MainMenuFunctions extends AbstractAppState implements ScreenController {
 

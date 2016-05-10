@@ -46,13 +46,24 @@ public class ServerFinder {
 	 */
 	public static void main(String[] args) {
 		ExecutorService es = Executors.newFixedThreadPool(10);
-//		
-//		INSTANCE.findServers(es, (foundServer) -> System.out.println("Found a server: " + foundServer));
-//		es.execute(() -> {
-//			(new Scanner(System.in)).nextLine();
-//			INSTANCE.stop();
-//			System.out.println("Stopping ServerFinder");
-//		});
+		
+                ServerDiscoveryHandler onFoundServer = new ServerDiscoveryHandler() {
+                    @Override
+                    public void onServerDiscovery(InetAddress server) {
+                        System.out.println("Found a server: " + server);
+                    }
+                };
+		INSTANCE.findServers(es, onFoundServer);
+                
+                es.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        (new Scanner(System.in)).nextLine();
+			INSTANCE.stop();
+			System.out.println("Stopping ServerFinder");
+                    }
+                });
+                
 		es.shutdown();
 	}
 	
@@ -89,7 +100,7 @@ public class ServerFinder {
 	 * 		A ServerDiscoveryHandler which's onServerDiscovery method
 	 * 		gets called when a server has been found.		
 	 */
-	public void findServers(ExecutorService executorService, ServerDiscoveryHandler serverDiscoveryHandler) {
+	public void findServers(ExecutorService executorService, final ServerDiscoveryHandler serverDiscoveryHandler) {
 		running = true;
 		
 		final int spamPeriod = 5000; //The delay (in ms) between each time the LAN is spammed 
@@ -98,8 +109,19 @@ public class ServerFinder {
 			socket = new DatagramSocket();
 			socket.setBroadcast(true);
 			
-//			executorService.execute(() -> spamLAN(spamPeriod));
-//			executorService.execute(() -> findServers(serverDiscoveryHandler));
+			executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                spamLAN(spamPeriod);
+                            }
+                        });
+                        
+                        executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                findServers(serverDiscoveryHandler);
+                            }
+                        });
 			
 		} catch (SocketException e) {
 			e.printStackTrace();

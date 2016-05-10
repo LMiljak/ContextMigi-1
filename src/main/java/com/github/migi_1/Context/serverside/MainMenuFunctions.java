@@ -12,7 +12,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 /**
- *
+ * This class contains all the functions for the MainMenu screen.
  * @author Remi & Nils
  */
 public class MainMenuFunctions extends AbstractAppState implements ScreenController {
@@ -82,6 +82,8 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
 
     /**
      * This function quits the game
+     * @NOTE For now this exits the game using a System.exit(0),
+     * @NOTE in the end app.stop() will probably be a bit nicer (but it is not possible to do so yet).
      */
     public void quitGame() {
         System.exit(0);

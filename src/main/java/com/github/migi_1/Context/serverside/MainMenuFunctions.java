@@ -20,12 +20,23 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     private Screen screen;
     private Application app;
     
+    /**
+     * This function initializes MainMenuFunctions and sets app.
+     * @param stateManager AppStateManager
+     * @param app Application
+     */
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.app = app;
     }
     
+    /**
+     * This function executes code every unit of time according to tpf to update
+     * the gui.
+     * Is currently not used.
+     * @param tpf float
+     */
     @Override
     public void update(float tpf) {
         if (screen.getScreenId().equals("host")) {
@@ -33,33 +44,44 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
         }
     }
     
-    @Override
-    public void cleanup() {
-        super.cleanup();
-    }
-    
+    /**
+     * Binds the nifty and the screen that is shown to the functions.
+     * @param nifty Nifty
+     * @param screen Screen
+     */
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
         this.screen = screen;
     }
  
+    /**
+     * Function needs to exist to be called when a screen is started.
+     * Doesn't currently have any other functions.
+     */
     public void onStartScreen() {
     }
  
+    /**
+     * Function needs to exist to be called when a screen is ended.
+     * Doesn't currently have any other functions.
+     */
     public void onEndScreen() {
     }
     
-    /**custom methods*/
+    /**
+     * This function makes the program switch to a different screen.
+     * @param scr String
+     */
     public void toScreen(String scr) {
         nifty.gotoScreen(scr);
     }
     
+    /**
+     * This function quits the game
+     */
     public void quitGame() {
         // app.stop();
         System.exit(0);
-    }
-    
-    public MainMenuFunctions() {
     }
 }

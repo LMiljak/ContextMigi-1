@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package org.hello;
+package com.github.migi_1.ContextApp;
 
 public final class R {
     public static final class attr {

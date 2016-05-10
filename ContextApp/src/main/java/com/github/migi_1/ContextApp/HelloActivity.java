@@ -12,7 +12,7 @@ public class HelloActivity extends AndroidHarness {
 
         public HelloActivity(){
         // Set the application class to run
-        appClass = "org.hello.Main";
+        appClass = "com.github.migi1.ContextApp.Main";
         // Try ConfigType.FASTEST; or ConfigType.LEGACY if you have problems
 //        eglConfigType = ConfigType.BEST;
         // Exit Dialog title & message

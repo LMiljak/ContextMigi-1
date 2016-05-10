@@ -1,5 +1,3 @@
-com\github\migi_1\Context\serverside\model\World.class
-com\github\migi_1\Context\clientside\ServerDiscoveryHandler.class
 com\github\migi_1\Context\serverside\ClientFinder.class
-com\github\migi_1\Context\clientside\ServerFinder.class
+com\github\migi_1\Context\serverside\model\World.class
 com\github\migi_1\Context\serverside\model\Environment.class

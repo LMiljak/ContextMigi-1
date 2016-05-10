@@ -1,4 +1,4 @@
-package org.hello;
+package com.github.migi_1.ContextApp;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;

@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.serverside;
+package com.github.migi_1.Context;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

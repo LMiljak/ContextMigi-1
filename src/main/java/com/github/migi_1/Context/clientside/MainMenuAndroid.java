@@ -19,11 +19,18 @@ import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
  */
 public class MainMenuAndroid extends SimpleApplication {
     
+    /**
+     * main function
+     * @param args String[]
+     */
     public static void main(String[] args) {
         MainMenuAndroid app = new MainMenuAndroid();
         app.start();
     }
     
+    /**
+     * Builds the menu.
+     */
      @Override
     public void simpleInitApp() {
     NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(

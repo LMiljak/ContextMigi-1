@@ -46,13 +46,13 @@ public class ServerFinder {
 	 */
 	public static void main(String[] args) {
 		ExecutorService es = Executors.newFixedThreadPool(10);
-		
-		INSTANCE.findServers(es, (foundServer) -> System.out.println("Found a server: " + foundServer));
-		es.execute(() -> {
-			(new Scanner(System.in)).nextLine();
-			INSTANCE.stop();
-			System.out.println("Stopping ServerFinder");
-		});
+//		
+//		INSTANCE.findServers(es, (foundServer) -> System.out.println("Found a server: " + foundServer));
+//		es.execute(() -> {
+//			(new Scanner(System.in)).nextLine();
+//			INSTANCE.stop();
+//			System.out.println("Stopping ServerFinder");
+//		});
 		es.shutdown();
 	}
 	
@@ -98,8 +98,8 @@ public class ServerFinder {
 			socket = new DatagramSocket();
 			socket.setBroadcast(true);
 			
-			executorService.execute(() -> spamLAN(spamPeriod));
-			executorService.execute(() -> findServers(serverDiscoveryHandler));
+//			executorService.execute(() -> spamLAN(spamPeriod));
+//			executorService.execute(() -> findServers(serverDiscoveryHandler));
 			
 		} catch (SocketException e) {
 			e.printStackTrace();

@@ -18,14 +18,11 @@ public class Main extends VRApplication {
      * @param args 
      */
     public static void main(String[] args) {
-        initVR();
-    }
-    
-    public static void initVR() {
         vrh = new Main();
         vrh.configureVR();
         vrh.start();
     }
+    
     /**
      * initializes the main menu and starts it.
      */

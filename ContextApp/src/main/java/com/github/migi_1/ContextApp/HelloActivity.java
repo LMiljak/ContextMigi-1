@@ -19,8 +19,6 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         
         private Main application;
         private SensorManager mSensorManager;
-        private Sensor mSensor;
-        private TextView tv;
         
         public HelloActivity(){
         // Set the application class to run
@@ -44,6 +42,8 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
     protected void onResume()  
     {  
         super.onResume();
+        
+        //register the lister for the accelerometer
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
     }
          
@@ -59,29 +59,29 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         @Override  
     public void onCreate(Bundle savedInstanceState)  
     {  
-        //tv = (TextView) findViewById(R.id.text_view);
         super.onCreate(savedInstanceState);
         
+        //instantiate the application
         application = (Main ) getJmeApplication();
+        
+        //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
     }
 
     @Override
     public void onSensorChanged(SensorEvent se) {
+        
+        //check whether the game has already been instantiated
         if (application == null) {
 
         return;
 
         }
+        
+        //log the sensor values
         Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
         
-//        if (app==null){
-//
-//            app=(Main) getJmeApplication();
-//
-//        return;
-//
-//        }
+        //this is an example of how you can call a method in the game
         application.enqueue(new Callable() {
 
 

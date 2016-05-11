@@ -1,5 +1,5 @@
 
-package com.github.migi_1.Context.serverside.model;
+package com.github.migi_1.Context.model;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.input.FlyByCamera;

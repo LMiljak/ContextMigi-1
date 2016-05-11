@@ -24,11 +24,16 @@ public class MainMenu {
      * A private variable to be able to split up the creation of the screen in separate methods.
      */
     private Nifty nifty;
+   
     /**
-     * Method that creates the screen.
-     * The startscreen will be the first screen that is visible after startup.
+     * initializes the main menu and everything it needs to function, is the first screen
+     * that shows.
+     * @param flyCam needed for the cursor in the menu
+     * @param assetManager manages all assets
+     * @param inputManager manages all input of the main menu
+     * @param audioRenderer handles all audio of the main menu
+     * @param guiViewPort port where all visual elements are added to.
      */
-    
     public void initMenu(FlyByCamera flyCam, AssetManager assetManager, InputManager inputManager
             , AudioRenderer audioRenderer, ViewPort guiViewPort) {
        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
@@ -107,7 +112,7 @@ public class MainMenu {
 
                      //Create panel 2
                      panel(panelWithControl("panel_bottom", "horizontal", "center", "none", "#00f8", "75%", "25%",
-                             createButtonControl("BackButton", "Back to main", "none", "center", "center", "50%", "50%", "toScreen(start)")));
+                             createButtonControl("BackButton", "Back to main menu", "none", "center", "center", "50%", "50%", "toScreen(start)")));
 
              }});
              //Build the screen

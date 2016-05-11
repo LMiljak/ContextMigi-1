@@ -20,7 +20,7 @@ public class World {
 
     /**
      * Constructor for the world object
-     * @param flyCam, The camera for flying around in the world (will be removed)
+     * @param cam, The camera that will display the viewpoint of the player
      * @param viewPort, Main screen of the game, this will be rendered
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app

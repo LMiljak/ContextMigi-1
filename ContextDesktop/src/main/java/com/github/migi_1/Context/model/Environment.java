@@ -16,7 +16,7 @@ import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
 /**
- * The Environement class handles all visual aspects of the world, excluding the characters and enemies etc.
+ * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
  */
 public class Environment {
@@ -31,6 +31,8 @@ public class Environment {
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -3);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
+
+    private static final Vector3f CAMERA_LOCATION = new Vector3f(22, -14, -3.5f);
 
     private static final float PLATFORM_SPEED = 0.02f;
 
@@ -47,7 +49,7 @@ public class Environment {
     private DirectionalLight sun2;
     /**
      * Constructor for the environment object
-     * @param flyCam, The camera for flying around in the world (will be removed)
+     * @param cam, The camera that will display the viewpoint of the player
      * @param viewPort, Main screen of the game, this will be rendered
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
@@ -135,14 +137,16 @@ public class Environment {
         rootNode.attachChild(testCommander);
     }
 
+    /**
+     * Initializes the camera and sets its location and rotation.
+     */
     private void initCamera() {
-        Vector3f loc = testCommander.getLocalTranslation();
-        cam.setLocation(new Vector3f(loc.getX() - 1.0f, loc.getY(), loc.getZ()));
+        cam.setLocation(CAMERA_LOCATION);
         cam.setRotation(testCommander.getLocalRotation());
     }
 
     /**
-     * update the entities
+     * Update the entities and camera.
      */
     public void update() {
         System.out.println("Old loc: " + cam.getLocation());

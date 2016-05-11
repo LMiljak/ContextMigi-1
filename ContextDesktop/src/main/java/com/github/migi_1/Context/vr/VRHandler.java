@@ -17,10 +17,22 @@ import jmevr.app.VRApplication;
  */
 public class VRHandler extends VRApplication {
 
+    //VR main
+    private static VRHandler vrh;
+
+
     // set some VR settings & start the app
     public static void main(String[] args){
-        VRHandler vrh = new VRHandler();
+        vrh = new VRHandler();
         //test.preconfigureVRApp(PRECONFIG_PARAMETER.USE_STEAMVR_COMPOSITOR, false); // disable the SteamVR compositor (kinda needed at
+        vrh.configureVR();
+        vrh.start();
+    }
+
+    /**
+     * Method to
+     */
+    private void configureVR() {
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
@@ -31,7 +43,6 @@ public class VRHandler extends VRApplication {
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
-        vrh.start();
     }
 
     // general objects for scene management

@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.screens;
 
+import com.github.migi_1.Context.vr.VRHandler;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -74,6 +75,11 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
      */
     public void toScreen(String scr) {
         nifty.gotoScreen(scr);
+    }
+    
+    public void startGame() {
+        VRHandler vr = new VRHandler();
+        vr.initVR();
     }
 
     /**

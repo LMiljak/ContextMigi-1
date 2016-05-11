@@ -28,6 +28,7 @@ public class VRHandler extends VRApplication {
     public void initVR(){
         vrh = this;
         vrh.configureVR();
+        vrh.start();
     }
 
     /**

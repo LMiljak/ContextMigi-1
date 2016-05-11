@@ -154,7 +154,7 @@ public class Environment {
         testCommander.move(-PLATFORM_SPEED, 0, 0);
 
         Vector3f loc = testCommander.getLocalTranslation();
-        cam.setLocation(new Vector3f(loc.x - 1.0f, loc.y, loc.z));
+        cam.setLocation(CAMERA_LOCATION);
         System.out.println("New Loc: " + cam.getLocation());
         System.out.println("======");
     }

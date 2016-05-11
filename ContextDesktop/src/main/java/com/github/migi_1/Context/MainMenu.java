@@ -143,7 +143,7 @@ public class MainMenu extends SimpleApplication {
       * @param txt (String) the text that must be displayed on the panels.
       * @return A textfield used in a panel.
       */
-     private TextBuilder createDefaultText(String txt) {
+     private TextBuilder createDefaultText(final String txt) {
          return new TextBuilder() {{
              text(txt);
              font("Interface/Fonts/Default.fnt");
@@ -169,7 +169,9 @@ public class MainMenu extends SimpleApplication {
       * @param func the function that should be executed when the button is pressed. Function must be present in the MainMenuFunctionAndroid class.
       * @return A button that will be placed on top of the panel.
       */
-     private ButtonBuilder createButtonControl(String buttonId, String buttonLabel, String childLayout, String align, String valign, String height, String width, String func) {
+     private ButtonBuilder createButtonControl(final String buttonId, final String buttonLabel, 
+                       final String childLayout, final String align, final String valign, 
+                       final String height, final String width, final String func) {
          return new ButtonBuilder(buttonId, buttonLabel) {{
              switch (childLayout) {
                  case "none" : break;
@@ -214,7 +216,9 @@ public class MainMenu extends SimpleApplication {
       * @param txt the text that will be displayed on the panel.
       * @return A panel with text.
       */
-     private PanelBuilder panelWithText(String id, String childLayout, String align, String valign, String color, String height, String width, TextBuilder txt) {
+     private PanelBuilder panelWithText(final String id, final String childLayout, 
+                    final String align, final String valign, final String color, 
+                    final String height, final String width, final TextBuilder txt) {
          return new PanelBuilder(id) {{
              switch (childLayout) {
              case "none" : break;
@@ -260,7 +264,9 @@ public class MainMenu extends SimpleApplication {
       * @param con the control of the panel (the ControlBuilder, can be acquired via the createButtonControl)
       * @return A panel with a functional button.
       */
-     private PanelBuilder panelWithControl(String id, String childLayout, String align, String valign, String color, String width, String heigth, ControlBuilder con) {
+     private PanelBuilder panelWithControl(final String id, final String childLayout, 
+                    final String align, final String valign, final String color, 
+                    final String width, final String heigth, final ControlBuilder con) {
          return new PanelBuilder(id) {{
              switch (childLayout) {
                  case "none" : break;

@@ -60,7 +60,7 @@ public class ClientWrapper {
 			client.close();
 			client = null;
 		} else {
-			throw new IllegalStateException("Client has already been started");
+			throw new IllegalStateException("Client has already been closed");
 		}
 	}
 	

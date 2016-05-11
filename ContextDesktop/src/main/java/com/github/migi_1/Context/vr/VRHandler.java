@@ -12,31 +12,34 @@ import com.jme3.renderer.RenderManager;
 import jmevr.app.VRApplication;
 
 /**
- *
+ * VR handler for the current world.
  * @author NilsHullegien
  */
 public class VRHandler extends VRApplication {
 
     // set some VR settings & start the app
     public static void main(String[] args){
-        VRHandler test = new VRHandler();
+        VRHandler vrh = new VRHandler();
         //test.preconfigureVRApp(PRECONFIG_PARAMETER.USE_STEAMVR_COMPOSITOR, false); // disable the SteamVR compositor (kinda needed at
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
-        test.preconfigureFrustrumNearFar(0.1f, 512f); // set frustum distances here before app starts
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
+        vrh.preconfigureFrustrumNearFar(0.1f, 512f); // set frustum distances here before app starts
         //test.preconfigureResolutionMultiplier(0.666f); the moment)
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
-        test.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
-        test.start();
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
+        vrh.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
+        vrh.start();
     }
 
     // general objects for scene management
     private World world;
 
+    /**
+     * Method called when the vrhandler is started.
+     */
     @Override
     public void simpleInitApp() {
         initInputs();
@@ -49,31 +52,39 @@ public class VRHandler extends VRApplication {
         }
     }
 
+    /**
+     * Overwritten method that updates the current world.
+     */
      @Override
      public void simpleUpdate(float tpf){
          world.update();
      }
 
      /**
-      * Key bindings
+      * Key bindings:
+      * Escape key: Exit the game
+      * ---MORE CAN BE ADDED IF NEEDED---
       */
       private void initInputs() {
-         InputManager inputManager = getInputManager();
-         inputManager.addMapping("exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
-         ActionListener acl = new ActionListener() {
+          InputManager inputManager = getInputManager();
+          inputManager.addMapping("exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
+          ActionListener acl = new ActionListener() {
 
-             @Override
-             public void onAction(String name, boolean keyPressed, float tpf) {
-                 if(name.equals("exit") && keyPressed){
-                     System.exit(0);
-                 }
-             }
+              @Override
+              public void onAction(String name, boolean keyPressed, float tpf) {
+                  if(name.equals("exit") && keyPressed){
+                      System.exit(0);
+                  }
+              }
 
-         };
-         inputManager.addListener(acl, "exit");
+          };
+          inputManager.addListener(acl, "exit");
      }
 
 
+      /**
+       * Render the world.
+       */
     @Override
     public void simpleRender(RenderManager rm) {
         world.render(rm);

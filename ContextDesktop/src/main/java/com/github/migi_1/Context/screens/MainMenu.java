@@ -1,7 +1,11 @@
 package com.github.migi_1.Context.screens;
 
-import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioRenderer;
+import com.jme3.input.FlyByCamera;
+import com.jme3.input.InputManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.renderer.ViewPort;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.ControlBuilder;
@@ -14,32 +18,19 @@ import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
  * The main menu for the pc (server)
  * @author Remi & Nils
  */
-public class MainMenu extends SimpleApplication {
+public class MainMenu {
 
     /**
      * A private variable to be able to split up the creation of the screen in separate methods.
      */
     private Nifty nifty;
-
-    /**
-     * main function
-     * @param args String[]
-     */
-    public static void main(String[] args) {
-        MainMenu app = new MainMenu();
-        //Remove the text in the bottom left of the screen.
-        app.setDisplayFps(false);
-        app.setDisplayStatView(false);
-        //Start the application
-        app.start();
-    }
-
     /**
      * Method that creates the screen.
      * The startscreen will be the first screen that is visible after startup.
      */
-    @Override
-    public void simpleInitApp() {
+    
+    public void initMenu(FlyByCamera flyCam, AssetManager assetManager, InputManager inputManager
+            , AudioRenderer audioRenderer, ViewPort guiViewPort) {
        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
                assetManager, inputManager, audioRenderer, guiViewPort);
        nifty = niftyDisplay.getNifty();

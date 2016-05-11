@@ -1,12 +1,12 @@
 package com.github.migi_1.ContextApp;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import com.jme3.app.AndroidHarness;
 import java.util.logging.Level;
@@ -17,7 +17,8 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         private Main app;
         private SensorManager mSensorManager;
         private Sensor mSensor;
-    
+        private TextView tv;
+        
         public HelloActivity(){
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
@@ -40,7 +41,7 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
     protected void onResume()  
     {  
         super.onResume();
-        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),SensorManager.SENSOR_DELAY_FASTEST);
     }
          
     @Override  
@@ -55,26 +56,30 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         @Override  
     public void onCreate(Bundle savedInstanceState)  
     {  
+        //tv = (TextView) findViewById(R.id.text_view);
         super.onCreate(savedInstanceState);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
     }
 
     @Override
     public void onSensorChanged(SensorEvent se) {
+        Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
         
-        if (app==null){
-
-            app=(Main) getJmeApplication();
-
-        return;
-
-        }
-        app.gyroscopeChange();
+//        if (app==null){
+//
+//            app=(Main) getJmeApplication();
+//
+//        return;
+//
+//        }
+        //app.gyroscopeChange();
+        
         
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+        
    }
 
 }

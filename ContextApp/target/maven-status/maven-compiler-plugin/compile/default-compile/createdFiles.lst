@@ -1,10 +1,8 @@
 com\github\migi_1\ContextApp\Main.class
+com\github\migi_1\ContextApp\R.class
+com\github\migi_1\ContextApp\R$attr.class
 com\github\migi_1\ContextApp\R$id.class
 com\github\migi_1\ContextApp\HelloActivity.class
 com\github\migi_1\ContextApp\R$layout.class
-com\github\migi_1\ContextApp\R.class
-com\github\migi_1\ContextApp\clientside\ServerDiscoveryHandler.class
 com\github\migi_1\ContextApp\BuildConfig.class
-com\github\migi_1\ContextApp\R$attr.class
 com\github\migi_1\ContextApp\R$string.class
-com\github\migi_1\ContextApp\clientside\ServerFinder.class

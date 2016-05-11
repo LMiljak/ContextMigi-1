@@ -41,7 +41,7 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
     protected void onResume()  
     {  
         super.onResume();
-        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
     }
          
     @Override  

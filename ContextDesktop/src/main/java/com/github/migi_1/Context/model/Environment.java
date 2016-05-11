@@ -149,14 +149,10 @@ public class Environment {
      * Update the entities and camera.
      */
     public void update() {
-        System.out.println("Old loc: " + cam.getLocation());
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
-
-        Vector3f loc = testCommander.getLocalTranslation();
-        cam.setLocation(CAMERA_LOCATION);
-        System.out.println("New Loc: " + cam.getLocation());
-        System.out.println("======");
+        Vector3f camLoc = testCommander.getLocalTranslation();
+        cam.setLocation(new Vector3f(camLoc.x - PLATFORM_SPEED, camLoc.y, camLoc.z));
     }
 
     /**

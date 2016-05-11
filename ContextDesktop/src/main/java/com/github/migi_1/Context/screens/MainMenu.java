@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.screens;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
@@ -62,7 +62,7 @@ public class MainMenu extends SimpleApplication {
      */
      private void createStartScreen() {
          nifty.addScreen("start", new ScreenBuilder("start") {{
-             controller(new com.github.migi_1.Context.MainMenuFunctions());
+             controller(new com.github.migi_1.Context.screens.MainMenuFunctions());
              //Create the background layer (completely black)
              layer(createBGLayer());
 

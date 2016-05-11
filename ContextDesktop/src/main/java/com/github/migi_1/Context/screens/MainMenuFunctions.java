@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.screens;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;

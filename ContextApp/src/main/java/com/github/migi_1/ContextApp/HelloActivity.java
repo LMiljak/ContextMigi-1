@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import com.jme3.app.AndroidHarness;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -79,7 +82,24 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
 //        return;
 //
 //        }
-//        application.gyroscopeChange();
+        application.enqueue(new Callable() {
+
+
+
+            public Object call() throws Exception {
+
+            application.gyroscopeChange();
+            return null;
+
+            }
+
+            });
+
+
+
+
+            
+
         
         
     }

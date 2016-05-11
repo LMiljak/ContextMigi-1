@@ -6,8 +6,6 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ContextProject</name>
-    <modules>
-        <module>ContextDesktop</module>
-    </modules>
+    <modules></modules>
 
 </project>

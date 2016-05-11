@@ -14,6 +14,8 @@ import com.jme3.scene.shape.Box;
  */
 public class Main extends SimpleApplication {
 
+    Geometry geom;
+    
     public static void main(String[] args) {
         Main app = new Main();
         app.start();
@@ -22,7 +24,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
+        geom = new Geometry("Box", b);
 
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
@@ -39,5 +41,9 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
+    }
+    
+    public void gyroscopeChange(){
+        geom.rotate(1.f, 1.f, 1.f);
     }
 }

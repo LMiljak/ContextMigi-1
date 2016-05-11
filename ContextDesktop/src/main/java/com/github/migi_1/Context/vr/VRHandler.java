@@ -29,6 +29,7 @@ public class VRHandler extends VRApplication {
         vrh = this;
         vrh.configureVR();
         vrh.start();
+        
     }
 
     /**
@@ -45,6 +46,7 @@ public class VRHandler extends VRApplication {
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
+        
     }
 
     // general objects for scene management

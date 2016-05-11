@@ -34,13 +34,13 @@ public class MainMenu {
      * @param audioRenderer handles all audio of the main menu
      * @param guiViewPort port where all visual elements are added to.
      */
-    public void initMenu(FlyByCamera flyCam, AssetManager assetManager, InputManager inputManager
+    public void initMenu(AssetManager assetManager, InputManager inputManager
             , AudioRenderer audioRenderer, ViewPort guiViewPort) {
        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
                assetManager, inputManager, audioRenderer, guiViewPort);
        nifty = niftyDisplay.getNifty();
        guiViewPort.addProcessor(niftyDisplay);
-       flyCam.setDragToRotate(true);
+       //flyCam.setDragToRotate(true);
 
        nifty.loadStyleFile("nifty-default-styles.xml");
        nifty.loadControlFile("nifty-default-controls.xml");

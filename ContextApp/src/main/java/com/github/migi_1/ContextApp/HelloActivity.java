@@ -14,7 +14,7 @@ import java.util.logging.LogManager;
 
 public class HelloActivity extends AndroidHarness implements SensorEventListener{
         
-        private Main app;
+        private Main application;
         private SensorManager mSensorManager;
         private Sensor mSensor;
         private TextView tv;
@@ -58,11 +58,18 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
     {  
         //tv = (TextView) findViewById(R.id.text_view);
         super.onCreate(savedInstanceState);
+        
+        application = (Main ) getJmeApplication();
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
     }
 
     @Override
     public void onSensorChanged(SensorEvent se) {
+        if (application == null) {
+
+        return;
+
+        }
         Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
         
 //        if (app==null){
@@ -72,7 +79,7 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
 //        return;
 //
 //        }
-        //app.gyroscopeChange();
+//        application.gyroscopeChange();
         
         
     }

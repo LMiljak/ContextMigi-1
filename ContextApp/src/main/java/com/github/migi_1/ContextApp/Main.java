@@ -36,6 +36,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
+        
     }
 
     @Override

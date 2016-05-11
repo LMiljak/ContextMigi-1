@@ -18,19 +18,21 @@ import jmevr.app.VRApplication;
 public class VRHandler extends VRApplication {
 
     //VR main
-    private static VRHandler vrh;
+    private VRHandler vrh;
 
 
-    // set some VR settings & start the app
-    public static void main(String[] args){
-        vrh = new VRHandler();
-        //test.preconfigureVRApp(PRECONFIG_PARAMETER.USE_STEAMVR_COMPOSITOR, false); // disable the SteamVR compositor (kinda needed at
+    /**
+     * The method that needs to be called in the main app.
+     * @param vrhandler the VRHandler that is responsible for the visualisation of the game in the Oculus.
+     */
+    public void initVR(){
+        vrh = this;
         vrh.configureVR();
-        vrh.start();
     }
 
     /**
-     * Method to
+     * Method to configure the VR.
+     * Called in the {@link initVR() } method.
      */
     private void configureVR() {
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
@@ -38,7 +40,6 @@ public class VRHandler extends VRApplication {
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
         vrh.preconfigureFrustrumNearFar(0.1f, 512f); // set frustum distances here before app starts
-        //test.preconfigureResolutionMultiplier(0.666f); the moment)
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR

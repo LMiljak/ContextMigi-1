@@ -12,6 +12,10 @@ Thumbs.db
 /target
 # Ignore our logs
 /target/
+/ContextApp/target/
+/ContextDesktop/target/
 *.class
 *.dll
 nb-configuration.xml
+/nbproject/
+/ContextDesktop/target/

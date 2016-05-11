@@ -28,7 +28,7 @@ public class MainMenu {
      * Method that creates the screen.
      * The startscreen will be the first screen that is visible after startup.
      */
-    
+
     public void initMenu(FlyByCamera flyCam, AssetManager assetManager, InputManager inputManager
             , AudioRenderer audioRenderer, ViewPort guiViewPort) {
        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
@@ -106,8 +106,20 @@ public class MainMenu {
                              createDefaultText("There is literally nothing here, go back")));
 
                      //Create panel 2
-                     panel(panelWithControl("panel_bottom", "horizontal", "center", "none", "#00f8", "75%", "25%",
-                             createButtonControl("BackButton", "Back to main", "none", "center", "center", "50%", "50%", "toScreen(start)")));
+
+                     panel(new PanelBuilder("panel_bottom") {{
+                         childLayoutHorizontal();
+                         alignCenter();
+                         backgroundColor("#00f8");
+                         height("25%");
+                         width("75%");
+                         panel(panelWithControl("panel_botton_left", "center", "none", "center", "#44f8", "50%", "50%",
+                                 createButtonControl("StartGameButton", "Start the game", "none", "center", "center", "50%", "50%", "startGame()")));
+                         panel(panelWithControl("panel_bottom_right", "center", "none", "center", "#00f8", "50%", "50%",
+                                 createButtonControl("BackToMainButton", "Back to main", "none", "center", "center", "50%", "50%", "toScreen(start)")));
+
+                     }});
+
 
              }});
              //Build the screen
@@ -160,8 +172,8 @@ public class MainMenu {
       * @param func the function that should be executed when the button is pressed. Function must be present in the MainMenuFunctionAndroid class.
       * @return A button that will be placed on top of the panel.
       */
-     private ButtonBuilder createButtonControl(final String buttonId, final String buttonLabel, 
-                       final String childLayout, final String align, final String valign, 
+     private ButtonBuilder createButtonControl(final String buttonId, final String buttonLabel,
+                       final String childLayout, final String align, final String valign,
                        final String height, final String width, final String func) {
          return new ButtonBuilder(buttonId, buttonLabel) {{
              switch (childLayout) {
@@ -207,8 +219,8 @@ public class MainMenu {
       * @param txt the text that will be displayed on the panel.
       * @return A panel with text.
       */
-     private PanelBuilder panelWithText(final String id, final String childLayout, 
-                    final String align, final String valign, final String color, 
+     private PanelBuilder panelWithText(final String id, final String childLayout,
+                    final String align, final String valign, final String color,
                     final String height, final String width, final TextBuilder txt) {
          return new PanelBuilder(id) {{
              switch (childLayout) {
@@ -255,8 +267,8 @@ public class MainMenu {
       * @param con the control of the panel (the ControlBuilder, can be acquired via the createButtonControl)
       * @return A panel with a functional button.
       */
-     private PanelBuilder panelWithControl(final String id, final String childLayout, 
-                    final String align, final String valign, final String color, 
+     private PanelBuilder panelWithControl(final String id, final String childLayout,
+                    final String align, final String valign, final String color,
                     final String width, final String heigth, final ControlBuilder con) {
          return new PanelBuilder(id) {{
              switch (childLayout) {

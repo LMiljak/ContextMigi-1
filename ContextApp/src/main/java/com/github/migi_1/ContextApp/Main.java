@@ -3,7 +3,6 @@ package com.github.migi_1.ContextApp;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
@@ -44,7 +43,9 @@ public class Main extends SimpleApplication {
         //TODO: add render code
     }
     
+    /**
+     * This method has no functionality, it is merely used to show you can communicate between activity and game.
+     */
     public void gyroscopeChange(){
-        geom.rotate(1.f, 1.f, 1.f);
     }
 }

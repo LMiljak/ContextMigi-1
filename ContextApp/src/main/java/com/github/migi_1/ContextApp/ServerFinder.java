@@ -50,7 +50,7 @@ public class ServerFinder {
                 ServerDiscoveryHandler onFoundServer = new ServerDiscoveryHandler() {
                     @Override
                     public void onServerDiscovery(InetAddress server) {
-                        System.out.println("Found a server: " + server);
+                        System.out.println("Found a server: " + server.getHostAddress());
                     }
                 };
 		INSTANCE.findServers(es, onFoundServer);
@@ -133,8 +133,10 @@ public class ServerFinder {
 	 * the findServers method has been called.
 	 */
 	public void stop() {
-		running = false;
-		socket.close();
+            if (socket != null) {
+                running = false;
+                socket.close();
+            }
 	}
 	
 	/**

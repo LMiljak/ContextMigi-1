@@ -34,7 +34,7 @@ public class AutoConnector {
      */
     public void autoStart() {
         ServerFinder serverFinder = ServerFinder.getInstance();
-
+        
         serverFinder.findServers(executorService, getConnector());
     }
     

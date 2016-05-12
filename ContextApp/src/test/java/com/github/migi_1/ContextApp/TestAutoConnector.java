@@ -1,22 +1,27 @@
 package com.github.migi_1.ContextApp;
 
-import com.jme3.network.Network;
-import com.jme3.network.Server;
-import java.io.IOException;
 import java.net.InetAddress;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 /**
  * Test suite for the AutoConector class.
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({AutoConnector.class, ServerFinder.class})
 public class TestAutoConnector {
     
     private AutoConnector autoConnector;
     private ClientWrapper client;
+    private ExecutorService executorService;
     
     /**
      * Initialises the private fields used for the test cases.
@@ -24,7 +29,8 @@ public class TestAutoConnector {
     @Before
     public void setup() {
         client = Mockito.spy(ClientWrapper.getInstance());
-        autoConnector = new AutoConnector(Executors.newFixedThreadPool(1), client); 
+        executorService = Executors.newFixedThreadPool(1);
+        autoConnector = PowerMockito.spy(new AutoConnector(executorService, client)); 
     }
     
     /**
@@ -48,8 +54,17 @@ public class TestAutoConnector {
      * Tests the autoStart method.
      */
     @Test
-    public void testAutoStart() throws IllegalArgumentException, IllegalAccessException, IOException {
-        //TODO
+    public void testAutoStart() throws Exception {
+        ServerDiscoveryHandler fakeConnector = Mockito.mock(ServerDiscoveryHandler.class);
+        PowerMockito.doReturn(fakeConnector).when(autoConnector, "getConnector");
+        
+        ServerFinder fakeServerFinder = Mockito.mock(ServerFinder.class);
+        PowerMockito.mockStatic(ServerFinder.class);
+        Mockito.when(ServerFinder.getInstance()).thenReturn(fakeServerFinder);
+        
+        autoConnector.autoStart();
+        
+        Mockito.verify(fakeServerFinder, Mockito.times(1)).findServers(executorService, fakeConnector);
     }
     
     

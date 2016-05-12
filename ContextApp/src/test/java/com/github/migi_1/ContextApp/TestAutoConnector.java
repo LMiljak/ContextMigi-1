@@ -30,7 +30,7 @@ public class TestAutoConnector {
     public void setup() {
         client = Mockito.spy(ClientWrapper.getInstance());
         executorService = Executors.newFixedThreadPool(1);
-        autoConnector = PowerMockito.spy(new AutoConnector(executorService, client)); 
+        autoConnector = PowerMockito.spy(AutoConnector.getInstance()); 
     }
     
     /**
@@ -39,7 +39,7 @@ public class TestAutoConnector {
      */
     @Test
     public void testGetConnector() throws Exception {
-        ServerDiscoveryHandler connector = Whitebox.invokeMethod(autoConnector, "getConnector");
+        ServerDiscoveryHandler connector = Whitebox.invokeMethod(autoConnector, "getConnector", client);
         
         InetAddress fakeAddress = Mockito.mock(InetAddress.class);
         Mockito.when(fakeAddress.getHostAddress()).thenReturn("fakeAddress");
@@ -56,13 +56,13 @@ public class TestAutoConnector {
     @Test
     public void testAutoStart() throws Exception {
         ServerDiscoveryHandler fakeConnector = Mockito.mock(ServerDiscoveryHandler.class);
-        PowerMockito.doReturn(fakeConnector).when(autoConnector, "getConnector");
+        PowerMockito.doReturn(fakeConnector).when(autoConnector, "getConnector", client);
         
         ServerFinder fakeServerFinder = Mockito.mock(ServerFinder.class);
         PowerMockito.mockStatic(ServerFinder.class);
         Mockito.when(ServerFinder.getInstance()).thenReturn(fakeServerFinder);
         
-        autoConnector.autoStart();
+        autoConnector.autoStart(executorService, client);
         
         Mockito.verify(fakeServerFinder, Mockito.times(1)).findServers(executorService, fakeConnector);
     }

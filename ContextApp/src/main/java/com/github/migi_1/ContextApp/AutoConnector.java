@@ -32,15 +32,10 @@ public class AutoConnector {
      * first Server found on this LAN. This method is run on a seperate
      * Thread by the ExecutorService provided in the constructor.
      */
-    public void autoStart() {    
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                ServerFinder serverFinder = ServerFinder.getInstance();
-                
-                serverFinder.findServers(executorService, getConnector());
-            }
-        });
+    public void autoStart() {
+        ServerFinder serverFinder = ServerFinder.getInstance();
+
+        serverFinder.findServers(executorService, getConnector());
     }
     
     /**
@@ -56,6 +51,7 @@ public class AutoConnector {
                     client.startClient(server.getHostAddress());
                     ServerFinder.getInstance().stop();
                 } catch (Exception e) {
+                    e.printStackTrace();
                     //Connection failed. Trying again.
                     onServerDiscovery(server);
                 }

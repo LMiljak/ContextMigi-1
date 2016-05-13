@@ -16,7 +16,8 @@ public class World {
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
-    private Camera cam;
+    private Camera vrCam;
+    private Camera flyCam;
 
     /**
      * Constructor for the world object
@@ -25,8 +26,9 @@ public class World {
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
      */
-    public World(Camera cam, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
-        this.cam = cam;
+    public World(Camera vr, Camera fly, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
+        this.vrCam = vr;
+        this.flyCam = fly;
         this.viewPort = viewPort;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
@@ -35,7 +37,7 @@ public class World {
      * initializes all elements of the game world itself
      */
     public void init() {
-        env = new Environment(cam, viewPort, assetManager, rootNode);
+        env = new Environment(vrCam, flyCam, viewPort, assetManager, rootNode);
         env.init();
     }
 
@@ -44,7 +46,10 @@ public class World {
     }
     public void render(RenderManager rm) {
         env.render(rm);
+    }
 
+    public void swapCamera() {
+        env.swapCamera();
     }
 
 }

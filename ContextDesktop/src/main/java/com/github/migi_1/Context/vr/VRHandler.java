@@ -7,6 +7,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 
 import jmevr.app.VRApplication;
@@ -20,6 +21,9 @@ public class VRHandler extends VRApplication {
     //VR main
     private VRHandler vrh;
 
+    private Camera vrCam;
+    private Camera flyCam;
+
 
     /**
      * The method that needs to be called in the main app.
@@ -29,7 +33,7 @@ public class VRHandler extends VRApplication {
         vrh = this;
         vrh.configureVR();
         vrh.start();
-        
+
     }
 
     /**
@@ -46,7 +50,7 @@ public class VRHandler extends VRApplication {
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
         vrh.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
-        
+
     }
 
     // general objects for scene management
@@ -58,13 +62,12 @@ public class VRHandler extends VRApplication {
     @Override
     public void simpleInitApp() {
         initInputs();
-        world = new World(getCamera(), getViewPort(), getAssetManager(), rootNode);
+        vrCam = getCamera();
+        vrCam.setName("vrCam");
+        flyCam = vrCam.clone();
+        flyCam.setName("flyCam");
+        world = new World(vrCam, flyCam, getViewPort(), getAssetManager(), rootNode);
         world.init();
-
-        // print out what device we have
-        if( VRApplication.getVRHardware() != null ) {
-            System.out.println("Attached device: " + VRApplication.getVRHardware().getName());
-        }
     }
 
     /**
@@ -83,17 +86,21 @@ public class VRHandler extends VRApplication {
       private void initInputs() {
           InputManager inputManager = getInputManager();
           inputManager.addMapping("exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
+          inputManager.addMapping("cam_switch", new KeyTrigger(KeyInput.KEY_C));
           ActionListener acl = new ActionListener() {
 
               @Override
               public void onAction(String name, boolean keyPressed, float tpf) {
-                  if(name.equals("exit") && keyPressed){
+                  if(name.equals("exit") && keyPressed) {
                       System.exit(0);
+                  } else if(name.equals("cam_switch") && keyPressed) {
+                      world.swapCamera();
                   }
               }
 
           };
           inputManager.addListener(acl, "exit");
+          inputManager.addListener(acl, "cam_switch");
      }
 
 

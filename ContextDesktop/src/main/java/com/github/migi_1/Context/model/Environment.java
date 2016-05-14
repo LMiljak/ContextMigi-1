@@ -187,7 +187,6 @@ public class Environment extends AbstractAppState{
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        System.out.println("asas");
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
         Vector3f camLoc = testCommander.getLocalTranslation();

@@ -1,11 +1,11 @@
 package com.github.migi_1.Context;
 
-import java.util.concurrent.TimeUnit;
-
-import org.junit.rules.Timeout;
-
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 
@@ -41,7 +41,8 @@ public class Main extends VRApplication {
      * initializes the main menu and starts it.
      */
     @Override
-    public void simpleInitApp() {        
+    public void simpleInitApp() {     
+        initInputs();
         main.setPauseOnLostFocus(true);
         mainMenu = new MainMenu();
         env = new Environment(this.rootNode);
@@ -69,14 +70,10 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        if (test){ 
-            System.out.println("asdas");  
-            getStateManager().detach(mainMenu);             
-            getStateManager().attach(env);
-            //getStateManager().getState(Environment.class).update(tpf);
-            test = false; 
+        if (test){              
+            getStateManager().getState(Environment.class).update(tpf);
         }
-        //getStateManager().getState(Environment.class).update(tpf);
+        
     }
     
     /**
@@ -89,7 +86,25 @@ public class Main extends VRApplication {
     }
     
     public void setTest() {
+        getStateManager().detach(mainMenu);             
+        getStateManager().attach(env);
         test = true;
     }
+    
+    private void initInputs() {
+        InputManager inputManager = getInputManager();
+        inputManager.addMapping("exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
+        ActionListener acl = new ActionListener() {
+
+            @Override
+            public void onAction(String name, boolean keyPressed, float tpf) {
+                if(name.equals("exit") && keyPressed){
+                    System.exit(0);
+                }
+            }
+
+        };
+        inputManager.addListener(acl, "exit");
+   }
     
 }

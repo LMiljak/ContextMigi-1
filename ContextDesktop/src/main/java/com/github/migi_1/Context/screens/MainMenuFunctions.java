@@ -76,7 +76,10 @@ public class MainMenuFunctions extends AbstractAppState implements ScreenControl
     public void toScreen(String scr) {
         nifty.gotoScreen(scr);
     }
-    
+
+    /**
+     * Start the game
+     */
     public void startGame() {
         VRHandler vr = new VRHandler();
         vr.initVR();

@@ -1,5 +1,10 @@
 package com.github.migi_1.Context;
 
+import java.util.concurrent.TimeUnit;
+
+import org.junit.rules.Timeout;
+
+import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
@@ -12,8 +17,10 @@ import jmevr.app.VRApplication;
  * @author Damian
  */
 public class Main extends VRApplication {
-    private MainMenu menu;
+    private MainMenu mainMenu;
+    private Environment env;
     private static Main main;
+    private boolean test = false;
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
@@ -36,8 +43,12 @@ public class Main extends VRApplication {
     @Override
     public void simpleInitApp() {        
         main.setPauseOnLostFocus(true);
-        menu = new MainMenu();
-        this.getStateManager().attach(menu);
+        mainMenu = new MainMenu();
+        env = new Environment(this.rootNode);
+        
+        this.getStateManager().attach(mainMenu);
+        
+        
     }
     
     private void configureVR() {
@@ -58,7 +69,14 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        
+        if (test){ 
+            System.out.println("asdas");  
+            getStateManager().detach(mainMenu);             
+            getStateManager().attach(env);
+            //getStateManager().getState(Environment.class).update(tpf);
+            test = false; 
+        }
+        //getStateManager().getState(Environment.class).update(tpf);
     }
     
     /**
@@ -69,4 +87,9 @@ public class Main extends VRApplication {
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
     }
+    
+    public void setTest() {
+        test = true;
+    }
+    
 }

@@ -40,13 +40,15 @@ public class MainMenu extends AbstractAppState{
     private AudioRenderer audioRenderer;
 
     private ViewPort guiViewPort;
+
+    private MainMenuFunctions mainMenuController;
    
      /**
      * Creates the start screen.
      */
      private void createStartScreen() {
          nifty.addScreen("start", new ScreenBuilder("start") {{
-             controller(new com.github.migi_1.Context.screens.MainMenuFunctions());
+             controller(mainMenuController);
              //Create the background layer (completely black)
              layer(createBGLayer());
 
@@ -83,7 +85,7 @@ public class MainMenu extends AbstractAppState{
       */
      private void createHostScreen() {
          nifty.addScreen("host", new ScreenBuilder("host"){{
-             controller(new MainMenuFunctions());
+             controller(mainMenuController);
              //Add background layer (completely black)
              layer(createBGLayer());
 
@@ -307,6 +309,8 @@ public class MainMenu extends AbstractAppState{
         audioRenderer = app.getAudioRenderer();
         guiViewPort = app.getGuiViewPort();
         
+        mainMenuController = new MainMenuFunctions(this.app);
+        
         NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
                 assetManager, inputManager, audioRenderer, guiViewPort);
         nifty = niftyDisplay.getNifty();
@@ -328,6 +332,7 @@ public class MainMenu extends AbstractAppState{
     @Override
     public void cleanup() {
         super.cleanup();
+        nifty.removeScreen("host");
         
     }
 

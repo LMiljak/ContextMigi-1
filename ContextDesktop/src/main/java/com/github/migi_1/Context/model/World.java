@@ -2,10 +2,11 @@
 package com.github.migi_1.Context.model;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.renderer.Camera;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  * This class handles all logic of the game world itself.
@@ -16,8 +17,8 @@ public class World {
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
-    private Camera vrCam;
-    private Camera flyCam;
+    private Spatial vrObs;
+    private Spatial flyObs;
 
     /**
      * Constructor for the world object
@@ -26,9 +27,9 @@ public class World {
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
      */
-    public World(Camera vr, Camera fly, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
-        this.vrCam = vr;
-        this.flyCam = fly;
+    public World(Spatial vr, Spatial fly, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
+        this.vrObs = vr;
+        this.flyObs = fly;
         this.viewPort = viewPort;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
@@ -37,7 +38,7 @@ public class World {
      * initializes all elements of the game world itself
      */
     public void init() {
-        env = new Environment(vrCam, flyCam, viewPort, assetManager, rootNode);
+        env = new Environment(vrObs, flyObs, viewPort, assetManager, rootNode);
         env.init();
     }
 
@@ -50,6 +51,22 @@ public class World {
 
     public void swapCamera() {
         env.swapCamera();
+    }
+
+    public String getCamera() {
+        return env.getCamera();
+    }
+
+    public void moveObs(Vector3f move) {
+        env.moveObs(move);
+    }
+
+    public void rotateObs(float x, float y, float z) {
+        env.rotateObs(x, y, z);
+    }
+
+    public String getObserver() {
+        return env.getObserver();
     }
 
 }

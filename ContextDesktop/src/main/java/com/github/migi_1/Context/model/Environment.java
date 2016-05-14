@@ -4,17 +4,18 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
-import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -40,10 +41,9 @@ public class Environment {
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
-    private Camera vrCam;
-    private Camera flyCam;
-    private CameraNode vrNode;
-    private CameraNode flyNode;
+
+    private Spatial vrObs;
+    private Spatial flyObs;
 
     private Spatial testPlatform;
     private Spatial testWorld;
@@ -58,9 +58,9 @@ public class Environment {
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
      */
-    public Environment(Camera vr, Camera fly, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
-        this.vrCam = vr;
-        this.flyCam = fly;
+    public Environment(Spatial vr, Spatial fly, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
+        this.vrObs = vr;
+        this.flyObs = fly;
         this.viewPort = viewPort;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
@@ -146,14 +146,13 @@ public class Environment {
      * Initializes the camera and sets its location and rotation.
      */
     private void initCamera() {
-        vrNode = new CameraNode("VRNODE", vrCam);
-        vrNode.setLocalTranslation(CAMERA_LOCATION);
-        vrNode.setLocalRotation(testCommander.getLocalRotation());
-        flyNode = new CameraNode("FLYNODE", flyCam);
-        rootNode.attachChild(vrNode);
-        //flyNode = new CameraNode("FLYNODE", flyCam);
-        //rootNode.attachChild(vrNode);
-        //rootNode.attachChild(flyNode);
+        vrObs.setLocalTranslation(new Vector3f(0f, 0f, 0f));
+        vrObs.rotate(0f, COMMANDER_ROTATION, 0f);
+        flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
+
+        VRApplication.setObserver(vrObs);
+        rootNode.attachChild(vrObs);
     }
 
     /**
@@ -162,16 +161,15 @@ public class Environment {
     public void update() {
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
-        if(rootNode.getChildren().size() >= 4) {
-            Spatial tempCam = rootNode.detachChildAt(3);
-            if(tempCam.getName().equals("VRNODE")) {
-                tempCam.setLocalTranslation(testCommander.getLocalTranslation());
-                System.out.println("Location: " + tempCam.getLocalTranslation());
-                rootNode.attachChild(tempCam);
-            } else {
-                rootNode.attachChild(tempCam);
-            }
-
+        Spatial tempCam = rootNode.detachChildAt(3);
+        if(tempCam.getName().equals("VR")) {
+            tempCam.setLocalTranslation(testCommander.getLocalTranslation());
+            System.out.println("Location: " + tempCam.getLocalTranslation());
+            rootNode.attachChild(tempCam);
+        } else if(tempCam.getName().equals("FLY")){
+            rootNode.attachChild(tempCam);
+        } else {
+            throw new IllegalStateException("A wrong node has entered rootnode where the camera should be: " + tempCam.getName());
         }
     }
 
@@ -183,12 +181,32 @@ public class Environment {
 
 
     public void swapCamera() {
-        if(rootNode.getChild(3).getName().equals("VRNODE")) {
-            rootNode.detachChild(vrNode);
-            rootNode.attachChild(flyNode);
-        } else {
-            rootNode.detachChild(flyNode);
-            rootNode.attachChild(vrNode);
+        Spatial obs = rootNode.detachChildAt(3);
+        if(obs.getName().equals("VR")) {
+            VRApplication.setObserver(flyObs);
+            rootNode.attachChild(flyObs);
+        } else if(obs.getName().equals("FLY")){
+            VRApplication.setObserver(vrObs);
+            rootNode.attachChild(vrObs);
         }
+    }
+
+    public String getCamera() {
+        return rootNode.getChild(3).getName();
+    }
+
+    public void moveObs(Vector3f move) {
+        flyObs.move(move);
+        System.out.println("New Pos: " + flyObs.getLocalTranslation());
+    }
+
+    public void rotateObs(float x, float y, float z) {
+        System.out.println("Old rotation: " + rootNode.getChild(3).getLocalRotation());
+        flyObs.rotate(x, y, z);
+        System.out.println("New rotation: " + rootNode.getChild(3).getLocalRotation());
+    }
+
+    public String getObserver() {
+        return VRApplication.getObserver().toString();
     }
 }

@@ -296,13 +296,7 @@ public class MainMenu extends AbstractAppState{
              // add control
              control(con);
          }};
-     }
-
-    @Override
-    public void cleanup() {
-        // TODO Auto-generated method stub
-        
-    }
+     }   
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -328,6 +322,12 @@ public class MainMenu extends AbstractAppState{
         createHostScreen();
 
         nifty.gotoScreen("start"); //Go to the start screen.
+        
+    }
+    
+    @Override
+    public void cleanup() {
+        super.cleanup();
         
     }
 

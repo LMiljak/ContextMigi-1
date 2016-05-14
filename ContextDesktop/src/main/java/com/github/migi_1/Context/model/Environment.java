@@ -165,7 +165,6 @@ public class Environment {
         Spatial tempCam = rootNode.detachChildAt(3);
         if(tempCam.getName().equals("VR")) {
             tempCam.setLocalTranslation(testCommander.getLocalTranslation());
-            System.out.println("Location: " + tempCam.getLocalTranslation());
             rootNode.attachChild(tempCam);
         } else if(tempCam.getName().equals("FLY")){
             rootNode.attachChild(tempCam);

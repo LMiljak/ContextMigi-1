@@ -299,11 +299,16 @@ public class MainMenu extends AbstractAppState{
              control(con);
          }};
      }   
-
+     
+    /**
+     * Initializes and sets all attributes that nifty needs in order to function.
+     * Creates the start and host screens.
+     */
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.app = (Main) app;
+        
         assetManager = app.getAssetManager();
         inputManager = app.getInputManager();
         audioRenderer = app.getAudioRenderer();
@@ -329,13 +334,17 @@ public class MainMenu extends AbstractAppState{
         
     }
     
+    /**
+     * Method called when the stateManager detaches this states.
+     * Removes the current screen.
+     */
     @Override
     public void cleanup() {
         super.cleanup();
-        nifty.removeScreen("host");
-        
+        nifty.removeScreen(nifty.getCurrentScreen().getScreenId());        
     }
-
+    
+    ////////////////////////////////////Below methods might be used later on when pause screen are introduced.
     @Override
     public boolean isEnabled() {
         // TODO Auto-generated method stub

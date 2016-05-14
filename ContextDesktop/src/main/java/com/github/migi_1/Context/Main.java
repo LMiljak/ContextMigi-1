@@ -2,11 +2,13 @@ package com.github.migi_1.Context;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.jme3.app.state.RootNodeAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
 import jmevr.app.VRApplication;
@@ -17,9 +19,15 @@ import jmevr.app.VRApplication;
  * @author Damian
  */
 public class Main extends VRApplication {
-    private MainMenu mainMenu;
-    private Environment env;
+    //the main menu state
+    private MainMenu mainMenuState;
+    
+    //the game state
+    private Environment environmentState;
+    
+    //the main application
     private static Main main;
+    
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
@@ -33,22 +41,22 @@ public class Main extends VRApplication {
         main = new Main();
         main.setSettings(settings);
         main.configureVR();
+        main.setPauseOnLostFocus(true);
         main.start();
     }
     
     /**
-     * initializes the main menu and starts it.
+     * First method that is called when the application launches. 
+     * Sets the input, initializes all states and loads the main menu.
      */
     @Override
     public void simpleInitApp() {     
-        initInputs();
-        main.setPauseOnLostFocus(true);
-        mainMenu = new MainMenu();
-        env = new Environment(this.rootNode);
+        initInputs();        
         
-        this.getStateManager().attach(mainMenu);
+        mainMenuState = new MainMenu();
+        environmentState = new Environment();
         
-        
+        this.getStateManager().attach(mainMenuState);       
     }
     
     /**
@@ -57,7 +65,7 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        if (getStateManager().hasState(env)){              
+        if (getStateManager().hasState(environmentState)){              
             getStateManager().getState(Environment.class).update(tpf);
         }        
     }
@@ -71,6 +79,11 @@ public class Main extends VRApplication {
         //TODO: add render code
     }
     
+    /**
+     * Key bindings:
+     * Escape key: Exit the game
+     * ---MORE CAN BE ADDED IF NEEDED---
+     */
     private void initInputs() {
         InputManager inputManager = getInputManager();
         inputManager.addMapping("exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
@@ -87,6 +100,10 @@ public class Main extends VRApplication {
         inputManager.addListener(acl, "exit");
    }
     
+    /**
+     * Method to configure the vr
+     * called in the {@link simpleInitApp()} method; 
+     */
     private void configureVR() {
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
         main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
@@ -103,14 +120,17 @@ public class Main extends VRApplication {
      * @return the mainMenu
      */
     public MainMenu getMainMenu() {
-        return mainMenu;
+        return mainMenuState;
     }
 
     /**
      * @return the env
      */
     public Environment getEnv() {
-        return env;
+        return environmentState;
     }
     
+    public Node getRootNode() {
+        return rootNode;
+    }
 }

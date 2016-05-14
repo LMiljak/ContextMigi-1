@@ -23,7 +23,8 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
  */
-public class Environment extends AbstractAppState{
+public class Environment extends AbstractAppState {
+    private Main app;
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
@@ -52,8 +53,48 @@ public class Environment extends AbstractAppState{
     private DirectionalLight sun;
     private DirectionalLight sun2;
     
-    public Environment(Node rootNode) {
-        this.rootNode = rootNode;
+    /**
+     * First method that is called after the state has been created.
+     * Handles all initialization of parameters needed for the Environment.
+     */
+    @Override
+    public void initialize(AppStateManager stateManager, Application app) {
+        super.initialize(stateManager, app);
+        this.app = (Main) app;
+        
+        assetManager = app.getAssetManager();
+        viewPort = app.getViewPort();
+        cam = app.getCamera();
+        rootNode = this.app.getRootNode();
+        
+        //deprecated method, it does however makse it possible to load assets from a non default location
+        assetManager.registerLocator("assets", FileLocator.class);
+
+        viewPort.setBackgroundColor(BACKGROUNDCOLOR);
+
+        //creates the lights
+        initLights();
+
+        //creates shadowmap and attach it to the sun
+        initShadows();
+
+        //initializes all spatials and set the positions
+        initSpatials();
+
+        //Init the camera
+        initCamera();
+    }
+    
+    /**
+     * Updates all enitites of the environment.
+     */
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+        testPlatform.move(-PLATFORM_SPEED, 0, 0);
+        testCommander.move(-PLATFORM_SPEED, 0, 0);
+        Vector3f camLoc = testCommander.getLocalTranslation();
+        cam.setLocation(new Vector3f(camLoc.x - PLATFORM_SPEED, camLoc.y, camLoc.z));
     }
 
     /**
@@ -125,39 +166,16 @@ public class Environment extends AbstractAppState{
     public void render(RenderManager rm) {
 
     }
-
+    
+    /**
+     * Handles everything that happens when the Envrironment state is detached from the main application.
+     */
     @Override
     public void cleanup() {
         super.cleanup();        
     }
-
-    @Override
-    public void initialize(AppStateManager stateManager, Application app) {
-        super.initialize(stateManager, app);
-        app = (Main) app;
-        
-        assetManager = app.getAssetManager();
-        viewPort = app.getViewPort();
-        cam = app.getCamera();
-        
-        //deprecated method, it does however makse it possible to load assets from a non default location
-        assetManager.registerLocator("assets", FileLocator.class);
-
-        viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
-        //creates the lights
-        initLights();
-
-        //creates shadowmap and attach it to the sun
-        initShadows();
-
-        //initializes all spatials and set the positions
-        initSpatials();
-
-        //Init the camera
-        initCamera();
-    }
-
+    
+    ////////////////////////////////////Below methods might be used later on when pause screen are introduced.
     @Override
     public boolean isEnabled() {
         // TODO Auto-generated method stub
@@ -171,23 +189,10 @@ public class Environment extends AbstractAppState{
     }
 
     @Override
-    public void postRender() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
     public void setEnabled(boolean arg0) {
         // TODO Auto-generated method stub
         
     }
 
-    @Override
-    public void update(float tpf) {
-        super.update(tpf);
-        testPlatform.move(-PLATFORM_SPEED, 0, 0);
-        testCommander.move(-PLATFORM_SPEED, 0, 0);
-        Vector3f camLoc = testCommander.getLocalTranslation();
-        cam.setLocation(new Vector3f(camLoc.x - PLATFORM_SPEED, camLoc.y, camLoc.z));
-    }
+    
 }

@@ -3,24 +3,16 @@
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
    
-    <screen id="host" controller="com.github.migi_1.Context.screens.MainMenuFunctions">
+    <screen id="join" controller="com.github.migi_1.Context.screens.MainMenuFunctions">
         <layer id="background" backgroundColor="#000f" childLayout="center"/>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_mid" height="5%" width="75%" align="center" valign="center" childLayout="center" backgroundColor="#0f08">
                 <text id="Lobby" font="Interface/Fonts/Default.fnt" text="Lobby" align="center" valign="center"/>
             </panel>
                 
-            <control id="txtp1" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0" 
-                height="10%" width="75%" />
-
-            <control id="txtp2" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0"
-                height="10%" width="75%" />
-            
-            <control id="txtp3" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0"
-                height="10%" width="75%" />
-            
-            <control id="txtp4" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0"
-                height="10%" width="75%" />
+            <panel id="panel_info" height="40%" width="75%" align="center" valign="center" childLayout="center" backgroundColor="#0f08">
+                <text id="Info" font="Interface/Fonts/Default.fnt" text="Server Joining will pop up here" align="center" valign="center"/>
+            </panel>
             
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="center" backgroundColor="#00f8">
                 <panel id="panel_bottom_left" height="50%" width="50%" childLayout="center" align="left" valign="center" backgroundColor="#44f8">

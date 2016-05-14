@@ -10,12 +10,12 @@
                 <text id="CarriedAway" font="Interface/Fonts/Default.fnt" text="Carried Away" align="center" valign="center"/>
             </panel>
             <panel id="panel_mid" height="50%" width="75%" align="center" valign="center" childLayout="center" backgroundColor="#0f08">
-                <text id="Info" font="Interface/Fonts/Default.fnt" text="Press Start to host a server&#13;&#10;Press Quit to exit the game" align="center" valign="center"></text>
+                <text id="Info" font="Interface/Fonts/Default.fnt" text="Press Start to join a server&#13;&#10;Press Quit to exit the game" align="center" valign="center"></text>
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="center" backgroundColor="#00f8">
                 <panel id="panel_bottom_left" height="50%" width="50%" childLayout="center" align="left" valign="center" backgroundColor="#44f8">
                        <control id="start_button" name="button" label="Start" height="50%" width="50%"> 
-                            <interact onClick="toScreen(host)"/>
+                            <interact onClick="toScreen(join)"/>
                        </control>
                 </panel>
                 

@@ -30,8 +30,7 @@ public class Main extends VRApplication {
     public void simpleInitApp() {        
         vrh.setPauseOnLostFocus(true);
         menu = new MainMenu();
-        menu.initMenu(vrh.getAssetManager(), vrh.getInputManager(), vrh.getAudioRenderer(),
-                vrh.getGuiViewPort());
+        this.getStateManager().attach(menu);
     }
     
     private void configureVR() {

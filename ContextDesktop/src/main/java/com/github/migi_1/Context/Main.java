@@ -2,7 +2,6 @@ package com.github.migi_1.Context;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
-import com.jme3.app.state.RootNodeAppState;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -72,7 +71,7 @@ public class Main extends VRApplication {
     
     /**
      * handles everything that needs rendering.
-     * @param rm 
+     * @param rm the rendermanager
      */
     @Override
     public void simpleRender(RenderManager rm) {
@@ -82,7 +81,8 @@ public class Main extends VRApplication {
     /**
      * Key bindings:
      * Escape key: Exit the game
-     * ---MORE CAN BE ADDED IF NEEDED---
+     * ---MORE CAN BE ADDED IF NEEDED--- 
+     * (Will probably become a seperate class at some point)
      */
     private void initInputs() {
         InputManager inputManager = getInputManager();
@@ -117,6 +117,7 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Returns the main menu state.
      * @return the mainMenu
      */
     public MainMenu getMainMenu() {
@@ -124,6 +125,7 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Returns the environment state.
      * @return the env
      */
     public Environment getEnv() {

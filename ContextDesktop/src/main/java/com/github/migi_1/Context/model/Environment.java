@@ -175,7 +175,7 @@ public class Environment extends AbstractAppState {
         super.cleanup();        
     }
     
-    ////////////////////////////////////Below methods might be used later on when pause screen are introduced.
+    ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
     @Override
     public boolean isEnabled() {
         // TODO Auto-generated method stub

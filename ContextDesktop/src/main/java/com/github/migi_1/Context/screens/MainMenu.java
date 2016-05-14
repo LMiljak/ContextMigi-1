@@ -3,14 +3,11 @@ package com.github.migi_1.Context.screens;
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
-import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioRenderer;
-import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
-import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 
 import de.lessvoid.nifty.Nifty;
@@ -344,7 +341,7 @@ public class MainMenu extends AbstractAppState{
         nifty.removeScreen(nifty.getCurrentScreen().getScreenId());        
     }
     
-    ////////////////////////////////////Below methods might be used later on when pause screen are introduced.
+    ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
     @Override
     public boolean isEnabled() {
         // TODO Auto-generated method stub

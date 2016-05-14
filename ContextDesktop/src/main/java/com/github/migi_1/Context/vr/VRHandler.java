@@ -1,8 +1,6 @@
 package com.github.migi_1.Context.vr;
 
-
-
-import com.github.migi_1.Context.model.World;
+import com.github.migi_1.Context.model.Environment;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -19,7 +17,7 @@ public class VRHandler extends VRApplication {
 
     //VR main
     private VRHandler vrh;
-
+    private Environment env;
 
     /**
      * The method that needs to be called in the main app.
@@ -49,17 +47,14 @@ public class VRHandler extends VRApplication {
         
     }
 
-    // general objects for scene management
-    private World world;
-
     /**
      * Method called when the vrhandler is started.
      */
     @Override
     public void simpleInitApp() {
         initInputs();
-        world = new World(getCamera(), getViewPort(), getAssetManager(), rootNode);
-        world.init();
+        env = new Environment(this.rootNode);
+        getStateManager().attach(env);
 
         // print out what device we have
         if( VRApplication.getVRHardware() != null ) {
@@ -71,8 +66,8 @@ public class VRHandler extends VRApplication {
      * Overwritten method that updates the current world.
      */
      @Override
-     public void simpleUpdate(float tpf){
-         world.update();
+     public void simpleUpdate(float tpf) {
+         getStateManager().getState(Environment.class).update(tpf);
      }
 
      /**
@@ -102,6 +97,6 @@ public class VRHandler extends VRApplication {
        */
     @Override
     public void simpleRender(RenderManager rm) {
-        world.render(rm);
+        
     }
 }

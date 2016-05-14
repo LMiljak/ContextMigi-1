@@ -20,7 +20,6 @@ public class Main extends VRApplication {
     private MainMenu mainMenu;
     private Environment env;
     private static Main main;
-    private boolean test = false;
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
@@ -52,28 +51,15 @@ public class Main extends VRApplication {
         
     }
     
-    private void configureVR() {
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
-        main.preconfigureFrustrumNearFar(0.1f, 512f); // set frustum distances here before app starts
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
-    }
-    
     /**
      * handles all updates.
      * @param tpf 
      */
     @Override
     public void simpleUpdate(float tpf) {
-        if (test){              
+        if (getStateManager().hasState(env)){              
             getStateManager().getState(Environment.class).update(tpf);
-        }
-        
+        }        
     }
     
     /**
@@ -83,12 +69,6 @@ public class Main extends VRApplication {
     @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
-    }
-    
-    public void setTest() {
-        getStateManager().detach(mainMenu);             
-        getStateManager().attach(env);
-        test = true;
     }
     
     private void initInputs() {
@@ -106,5 +86,31 @@ public class Main extends VRApplication {
         };
         inputManager.addListener(acl, "exit");
    }
+    
+    private void configureVR() {
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
+        main.preconfigureFrustrumNearFar(0.1f, 512f); // set frustum distances here before app starts
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
+    }
+
+    /**
+     * @return the mainMenu
+     */
+    public MainMenu getMainMenu() {
+        return mainMenu;
+    }
+
+    /**
+     * @return the env
+     */
+    public Environment getEnv() {
+        return env;
+    }
     
 }

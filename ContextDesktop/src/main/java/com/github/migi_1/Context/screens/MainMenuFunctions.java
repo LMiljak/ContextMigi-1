@@ -1,6 +1,5 @@
 package com.github.migi_1.Context.screens;
 
-import com.github.migi_1.Context.vr.VRHandler;
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -75,10 +74,8 @@ public class MainMenuFunctions implements ScreenController {
     }
     
     public void startGame() {
-//        VRHandler vr = new VRHandler();
-//        vr.initVR();
-        main.setTest();
-        
+        main.getStateManager().detach(main.getMainMenu());
+        main.getStateManager().attach(main.getEnv());        
     }
 
     /**

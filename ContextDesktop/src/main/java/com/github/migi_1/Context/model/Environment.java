@@ -1,10 +1,8 @@
 package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.Main;
-import com.github.migi_1.Context.vr.VRHandler;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
-import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;

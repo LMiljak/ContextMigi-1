@@ -4,9 +4,9 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
-import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
@@ -14,6 +14,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -32,14 +34,14 @@ public class Environment {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final Vector3f CAMERA_LOCATION = new Vector3f(22, -14, -3.5f);
-
     private static final float PLATFORM_SPEED = 0.02f;
 
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
-    private Camera cam;
+
+    private Spatial vrObs;
+    private Spatial flyObs;
 
     private Spatial testPlatform;
     private Spatial testWorld;
@@ -47,15 +49,18 @@ public class Environment {
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
+
     /**
      * Constructor for the environment object
-     * @param cam, The camera that will display the viewpoint of the player
+     * @param vr, The camera that will display the viewpoint of the player
+     * @param fly, The camera that you can freely move around with in the game.
      * @param viewPort, Main screen of the game, this will be rendered
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
      */
-    public Environment(Camera cam, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
-        this.cam = cam;
+    public Environment(Spatial vr, Spatial fly, ViewPort viewPort, AssetManager assetManager, Node rootNode) {
+        this.vrObs = vr;
+        this.flyObs = fly;
         this.viewPort = viewPort;
         this.assetManager = assetManager;
         this.rootNode = rootNode;
@@ -79,8 +84,8 @@ public class Environment {
         //initializes all spatials and set the positions
         initSpatials();
 
-        //Init the camera
-        initCamera();
+        //Init the cameras
+        initCameras();
     }
 
     /**
@@ -138,28 +143,81 @@ public class Environment {
     }
 
     /**
-     * Initializes the camera and sets its location and rotation.
+     * Initializes the cameras and sets its location and rotation.
+     * Starts with the VR camera.
      */
-    private void initCamera() {
-        cam.setLocation(CAMERA_LOCATION);
-        cam.setRotation(testCommander.getLocalRotation());
+    private void initCameras() {
+        vrObs.setLocalTranslation(new Vector3f(0f, 0f, 0f));
+        vrObs.rotate(0f, COMMANDER_ROTATION, 0f);
+        flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
+
+        VRApplication.setObserver(vrObs);
+        rootNode.attachChild(vrObs);
     }
 
     /**
-     * Update the entities and camera.
+     * Update the entities and cameras.
      */
     public void update() {
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
-        Vector3f camLoc = testCommander.getLocalTranslation();
-        cam.setLocation(new Vector3f(camLoc.x - PLATFORM_SPEED, camLoc.y, camLoc.z));
+        Spatial tempCam = rootNode.detachChildAt(3);
+        if(tempCam.getName().equals("VR")) {
+            tempCam.setLocalTranslation(testCommander.getLocalTranslation());
+            rootNode.attachChild(tempCam);
+        } else if(tempCam.getName().equals("FLY")){
+            rootNode.attachChild(tempCam);
+        } else {
+            throw new IllegalStateException("A wrong node has entered rootnode where the camera should be: " + tempCam.getName());
+        }
     }
 
     /**
      * render the entities
      * @param rm manager of the renderengine
      */
-    public void render(RenderManager rm) {
+    public void render(RenderManager rm) {}
 
+    /**
+     * Swap the cameras in the environment.
+     * VRCam <-> FlyCam.
+     */
+    public void swapCamera() {
+        Spatial obs = rootNode.detachChildAt(3);
+        if(obs.getName().equals("VR")) {
+            VRApplication.setObserver(flyObs);
+            rootNode.attachChild(flyObs);
+        } else if(obs.getName().equals("FLY")){
+            VRApplication.setObserver(vrObs);
+            rootNode.attachChild(vrObs);
+        }
+    }
+
+    /**
+     * Returns the current camera (which is a observer).
+     * @return A string representation of the current camera:
+     * "VR (Node)" or "FLY (Node)".
+     */
+    public String getCamera() {
+        return VRApplication.getObserver().toString();
+    }
+
+    /**
+     * Move the flycam.
+     * @param move a vector representation of the movement of the flyCamera.
+     */
+    public void moveCam(Vector3f move) {
+        flyObs.move(move);
+    }
+
+    /**
+     * Rotate the flycam
+     * @param x rotation value on the x-axis
+     * @param y rotation value on the y-axis
+     * @param z rotation value on the z-axis
+     */
+    public void rotateCam(float x, float y, float z) {
+        flyObs.rotate(x, y, z);
     }
 }

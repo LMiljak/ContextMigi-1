@@ -22,7 +22,8 @@ public class World {
 
     /**
      * Constructor for the world object
-     * @param cam, The camera that will display the viewpoint of the player
+     * @param vr, The camera that will display the viewpoint of the player
+     * @param fly, The camera that you can freely move around with in the game.
      * @param viewPort, Main screen of the game, this will be rendered
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
@@ -42,31 +43,54 @@ public class World {
         env.init();
     }
 
+    /**
+     * Updates the world.
+     */
     public void update() {
         env.update();
     }
+
+    /**
+     * Renders the world.
+     * @param rm the RenderManager used.
+     */
     public void render(RenderManager rm) {
         env.render(rm);
     }
 
+    /**
+     * Swap the cameras in the environment.
+     * VRCam <-> FlyCam.
+     */
     public void swapCamera() {
         env.swapCamera();
     }
 
+    /**
+     * Move the flycam.
+     * @param move a vector representation of the movement of the flyCamera.
+     */
+    public void moveCam(Vector3f move) {
+        env.moveCam(move);
+    }
+
+    /**
+     * Rotate the flycam
+     * @param x rotation value on the x-axis
+     * @param y rotation value on the y-axis
+     * @param z rotation value on the z-axis
+     */
+    public void rotateCam(float x, float y, float z) {
+        env.rotateCam(x, y, z);
+    }
+
+    /**
+     * Returns the current camera (which is a observer).
+     * @return A string representation of the current camera:
+     * "VR (Node)" or "FLY (Node)".
+     */
     public String getCamera() {
         return env.getCamera();
-    }
-
-    public void moveObs(Vector3f move) {
-        env.moveObs(move);
-    }
-
-    public void rotateObs(float x, float y, float z) {
-        env.rotateObs(x, y, z);
-    }
-
-    public String getObserver() {
-        return env.getObserver();
     }
 
 }

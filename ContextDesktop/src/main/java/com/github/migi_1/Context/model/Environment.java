@@ -34,8 +34,6 @@ public class Environment {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final Vector3f CAMERA_LOCATION = new Vector3f(22, -14, -3.5f);
-
     private static final float PLATFORM_SPEED = 0.02f;
 
     private ViewPort viewPort;
@@ -51,9 +49,11 @@ public class Environment {
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
+
     /**
      * Constructor for the environment object
-     * @param cam, The camera that will display the viewpoint of the player
+     * @param vr, The camera that will display the viewpoint of the player
+     * @param fly, The camera that you can freely move around with in the game.
      * @param viewPort, Main screen of the game, this will be rendered
      * @param assetManager, loads and manages all assets of the world
      * @param rootNode, origin of the app
@@ -84,8 +84,8 @@ public class Environment {
         //initializes all spatials and set the positions
         initSpatials();
 
-        //Init the camera
-        initCamera();
+        //Init the cameras
+        initCameras();
     }
 
     /**
@@ -143,9 +143,10 @@ public class Environment {
     }
 
     /**
-     * Initializes the camera and sets its location and rotation.
+     * Initializes the cameras and sets its location and rotation.
+     * Starts with the VR camera.
      */
-    private void initCamera() {
+    private void initCameras() {
         vrObs.setLocalTranslation(new Vector3f(0f, 0f, 0f));
         vrObs.rotate(0f, COMMANDER_ROTATION, 0f);
         flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
@@ -156,7 +157,7 @@ public class Environment {
     }
 
     /**
-     * Update the entities and camera.
+     * Update the entities and cameras.
      */
     public void update() {
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
@@ -179,7 +180,10 @@ public class Environment {
      */
     public void render(RenderManager rm) {}
 
-
+    /**
+     * Swap the cameras in the environment.
+     * VRCam <-> FlyCam.
+     */
     public void swapCamera() {
         Spatial obs = rootNode.detachChildAt(3);
         if(obs.getName().equals("VR")) {
@@ -191,22 +195,30 @@ public class Environment {
         }
     }
 
+    /**
+     * Returns the current camera (which is a observer).
+     * @return A string representation of the current camera:
+     * "VR (Node)" or "FLY (Node)".
+     */
     public String getCamera() {
-        return rootNode.getChild(3).getName();
-    }
-
-    public void moveObs(Vector3f move) {
-        flyObs.move(move);
-        System.out.println("New Pos: " + flyObs.getLocalTranslation());
-    }
-
-    public void rotateObs(float x, float y, float z) {
-        System.out.println("Old rotation: " + rootNode.getChild(3).getLocalRotation());
-        flyObs.rotate(x, y, z);
-        System.out.println("New rotation: " + rootNode.getChild(3).getLocalRotation());
-    }
-
-    public String getObserver() {
         return VRApplication.getObserver().toString();
+    }
+
+    /**
+     * Move the flycam.
+     * @param move a vector representation of the movement of the flyCamera.
+     */
+    public void moveCam(Vector3f move) {
+        flyObs.move(move);
+    }
+
+    /**
+     * Rotate the flycam
+     * @param x rotation value on the x-axis
+     * @param y rotation value on the y-axis
+     * @param z rotation value on the z-axis
+     */
+    public void rotateCam(float x, float y, float z) {
+        flyObs.rotate(x, y, z);
     }
 }

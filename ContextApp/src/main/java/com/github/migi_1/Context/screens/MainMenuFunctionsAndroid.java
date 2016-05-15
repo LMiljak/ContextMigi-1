@@ -36,7 +36,7 @@ public class MainMenuFunctionsAndroid extends AbstractAppState implements Screen
      */
     @Override
     public void update(float tpf) {
-        if (screen.getScreenId().equals("host")) {
+        if (screen.getScreenId().equals("join")) {
             // execute functions to update the lobby screen.
         }
     }

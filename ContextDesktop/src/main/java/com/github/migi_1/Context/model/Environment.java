@@ -54,6 +54,8 @@ public class Environment extends AbstractAppState {
 
     private static final float PLATFORM_SPEED = 2f;
 
+    private static final int LEVEL_PIECES = 5;
+    
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
@@ -156,7 +158,7 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        while(testWorld.size() <5){
+        while(testWorld.size() < LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
             levelPiece.move(WORLD_LOCATION);
             testWorld.add(levelPiece);
@@ -286,6 +288,14 @@ public class Environment extends AbstractAppState {
              }
         }
 
+        while(testWorld.size() <LEVEL_PIECES){
+            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            levelPiece.move(WORLD_LOCATION);
+            testWorld.add(levelPiece);
+            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
+            WORLD_LOCATION.x -=2*bb.getXExtent();
+            rootNode.attachChild(levelPiece);
+        }
 
     }
 

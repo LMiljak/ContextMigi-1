@@ -50,9 +50,7 @@ public class Environment extends AbstractAppState {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final Vector3f CAMERA_LOCATION = new Vector3f(22, -14, -3.5f);
-
-    private static final float PLATFORM_SPEED = 2f;
+    private static final float PLATFORM_SPEED = 0.02f;
 
     private static final int LEVEL_PIECES = 5;
 
@@ -72,7 +70,7 @@ public class Environment extends AbstractAppState {
 
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        this.testWorld = new LinkedList();
+        this.testWorld = new LinkedList<Spatial>();
         assetManager = app.getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new Node("VR");
@@ -105,10 +103,7 @@ public class Environment extends AbstractAppState {
         super.update(tpf);
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
-
-        Spatial tempCam = (Spatial)VRApplication.getObserver();
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
-
         updateTestWorld();
     }
 
@@ -153,7 +148,7 @@ public class Environment extends AbstractAppState {
     private void initSpatials() {
         while(testWorld.size() < LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+5.0f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
             WORLD_LOCATION.x -=2*bb.getXExtent();
@@ -282,7 +277,7 @@ public class Environment extends AbstractAppState {
 
         while(testWorld.size() <LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+5.0f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
             WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();

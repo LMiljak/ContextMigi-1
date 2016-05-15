@@ -11,9 +11,9 @@ import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
-import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
@@ -22,6 +22,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -32,7 +34,9 @@ public class Environment extends AbstractAppState {
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
-    private Camera cam;
+
+    private Spatial vrObs;
+    private Spatial flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
     private static final Vector3f SUNVECTOR = new Vector3f(-.5f,-.5f,-.5f);
@@ -66,10 +70,11 @@ public class Environment extends AbstractAppState {
         
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        this.testWorld = new ArrayList();
+        this.testWorld = new ArrayList<Spatial>();
         assetManager = app.getAssetManager();
         viewPort = app.getViewPort();
-        cam = app.getCamera();
+        vrObs = new Node("VR");
+        flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
 
         //deprecated method, it does however makse it possible to load assets from a non default location
@@ -87,23 +92,27 @@ public class Environment extends AbstractAppState {
         initSpatials();
 
         //Init the camera
-        initCamera();
-
-
+        initCameras();
     }
 
     /**
-     * Updates all enitites of the environment.
+     * Update the entities and cameras.
      */
     @Override
     public void update(float tpf) {
         super.update(tpf);
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
-        Vector3f camLoc = testCommander.getLocalTranslation();
-        cam.setLocation(new Vector3f(camLoc.x - PLATFORM_SPEED, camLoc.y, camLoc.z));
-       
-        
+
+        Spatial tempCam = (Spatial)VRApplication.getObserver();
+        if(tempCam.getName().equals("VR")) {
+            tempCam.setLocalTranslation(testCommander.getLocalTranslation());
+            rootNode.attachChild(tempCam);
+        } else if(tempCam.getName().equals("FLY")){
+            rootNode.attachChild(tempCam);
+        } else {
+            throw new IllegalStateException("A wrong node has entered rootnode where the camera should be: " + tempCam.getName());
+        }
     }
 
     /**
@@ -171,11 +180,17 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * Initializes the camera and sets its location and rotation.
+     * Initializes the cameras and sets its location and rotation.
+     * Starts with the VR camera.
      */
-    private void initCamera() {
-        cam.setLocation(CAMERA_LOCATION);
-        cam.setRotation(testCommander.getLocalRotation());
+    private void initCameras() {
+        vrObs.setLocalTranslation(new Vector3f(0f, 0f, 0f));
+        vrObs.rotate(0f, COMMANDER_ROTATION, 0f);
+        flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
+
+        VRApplication.setObserver(vrObs);
+        rootNode.attachChild(vrObs);
     }
 
     /**
@@ -185,6 +200,48 @@ public class Environment extends AbstractAppState {
     @Override
     public void render(RenderManager rm) {
 
+    }
+
+    /**
+     * Move the flycam.
+     * @param move a vector representation of the movement of the flyCamera.
+     */
+    public void moveCam(Vector3f move) {
+        flyObs.move(move);
+    }
+
+    /**
+     * Rotate the flycam
+     * @param x rotation value on the x-axis
+     * @param y rotation value on the y-axis
+     * @param z rotation value on the z-axis
+     */
+    public void rotateCam(float x, float y, float z) {
+        flyObs.rotate(x, y, z);
+    }
+
+    /**
+     * Returns the current camera (which is a observer).
+     * @return A string representation of the current camera:
+     * "VR (Node)" or "FLY (Node)".
+     */
+    public String getCamera() {
+        return VRApplication.getObserver().toString();
+    }
+
+    /**
+     * Swap the cameras in the environment.
+     * VRCam <-> FlyCam.
+     */
+    public void swapCamera() {
+        Spatial obs = rootNode.detachChildAt(3);
+        if(obs.getName().equals("VR")) {
+            VRApplication.setObserver(flyObs);
+            rootNode.attachChild(flyObs);
+        } else if(obs.getName().equals("FLY")){
+            VRApplication.setObserver(vrObs);
+            rootNode.attachChild(vrObs);
+        }
     }
 
     /**

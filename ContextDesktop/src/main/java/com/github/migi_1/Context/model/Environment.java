@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+
+import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
@@ -17,14 +19,10 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-import java.util.LinkedList;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -53,7 +51,7 @@ public class Environment extends AbstractAppState {
 
     private static final Vector3f CAMERA_LOCATION = new Vector3f(22, -14, -3.5f);
 
-    private static final float PLATFORM_SPEED = 0.2f;
+    private static final float PLATFORM_SPEED = 0.02f;
 
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
@@ -68,7 +66,7 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-        
+
         super.initialize(stateManager, app);
         this.app = (Main) app;
         this.testWorld = new LinkedList();
@@ -114,6 +112,8 @@ public class Environment extends AbstractAppState {
         } else {
             throw new IllegalStateException("A wrong node has entered rootnode where the camera should be: " + tempCam.getName());
         }
+
+        updateTestWorld();
     }
 
     /**
@@ -235,7 +235,7 @@ public class Environment extends AbstractAppState {
      * VRCam <-> FlyCam.
      */
     public void swapCamera() {
-        Spatial obs = (Spatial)VRApplication.getObserver();;
+        Spatial obs = (Spatial)VRApplication.getObserver();
         if(obs.getName().equals("VR")) {
             VRApplication.setObserver(flyObs);
             rootNode.attachChild(flyObs);
@@ -269,6 +269,21 @@ public class Environment extends AbstractAppState {
     @Override
     public void setEnabled(boolean arg0) {
         // TODO Auto-generated method stub
+
+    }
+
+    private void updateTestWorld() {
+        if(testWorld.size() > 0){
+             Spatial check = testWorld.peek();
+             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
+             
+             if(Math.abs(bb1.getCenter().x-bb2.getCenter().x) > 100){
+                testWorld.poll();
+                rootNode.detachChild(check);
+             }
+        }
+
 
     }
 

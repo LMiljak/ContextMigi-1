@@ -2,8 +2,6 @@ package com.github.migi_1.Context.model;
 
 import java.util.LinkedList;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -24,6 +22,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -55,7 +55,7 @@ public class Environment extends AbstractAppState {
     private static final float PLATFORM_SPEED = 2f;
 
     private static final int LEVEL_PIECES = 5;
-    
+
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
@@ -107,14 +107,7 @@ public class Environment extends AbstractAppState {
         testCommander.move(-PLATFORM_SPEED, 0, 0);
 
         Spatial tempCam = (Spatial)VRApplication.getObserver();
-        if(tempCam.getName().equals("VR")) {
-            tempCam.setLocalTranslation(testCommander.getLocalTranslation());
-            rootNode.attachChild(tempCam);
-        } else if(tempCam.getName().equals("FLY")){
-            rootNode.attachChild(tempCam);
-        } else {
-            throw new IllegalStateException("A wrong node has entered rootnode where the camera should be: " + tempCam.getName());
-        }
+        vrObs.setLocalTranslation(testCommander.getLocalTranslation());
 
         updateTestWorld();
     }
@@ -160,7 +153,7 @@ public class Environment extends AbstractAppState {
     private void initSpatials() {
         while(testWorld.size() < LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION);
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+5.0f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
             WORLD_LOCATION.x -=2*bb.getXExtent();
@@ -195,6 +188,7 @@ public class Environment extends AbstractAppState {
 
         VRApplication.setObserver(vrObs);
         rootNode.attachChild(vrObs);
+        rootNode.attachChild(flyObs);
     }
 
     /**
@@ -241,10 +235,8 @@ public class Environment extends AbstractAppState {
         Spatial obs = (Spatial)VRApplication.getObserver();
         if(obs.getName().equals("VR")) {
             VRApplication.setObserver(flyObs);
-            rootNode.attachChild(flyObs);
         } else if(obs.getName().equals("FLY")){
             VRApplication.setObserver(vrObs);
-            rootNode.attachChild(vrObs);
         }
     }
 
@@ -290,10 +282,10 @@ public class Environment extends AbstractAppState {
 
         while(testWorld.size() <LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION);
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+5.0f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
-            WORLD_LOCATION.x -=2*bb.getXExtent();
+            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
             rootNode.attachChild(levelPiece);
         }
 

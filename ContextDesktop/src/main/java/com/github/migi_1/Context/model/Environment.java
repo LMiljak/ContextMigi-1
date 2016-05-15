@@ -18,6 +18,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import java.util.ArrayList;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -47,7 +48,7 @@ public class Environment extends AbstractAppState {
     private static final float PLATFORM_SPEED = 0.02f;    
 
     private Spatial testPlatform;
-    private Spatial testWorld;
+    private ArrayList<Spatial> testWorld;
     private Spatial testCommander;
 
     private DirectionalLight sun;
@@ -61,7 +62,7 @@ public class Environment extends AbstractAppState {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        
+        this.testWorld = new ArrayList();
         assetManager = app.getAssetManager();
         viewPort = app.getViewPort();
         cam = app.getCamera();
@@ -83,6 +84,8 @@ public class Environment extends AbstractAppState {
 
         //Init the camera
         initCamera();
+        
+        
     }
     
     /**
@@ -136,8 +139,8 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        testWorld = assetManager.loadModel("Models/testWorld.j3o");
-        testWorld.move(WORLD_LOCATION);
+        testWorld.add(assetManager.loadModel("Models/testWorld.j3o"));
+        testWorld.get(0).move(WORLD_LOCATION);
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         testPlatform.move(PLATFORM_LOCATION);
@@ -146,7 +149,10 @@ public class Environment extends AbstractAppState {
         testCommander.move(COMMANDER_LOCATION);
 
         //attach all objects to the root pane
-        rootNode.attachChild(testWorld);
+        for(Spatial sp : testWorld){
+            rootNode.attachChild(sp);
+        }
+        
         rootNode.attachChild(testPlatform);
         rootNode.attachChild(testCommander);
     }

@@ -14,6 +14,7 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
@@ -51,7 +52,7 @@ public class Environment extends AbstractAppState {
 
     private static final Vector3f CAMERA_LOCATION = new Vector3f(22, -14, -3.5f);
 
-    private static final float PLATFORM_SPEED = 0.02f;
+    private static final float PLATFORM_SPEED = 2f;
 
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
@@ -277,8 +278,9 @@ public class Environment extends AbstractAppState {
              Spatial check = testWorld.peek();
              BoundingBox bb1 = (BoundingBox)check.getWorldBound();
              BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
-             
-             if(Math.abs(bb1.getCenter().x-bb2.getCenter().x) > 100){
+             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
+             if(v1.distance(v2) > 100){
                 testWorld.poll();
                 rootNode.detachChild(check);
              }

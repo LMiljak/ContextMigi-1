@@ -22,6 +22,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import java.util.LinkedList;
 
 import jmevr.app.VRApplication;
 
@@ -55,7 +56,7 @@ public class Environment extends AbstractAppState {
     private static final float PLATFORM_SPEED = 0.2f;
 
     private Spatial testPlatform;
-    private ArrayList<Spatial> testWorld;
+    private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
 
     private DirectionalLight sun;
@@ -70,7 +71,7 @@ public class Environment extends AbstractAppState {
         
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        this.testWorld = new ArrayList<Spatial>();
+        this.testWorld = new LinkedList();
         assetManager = app.getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new Node("VR");
@@ -154,12 +155,12 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        for(int i = 0; i < 5; i++){
-            testWorld.add(assetManager.loadModel("Models/testWorld.j3o"));
-            testWorld.get(i).move(WORLD_LOCATION);
-            BoundingBox bb = (BoundingBox)testWorld.get(i).getWorldBound();
+        while(testWorld.size() <5){
+            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            levelPiece.move(WORLD_LOCATION);
+            testWorld.add(levelPiece);
+            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
             WORLD_LOCATION.x -=2*bb.getXExtent();
-//            WORLD_LOCATION.x -= 2*testWorld.get(i).getWorldTranslation()
         }
 
 

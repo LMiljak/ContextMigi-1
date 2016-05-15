@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-maven-repo.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
    
-    <screen id="join" controller="com.github.migi_1.Context.screens.MainMenuFunctions">
+    <screen id="join" controller="com.github.migi_1.Context.screens.MainMenuFunctionsAndroid">
         <layer id="background" backgroundColor="#000f" childLayout="center"/>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_mid" height="5%" width="75%" align="center" valign="center" childLayout="center" backgroundColor="#0f08">

@@ -7,11 +7,23 @@
     <version>0.1.0</version>
     <packaging>apk</packaging>
 
-        <repositories>
+  <repositories>
     <repository>
       <id>jme3-repo</id>
       <url>http://updates.jmonkeyengine.org/maven/</url>
     </repository>
+    
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+
+    <!-- still needed for some other dependencies not yet available in central like jglfont -->
+    <repository>
+      <id>nifty-maven-repo.sourceforge.net</id>
+      <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
+    </repository>
+    
   </repositories>
 
     <properties>
@@ -22,33 +34,40 @@
 
     <dependencies>
 	<dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.12</version>
+          <scope>test</scope>
+        </dependency>
     
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>1.6.5</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+          <groupId>org.powermock</groupId>
+          <artifactId>powermock-module-junit4</artifactId>
+          <version>1.6.5</version>
+          <scope>test</scope>
+        </dependency>
     
-    <dependency>
+        <dependency>
 	  <groupId>org.powermock</groupId>
 	  <artifactId>powermock-api-mockito</artifactId>
 	  <version>1.6.5</version>
 	  <scope>test</scope>
-    </dependency>
+        </dependency>
 
         <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>android</artifactId>
-            <version>4.1.1.4</version>
-            <scope>provided</scope>
+           <groupId>com.google.android</groupId>
+           <artifactId>android</artifactId>
+           <version>4.1.1.4</version>
+           <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xpp3</artifactId>
+                    <groupId>xpp3</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-                		<dependency>
+        
+        <dependency>
 	  <groupId>org.jmonkeyengine</groupId>
 	  <artifactId>jme3-android</artifactId>
 	  <version>3.1.0-alpha2</version>
@@ -71,6 +90,18 @@
 	  <artifactId>jme3-networking</artifactId>
 	  <version>3.1.0-alpha2</version>
 	</dependency>
+        
+        <dependency>
+          <groupId>com.github.nifty-gui</groupId>
+          <artifactId>nifty</artifactId>
+          <version>1.4.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xpp3</artifactId>
+                    <groupId>xpp3</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
     
     

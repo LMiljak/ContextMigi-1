@@ -235,7 +235,7 @@ public class Environment extends AbstractAppState {
      * VRCam <-> FlyCam.
      */
     public void swapCamera() {
-        Spatial obs = rootNode.detachChildAt(3);
+        Spatial obs = (Spatial)VRApplication.getObserver();;
         if(obs.getName().equals("VR")) {
             VRApplication.setObserver(flyObs);
             rootNode.attachChild(flyObs);

@@ -1,11 +1,10 @@
-package com.github.migi_1.Context.screens;
+package com.github.migi_1.ContextApp.screens;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.input.InputManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.ViewPort;
-
 import de.lessvoid.nifty.Nifty;
 /**
  * The main menu for the pc (server)
@@ -48,12 +47,12 @@ public class MainMenuAndroid {
      * Creates the start screen.
      */
      private void createStartScreen() {
-         nifty.fromXml("com/github/migi_1/Context/screens/main_screen_android.xml", "start", new MainMenuFunctionsAndroid());
+         nifty.fromXml("com/github/migi_1/ContextApp/screens/main_screen_android.xml", "start", new MainMenuFunctionsAndroid());
      }
      /**
       * Creates the host screen.
       */
      private void createJoinScreen() {
-         nifty.addXml("com/github/migi_1/Context/screens/joim_screen_android.xml");
+         nifty.addXml("com/github/migi_1/ContextApp/screens/join_screen_android.xml");
      }
 }

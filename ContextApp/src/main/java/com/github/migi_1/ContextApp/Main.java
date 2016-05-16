@@ -1,6 +1,6 @@
 package com.github.migi_1.ContextApp;
 
-import com.github.migi_1.Context.screens.MainMenuAndroid;
+import com.github.migi_1.ContextApp.screens.MainMenuAndroid;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 

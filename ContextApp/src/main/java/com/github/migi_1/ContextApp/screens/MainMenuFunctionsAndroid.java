@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.screens;
+package com.github.migi_1.ContextApp.screens;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -90,5 +90,6 @@ public class MainMenuFunctionsAndroid extends AbstractAppState implements Screen
      */
     public void quitGame() {
         System.exit(0);
+        //app.stop();
     }
 }

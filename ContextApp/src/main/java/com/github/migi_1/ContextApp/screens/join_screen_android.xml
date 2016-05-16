@@ -3,7 +3,7 @@
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
    
-    <screen id="join" controller="com.github.migi_1.Context.screens.MainMenuFunctionsAndroid">
+    <screen id="join" controller="com.github.migi_1.ContextApp.screens.MainMenuFunctionsAndroid">
         <layer id="background" backgroundColor="#000f" childLayout="center"/>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_mid" height="5%" width="75%" align="center" valign="center" childLayout="center" backgroundColor="#0f08">

@@ -59,12 +59,6 @@
            <artifactId>android</artifactId>
            <version>4.1.1.4</version>
            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xpp3</artifactId>
-                    <groupId>xpp3</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         
         <dependency>

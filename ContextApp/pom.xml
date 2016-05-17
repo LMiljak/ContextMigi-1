@@ -18,7 +18,7 @@
         <!-- use UTF-8 for everything -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<checkstyle.version>2.17</checkstyle.version>
+		<checkstyle.version>6.11.2</checkstyle.version>
     </properties>
 
     <dependencies>

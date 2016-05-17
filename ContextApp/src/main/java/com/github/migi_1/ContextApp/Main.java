@@ -21,8 +21,8 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         menu = new MainMenuAndroid();
-        menu.initMenu(app.getAssetManager(), app.getInputManager(), app.getAudioRenderer(),
-                app.getGuiViewPort());
+        menu.initMenu(getAssetManager(), getInputManager(), getAudioRenderer(),
+                getGuiViewPort());
     }
 
     @Override

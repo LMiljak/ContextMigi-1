@@ -69,14 +69,14 @@ public class MainMenuFunctions implements ScreenController {
     public void toScreen(String scr) {
         nifty.gotoScreen(scr);
     }
-    
+
     /**
      * Activates when the start button is pressed in the host screen.
      * Detaches the menu and attaches the environment to the app.
      */
     public void startGame() {
         main.getStateManager().detach(main.getMainMenu());
-        main.getStateManager().attach(main.getEnv());        
+        main.getStateManager().attach(main.getEnv());
     }
 
     /**

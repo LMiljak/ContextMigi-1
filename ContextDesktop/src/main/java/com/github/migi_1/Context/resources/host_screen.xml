@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+   
+    <screen id="host" controller="com.github.migi_1.Context.screens.MainMenuFunctions">
+        <layer id="background" backgroundColor="#000f" childLayout="center"/>
+        <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
+            <panel id="panel_mid" height="5%" width="75%" align="center" valign="center" childLayout="center" backgroundColor="#0f08">
+                <text id="Lobby" font="Interface/Fonts/Default.fnt" text="Lobby" align="center" valign="center"/>
+            </panel>
+                
+            <control id="txtp1" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0" 
+                height="10%" width="75%" />
+
+            <control id="txtp2" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0"
+                height="10%" width="75%" />
+            
+            <control id="txtp3" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0"
+                height="10%" width="75%" />
+            
+            <control id="txtp4" name="textfield" font="Interface/Fonts/Default.fnt" text="" align="center" valign="center" maxLength="0"
+                height="10%" width="75%" />
+            
+            <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="center" backgroundColor="#00f8">
+                <panel id="panel_bottom_left" height="50%" width="50%" childLayout="center" align="left" valign="center" backgroundColor="#44f8">
+                       <control id="start_game_button" name="button" label="Start the game" height="50%" width="50%"> 
+                            <interact onClick="startGame()"/>
+                       </control>
+                </panel>
+                
+                <panel id="panel_bottom_right" height="50%" width="50%" childLayout="center" align="right" valign="center" backgroundColor="#00f8">
+                        <control id="back_to_main_button" name="button" label="Quit" height="50%" width="50%" >
+                            <interact onClick="toScreen(start)"/> 
+                        </control>
+                </panel>
+               
+            </panel>
+        </layer>
+    </screen>
+</nifty>

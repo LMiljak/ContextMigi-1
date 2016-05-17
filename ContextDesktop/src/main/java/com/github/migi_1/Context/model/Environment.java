@@ -70,7 +70,7 @@ public class Environment extends AbstractAppState {
 
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        this.testWorld = new LinkedList<Spatial>();
+        this.testWorld = new LinkedList();
         assetManager = app.getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new Node("VR");
@@ -146,11 +146,15 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
+        
+        //initialize the given number of level pieces
         while(testWorld.size() < LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
+            
+            //shift orientation to where the next level piece should spawn
             WORLD_LOCATION.x -=2*bb.getXExtent();
         }
 
@@ -263,6 +267,8 @@ public class Environment extends AbstractAppState {
     }
 
     private void updateTestWorld() {
+        
+        //delete level piece when it too far back
         if(testWorld.size() > 0){
              Spatial check = testWorld.peek();
              BoundingBox bb1 = (BoundingBox)check.getWorldBound();
@@ -275,6 +281,7 @@ public class Environment extends AbstractAppState {
              }
         }
 
+        //add level pieces until the number of level pieces is correct
         while(testWorld.size() <LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));

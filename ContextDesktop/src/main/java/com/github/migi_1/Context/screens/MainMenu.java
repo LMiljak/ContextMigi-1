@@ -1,5 +1,9 @@
 package com.github.migi_1.Context.screens;
 
+import com.github.migi_1.Context.Main;
+import com.jme3.app.Application;
+import com.jme3.app.state.AbstractAppState;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioRenderer;
 import com.jme3.input.InputManager;
@@ -11,46 +15,30 @@ import de.lessvoid.nifty.Nifty;
  * The main menu for the pc (server)
  * @author Remi & Nils
  */
-public class MainMenu {
+public class MainMenu extends AbstractAppState{
+
+    private Main app;
 
     /**
      * A private variable to be able to split up the creation of the screen in separate methods.
      */
     private Nifty nifty;
 
-    /**
-     * initializes the main menu and everything it needs to function, is the first screen
-     * that shows.
-     * @param flyCam needed for the cursor in the menu
-     * @param assetManager manages all assets
-     * @param inputManager manages all input of the main menu
-     * @param audioRenderer handles all audio of the main menu
-     * @param guiViewPort port where all visual elements are added to.
-     */
-    public void initMenu(AssetManager assetManager, InputManager inputManager
-            , AudioRenderer audioRenderer, ViewPort guiViewPort) {
-       NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
-               assetManager, inputManager, audioRenderer, guiViewPort);
-       nifty = niftyDisplay.getNifty();
-       guiViewPort.addProcessor(niftyDisplay);
-       //flyCam.setDragToRotate(true);
+    private AssetManager assetManager;
 
-       nifty.loadStyleFile("nifty-default-styles.xml");
-       nifty.loadControlFile("nifty-default-controls.xml");
+    private InputManager inputManager;
 
-       //Create the start menu
-       createStartScreen();
-       //Create the join menu.
-       createHostScreen();
+    private AudioRenderer audioRenderer;
 
-       nifty.gotoScreen("start"); //Go to the start screen.
-    }
+    private ViewPort guiViewPort;
+
+    private MainMenuFunctions mainMenuController;
 
      /**
      * Creates the start screen.
      */
      private void createStartScreen() {
-         nifty.fromXml("com/github/migi_1/Context/screens/main_screen.xml", "start", new MainMenuFunctions());
+         nifty.fromXml("com/github/migi_1/Context/screens/main_screen.xml", "start", new MainMenuFunctions(app));
      }
      /**
       * Creates the host screen.
@@ -58,4 +46,73 @@ public class MainMenu {
      private void createHostScreen() {
          nifty.addXml("com/github/migi_1/Context/screens/host_screen.xml");
      }
+
+    /**
+     * Initializes and sets all attributes that nifty needs in order to function.
+     * Creates the start and host screens.
+     */
+    @Override
+    public void initialize(AppStateManager stateManager, Application app) {
+        super.initialize(stateManager, app);
+        this.app = (Main) app;
+
+        assetManager = app.getAssetManager();
+        inputManager = app.getInputManager();
+        audioRenderer = app.getAudioRenderer();
+        guiViewPort = app.getGuiViewPort();
+
+        mainMenuController = new MainMenuFunctions(this.app);
+
+        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
+                assetManager, inputManager, audioRenderer, guiViewPort);
+        nifty = niftyDisplay.getNifty();
+        guiViewPort.addProcessor(niftyDisplay);
+        //flyCam.setDragToRotate(true);
+
+        nifty.loadStyleFile("nifty-default-styles.xml");
+        nifty.loadControlFile("nifty-default-controls.xml");
+
+        //Create the start menu
+        createStartScreen();
+        //Create the join menu.
+        createHostScreen();
+
+        nifty.gotoScreen("start"); //Go to the start screen.
+
+    }
+
+    /**
+     * Method called when the stateManager detaches this states.
+     * Removes the current screen.
+     */
+    @Override
+    public void cleanup() {
+        super.cleanup();
+        nifty.removeScreen(nifty.getCurrentScreen().getScreenId());
+    }
+
+    ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void setEnabled(boolean arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void update(float arg0) {
+        // TODO Auto-generated method stub
+
+    }
 }

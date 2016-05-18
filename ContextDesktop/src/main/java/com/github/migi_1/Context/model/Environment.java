@@ -149,7 +149,7 @@ public class Environment extends AbstractAppState {
 
         //initialize the given number of level pieces
         while(testWorld.size() < LEVEL_PIECES){
-            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            Spatial levelPiece = chooseLevelPiece(Math.random());
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
@@ -286,7 +286,7 @@ public class Environment extends AbstractAppState {
 
         //add level pieces until the number of level pieces is correct
         while(testWorld.size() <LEVEL_PIECES){
-            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            Spatial levelPiece = chooseLevelPiece(Math.random());
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
@@ -294,6 +294,19 @@ public class Environment extends AbstractAppState {
             rootNode.attachChild(levelPiece);
         }
 
+    }
+
+    /**
+     * Chooses a levelPiece from the randomly generated number rnd
+     * @param rnd
+     */
+    private Spatial chooseLevelPiece(double rnd) {
+        System.out.println("RANDOM VALUE: " + rnd);
+        if(rnd < 0.2) return assetManager.loadModel("Models/testWorld.j3o");
+        else if(rnd < 0.4 && rnd > 0.2) return assetManager.loadModel("Models/testWorld.j3o");
+        else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/testWorld.j3o");
+        else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/testWorld.j3o");
+        else return assetManager.loadModel("Models/testWorld.j3o");
     }
 
 

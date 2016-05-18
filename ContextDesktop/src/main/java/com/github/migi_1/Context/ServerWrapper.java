@@ -1,9 +1,14 @@
 package com.github.migi_1.Context;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
+import com.github.migi_1.ContextMessages.MessageListener;
+import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
+import com.jme3.network.serializing.Serializer;
 
 /**
  * A wrapper class for a com.jme3.network.Server.
@@ -12,7 +17,13 @@ import com.jme3.network.Server;
  */
 public class ServerWrapper {
 	
-	/** The shingleton instance of this class. */
+	/** The message the server should be able to handle. */
+	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES 
+		= Arrays.asList(
+				//Message types here
+				);
+	
+	/** The singleton instance of this class. */
 	private static final ServerWrapper INSTANCE = new ServerWrapper();
 	/** The port on which the server is running. */
 	private static final int PORT = 4321;
@@ -20,11 +31,23 @@ public class ServerWrapper {
 	/** The wrapped server Object. */
 	private Server server;
 	
+	private final List<MessageListener<?>> messageListeners 
+		= Arrays.asList(
+				//Message listeners here
+				);
+	
+	//Every message types is registered by the Serializer in this class initializer.
+	static {
+		for (Class<? extends AbstractMessage> messageType : MESSAGE_TYPES) {
+			Serializer.registerClass(messageType);
+		}
+	}
+	
 	/**
-	 * Gets the instance of this shingleton class.
+	 * Gets the instance of this singleton class.
 	 * 
 	 * @return
-	 * 		The instance of this shingleton class.
+	 * 		The instance of this singleton class.
 	 */
 	public static ServerWrapper getInstance() {
 		return INSTANCE;
@@ -49,10 +72,16 @@ public class ServerWrapper {
 	 * @throws IOException 
 	 * @throws IllegalStateException if the server is already running.
 	 */
+	@SuppressWarnings("unchecked")
 	public void startServer() throws IOException, IllegalStateException {
 		if (server == null) {
 			server = Network.createServer(PORT);
 			server.start();
+			
+			for (MessageListener<?> messageListener : messageListeners) {
+				server.addMessageListener(messageListener);
+			}
+			
 		} else {
 			throw new IllegalStateException("Server is already running");
 		}

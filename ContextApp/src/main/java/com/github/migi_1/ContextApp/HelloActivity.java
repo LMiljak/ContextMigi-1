@@ -16,18 +16,18 @@ import java.util.logging.LogManager;
  * 
  * @author Marcel
  */
-public class HelloActivity extends AndroidHarness implements SensorEventListener{
+public class HelloActivity extends AndroidHarness{
         
         private Main application;
         private SensorManager mSensorManager;
-        
+        private AccelerometerSensor as;
         /**
          * Configure the game instance that is launched and start the logger.
          */
         public HelloActivity(){
         /** Set the application class to run **/
         appClass = "com.github.migi_1.ContextApp.Main";
-        
+        as = new AccelerometerSensor(this);
         /** Start the log manager **/
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
         
@@ -39,9 +39,9 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         @Override  
         protected void onResume(){  
             super.onResume();
-
+            
             /** register the lister for the accelerometer **/
-            mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
+            mSensorManager.registerListener(as, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
         }
          
         /**
@@ -50,7 +50,7 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         @Override  
         protected void onStop(){  
             /** unregister the sensor listener  **/
-            mSensorManager.unregisterListener(this);  
+            mSensorManager.unregisterListener(as);  
             super.onStop();  
         } 
     
@@ -74,34 +74,39 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
          * This method is called when the senser notices a change.
          * @param se 
          */
-        @Override
-        public void onSensorChanged(SensorEvent se) {
-
-            /** check whether the game has already been instantiated **/
-            if (application == null) {
-                return;
-            }
-
-            /** log the sensor values **/
-            Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
-
-            /** this is an example of how you can call a method in the game **/
-            application.enqueue(new Callable() {
-
-                //@Override
-                public Object call() throws Exception {
-                
-                    /** Example of how you can make a call to a method in the game instance **/
-                    application.gyroscopeChange();
-                    return null;
-                }
-             });
-        }
+//        @Override
+//        public void onSensorChanged(SensorEvent se) {
+//
+//            /** check whether the game has already been instantiated **/
+//            if (application == null) {
+//                return;
+//            }
+//
+//            /** log the sensor values **/
+//            Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
+//
+//            /** this is an example of how you can call a method in the game **/
+//            application.enqueue(new Callable() {
+//
+//                //@Override
+//                public Object call() throws Exception {
+//                
+//                    /** Example of how you can make a call to a method in the game instance **/
+//                    application.gyroscopeChange();
+//                    return null;
+//                }
+//             });
+//        }
 
         /** Auto-generated method **/
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
+//        @Override
+//        public void onAccuracyChanged(Sensor sensor, int i) {
+//        }
+//        
+        public Main getMain(){
+            return application;
         }
+        
 
 
 }

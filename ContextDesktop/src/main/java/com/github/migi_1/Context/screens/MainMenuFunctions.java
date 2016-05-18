@@ -12,7 +12,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class MainMenuFunctions implements ScreenController {
 
     private Nifty nifty;
-    private Screen screen;
+//    private Screen screen;
     private Main main;
 
     /**
@@ -30,9 +30,9 @@ public class MainMenuFunctions implements ScreenController {
      * @param tpf float
      */
     public void update(float tpf) {
-        if (screen.getScreenId().equals("host")) {
-            // execute functions to update the lobby screen.
-        }
+//        if (screen.getScreenId().equals("host")) {
+//            // TODO: execute functions to update the lobby screen.
+//        }
     }
 
     /**
@@ -43,7 +43,7 @@ public class MainMenuFunctions implements ScreenController {
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
-        this.screen = screen;
+//        this.screen = screen;
     }
 
     /**

@@ -28,6 +28,9 @@ public class ClientFinder {
 	/** The port to which clients should try and connect. */
 	private static final int PORT = 4269;
 
+	/** The used IP address **/
+	private static final String IP = "0.0.0.0";
+
 	private DatagramSocket socket;
 
 	private boolean running;
@@ -97,7 +100,7 @@ public class ClientFinder {
 	 */
 	private void findClients() {
 		try {
-			socket = new DatagramSocket(PORT, InetAddress.getByName("0.0.0.0"));
+			socket = new DatagramSocket(PORT, InetAddress.getByName(IP));
 			socket.setBroadcast(true);
 
 			while (running) {
@@ -110,7 +113,9 @@ public class ClientFinder {
 				}
 			}
 
-		} catch (IOException e) { }
+		} catch (IOException e) {
+		    System.out.println(e.getStackTrace());
+		}
 
 	}
 

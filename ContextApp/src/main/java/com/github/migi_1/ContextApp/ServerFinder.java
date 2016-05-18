@@ -31,6 +31,8 @@ public class ServerFinder {
 	/** The PORT on which the ClientFinder is running. */
 	private static final int PORT = 4269;
 	
+	private static final String IP = "255.255.255.255";
+	
 	private DatagramSocket socket;
 	
 	private boolean running;
@@ -152,7 +154,7 @@ public class ServerFinder {
 				//Sending the password to the localhost, this shouldn't be required in the final version as the host and client
 				//probably won't be the same (that would require the Android user to be the host, which is weird). However, this
 				//is useful for testing purposes.
-				sendPasswordTo(InetAddress.getByName("255.255.255.255"));
+				sendPasswordTo(InetAddress.getByName(IP));
 				
 				//Sending the password to every address on every network we're connected to.
 				for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
@@ -168,7 +170,9 @@ public class ServerFinder {
 						sendPasswordTo(broadcast);
 					}
 				}
-			} catch (IOException e) { }
+			} catch (IOException e) { 
+			    e.printStackTrace();
+			}
 			
 			try {
 				Thread.sleep(periodMillis); //Wait a bit before sending packages again, we don't want to spam too much.
@@ -190,7 +194,9 @@ public class ServerFinder {
 		try {
 			DatagramPacket packet = new DatagramPacket(password, password.length, address, PORT);
 			socket.send(packet);
-		} catch (Exception e) { }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -211,7 +217,9 @@ public class ServerFinder {
 					InetAddress serverAddress = packet.getAddress();
 					serverDiscoveryHandler.onServerDiscovery(serverAddress);
 				}
-			} catch (IOException e) { }
+			} catch (IOException e) { 
+			    e.printStackTrace();
+			}
 		}
 	}
 	

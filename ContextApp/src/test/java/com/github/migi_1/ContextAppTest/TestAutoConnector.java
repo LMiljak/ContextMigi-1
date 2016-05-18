@@ -27,7 +27,7 @@ public class TestAutoConnector {
      * Initialises the private fields used for the test cases.
      */
     @Before
-    public void setup() {
+    public void setUp() {
         client = Mockito.spy(ClientWrapper.getInstance());
         executorService = Executors.newFixedThreadPool(1);
         autoConnector = PowerMockito.spy(AutoConnector.getInstance()); 

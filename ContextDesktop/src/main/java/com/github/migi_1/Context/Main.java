@@ -210,6 +210,9 @@ public class Main extends VRApplication {
         return environmentState;
     }
 
+    /**
+     * Returns the rootNoe of the
+     */
     @Override
     public Node getRootNode() {
         return rootNode;

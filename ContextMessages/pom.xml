@@ -171,4 +171,74 @@
 		</dependency>
 
 	</dependencies>
+	
+	<build>
+		<resources>
+			<resource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>src/main/resources/</directory>
+				<includes>
+					<include>**/*</include>
+					<include>**/**/*</include>
+					<include>**/**/**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>assets/</directory>
+				<includes>
+					<include>**/*</include>
+					<include>**/**/*</include>
+					<include>**/**/**/*</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.github.migi_1.Context.vr.VRHandler.java</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>Shading</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>false</shadedArtifactAttached>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>

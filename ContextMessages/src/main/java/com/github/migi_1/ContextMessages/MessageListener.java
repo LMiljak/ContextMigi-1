@@ -14,7 +14,7 @@ import com.jme3.network.Message;
  */
 @SuppressWarnings("rawtypes")
 public interface MessageListener<T extends AbstractMessage> extends com.jme3.network.MessageListener {
-
+	
 	/** 
 	 * Called when any message has been received.
 	 * Checks whether the message is the same type of message

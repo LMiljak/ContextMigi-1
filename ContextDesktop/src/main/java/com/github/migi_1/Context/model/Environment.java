@@ -302,12 +302,10 @@ public class Environment extends AbstractAppState {
      */
     private Spatial chooseLevelPiece(double rnd) {
         System.out.println("RANDOM VALUE: " + rnd);
-        if(rnd < 0.2) return assetManager.loadModel("Models/finalWorldTemplate.j3o");
-        else if(rnd < 0.4 && rnd > 0.2) return assetManager.loadModel("Models/finalWorldTemplate.j3o");
-        else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/finalWorldTemplate.j3o");
-        else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/finalWorldTemplate.j3o");
-        else return assetManager.loadModel("Models/finalWorldTemplate.j3o");
+        if(rnd < 0.2) return assetManager.loadModel("Models/templateWithPath.j3o");
+        else if(rnd < 0.4 && rnd > 0.2) return assetManager.loadModel("Models/templateWithPath.j3o");
+        else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/templateWithPath.j3o");
+        else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/templateWithPath.j3o");
+        else return assetManager.loadModel("Models/templateWithPath.j3o");
     }
-
-
 }

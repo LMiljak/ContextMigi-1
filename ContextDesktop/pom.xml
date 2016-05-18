@@ -15,6 +15,7 @@
 		<jme3.version>3.1.0-SNAPSHOT</jme3.version>
 		<checkstyle.version>2.16</checkstyle.version>
 		<pmd.version>3.5</pmd.version>
+		<findbugs.version>3.0.2</findbugs.version>
 	</properties>
 
 	<repositories>
@@ -287,6 +288,26 @@
 				</configuration>
 			</plugin>
 			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${findbugs.version}</version>
+				<executions>
+					<execution>
+						<id>verify-findbugs</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<failOnError>false</failOnError>
+					<includeTests>true</includeTests>
+					<xmlOutput>true</xmlOutput>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 		
 		<pluginManagement>
@@ -318,6 +339,20 @@
 										<groupId>org.apache.maven.plugins</groupId>
 										<artifactId>maven-pmd-plugin</artifactId>
 										<versionRange>[3.5,)</versionRange>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>findbugs-maven-plugin</artifactId>
+										<versionRange>[3.0.2,)</versionRange>
 										<goals>
 											<goal>check</goal>
 										</goals>
@@ -366,6 +401,17 @@
 					<rulesets>
 						<ruleset>pmd-rules.xml</ruleset>
 					</rulesets>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${findbugs.version}</version>
+				<configuration>
+					<failOnViolation>false</failOnViolation>
+					<xmlOutput>true</xmlOutput>
+					<includeTests>true</includeTests>
 				</configuration>
 			</plugin>
 			

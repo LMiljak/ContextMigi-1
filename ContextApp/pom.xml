@@ -21,6 +21,13 @@
     </properties>
 
     <dependencies>
+        
+        <dependency>
+            <groupId>com.github.migi-1</groupId>
+            <artifactId>ContextMessages</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
 	<dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

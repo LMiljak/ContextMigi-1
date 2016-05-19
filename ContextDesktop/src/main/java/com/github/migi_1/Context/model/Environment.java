@@ -10,7 +10,6 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
@@ -23,7 +22,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-import com.jme3.texture.Texture;
 
 import jmevr.app.VRApplication;
 
@@ -41,15 +39,15 @@ public class Environment extends AbstractAppState {
     private Spatial flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
-    private static final Vector3f SUNVECTOR = new Vector3f(-.5f,-.5f,-.5f);
+    private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
     private static final Vector3f SUNVECTOR_2 = new Vector3f(0, -1f, -.2f);
 
     private static final int SHADOWMAP_SIZE = 1024;
     private static final int SHADOW_SPLITS = 3;
 
     private static final Vector3f WORLD_LOCATION = new Vector3f(0, -20, 0);
-    private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -3);
-    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
+    private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1.5f);
+    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private static final float PLATFORM_SPEED = 0.02f;
@@ -149,14 +147,14 @@ public class Environment extends AbstractAppState {
      */
     private void initSpatials() {
         //initialize the given number of level pieces
-        while(testWorld.size() < LEVEL_PIECES){
+        while (testWorld.size() < LEVEL_PIECES) {
             Spatial levelPiece = chooseLevelPiece(Math.random());
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -=2*bb.getXExtent();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent();
         }
 
 
@@ -168,7 +166,7 @@ public class Environment extends AbstractAppState {
         testCommander.move(COMMANDER_LOCATION);
 
         //attach all objects to the root pane
-        for(Spatial sp : testWorld){
+        for (Spatial sp : testWorld) {
             rootNode.attachChild(sp);
         }
 
@@ -192,13 +190,11 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * render the entities
-     * @param rm manager of the renderengine
+     * render the entities.
+     * @param rm manager of the renderengine.
      */
     @Override
-    public void render(RenderManager rm) {
-
-    }
+    public void render(RenderManager rm) { }
 
     /**
      * Move the flycam.
@@ -209,10 +205,10 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * Rotate the flycam
-     * @param x rotation value on the x-axis
-     * @param y rotation value on the y-axis
-     * @param z rotation value on the z-axis
+     * Rotate the flycam.
+     * @param x rotation value on the x-axis.
+     * @param y rotation value on the y-axis.
+     * @param z rotation value on the z-axis.
      */
     public void rotateCam(float x, float y, float z) {
         flyObs.rotate(x, y, z);
@@ -232,10 +228,10 @@ public class Environment extends AbstractAppState {
      * VRCam <-> FlyCam.
      */
     public void swapCamera() {
-        Spatial obs = (Spatial)VRApplication.getObserver();
-        if(obs.getName().equals("VR")) {
+        Spatial obs = (Spatial) VRApplication.getObserver();
+        if (obs.getName().equals("VR")) {
             VRApplication.setObserver(flyObs);
-        } else if(obs.getName().equals("FLY")){
+        } else if (obs.getName().equals("FLY")) {
             VRApplication.setObserver(vrObs);
         }
     }
@@ -251,21 +247,16 @@ public class Environment extends AbstractAppState {
     ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isInitialized() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void setEnabled(boolean arg0) {
-        // TODO Auto-generated method stub
-
-    }
+    public void setEnabled(boolean arg0) { }
 
     /**
      * Updates the test world.
@@ -273,40 +264,45 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        if(testWorld.size() > 0){
+        if (testWorld.size() > 0) {
              Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
-             if(v1.distance(v2) > 100){
+             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
+             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
+             if (v1.distance(v2) > 100) {
                 testWorld.poll();
                 rootNode.detachChild(check);
              }
         }
 
         //add level pieces until the number of level pieces is correct
-        while(testWorld.size() <LEVEL_PIECES){
+        while (testWorld.size() < LEVEL_PIECES) {
             Spatial levelPiece = chooseLevelPiece(Math.random());
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
-            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - bb.getXExtent();
             rootNode.attachChild(levelPiece);
         }
 
     }
 
     /**
-     * Chooses a levelPiece from the randomly generated number rnd
-     * @param rnd
+     * Chooses a levelPiece from the randomly generated number rnd.
+     * @param rnd the random variable created by Math.random() (between 0 and 1).
      */
     private Spatial chooseLevelPiece(double rnd) {
-        System.out.println("RANDOM VALUE: " + rnd);
-        if(rnd < 0.2) return assetManager.loadModel("Models/w2.j3o");
-        else if(rnd < 0.4 && rnd > 0.2) return assetManager.loadModel("Models/w2.j3o");
-        else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/w2.j3o");
-        else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/w2.j3o");
-        else return assetManager.loadModel("Models/w2.j3o");
+        if (rnd < 0.2) {
+            return assetManager.loadModel("Models/world1.j3o");
+        } else if (rnd < 0.4 && rnd > 0.2) {
+            return assetManager.loadModel("Models/world2.j3o");
+        } else if (rnd < 0.6 && rnd > 0.4) {
+            return assetManager.loadModel("Models/world3.j3o");
+        } else if (rnd < 0.8 && rnd > 0.6) {
+            return assetManager.loadModel("Models/world4.j3o");
+        } else {
+            return assetManager.loadModel("Models/world5.j3o");
+        }
     }
 }

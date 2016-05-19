@@ -262,12 +262,8 @@ public class Main extends VRApplication {
     }
 
     /**
-<<<<<<< HEAD
      * @return
      * 		The root node.
-=======
-     * Returns the rootNode.
->>>>>>> refs/remotes/origin/master
      */
     @Override
     public Node getRootNode() {

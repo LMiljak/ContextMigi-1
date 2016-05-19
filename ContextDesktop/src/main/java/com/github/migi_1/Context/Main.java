@@ -140,13 +140,21 @@ public class Main extends VRApplication {
                          default: //Do nothing when an unknown button is pressed.
                      }
                  }
+                 if(keyPressed){
+                        if(name.equals("steer_left")){
+                        environmentState.steer(-1.f);
+                    }
+                    if(name.equals("steer_right")){
+                        environmentState.steer(1.f);
+                    }
+                 }
+                 if(!(keyPressed)){
+                        if(name.equals("steer_left") || name.equals("steer_right")){
+                        environmentState.steer(0.f);
+                    }
+                    
+                 }
                  
-                 if(name.equals("steer_left")){
-                     environmentState.steer(true);
-                 }
-                 if(name.equals("steer_right")){
-                     environmentState.steer(false);
-                 }
                  
              }
 

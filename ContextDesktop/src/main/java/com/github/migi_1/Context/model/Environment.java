@@ -50,7 +50,7 @@ public class Environment extends AbstractAppState {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float PLATFORM_SPEED = 0.02f;
+    private static final float PLATFORM_SPEED = 0.2f;
 
     private static final int LEVEL_PIECES = 5;
 
@@ -61,6 +61,8 @@ public class Environment extends AbstractAppState {
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
+    private float steering;
+    
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -76,7 +78,8 @@ public class Environment extends AbstractAppState {
         vrObs = new Node("VR");
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
-
+        steering = 0.f;
+        
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -101,8 +104,11 @@ public class Environment extends AbstractAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        testPlatform.move(-PLATFORM_SPEED, 0, 0);
-        testCommander.move(-PLATFORM_SPEED, 0, 0);
+        float zAxis = (float) (steering*(Math.sqrt(2.f)/2.f));
+        float xAxis = (float) Math.sqrt(1-Math.pow(zAxis,2));
+        
+        testPlatform.move(-PLATFORM_SPEED*xAxis, 0, -PLATFORM_SPEED*zAxis);
+        testCommander.move(-PLATFORM_SPEED*xAxis, 0, -PLATFORM_SPEED*zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
     }
@@ -238,35 +244,8 @@ public class Environment extends AbstractAppState {
             VRApplication.setObserver(vrObs);
         }
     }
-
-    /**
-     * Handles everything that happens when the Envrironment state is detached from the main application.
-     */
-    @Override
-    public void cleanup() {
-        super.cleanup();
-    }
-
-    ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isInitialized() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public void setEnabled(boolean arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
+    
+        /**
      * Updates the test world.
      */
     private void updateTestWorld() {
@@ -296,13 +275,41 @@ public class Environment extends AbstractAppState {
 
     }
 
-    public void steer(boolean left){
-        float z= 1.f;
-        if(!(left)){
-            z = -1.f;
-        }
-        testCommander.move(new Vector3f(0.f,0.f,z));
-        testPlatform.move(new Vector3f(0.f,0.f,z));
+    /**
+     * Update the steering direction.
+     * @param orientation 
+     */
+    public void steer(float orientation){
+        steering = orientation;
     }
+
+
+    /**
+     * Handles everything that happens when the Envrironment state is detached from the main application.
+     */
+    @Override
+    public void cleanup() {
+        super.cleanup();
+    }
+
+    ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void setEnabled(boolean arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
 
 }

@@ -70,39 +70,6 @@ public class HelloActivity extends AndroidHarness{
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
         }
 
-        /**
-         * This method is called when the senser notices a change.
-         * @param se 
-         */
-//        @Override
-//        public void onSensorChanged(SensorEvent se) {
-//
-//            /** check whether the game has already been instantiated **/
-//            if (application == null) {
-//                return;
-//            }
-//
-//            /** log the sensor values **/
-//            Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
-//
-//            /** this is an example of how you can call a method in the game **/
-//            application.enqueue(new Callable() {
-//
-//                //@Override
-//                public Object call() throws Exception {
-//                
-//                    /** Example of how you can make a call to a method in the game instance **/
-//                    application.gyroscopeChange();
-//                    return null;
-//                }
-//             });
-//        }
-
-        /** Auto-generated method **/
-//        @Override
-//        public void onAccuracyChanged(Sensor sensor, int i) {
-//        }
-//        
         public Main getMain(){
             return application;
         }

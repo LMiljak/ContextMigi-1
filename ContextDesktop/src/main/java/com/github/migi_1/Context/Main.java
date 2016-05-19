@@ -30,7 +30,7 @@ public class Main extends VRApplication {
     /**
      * Movements of the flycam.
      */
-    private boolean forwards, back, left, right, up, down;
+    private boolean forwards, back, left, right, up, down, steer_left, steer_right;
 
     /**
      * main function of the appication, sets some meta-parameters of the application
@@ -140,6 +140,14 @@ public class Main extends VRApplication {
                          default: //Do nothing when an unknown button is pressed.
                      }
                  }
+                 
+                 if(name.equals("steer_left")){
+                     
+                 }
+                 if(name.equals("steer_right")){
+                     
+                 }
+                 
              }
 
          };
@@ -175,6 +183,8 @@ public class Main extends VRApplication {
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_LSHIFT));
+        inputManager.addMapping("steer_left", new KeyTrigger(KeyInput.KEY_LEFT));
+        inputManager.addMapping("steer_right", new KeyTrigger(KeyInput.KEY_RIGHT));
     }
 
     /**
@@ -191,6 +201,8 @@ public class Main extends VRApplication {
         inputManager.addListener(acl, "right");
         inputManager.addListener(acl, "up");
         inputManager.addListener(acl, "down");
+        inputManager.addListener(acl, "steer_left");
+        inputManager.addListener(acl, "steer_right");
     }
 
 

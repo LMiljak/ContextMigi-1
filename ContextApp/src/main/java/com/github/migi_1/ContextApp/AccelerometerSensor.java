@@ -9,7 +9,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
-import java.util.concurrent.Callable;
+import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.jme3.network.Client;
 
 /**
  *
@@ -25,27 +26,41 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
     
     @Override
     public void onSensorChanged(SensorEvent se) {
-        /** check whether the game has already been instantiated **/
+            // check whether the game has already been instantiated
             if (act.getMain() == null) {
                 return;
             }
 
-            /** log the sensor values **/
-            Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
+            float x_force = se.values[0];
+            float y_force = se.values[1];
+            float z_force = se.values[2];
+            
+            // log the sensor values
+            Log.d("main", x_force + " " + y_force + " " + z_force);
 
-            /** this is an example of how you can call a method in the game **/
-            act.getMain().enqueue(new Callable() {
-
-                //@Override
-                public Object call() throws Exception {
-                
-                    /** Example of how you can make a call to a method in the game instance **/
-                    act.getMain().gyroscopeChange();
-                    return null;
-                }
-             });
+            //Sending the information to the Server.
+            sendSensorInformation(x_force, y_force, z_force);
     }
 
+    /**
+     * Sends information about the accelerometer to the Server.
+     * 
+     * @param x_force
+     *      Acceleration force along the x axis (including gravity).
+     * @param y_force
+     *      Acceleration force along the y axis (including gravity).
+     * @param z_force
+     *      Acceleration force along the z axis (including gravity).
+     */
+    private void sendSensorInformation(float x_force, float y_force, float z_force) {
+        AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
+        
+        Client client = ClientWrapper.getInstance().getClient();
+        if (client != null) {
+            client.send(message);
+        }
+    }
+    
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }

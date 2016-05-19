@@ -30,7 +30,7 @@ public class TestServerWrapper {
 	 *   8. Asserts that getServer returns null.
 	 *   9. Asserts that calling the closeServer method again gives an Exception.
 	 *
-	 * @throws IOException
+	 * @throws IOException 
 	 */
 	@Test
 	public void testServerWrapper() throws IOException {
@@ -119,8 +119,8 @@ public class TestServerWrapper {
 	/**
 	 * Asserts that getPort returns the same port on which the
 	 * the server should be running.
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 */
 	@Test
 	public void testGetPort() throws IllegalArgumentException, IllegalAccessException {

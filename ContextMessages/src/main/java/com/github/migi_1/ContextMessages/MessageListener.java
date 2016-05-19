@@ -13,7 +13,8 @@ import com.jme3.network.Message;
  * 		The message type this class should handle.
  */
 @SuppressWarnings("rawtypes")
-public interface MessageListener<T extends AbstractMessage> extends com.jme3.network.MessageListener {
+public abstract class MessageListener<T extends AbstractMessage> 
+		implements com.jme3.network.MessageListener {
 	
 	/** 
 	 * Called when any message has been received.
@@ -28,7 +29,7 @@ public interface MessageListener<T extends AbstractMessage> extends com.jme3.net
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	default void messageReceived(Object source, Message message) {
+	public void messageReceived(Object source, Message message) {
 		if (message.getClass().equals(getMessageClass())) {
 			messageReceived(source, (T) message);
 		}
@@ -43,7 +44,7 @@ public interface MessageListener<T extends AbstractMessage> extends com.jme3.net
 	 * @param message
 	 * 		The message sent.
 	 */
-	void messageReceived(Object source, T message);
+	public abstract void messageReceived(Object source, T message);
 	
 	/**
 	 * Should return the Class of the messages that this MessageListener
@@ -58,5 +59,5 @@ public interface MessageListener<T extends AbstractMessage> extends com.jme3.net
 	 * 		The class of the messages that this MessageListener should
 	 * 		handle.
 	 */
-	Class<T> getMessageClass();
+	public abstract Class<T> getMessageClass();
 }

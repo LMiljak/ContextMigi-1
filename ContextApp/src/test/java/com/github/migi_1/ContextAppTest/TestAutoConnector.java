@@ -36,6 +36,8 @@ public class TestAutoConnector {
     /**
      * Asserts that the ServerDicoveryHandler that the private getConncetor
      * method returns, attempts to connect to a found server.
+     * 
+     * @throws Exception  
      */
     @Test
     public void testGetConnector() throws Exception {
@@ -52,6 +54,8 @@ public class TestAutoConnector {
     
     /**
      * Tests the autoStart method.
+     * 
+     * @throws Exception  
      */
     @Test
     public void testAutoStart() throws Exception {

@@ -296,5 +296,13 @@ public class Environment extends AbstractAppState {
 
     }
 
+    public void steer(boolean left){
+        float z= 1.f;
+        if(!(left)){
+            z = -1.f;
+        }
+        testCommander.move(new Vector3f(0.f,0.f,z));
+        testPlatform.move(new Vector3f(0.f,0.f,z));
+    }
 
 }

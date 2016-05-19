@@ -142,10 +142,10 @@ public class Main extends VRApplication {
                  }
                  
                  if(name.equals("steer_left")){
-                     
+                     environmentState.steer(true);
                  }
                  if(name.equals("steer_right")){
-                     
+                     environmentState.steer(false);
                  }
                  
              }

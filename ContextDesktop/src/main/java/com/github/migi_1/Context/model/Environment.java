@@ -274,7 +274,7 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        if (testWorld.size() > 0){
+        if (testWorld.size() > 0) {
              Spatial check = testWorld.peek();
              BoundingBox bb1 = (BoundingBox) check.getWorldBound();
              BoundingBox bb2 = (BoundingBox) testCommander.getWorldBound();

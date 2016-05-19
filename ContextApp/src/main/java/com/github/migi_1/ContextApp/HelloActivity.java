@@ -1,13 +1,9 @@
 package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import com.jme3.app.AndroidHarness;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -70,6 +66,12 @@ public class HelloActivity extends AndroidHarness{
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
         }
 
+        /**
+         * Gets the instance of this Application.
+         * 
+         * @return
+         *      The instance of this Application.
+         */
         public Main getMain(){
             return application;
         }

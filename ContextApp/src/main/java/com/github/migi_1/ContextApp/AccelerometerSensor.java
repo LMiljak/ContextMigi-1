@@ -12,14 +12,19 @@ import android.util.Log;
 import java.util.concurrent.Callable;
 
 /**
- *
- * @author Marcel
+ * Sensor that receives information about the accelerometer of the Android device.
  */
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
     private HelloActivity act;
     
-    public AccelerometerSensor(HelloActivity act){
+    /**
+     * Constructor for AccelerometerSensor.
+     * 
+     * @param act
+     *      The main activity from which is was created.
+     */
+    public AccelerometerSensor(HelloActivity act) {
         this.act = act;
     }
     
@@ -31,7 +36,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             }
 
             /** log the sensor values **/
-            Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
+            Log.d("main", se.values[0] + " " + se.values[1] + " " + se.values[2]);
 
             /** this is an example of how you can call a method in the game **/
             act.getMain().enqueue(new Callable() {

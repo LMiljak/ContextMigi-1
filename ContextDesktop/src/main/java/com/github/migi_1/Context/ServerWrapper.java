@@ -67,7 +67,6 @@ public class ServerWrapper {
 	 * @throws IOException 
 	 * @throws IllegalStateException if the server is already running.
 	 */
-	@SuppressWarnings("unchecked")
 	public void startServer() throws IOException, IllegalStateException {
 		if (server == null) {
 			server = Network.createServer(PORT);

@@ -17,8 +17,8 @@ public class MainMenuFunctions implements ScreenController {
 
     /**
      * This function initializes MainMenuFunctions and sets app.
-     * @param stateManager AppStateManager
-     * @param app Application
+     * @param main
+     * 		The main instance.
      */
     public MainMenuFunctions(Main main) {
         this.main = main;
@@ -80,7 +80,7 @@ public class MainMenuFunctions implements ScreenController {
     }
 
     /**
-     * This function quits the game
+     * Quits the game.
      * @NOTE For now this exits the game using a System.exit(0),
      * @NOTE in the end app.stop() will probably be a bit nicer (but it is not possible to do so yet).
      */

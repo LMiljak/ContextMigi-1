@@ -17,7 +17,7 @@ public class TestMessageListener {
 	/** Message class used for testing. This message class is being handled.*/
 	private class TestMessage1 extends AbstractMessage { }
 	/** Message class used for testing. This message class isn't being handled. */
-	private class TestMessage2 extends AbstractMessage { }
+	private static class TestMessage2 extends AbstractMessage { }
 	
 	private MessageListener<TestMessage1> listener;
 	

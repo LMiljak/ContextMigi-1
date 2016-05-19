@@ -31,11 +31,6 @@ public class ServerWrapper {
 	/** The wrapped server Object. */
 	private Server server;
 	
-	private final List<MessageListener<?>> messageListeners 
-		= Arrays.asList(
-				//Message listeners here
-				);
-	
 	//Every message types is registered by the Serializer in this class initializer.
 	static {
 		for (Class<? extends AbstractMessage> messageType : MESSAGE_TYPES) {
@@ -77,10 +72,6 @@ public class ServerWrapper {
 		if (server == null) {
 			server = Network.createServer(PORT);
 			server.start();
-			
-			for (MessageListener<?> messageListener : messageListeners) {
-				server.addMessageListener(messageListener);
-			}
 			
 		} else {
 			throw new IllegalStateException("Server is already running");

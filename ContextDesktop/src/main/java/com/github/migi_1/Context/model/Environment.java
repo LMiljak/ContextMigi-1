@@ -10,6 +10,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
@@ -22,6 +23,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import com.jme3.texture.Texture;
 
 import jmevr.app.VRApplication;
 
@@ -146,7 +148,6 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
         //initialize the given number of level pieces
         while(testWorld.size() < LEVEL_PIECES){
             Spatial levelPiece = chooseLevelPiece(Math.random());
@@ -302,10 +303,11 @@ public class Environment extends AbstractAppState {
      */
     private Spatial chooseLevelPiece(double rnd) {
         System.out.println("RANDOM VALUE: " + rnd);
-        if(rnd < 0.2) return assetManager.loadModel("Models/templateWithPath.j3o");
-        else if(rnd < 0.4 && rnd > 0.2) return assetManager.loadModel("Models/templateWithPath.j3o");
-        else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/templateWithPath.j3o");
-        else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/templateWithPath.j3o");
-        else return assetManager.loadModel("Models/templateWithPath.j3o");
+        if(rnd < 0.2) return assetManager.loadModel("Models/w2.j3o");
+        else if(rnd < 0.4 && rnd > 0.2) return assetManager.loadModel("Models/w2.j3o");
+        else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/w2.j3o");
+        else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/w2.j3o");
+        else return assetManager.loadModel("Models/w2.j3o");
+        
     }
 }

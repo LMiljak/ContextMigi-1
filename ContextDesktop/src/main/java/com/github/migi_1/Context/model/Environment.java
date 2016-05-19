@@ -50,10 +50,12 @@ public class Environment extends AbstractAppState {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float PLATFORM_SPEED = 0.02f;
+    private static final float PLATFORM_SPEED = 0.2f;
 
     private static final int LEVEL_PIECES = 5;
 
+    private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
+    
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
@@ -61,6 +63,8 @@ public class Environment extends AbstractAppState {
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
+    private float steering;
+    
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -76,7 +80,8 @@ public class Environment extends AbstractAppState {
         vrObs = new Node("VR");
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
-
+        steering = 0.f;
+        
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -101,8 +106,11 @@ public class Environment extends AbstractAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        testPlatform.move(-PLATFORM_SPEED, 0, 0);
-        testCommander.move(-PLATFORM_SPEED, 0, 0);
+        float zAxis = steering * STEERING_ANGLE;
+        float xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+        
+        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
+        testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
     }
@@ -240,6 +248,45 @@ public class Environment extends AbstractAppState {
             VRApplication.setObserver(vrObs);
         }
     }
+    
+    /**
+     * Updates the test world.
+     */
+    private void updateTestWorld() {
+
+        //delete level piece when it too far back
+        if(testWorld.size() > 0){
+             Spatial check = testWorld.peek();
+             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
+             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
+             if(v1.distance(v2) > 100) {
+                testWorld.poll();
+                rootNode.detachChild(check);
+             }
+        }
+
+        //add level pieces until the number of level pieces is correct
+        while (testWorld.size() < LEVEL_PIECES) {
+            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
+            testWorld.add(levelPiece);
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - bb.getXExtent();
+            rootNode.attachChild(levelPiece);
+        }
+
+    }
+
+    /**
+     * Update the steering direction.
+     * @param orientation This translates to the steering ange.
+     */
+    public void steer(float orientation) {
+        steering = orientation;
+    }
+
 
     /**
      * Handles everything that happens when the Envrironment state is detached from the main application.
@@ -267,36 +314,5 @@ public class Environment extends AbstractAppState {
         // TODO Auto-generated method stub
 
     }
-
-    /**
-     * Updates the test world.
-     */
-    private void updateTestWorld() {
-
-        //delete level piece when it too far back
-        if (testWorld.size() > 0) {
-             Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox) testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
-             if (v1.distance(v2) > 100) {
-                testWorld.poll();
-                rootNode.detachChild(check);
-             }
-        }
-
-        //add level pieces until the number of level pieces is correct
-        while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
-            testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - bb.getXExtent();
-            rootNode.attachChild(levelPiece);
-        }
-
-    }
-
 
 }

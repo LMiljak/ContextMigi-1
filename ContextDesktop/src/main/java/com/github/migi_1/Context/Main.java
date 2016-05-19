@@ -156,14 +156,38 @@ public class Main extends VRApplication {
                          default: //Do nothing when an unknown button is pressed.
                      }
                  }
+                 checkSteering(name, keyPressed);
+                 
              }
 
          };
          addListeners(inputManager, acl);
     }
 
+     /**
+      * Key binding for steering.
+      * left: move left
+      * right: move right
+      * @param name Name of key action.
+      * @param keyPressed True when pressed, false when released.
+      */
+     private void checkSteering(String name, boolean keyPressed) {
+         if (keyPressed) {
+             if (name.equals("steer_left")) {
+                 environmentState.steer(-1.f);
+             }
+            if (name.equals("steer_right")) {
+                environmentState.steer(1.f);
+            }
+        }
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
+            environmentState.steer(0.f);
+        }         
+     }
+     
     /**
      * Configures the VR.
+     * Method to configure the vr.
      * called in the {@link simpleInitApp()} method;
      */
     private void configureVR() {
@@ -198,6 +222,8 @@ public class Main extends VRApplication {
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_LSHIFT));
+        inputManager.addMapping("steer_left", new KeyTrigger(KeyInput.KEY_LEFT));
+        inputManager.addMapping("steer_right", new KeyTrigger(KeyInput.KEY_RIGHT));
     }
 
     /**
@@ -214,6 +240,8 @@ public class Main extends VRApplication {
         inputManager.addListener(acl, "right");
         inputManager.addListener(acl, "up");
         inputManager.addListener(acl, "down");
+        inputManager.addListener(acl, "steer_left");
+        inputManager.addListener(acl, "steer_right");
     }
 
 
@@ -234,8 +262,12 @@ public class Main extends VRApplication {
     }
 
     /**
+<<<<<<< HEAD
      * @return
      * 		The root node.
+=======
+     * Returns the rootNode.
+>>>>>>> refs/remotes/origin/master
      */
     @Override
     public Node getRootNode() {

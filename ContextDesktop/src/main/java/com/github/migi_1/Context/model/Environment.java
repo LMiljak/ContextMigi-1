@@ -9,6 +9,9 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.collision.Collidable;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -50,7 +53,7 @@ public class Environment extends AbstractAppState {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float PLATFORM_SPEED = 0.02f;
+    private static final float PLATFORM_SPEED = 2.0f;
 
     private static final int LEVEL_PIECES = 5;
 
@@ -105,6 +108,18 @@ public class Environment extends AbstractAppState {
         testCommander.move(-PLATFORM_SPEED, 0, 0);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
+        // Calculate detection results
+        CollisionResults results = new CollisionResults();
+        Collidable a = testCommander;
+        Collidable b = getCurrentLevelPiece().getWorldBound();
+        a.collideWith(b, results);
+        System.out.println("Number of Collisions: " + results.size());
+        // Use the results
+        if (results.size() > 0) {
+          // how to react when a collision was detected
+          CollisionResult closest  = results.getClosestCollision();
+          System.out.println("Where was it hit? " + closest.getContactPoint() );
+        }
     }
 
     /**
@@ -150,14 +165,13 @@ public class Environment extends AbstractAppState {
         //initialize the given number of level pieces
         while(testWorld.size() < LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
             WORLD_LOCATION.x -=2*bb.getXExtent();
         }
-
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
@@ -270,7 +284,6 @@ public class Environment extends AbstractAppState {
      * Updates the test world.
      */
     private void updateTestWorld() {
-
         //delete level piece when it too far back
         if(testWorld.size() > 0){
              Spatial check = testWorld.peek();
@@ -287,14 +300,29 @@ public class Environment extends AbstractAppState {
         //add level pieces until the number of level pieces is correct
         while(testWorld.size() <LEVEL_PIECES){
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
             WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
             rootNode.attachChild(levelPiece);
         }
-
     }
 
+    /**
+     * Returns the levelPiece the player is in.
+     * @return the levelPiece the player is in, null if something goes wrong.
+     */
+    private Spatial getCurrentLevelPiece() {
+        LinkedList<Spatial> worldPieces = (LinkedList<Spatial>) testWorld.clone();
+        Vector3f playerLoc = testCommander.getLocalTranslation();
+        Spatial worldPiece= worldPieces.pop();
+        while (! worldPieces.isEmpty()) {
+            if(Math.abs(worldPiece.getLocalTranslation().x - playerLoc.x) < 20) {
+                break;
+            }
+            worldPiece = worldPieces.pop();
+        }
 
+        return worldPiece;
+    }
 }

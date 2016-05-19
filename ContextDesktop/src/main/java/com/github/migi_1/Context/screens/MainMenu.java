@@ -12,10 +12,10 @@ import com.jme3.renderer.ViewPort;
 
 import de.lessvoid.nifty.Nifty;
 /**
- * The main menu for the pc (server)
+ * The main menu for the pc (server).
  * @author Remi & Nils
  */
-public class MainMenu extends AbstractAppState{
+public class MainMenu extends AbstractAppState {
 
     private Main app;
 

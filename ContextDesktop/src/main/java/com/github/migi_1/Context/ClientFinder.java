@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
  * http://michieldemey.be/blog/network-discovery-using-udp-broadcast/
  * This code is highly based on that tutorial.
  *
- * SHINGLETON class.
+ * SINGLETON class.
  */
 public final class ClientFinder {
 

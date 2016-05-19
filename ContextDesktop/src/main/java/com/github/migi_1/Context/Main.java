@@ -140,18 +140,7 @@ public class Main extends VRApplication {
                          default: //Do nothing when an unknown button is pressed.
                      }
                  }
-                 if (keyPressed) {
-                        if (name.equals("steer_left")) {
-                        environmentState.steer(-1.f);
-                    }
-                    if (name.equals("steer_right")) {
-                        environmentState.steer(1.f);
-                    }
-                 }
-                 if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
-                        environmentState.steer(0.f);
-                 }
-                 
+                 checkSteering(name, keyPressed);
                  
              }
 
@@ -159,8 +148,28 @@ public class Main extends VRApplication {
          addListeners(inputManager, acl);
     }
 
+     /**
+      * Key binding for steering.
+      * left: move left
+      * right: move right
+      * @param name Name of key action.
+      * @param keyPressed True when pressed, false when released.
+      */
+     private void checkSteering(String name, boolean keyPressed) {
+         if (keyPressed) {
+             if (name.equals("steer_left")) {
+                 environmentState.steer(-1.f);
+             }
+            if (name.equals("steer_right")) {
+                environmentState.steer(1.f);
+            }
+        }
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
+            environmentState.steer(0.f);
+        }         
+     }
     /**
-     * Method to configure the vr
+     * Method to configure the vr.
      * called in the {@link simpleInitApp()} method;
      */
     private void configureVR() {

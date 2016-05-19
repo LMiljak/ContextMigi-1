@@ -54,6 +54,8 @@ public class Environment extends AbstractAppState {
 
     private static final int LEVEL_PIECES = 5;
 
+    private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
+    
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
@@ -104,7 +106,7 @@ public class Environment extends AbstractAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        float zAxis = (float) (steering * (Math.sqrt(2.f) / 2.f));
+        float zAxis = steering * STEERING_ANGLE;
         float xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         
         testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);

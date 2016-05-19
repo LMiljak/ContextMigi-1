@@ -308,6 +308,5 @@ public class Environment extends AbstractAppState {
         else if(rnd < 0.6 && rnd > 0.4) return assetManager.loadModel("Models/w2.j3o");
         else if(rnd < 0.8 && rnd > 0.6) return assetManager.loadModel("Models/w2.j3o");
         else return assetManager.loadModel("Models/w2.j3o");
-        
     }
 }

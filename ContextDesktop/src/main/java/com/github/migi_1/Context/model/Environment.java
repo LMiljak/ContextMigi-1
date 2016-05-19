@@ -39,7 +39,7 @@ public class Environment extends AbstractAppState {
     private Spatial flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
-    private static final Vector3f SUNVECTOR = new Vector3f(-.5f,-.5f,-.5f);
+    private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
     private static final Vector3f SUNVECTOR_2 = new Vector3f(0, -1f, -.2f);
 
     private static final int SHADOWMAP_SIZE = 1024;
@@ -129,12 +129,14 @@ public class Environment extends AbstractAppState {
      * Initializes all shadows of the scene.
      */
     private void initShadows() {
-        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+        DirectionalLightShadowRenderer dlsr = 
+        		new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsr.setLight(sun);
         viewPort.addProcessor(dlsr);
 
         //adds shadow filter and attaches it to the viewport
-        DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+        DirectionalLightShadowFilter dlsf = 
+        		new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
@@ -148,14 +150,14 @@ public class Environment extends AbstractAppState {
     private void initSpatials() {
 
         //initialize the given number of level pieces
-        while(testWorld.size() < LEVEL_PIECES){
+        while (testWorld.size() < LEVEL_PIECES) {
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x + 0.2f));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -=2*bb.getXExtent();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent();
         }
 
 
@@ -167,7 +169,7 @@ public class Environment extends AbstractAppState {
         testCommander.move(COMMANDER_LOCATION);
 
         //attach all objects to the root pane
-        for(Spatial sp : testWorld){
+        for (Spatial sp : testWorld) {
             rootNode.attachChild(sp);
         }
 
@@ -191,7 +193,7 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * render the entities
+     * Renders the entities.
      * @param rm manager of the renderengine
      */
     @Override
@@ -200,7 +202,7 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * Move the flycam.
+     * Moves the flycam.
      * @param move a vector representation of the movement of the flyCamera.
      */
     public void moveCam(Vector3f move) {
@@ -208,7 +210,7 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * Rotate the flycam
+     * Rotates the flycam.
      * @param x rotation value on the x-axis
      * @param y rotation value on the y-axis
      * @param z rotation value on the z-axis
@@ -231,10 +233,10 @@ public class Environment extends AbstractAppState {
      * VRCam <-> FlyCam.
      */
     public void swapCamera() {
-        Spatial obs = (Spatial)VRApplication.getObserver();
-        if(obs.getName().equals("VR")) {
+        Spatial obs = (Spatial) VRApplication.getObserver();
+        if (obs.getName().equals("VR")) {
             VRApplication.setObserver(flyObs);
-        } else if(obs.getName().equals("FLY")){
+        } else if (obs.getName().equals("FLY")) {
             VRApplication.setObserver(vrObs);
         }
     }
@@ -272,25 +274,25 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        if(testWorld.size() > 0){
+        if (testWorld.size() > 0){
              Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
-             if(v1.distance(v2) > 100){
+             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox) testCommander.getWorldBound();
+             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
+             if (v1.distance(v2) > 100) {
                 testWorld.poll();
                 rootNode.detachChild(check);
              }
         }
 
         //add level pieces until the number of level pieces is correct
-        while(testWorld.size() <LEVEL_PIECES){
+        while (testWorld.size() < LEVEL_PIECES) {
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
-            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - bb.getXExtent();
             rootNode.attachChild(levelPiece);
         }
 

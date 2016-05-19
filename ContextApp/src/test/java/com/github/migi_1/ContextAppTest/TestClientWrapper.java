@@ -102,7 +102,7 @@ public class TestClientWrapper {
                 //Waiting for the client to connect. If it fails to do so
                 //within the timeout, the test fails
                 boolean isConnected = true;
-		while (isConnected) {
+		while (!isConnected) {
                     isConnected = client.getClient().isConnected();
                 }
 		assertTrue(server.hasConnections());

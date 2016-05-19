@@ -10,7 +10,7 @@ import com.jme3.network.Server;
  * 
  * SINGLETON class.
  */
-public final class ServerWrapper {
+public class ServerWrapper {
 	
 	/** The shingleton instance of this class. */
 	private static final ServerWrapper INSTANCE = new ServerWrapper();

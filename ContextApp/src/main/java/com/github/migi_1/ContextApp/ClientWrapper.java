@@ -10,7 +10,7 @@ import com.jme3.network.Network;
  * 
  * SINGLETON class.
  */
-public final class ClientWrapper {
+public class ClientWrapper {
 	
 	/** The shingleton instance of this class. */
 	private static final ClientWrapper INSTANCE = new ClientWrapper();

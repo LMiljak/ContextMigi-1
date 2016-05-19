@@ -104,11 +104,11 @@ public class Environment extends AbstractAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        float zAxis = (float) (steering*(Math.sqrt(2.f)/2.f));
-        float xAxis = (float) Math.sqrt(1-Math.pow(zAxis,2));
+        float zAxis = (float) (steering * (Math.sqrt(2.f) / 2.f));
+        float xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         
-        testPlatform.move(-PLATFORM_SPEED*xAxis, 0, -PLATFORM_SPEED*zAxis);
-        testCommander.move(-PLATFORM_SPEED*xAxis, 0, -PLATFORM_SPEED*zAxis);
+        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
+        testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
     }
@@ -257,19 +257,19 @@ public class Environment extends AbstractAppState {
              BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
              Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
              Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
-             if(v1.distance(v2) > 100){
+             if(v1.distance(v2) > 100) {
                 testWorld.poll();
                 rootNode.detachChild(check);
              }
         }
 
         //add level pieces until the number of level pieces is correct
-        while(testWorld.size() <LEVEL_PIECES){
+        while (testWorld.size() < LEVEL_PIECES) {
             Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()+0.2f));
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
-            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - bb.getXExtent();
             rootNode.attachChild(levelPiece);
         }
 
@@ -277,9 +277,9 @@ public class Environment extends AbstractAppState {
 
     /**
      * Update the steering direction.
-     * @param orientation 
+     * @param orientation This translates to the steering ange.
      */
-    public void steer(float orientation){
+    public void steer(float orientation) {
         steering = orientation;
     }
 

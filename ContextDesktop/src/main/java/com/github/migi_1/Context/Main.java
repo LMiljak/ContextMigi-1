@@ -30,7 +30,7 @@ public class Main extends VRApplication {
     /**
      * Movements of the flycam.
      */
-    private boolean forwards, back, left, right, up, down, steer_left, steer_right;
+    private boolean forwards, back, left, right, up, down;
 
     /**
      * main function of the appication, sets some meta-parameters of the application
@@ -69,7 +69,7 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        if (getStateManager().hasState(environmentState)){
+        if (getStateManager().hasState(environmentState)) {
             getStateManager().getState(Environment.class).update(tpf);
         }
         if(forwards) environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf*8f));
@@ -110,14 +110,14 @@ public class Main extends VRApplication {
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
                  System.out.println(environmentState.getCamera().toString());
-                 if(name.equals("exit") && keyPressed) {
+                 if (name.equals("exit") && keyPressed) {
                      System.exit(0);
-                 } else if(name.equals("cam_switch") && keyPressed) {
+                 } else if (name.equals("cam_switch") && keyPressed) {
                      environmentState.swapCamera();
                  }
 
                  //Controls that only work with flycam.
-                 if(environmentState.getCamera().toString().equals("FLY (Node)")) {
+                 if (environmentState.getCamera().toString().equals("FLY (Node)")) {
                      switch (name) {
                          case "forward":
                              forwards = keyPressed;
@@ -140,16 +140,16 @@ public class Main extends VRApplication {
                          default: //Do nothing when an unknown button is pressed.
                      }
                  }
-                 if(keyPressed){
-                        if(name.equals("steer_left")){
+                 if (keyPressed) {
+                        if (name.equals("steer_left")) {
                         environmentState.steer(-1.f);
                     }
-                    if(name.equals("steer_right")){
+                    if (name.equals("steer_right")) {
                         environmentState.steer(1.f);
                     }
                  }
-                 if(!(keyPressed)){
-                        if(name.equals("steer_left") || name.equals("steer_right")){
+                 if (!keyPressed) {
+                        if (name.equals("steer_left") || name.equals("steer_right")) {
                         environmentState.steer(0.f);
                     }
                     
@@ -175,7 +175,7 @@ public class Main extends VRApplication {
         main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
         main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true); // you can downsample for performance reasons
     }
 
     /**
@@ -231,7 +231,7 @@ public class Main extends VRApplication {
     }
 
     /**
-     * Returns the rootNoe of the
+     * Returns the rootNode.
      */
     @Override
     public Node getRootNode() {

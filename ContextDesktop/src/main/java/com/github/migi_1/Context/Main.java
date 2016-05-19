@@ -69,7 +69,7 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleUpdate(float tpf) {
-        if (getStateManager().hasState(environmentState)){
+        if (getStateManager().hasState(environmentState)) {
             getStateManager().getState(Environment.class).update(tpf);
         }
         if(forwards) environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf*8f));
@@ -110,14 +110,14 @@ public class Main extends VRApplication {
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
                  System.out.println(environmentState.getCamera().toString());
-                 if(name.equals("exit") && keyPressed) {
+                 if (name.equals("exit") && keyPressed) {
                      System.exit(0);
-                 } else if(name.equals("cam_switch") && keyPressed) {
+                 } else if (name.equals("cam_switch") && keyPressed) {
                      environmentState.swapCamera();
                  }
 
                  //Controls that only work with flycam.
-                 if(environmentState.getCamera().toString().equals("FLY (Node)")) {
+                 if (environmentState.getCamera().toString().equals("FLY (Node)")) {
                      switch (name) {
                          case "forward":
                              forwards = keyPressed;
@@ -140,14 +140,36 @@ public class Main extends VRApplication {
                          default: //Do nothing when an unknown button is pressed.
                      }
                  }
+                 checkSteering(name, keyPressed);
+                 
              }
 
          };
          addListeners(inputManager, acl);
     }
 
+     /**
+      * Key binding for steering.
+      * left: move left
+      * right: move right
+      * @param name Name of key action.
+      * @param keyPressed True when pressed, false when released.
+      */
+     private void checkSteering(String name, boolean keyPressed) {
+         if (keyPressed) {
+             if (name.equals("steer_left")) {
+                 environmentState.steer(-1.f);
+             }
+            if (name.equals("steer_right")) {
+                environmentState.steer(1.f);
+            }
+        }
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
+            environmentState.steer(0.f);
+        }         
+     }
     /**
-     * Method to configure the vr
+     * Method to configure the vr.
      * called in the {@link simpleInitApp()} method;
      */
     private void configureVR() {
@@ -159,7 +181,7 @@ public class Main extends VRApplication {
         main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
         main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);// you can downsample for performance reasons
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true); // you can downsample for performance reasons
     }
 
     /**
@@ -175,6 +197,8 @@ public class Main extends VRApplication {
         inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_LSHIFT));
+        inputManager.addMapping("steer_left", new KeyTrigger(KeyInput.KEY_LEFT));
+        inputManager.addMapping("steer_right", new KeyTrigger(KeyInput.KEY_RIGHT));
     }
 
     /**
@@ -191,6 +215,8 @@ public class Main extends VRApplication {
         inputManager.addListener(acl, "right");
         inputManager.addListener(acl, "up");
         inputManager.addListener(acl, "down");
+        inputManager.addListener(acl, "steer_left");
+        inputManager.addListener(acl, "steer_right");
     }
 
 
@@ -211,7 +237,7 @@ public class Main extends VRApplication {
     }
 
     /**
-     * Returns the rootNoe of the
+     * Returns the rootNode.
      */
     @Override
     public Node getRootNode() {

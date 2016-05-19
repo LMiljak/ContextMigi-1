@@ -9,6 +9,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
@@ -49,8 +50,8 @@ public class Environment extends AbstractAppState {
     private static final int SHADOW_SPLITS = 3;
 
     private static final Vector3f WORLD_LOCATION = new Vector3f(0, -20, 0);
-    private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -3);
-    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -3.5f);
+    private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
+    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private static final float PLATFORM_SPEED = 2.0f;
@@ -108,17 +109,19 @@ public class Environment extends AbstractAppState {
         testCommander.move(-PLATFORM_SPEED, 0, 0);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
-        // Calculate detection results
+
+        //Collision between the commander and the world.
         CollisionResults results = new CollisionResults();
-        Collidable a = testCommander;
+        Collidable a = testCommander.getWorldBound();
         Collidable b = getCurrentLevelPiece().getWorldBound();
+
+        //CollisionShape c = CollisionShapeFactory.createDynamicMeshShape(getCurrentLevelPiece());
         a.collideWith(b, results);
         System.out.println("Number of Collisions: " + results.size());
-        // Use the results
+
         if (results.size() > 0) {
-          // how to react when a collision was detected
           CollisionResult closest  = results.getClosestCollision();
-          System.out.println("Where was it hit? " + closest.getContactPoint() );
+          System.out.println("Where was it hit? " + closest.getContactPoint()); //Will return null.
         }
     }
 
@@ -170,7 +173,7 @@ public class Environment extends AbstractAppState {
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -=2*bb.getXExtent();
+            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
         }
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
@@ -179,6 +182,7 @@ public class Environment extends AbstractAppState {
         testCommander = assetManager.loadModel("Models/ninja.j3o");
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
+        testCommander.addControl(new RigidBodyControl());
 
         //attach all objects to the root pane
         for(Spatial sp : testWorld){
@@ -314,6 +318,7 @@ public class Environment extends AbstractAppState {
      */
     private Spatial getCurrentLevelPiece() {
         LinkedList<Spatial> worldPieces = (LinkedList<Spatial>) testWorld.clone();
+        System.out.println("GetWorldPiece size: " + worldPieces.size());
         Vector3f playerLoc = testCommander.getLocalTranslation();
         Spatial worldPiece= worldPieces.pop();
         while (! worldPieces.isEmpty()) {

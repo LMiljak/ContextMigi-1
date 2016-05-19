@@ -1,10 +1,10 @@
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.jme3.network.AbstractMessage;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.github.migi_1.ContextMessages.MessageListener;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
@@ -20,7 +20,10 @@ public class ClientWrapper {
         /** The message the client should be able to handle. */
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES 
             = Arrays.asList(
-		//Message types here
+		AccelerometerMessage.class,
+                //, More message types here
+                AbstractMessage.class //This abstract message doesn't need to be handled, but
+                //is required for dumb Java 1.7 type inference.
 		);
     
 	/** The shingleton instance of this class. */

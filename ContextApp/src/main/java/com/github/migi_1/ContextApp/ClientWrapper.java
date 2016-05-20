@@ -16,15 +16,6 @@ import java.util.List;
  * SINGLETON class.
  */
 public class ClientWrapper {
-	
-        /** The message the client should be able to handle. */
-	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES 
-            = Arrays.asList(
-		AccelerometerMessage.class,
-                //, More message types here
-                AbstractMessage.class //This abstract message doesn't need to be handled, but
-                //is required for dumb Java 1.7 type inference.
-		);
     
 	/** The shingleton instance of this class. */
 	private static final ClientWrapper INSTANCE = new ClientWrapper();
@@ -36,9 +27,7 @@ public class ClientWrapper {
         
 	//Every message types is registered by the Serializer in this class initializer.
         static {
-            for (Class<? extends AbstractMessage> messageType : MESSAGE_TYPES) {
-			Serializer.registerClass(messageType);
-            }
+            Serializer.registerClass(AccelerometerMessage.class);
         }
         
 	/**

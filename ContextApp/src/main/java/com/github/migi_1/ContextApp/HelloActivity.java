@@ -1,13 +1,9 @@
 package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import com.jme3.app.AndroidHarness;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -16,17 +12,20 @@ import java.util.logging.LogManager;
  * 
  * @author Marcel
  */
-public class HelloActivity extends AndroidHarness implements SensorEventListener {
+public class HelloActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        
+        private AccelerometerSensor as;
         /**
          * Configure the game instance that is launched and start the logger.
          */
         public HelloActivity() {
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
+        
+        //Create the accelerometer sensor.
+        as = new AccelerometerSensor(this);
         
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
@@ -41,18 +40,18 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
             super.onResume();
 
             // register the lister for the accelerometer
-            mSensorManager.registerListener(this, 
+            mSensorManager.registerListener(as, 
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
          
         /**
-         * The the app is closed.
+         * Closes the app.
          */
-        @Override  
+        @Override
         protected void onStop() {  
             // unregister the sensor listener
-            mSensorManager.unregisterListener(this);  
+            mSensorManager.unregisterListener(as);  
             super.onStop();  
         } 
     
@@ -73,36 +72,13 @@ public class HelloActivity extends AndroidHarness implements SensorEventListener
         }
 
         /**
-         * This method is called when the senser notices a change.
-         * @param se 
+         * Gets the instance of this Application.
+         * 
+         * @return
+         *      The instance of this Application.
          */
-        @Override
-        public void onSensorChanged(SensorEvent se) {
-
-            // check whether the game has already been instantiated
-            if (application == null) {
-                return;
-            }
-
-            // log the sensor values
-            Log.d("main", se.values[0] + " " + se.values[1] + " " + se.values[2]);
-
-            // this is an example of how you can call a method in the game
-            application.enqueue(new Callable() {
-
-                //@Override
-                public Object call() throws Exception {
-                
-                    // Example of how you can make a call to a method in the game instance
-                    application.gyroscopeChange();
-                    return null;
-                }
-             });
+        public Main getMain() {
+            return application;
         }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-        }
-
 
 }

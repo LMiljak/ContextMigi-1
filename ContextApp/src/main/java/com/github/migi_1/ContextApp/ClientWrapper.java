@@ -1,9 +1,14 @@
 package com.github.migi_1.ContextApp;
 
+import com.jme3.network.AbstractMessage;
 import java.io.IOException;
+import java.util.Arrays;
 
+import com.github.migi_1.ContextMessages.MessageListener;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
+import com.jme3.network.serializing.Serializer;
+import java.util.List;
 
 /**
  * A wrapper class for a com.jme3.network.client object.
@@ -12,6 +17,12 @@ import com.jme3.network.Network;
  */
 public class ClientWrapper {
 	
+        /** The message the client should be able to handle. */
+	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES 
+            = Arrays.asList(
+		//Message types here
+		);
+    
 	/** The shingleton instance of this class. */
 	private static final ClientWrapper INSTANCE = new ClientWrapper();
 	/** The default port on which servers are running. */
@@ -19,7 +30,14 @@ public class ClientWrapper {
 	
 	/** The wrapped client Object. */
 	private Client client;
-	
+        
+	//Every message types is registered by the Serializer in this class initializer.
+        static {
+            for (Class<? extends AbstractMessage> messageType : MESSAGE_TYPES) {
+			Serializer.registerClass(messageType);
+            }
+        }
+        
 	/**
 	 * Gets the instance of this shingleton class.
 	 * 

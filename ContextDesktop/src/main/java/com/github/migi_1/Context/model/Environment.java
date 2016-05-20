@@ -10,9 +10,6 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResult;
-import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -54,7 +51,7 @@ public class Environment extends AbstractAppState {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float PLATFORM_SPEED = 2.0f;
+    private static final float PLATFORM_SPEED = 0.02f;
 
     private static final int LEVEL_PIECES = 5;
 
@@ -104,25 +101,33 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
+        System.out.println(flyObs.getLocalTranslation());
         super.update(tpf);
         testPlatform.move(-PLATFORM_SPEED, 0, 0);
         testCommander.move(-PLATFORM_SPEED, 0, 0);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
 
-        //Collision between the commander and the world.
-        CollisionResults results = new CollisionResults();
-        Collidable a = testCommander.getWorldBound();
-        Collidable b = getCurrentLevelPiece().getWorldBound();
-
-        //CollisionShape c = CollisionShapeFactory.createDynamicMeshShape(getCurrentLevelPiece());
-        a.collideWith(b, results);
-        System.out.println("Number of Collisions: " + results.size());
-
-        if (results.size() > 0) {
-          CollisionResult closest  = results.getClosestCollision();
-          System.out.println("Where was it hit? " + closest.getContactPoint()); //Will return null.
+        Vector3f a = testCommander.getLocalTranslation();
+        if (a.getZ() < -10) {
+            //Disable left
+        } else if (a.getZ() > 10) {
+            //Disable right
         }
+
+        //Collision between the commander and the world.
+//        CollisionResults results = new CollisionResults();
+//        Collidable a = testCommander.getWorldBound();
+//        Collidable b = getCurrentLevelPiece().getWorldBound();
+//
+//        //CollisionShape c = CollisionShapeFactory.createDynamicMeshShape(getCurrentLevelPiece());
+//        a.collideWith(b, results);
+//        System.out.println("Number of Collisions: " + results.size());
+//
+//        if (results.size() > 0) {
+//          CollisionResult closest  = results.getClosestCollision();
+//          System.out.println("Where was it hit? " + closest.getContactPoint()); //Will return null.
+//        }
     }
 
     /**
@@ -173,7 +178,7 @@ public class Environment extends AbstractAppState {
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
         }
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
@@ -307,7 +312,7 @@ public class Environment extends AbstractAppState {
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
-            WORLD_LOCATION.x -=2*bb.getXExtent() -bb.getXExtent();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
             rootNode.attachChild(levelPiece);
         }
     }

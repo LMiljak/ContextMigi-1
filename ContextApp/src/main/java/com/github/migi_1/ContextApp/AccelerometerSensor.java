@@ -28,6 +28,10 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
         this.act = act;
     }
     
+    /**
+     * Method called when the sensor reads a new input.
+     * Logs the input values queues a new action, in this case the gyroscopechange method in the main class.
+     */
     @Override
     public void onSensorChanged(SensorEvent se) {
         /** check whether the game has already been instantiated **/

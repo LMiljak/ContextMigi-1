@@ -4,6 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import com.jme3.app.AndroidHarness;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -68,7 +69,10 @@ public class HelloActivity extends AndroidHarness {
             application = (Main) getJmeApplication();
 
             // start the sensor manager
-            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
+            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            
+            AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
+                    ClientWrapper.getInstance());
         }
 
         /**

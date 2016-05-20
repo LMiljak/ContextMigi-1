@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
@@ -53,6 +54,7 @@ public class Environment extends AbstractAppState {
     private static final float PLATFORM_SPEED = 0.2f;
 
     private static final int LEVEL_PIECES = 5;
+    private static final int DIFFERENT_WORLDS = 5;
 
     private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
 
@@ -158,7 +160,7 @@ public class Environment extends AbstractAppState {
     private void initSpatials() {
         //initialize the given number of level pieces
         while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = chooseLevelPiece(Math.random());
+            Spatial levelPiece = chooseLevelPiece(new Random().nextInt(DIFFERENT_WORLDS));
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
@@ -265,7 +267,7 @@ public class Environment extends AbstractAppState {
 
         //add level pieces until the number of level pieces is correct
         while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = chooseLevelPiece(Math.random());
+            Spatial levelPiece = chooseLevelPiece(new Random().nextInt(DIFFERENT_WORLDS));
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
@@ -308,19 +310,13 @@ public class Environment extends AbstractAppState {
 
     /**
      * Chooses a levelPiece from the randomly generated number rnd.
-     * @param rnd the random variable created by Math.random() (between 0 and 1).
+     * @param rnd the random variable created by Random.nextInt(the amount of different worlds)
      */
-    private Spatial chooseLevelPiece(double rnd) {
-        if (rnd < 0.2) {
-            return assetManager.loadModel("Models/world1.j3o");
-        } else if (rnd < 0.4 && rnd > 0.2) {
-            return assetManager.loadModel("Models/world2.j3o");
-        } else if (rnd < 0.6 && rnd > 0.4) {
-            return assetManager.loadModel("Models/world3.j3o");
-        } else if (rnd < 0.8 && rnd > 0.6) {
-            return assetManager.loadModel("Models/world4.j3o");
-        } else {
-            return assetManager.loadModel("Models/world5.j3o");
-        }
+    private Spatial chooseLevelPiece(int rnd) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Models/world");
+        sb.append(rnd + 1);
+        sb.append(".j3o");
+        return assetManager.loadModel(sb.toString());
     }
 }

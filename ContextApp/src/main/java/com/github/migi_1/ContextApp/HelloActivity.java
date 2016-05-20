@@ -12,7 +12,7 @@ import java.util.logging.LogManager;
  * 
  * @author Marcel
  */
-public class HelloActivity extends AndroidHarness{
+public class HelloActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
@@ -20,11 +20,14 @@ public class HelloActivity extends AndroidHarness{
         /**
          * Configure the game instance that is launched and start the logger.
          */
-        public HelloActivity(){
-        /** Set the application class to run **/
+        public HelloActivity() {
+        // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
+        
+        //Create the accelerometer sensor.
         as = new AccelerometerSensor(this);
-        /** Start the log manager **/
+        
+        // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
         
     }
@@ -33,19 +36,21 @@ public class HelloActivity extends AndroidHarness{
         * This method runs the app is resumed.
         */
         @Override  
-        protected void onResume(){  
+        protected void onResume() {  
             super.onResume();
-            
-            /** register the lister for the accelerometer **/
-            mSensorManager.registerListener(as, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_FASTEST);
+
+            // register the lister for the accelerometer
+            mSensorManager.registerListener(as, 
+                    mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                    SensorManager.SENSOR_DELAY_FASTEST);
         }
          
         /**
-         * The the app is closed.
+         * Closes the app.
          */
-        @Override  
-        protected void onStop(){  
-            /** unregister the sensor listener  **/
+        @Override
+        protected void onStop() {  
+            // unregister the sensor listener
             mSensorManager.unregisterListener(as);  
             super.onStop();  
         } 
@@ -59,10 +64,10 @@ public class HelloActivity extends AndroidHarness{
         public void onCreate(Bundle savedInstanceState) {  
             super.onCreate(savedInstanceState);
 
-            /** instantiate the application **/
-            application = (Main ) getJmeApplication();
+            // instantiate the application
+            application = (Main) getJmeApplication();
 
-            /** start the sensor manager **/
+            // start the sensor manager
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE); 
         }
 
@@ -72,10 +77,8 @@ public class HelloActivity extends AndroidHarness{
          * @return
          *      The instance of this Application.
          */
-        public Main getMain(){
+        public Main getMain() {
             return application;
         }
-        
-
 
 }

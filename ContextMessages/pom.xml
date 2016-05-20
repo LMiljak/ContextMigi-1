@@ -27,11 +27,6 @@
 		</repository>
 
 		<repository>
-			<id>jme3-repo</id>
-			<url>http://updates.jmonkeyengine.org/maven/</url>
-		</repository>
-
-		<repository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>

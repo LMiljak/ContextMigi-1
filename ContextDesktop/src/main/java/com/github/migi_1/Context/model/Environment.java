@@ -51,9 +51,11 @@ public class Environment extends AbstractAppState {
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float PLATFORM_SPEED = 0.02f;
+    private static final float PLATFORM_SPEED = 0.2f;
 
     private static final int LEVEL_PIECES = 5;
+
+    private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
 
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
@@ -61,6 +63,9 @@ public class Environment extends AbstractAppState {
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
+
+    private float steering;
+
 
     /**
      * First method that is called after the state has been created.
@@ -77,6 +82,7 @@ public class Environment extends AbstractAppState {
         vrObs = new Node("VR");
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
+        steering = 0.f;
 
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
@@ -101,19 +107,19 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-        System.out.println(flyObs.getLocalTranslation());
+        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
-        testPlatform.move(-PLATFORM_SPEED, 0, 0);
-        testCommander.move(-PLATFORM_SPEED, 0, 0);
+        Vector3f loc = testCommander.getLocalTranslation();
+        float zAxis = 0;
+        if(loc.z <= 5f && loc.z >= -5f && (steerableLeft() || steerableRight())) {
+            zAxis = steering * STEERING_ANGLE;
+        }
+        float xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+
+        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
+        testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
-
-        Vector3f a = testCommander.getLocalTranslation();
-        if (a.getZ() < -10) {
-            //Disable left
-        } else if (a.getZ() > 10) {
-            //Disable right
-        }
 
         //Collision between the commander and the world.
 //        CollisionResults results = new CollisionResults();
@@ -262,6 +268,53 @@ public class Environment extends AbstractAppState {
         }
     }
 
+        /**
+     * Updates the test world.
+     */
+    private void updateTestWorld() {
+
+        //delete level piece when it too far back
+        if(testWorld.size() > 0){
+             Spatial check = testWorld.peek();
+             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
+             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
+             if(v1.distance(v2) > 100) {
+                testWorld.poll();
+                rootNode.detachChild(check);
+             }
+        }
+
+        //add level pieces until the number of level pieces is correct
+        while (testWorld.size() < LEVEL_PIECES) {
+            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
+            testWorld.add(levelPiece);
+            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
+            rootNode.attachChild(levelPiece);
+        }
+
+    }
+
+    /**
+     * Update the steering direction.
+     * @param orientation This translates to the steering ange.
+     */
+    public void steer(float orientation) {
+        steering = orientation;
+    }
+
+    public boolean steerableLeft() {
+        return testCommander.getLocalTranslation().getZ() < 5f;
+    }
+
+    public boolean steerableRight() {
+        return testCommander.getLocalTranslation().getZ() > -5f;
+    }
+
+
     /**
      * Handles everything that happens when the Envrironment state is detached from the main application.
      */
@@ -289,50 +342,22 @@ public class Environment extends AbstractAppState {
 
     }
 
-    /**
-     * Updates the test world.
-     */
-    private void updateTestWorld() {
-        //delete level piece when it too far back
-        if(testWorld.size() > 0){
-             Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
-             if(v1.distance(v2) > 100){
-                testWorld.poll();
-                rootNode.detachChild(check);
-             }
-        }
-
-        //add level pieces until the number of level pieces is correct
-        while(testWorld.size() <LEVEL_PIECES){
-            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX()));
-            testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox)levelPiece.getWorldBound();
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
-            rootNode.attachChild(levelPiece);
-        }
-    }
-
-    /**
-     * Returns the levelPiece the player is in.
-     * @return the levelPiece the player is in, null if something goes wrong.
-     */
-    private Spatial getCurrentLevelPiece() {
-        LinkedList<Spatial> worldPieces = (LinkedList<Spatial>) testWorld.clone();
-        System.out.println("GetWorldPiece size: " + worldPieces.size());
-        Vector3f playerLoc = testCommander.getLocalTranslation();
-        Spatial worldPiece= worldPieces.pop();
-        while (! worldPieces.isEmpty()) {
-            if(Math.abs(worldPiece.getLocalTranslation().x - playerLoc.x) < 20) {
-                break;
-            }
-            worldPiece = worldPieces.pop();
-        }
-
-        return worldPiece;
-    }
+//    /**
+//     * Returns the levelPiece the player is in.
+//     * @return the levelPiece the player is in, null if something goes wrong.
+//     */
+//    private Spatial getCurrentLevelPiece() {
+//        LinkedList<Spatial> worldPieces = (LinkedList<Spatial>) testWorld.clone();
+//        System.out.println("GetWorldPiece size: " + worldPieces.size());
+//        Vector3f playerLoc = testCommander.getLocalTranslation();
+//        Spatial worldPiece= worldPieces.pop();
+//        while (! worldPieces.isEmpty()) {
+//            if(Math.abs(worldPiece.getLocalTranslation().x - playerLoc.x) < 20) {
+//                break;
+//            }
+//            worldPiece = worldPieces.pop();
+//        }
+//
+//        return worldPiece;
+//    }
 }

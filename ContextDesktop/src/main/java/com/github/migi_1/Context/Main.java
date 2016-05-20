@@ -157,10 +157,10 @@ public class Main extends VRApplication {
       */
      private void checkSteering(String name, boolean keyPressed) {
          if (keyPressed) {
-             if (name.equals("steer_left") && environmentState.steerableLeft()) {
+             if (name.equals("steer_left")) {
                  environmentState.steer(-1.f);
              }
-             else if (name.equals("steer_right") && environmentState.steerableRight()) {
+             else if (name.equals("steer_right")) {
                 environmentState.steer(1.f);
             }
         }

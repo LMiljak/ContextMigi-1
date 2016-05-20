@@ -110,11 +110,18 @@ public class Environment extends AbstractAppState {
         System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
         Vector3f loc = testCommander.getLocalTranslation();
+        float xAxis = 1;
         float zAxis = 0;
-        if(loc.z <= 5f && loc.z >= -5f && (steerableLeft() || steerableRight())) {
+        if (loc.z > 5f) {
+            zAxis = 2.0f;
+        } else if (loc.z < -5f) {
+            zAxis = -2.0f;
+        } else {
             zAxis = steering * STEERING_ANGLE;
+            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         }
-        float xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+
+
 
         testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
@@ -305,15 +312,6 @@ public class Environment extends AbstractAppState {
     public void steer(float orientation) {
         steering = orientation;
     }
-
-    public boolean steerableLeft() {
-        return testCommander.getLocalTranslation().getZ() < 5f;
-    }
-
-    public boolean steerableRight() {
-        return testCommander.getLocalTranslation().getZ() > -5f;
-    }
-
 
     /**
      * Handles everything that happens when the Envrironment state is detached from the main application.

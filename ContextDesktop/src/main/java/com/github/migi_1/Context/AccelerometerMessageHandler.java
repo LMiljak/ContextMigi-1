@@ -8,6 +8,8 @@ import com.github.migi_1.ContextMessages.MessageListener;
  */
 public class AccelerometerMessageHandler extends MessageListener<AccelerometerMessage> {
 
+    private Main main;
+    
 	/**
 	 * Creates and registers a new AccelerometerMessageHandler.
 	 * Storing this instance somewhere is useless, as it gets registered
@@ -15,13 +17,25 @@ public class AccelerometerMessageHandler extends MessageListener<AccelerometerMe
 	 * and you're all set.
 	 */
 	@SuppressWarnings("unchecked")
-	public AccelerometerMessageHandler() {
+	public AccelerometerMessageHandler(Main main) {
 		ServerWrapper.getInstance().getServer().addMessageListener(this);
+		this.main = main;
 	}
-	
+
+        
+        
 	@Override
 	public void messageReceived(Object source, AccelerometerMessage message) {
 		//Code here
+            float zValue = message.getY_force();
+            zValue = zValue / 5;
+            if (zValue < -1.0f){
+                zValue = -1.0f;
+            }
+            if (zValue > 1.0f){
+                zValue = 1.0f;
+            }
+	    main.handleAccelerometerMessage(zValue);
 	}
 
 	@Override

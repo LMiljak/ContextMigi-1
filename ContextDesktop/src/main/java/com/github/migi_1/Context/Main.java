@@ -1,5 +1,7 @@
 package com.github.migi_1.Context;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
 import com.jme3.input.InputManager;
@@ -9,8 +11,6 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-
-import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
@@ -35,7 +35,7 @@ public class Main extends VRApplication {
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
-     * 
+     *
      * @param args
      * 		ignored.
      */
@@ -105,7 +105,7 @@ public class Main extends VRApplication {
 
     /**
      * Initialises the game inputs (keys).
-     * 
+     *
      * Key bindings:
      * Escape key: Exit the game
      * c: switches camera
@@ -157,7 +157,7 @@ public class Main extends VRApplication {
                      }
                  }
                  checkSteering(name, keyPressed);
-                 
+
              }
 
          };
@@ -180,11 +180,11 @@ public class Main extends VRApplication {
                 environmentState.steer(1.f);
             }
         }
-        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {
             environmentState.steer(0.f);
-        }         
+        }
      }
-     
+
     /**
      * Configures the VR.
      * Method to configure the vr.
@@ -200,11 +200,11 @@ public class Main extends VRApplication {
         // set frustum distances here before app starts
         main.preconfigureFrustrumNearFar(0.1f, 512f);
         // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); 
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
         // runs faster when set to false, but will allow mirroring
         main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false);
         // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); 
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
         // you can downsample for performance reasons
         main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
     }
@@ -244,6 +244,10 @@ public class Main extends VRApplication {
         inputManager.addListener(acl, "steer_right");
     }
 
+
+    public void handleAccelerometerMessage(float orientation){
+        environmentState.steer(orientation);
+    }
 
     /**
      * Returns the main menu state.

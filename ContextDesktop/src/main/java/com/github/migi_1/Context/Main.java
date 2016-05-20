@@ -157,7 +157,7 @@ public class Main extends VRApplication {
                      }
                  }
                  checkSteering(name, keyPressed);
-                 
+
              }
 
          };
@@ -176,13 +176,13 @@ public class Main extends VRApplication {
              if (name.equals("steer_left")) {
                  environmentState.steer(-1.f);
              }
-            if (name.equals("steer_right")) {
+             else if (name.equals("steer_right")) {
                 environmentState.steer(1.f);
             }
         }
-        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {
             environmentState.steer(0.f);
-        }         
+        }
      }
      
     /**

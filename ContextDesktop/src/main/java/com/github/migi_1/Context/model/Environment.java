@@ -251,13 +251,13 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        if(testWorld.size() > 0){
+        if (testWorld.size() > 0) {
              Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
-             if(v1.distance(v2) > 100) {
+             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
+             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
+             if (v1.distance(v2) > 100) {
                 testWorld.poll();
                 rootNode.detachChild(check);
              }

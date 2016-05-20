@@ -1,5 +1,9 @@
 package com.github.migi_1.Context;
 
+import jmevr.app.VRApplication;
+import java.io.IOException;
+import java.util.concurrent.Executors;
+
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
 import com.jme3.input.InputManager;
@@ -9,8 +13,6 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-
-import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
@@ -35,7 +37,7 @@ public class Main extends VRApplication {
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
-     * 
+     *
      * @param args
      * 		ignored.
      */
@@ -63,6 +65,22 @@ public class Main extends VRApplication {
         environmentState = new Environment();
 
         this.getStateManager().attach(mainMenuState);
+        startServer();
+    }
+    
+    /**
+     * Starts the server and allows clients to connect to it.
+     */
+    private void startServer() {
+    	try {
+        	ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(1));
+			ServerWrapper.getInstance().startServer();
+			new AccelerometerMessageHandler(this);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -105,7 +123,7 @@ public class Main extends VRApplication {
 
     /**
      * Initialises the game inputs (keys).
-     * 
+     *
      * Key bindings:
      * Escape key: Exit the game
      * c: switches camera
@@ -184,7 +202,7 @@ public class Main extends VRApplication {
             environmentState.steer(0.f);
         }
      }
-     
+
     /**
      * Configures the VR.
      * Method to configure the vr.
@@ -200,11 +218,11 @@ public class Main extends VRApplication {
         // set frustum distances here before app starts
         main.preconfigureFrustrumNearFar(0.1f, 512f);
         // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); 
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
         // runs faster when set to false, but will allow mirroring
         main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false);
         // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); 
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
         // you can downsample for performance reasons
         main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
     }
@@ -244,6 +262,16 @@ public class Main extends VRApplication {
         inputManager.addListener(acl, "steer_right");
     }
 
+
+    /**
+     * Steers the platform depending on the orientation of an accelerometer.
+     * 
+     * @param orientation
+     * 		The acceleration force along the z axis (including gravity).
+     */
+    public void handleAccelerometerMessage(float orientation) {
+        environmentState.steer(orientation);
+    }
 
     /**
      * Returns the main menu state.

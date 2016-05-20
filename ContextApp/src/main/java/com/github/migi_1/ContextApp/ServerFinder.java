@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Used on the client side to find servers on the LAN.
@@ -32,6 +33,8 @@ public final class ServerFinder {
 	private static final int PORT = 4269;
 	
 	private static final String IP = "255.255.255.255";
+        
+        private ExecutorService executorService;
 	
 	private DatagramSocket socket;
 	
@@ -104,7 +107,8 @@ public final class ServerFinder {
 	 */
 	public void findServers(ExecutorService executorService, final ServerDiscoveryHandler serverDiscoveryHandler) {
 		running = true;
-		
+		this.executorService = executorService;
+                
 		final int spamPeriod = 5000; //The delay (in ms) between each time the LAN is spammed 
 		
 		try {
@@ -136,6 +140,7 @@ public final class ServerFinder {
 	 */
 	public void stop() {
             if (socket != null) {
+                executorService.shutdown();
                 running = false;
                 socket.close();
             }

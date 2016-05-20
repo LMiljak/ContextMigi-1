@@ -42,9 +42,9 @@ public class TestClientWrapper {
 	 *   8. Asserts that getClient returns null.
 	 *   9. Asserts that calling closeClient throws an IllegalStateException. 
 	 * 
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 * @throws IOException
+	 * @throws IllegalArgumentException  
+	 * @throws IllegalAccessException  
+	 * @throws IOException  
 	 */
 	@Test(timeout = 120000)
 	public void testClientWrapper() throws IllegalArgumentException, IllegalAccessException, IOException {
@@ -98,8 +98,13 @@ public class TestClientWrapper {
 		client.startClient("localhost");
 		
 		assertTrue(client.getClient().isStarted());
-		while (!client.getClient().isConnected()); //Waiting for the client to connect. If it fails to do so
-			//within one second (the given timeout), the test fails
+                
+                //Waiting for the client to connect. If it fails to do so
+                //within the timeout, the test fails
+                boolean isConnected = false;
+		while (!isConnected) {
+                    isConnected = client.getClient().isConnected();
+                }
 		assertTrue(server.hasConnections());
 	}
 	
@@ -133,8 +138,14 @@ public class TestClientWrapper {
 		
 		assertFalse(c.isStarted());
 		assertFalse(c.isConnected());
-		while (!server.hasConnections()); //Waiting for the server to know that the
-			//client has disconnected. This fails if the timeout (one second) has been reached.
+                
+                boolean hasConnections = true;
+                
+                 //Waiting for the server to know that the
+		//client has disconnected. This fails if the timeout has been reached.
+		while (!hasConnections) {
+                    hasConnections = server.hasConnections();
+                }
 	}
 	
 	/**

@@ -5,4 +5,5 @@
     <includeDerivedFiles>false</includeDerivedFiles>
     <violationsAsErrors>true</violationsAsErrors>
     <fullBuildEnabled>true</fullBuildEnabled>
+	<exclude-pattern>.*/ContextAppTest/.*</exclude-pattern>
 </pmd>

@@ -7,9 +7,9 @@ import java.util.concurrent.ExecutorService;
  * Connects a Client automatically to the first Server found
  * on the LAN.
  * 
- * SHINGLETON class.
+ * SINGLETON class.
  */
-public class AutoConnector {
+public final class AutoConnector {
     
     private static final AutoConnector INSTANCE = new AutoConnector();
     

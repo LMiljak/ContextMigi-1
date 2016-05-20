@@ -13,7 +13,7 @@ import com.jme3.system.AppSettings;
 import jmevr.app.VRApplication;
 
 /**
- * Creates the main desktop application, it initializes the main menu on startup,
+ * Creates the main desktop application. It initializes the main menu on startup,
  * all things that have to do with the application as a whole can be found in this class
  * @author Damian
  */
@@ -35,7 +35,9 @@ public class Main extends VRApplication {
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
+     * 
      * @param args
+     * 		ignored.
      */
     public static void main(String[] args) {
         AppSettings settings = new AppSettings(true);
@@ -72,12 +74,24 @@ public class Main extends VRApplication {
         if (getStateManager().hasState(environmentState)) {
             getStateManager().getState(Environment.class).update(tpf);
         }
-        if(forwards) environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf*8f));
-        if(back) environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(-tpf*8f));
-        if(left) environmentState.rotateCam(0f, 0.75f*tpf, 0f);
-        if(right) environmentState.rotateCam(0, -0.75f*tpf, 0);
-        if(up) environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(tpf*8f));
-        if(down) environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(-tpf*8f));
+        if (forwards) {
+        	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf * 8f));
+        }
+        if (back) {
+        	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(-tpf * 8f));
+        }
+        if (left) {
+        	environmentState.rotateCam(0f, 0.75f * tpf, 0f);
+        }
+        if (right) {
+        	environmentState.rotateCam(0, -0.75f * tpf, 0);
+        }
+        if (up) {
+        	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(tpf * 8f));
+        }
+        if (down) {
+        	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(-tpf * 8f));
+        }
     }
 
     /**
@@ -90,6 +104,8 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Initialises the game inputs (keys).
+     * 
      * Key bindings:
      * Escape key: Exit the game
      * c: switches camera
@@ -168,20 +184,29 @@ public class Main extends VRApplication {
             environmentState.steer(0.f);
         }
      }
+     
     /**
+     * Configures the VR.
      * Method to configure the vr.
      * called in the {@link simpleInitApp()} method;
      */
     private void configureVR() {
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true); // show gui even if it is behind things
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false); // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
+        // show gui even if it is behind things
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_OVERDRAW, true);
+        // faster VR rendering, requires some vertex shader changes (see jmevr/shaders/Unshaded.j3md)
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.INSTANCE_VR_RENDERING, false);
         main.preconfigureVRApp(PRECONFIG_PARAMETER.NO_GUI, false);
-        main.preconfigureFrustrumNearFar(0.1f, 512f); // set frustum distances here before app starts
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false); // runs faster when set to false, but will allow mirroring
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true); // you can downsample for performance reasons
+        // set frustum distances here before app starts
+        main.preconfigureFrustrumNearFar(0.1f, 512f);
+        // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); 
+        // runs faster when set to false, but will allow mirroring
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false);
+        // render two eyes, regardless of SteamVR
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); 
+        // you can downsample for performance reasons
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
     }
 
     /**
@@ -237,7 +262,8 @@ public class Main extends VRApplication {
     }
 
     /**
-     * Returns the rootNode.
+     * @return
+     * 		The root node.
      */
     @Override
     public Node getRootNode() {

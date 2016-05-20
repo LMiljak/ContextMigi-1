@@ -10,6 +10,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -47,8 +48,10 @@ public class Environment extends AbstractAppState {
     private static final int SHADOW_SPLITS = 3;
 
     private static final Vector3f WORLD_LOCATION = new Vector3f(0, -20, 0);
-    private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1.5f);
-    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1.5f);
+
+    private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
+    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private static final float PLATFORM_SPEED = 0.2f;
@@ -107,9 +110,19 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
+        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
-        float zAxis = steering * STEERING_ANGLE;
-        float xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+        Vector3f loc = testCommander.getLocalTranslation();
+        float xAxis = 1;
+        float zAxis = 0;
+        if (loc.z > 5f) {
+            zAxis = 0.5f;
+        } else if (loc.z < -5f) {
+            zAxis = -0.5f;
+        } else {
+            zAxis = steering * STEERING_ANGLE;
+            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+        }
 
         testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
@@ -166,9 +179,8 @@ public class Environment extends AbstractAppState {
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2f;
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
         }
-
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
@@ -176,6 +188,7 @@ public class Environment extends AbstractAppState {
         testCommander = assetManager.loadModel("Models/ninja.j3o");
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
+        testCommander.addControl(new RigidBodyControl());
 
         //attach all objects to the root pane
         for (Spatial sp : testWorld) {
@@ -247,6 +260,7 @@ public class Environment extends AbstractAppState {
             VRApplication.setObserver(vrObs);
         }
     }
+
     /**
      * Updates the test world.
      */
@@ -271,7 +285,7 @@ public class Environment extends AbstractAppState {
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2f;
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
             rootNode.attachChild(levelPiece);
         }
 
@@ -284,7 +298,6 @@ public class Environment extends AbstractAppState {
     public void steer(float orientation) {
         steering = orientation;
     }
-
 
     /**
      * Handles everything that happens when the Envrironment state is detached from the main application.

@@ -113,34 +113,18 @@ public class Environment extends AbstractAppState {
         float xAxis = 1;
         float zAxis = 0;
         if (loc.z > 5f) {
-            zAxis = 2.0f;
+            zAxis = 0.5f;
         } else if (loc.z < -5f) {
-            zAxis = -2.0f;
+            zAxis = -0.5f;
         } else {
             zAxis = steering * STEERING_ANGLE;
             xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         }
 
-
-
         testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
-
-        //Collision between the commander and the world.
-//        CollisionResults results = new CollisionResults();
-//        Collidable a = testCommander.getWorldBound();
-//        Collidable b = getCurrentLevelPiece().getWorldBound();
-//
-//        //CollisionShape c = CollisionShapeFactory.createDynamicMeshShape(getCurrentLevelPiece());
-//        a.collideWith(b, results);
-//        System.out.println("Number of Collisions: " + results.size());
-//
-//        if (results.size() > 0) {
-//          CollisionResult closest  = results.getClosestCollision();
-//          System.out.println("Where was it hit? " + closest.getContactPoint()); //Will return null.
-//        }
     }
 
     /**
@@ -283,13 +267,13 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        if(testWorld.size() > 0){
+        if (testWorld.size() > 0) {
              Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox)check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox)this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x,bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x,bb2.getCenter().y);
-             if(v1.distance(v2) > 100) {
+             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
+             BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
+             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
+             if (v1.distance(v2) > 100) {
                 testWorld.poll();
                 rootNode.detachChild(check);
              }
@@ -341,23 +325,4 @@ public class Environment extends AbstractAppState {
         // TODO Auto-generated method stub
 
     }
-
-//    /**
-//     * Returns the levelPiece the player is in.
-//     * @return the levelPiece the player is in, null if something goes wrong.
-//     */
-//    private Spatial getCurrentLevelPiece() {
-//        LinkedList<Spatial> worldPieces = (LinkedList<Spatial>) testWorld.clone();
-//        System.out.println("GetWorldPiece size: " + worldPieces.size());
-//        Vector3f playerLoc = testCommander.getLocalTranslation();
-//        Spatial worldPiece= worldPieces.pop();
-//        while (! worldPieces.isEmpty()) {
-//            if(Math.abs(worldPiece.getLocalTranslation().x - playerLoc.x) < 20) {
-//                break;
-//            }
-//            worldPiece = worldPieces.pop();
-//        }
-//
-//        return worldPiece;
-//    }
 }

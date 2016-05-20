@@ -23,25 +23,8 @@
 		<repository>
 			<id>local-repo</id>
 			<name>Local Repository</name>
-			<url>file://${basedir}\libs</url>
+			<url>file://${basedir}/libs</url>
 		</repository>
-
-		<repository>
-			<id>jme3-repo</id>
-			<url>http://updates.jmonkeyengine.org/maven/</url>
-		</repository>
-
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
-
-		<repository>
-			<id>nifty-maven-repo.sourceforge.net</id>
-			<url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
-		</repository>
-
-
 	</repositories>
 
 	<dependencies>
@@ -58,6 +41,12 @@
 			<artifactId>powermock-api-mockito</artifactId>
 			<version>1.6.3</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmonkeyengine</groupId>
+			<artifactId>jme3-core</artifactId>
+			<version>3.1.0-alpha2</version>
 		</dependency>
 
 		<dependency>

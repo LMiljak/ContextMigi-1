@@ -27,7 +27,7 @@ public class TestAutoConnector {
      * Initialises the private fields used for the test cases.
      */
     @Before
-    public void setup() {
+    public void setUp() {
         client = Mockito.spy(ClientWrapper.getInstance());
         executorService = Executors.newFixedThreadPool(1);
         autoConnector = PowerMockito.spy(AutoConnector.getInstance()); 
@@ -36,6 +36,8 @@ public class TestAutoConnector {
     /**
      * Asserts that the ServerDicoveryHandler that the private getConncetor
      * method returns, attempts to connect to a found server.
+     * 
+     * @throws Exception  
      */
     @Test
     public void testGetConnector() throws Exception {
@@ -52,6 +54,8 @@ public class TestAutoConnector {
     
     /**
      * Tests the autoStart method.
+     * 
+     * @throws Exception  
      */
     @Test
     public void testAutoStart() throws Exception {

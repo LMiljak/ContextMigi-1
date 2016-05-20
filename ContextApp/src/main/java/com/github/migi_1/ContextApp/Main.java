@@ -8,13 +8,19 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
 /**
- * test
+ * The Main class of the Application.
  * @author normenhansen
  */
 public class Main extends SimpleApplication {
 
-    Geometry geom;
+    private Geometry geom;
     
+    /**
+     * Starts the application.
+     * 
+     * @param args 
+     *      Ignored.
+     */
     public static void main(String[] args) {
         Main app = new Main();
         app.start();
@@ -46,6 +52,6 @@ public class Main extends SimpleApplication {
     /**
      * This method has no functionality, it is merely used to show you can communicate between activity and game.
      */
-    public void gyroscopeChange(){
+    public void gyroscopeChange() {
     }
 }

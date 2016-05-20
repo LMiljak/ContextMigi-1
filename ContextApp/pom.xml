@@ -11,7 +11,7 @@
 		<repository>
 			<id>local-repo</id>
 			<name>Local Repository</name>
-			<url>file://${basedir}/libs</url>
+			<url>file://${basedir}/src/libs</url>
 		</repository>
 	</repositories>
 
@@ -59,13 +59,20 @@
             <version>4.1.1.4</version>
             <scope>provided</scope>
         </dependency>
-                		<dependency>
+    
+	<dependency>
+	  <groupId>org.jmonkeyengine</groupId>
+	  <artifactId>jme3-plugins</artifactId>
+	  <version>3.1.0-alpha2</version>
+	</dependency>
+	
+	<dependency>
 	  <groupId>org.jmonkeyengine</groupId>
 	  <artifactId>jme3-android</artifactId>
 	  <version>3.1.0-alpha2</version>
 	</dependency>
 	
-	<dependency>
+        <dependency>
 	  <groupId>org.jmonkeyengine</groupId>
 	  <artifactId>jme3-android-native</artifactId>
 	  <version>3.1.0-alpha2</version>
@@ -82,6 +89,7 @@
 	  <artifactId>jme3-networking</artifactId>
 	  <version>3.1.0-alpha2</version>
 	</dependency>
+        
     </dependencies>
     
     

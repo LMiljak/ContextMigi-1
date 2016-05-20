@@ -26,15 +26,14 @@ public class AccelerometerMessageHandler extends MessageListener<AccelerometerMe
         
 	@Override
 	public void messageReceived(Object source, AccelerometerMessage message) {
-		//Code here
-            float zValue = message.getY_force();
-            zValue = zValue / 5;
-            if (zValue < -1.0f){
-                zValue = -1.0f;
-            }
-            if (zValue > 1.0f){
-                zValue = 1.0f;
-            }
+        float zValue = message.getY_force();
+        zValue = zValue / 5;
+        if (zValue < -1.0f) {
+            zValue = -1.0f;
+        }
+        if (zValue > 1.0f) {
+            zValue = 1.0f;
+        }
 	    main.handleAccelerometerMessage(zValue);
 	}
 

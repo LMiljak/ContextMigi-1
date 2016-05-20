@@ -1,6 +1,8 @@
 package com.github.migi_1.Context;
 
 import jmevr.app.VRApplication;
+import java.io.IOException;
+import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
@@ -63,6 +65,22 @@ public class Main extends VRApplication {
         environmentState = new Environment();
 
         this.getStateManager().attach(mainMenuState);
+        startServer();
+    }
+    
+    /**
+     * Starts the server and allows clients to connect to it.
+     */
+    private void startServer() {
+    	try {
+        	ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(1));
+			ServerWrapper.getInstance().startServer();
+			new AccelerometerMessageHandler(this);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**

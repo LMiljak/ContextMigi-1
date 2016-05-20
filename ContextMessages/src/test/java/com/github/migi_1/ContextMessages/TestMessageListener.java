@@ -14,8 +14,10 @@ import com.jme3.network.Message;
  */
 public class TestMessageListener {
 
+	/** Message class used for testing. This message class is being handled.*/
 	private class TestMessage1 extends AbstractMessage { }
-	private class TestMessage2 extends AbstractMessage { }
+	/** Message class used for testing. This message class isn't being handled. */
+	private static class TestMessage2 extends AbstractMessage { }
 	
 	private MessageListener<TestMessage1> listener;
 	

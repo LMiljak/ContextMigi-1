@@ -1,13 +1,9 @@
 package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import com.jme3.app.AndroidHarness;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -71,38 +67,11 @@ public class HelloActivity extends AndroidHarness{
         }
 
         /**
-         * This method is called when the senser notices a change.
-         * @param se 
+         * Gets the instance of this Application.
+         * 
+         * @return
+         *      The instance of this Application.
          */
-//        @Override
-//        public void onSensorChanged(SensorEvent se) {
-//
-//            /** check whether the game has already been instantiated **/
-//            if (application == null) {
-//                return;
-//            }
-//
-//            /** log the sensor values **/
-//            Log.d("main", Float.toString(se.values[0]) + " " + Float.toString(se.values[1]) + " " + Float.toString(se.values[2]));
-//
-//            /** this is an example of how you can call a method in the game **/
-//            application.enqueue(new Callable() {
-//
-//                //@Override
-//                public Object call() throws Exception {
-//                
-//                    /** Example of how you can make a call to a method in the game instance **/
-//                    application.gyroscopeChange();
-//                    return null;
-//                }
-//             });
-//        }
-
-        /** Auto-generated method **/
-//        @Override
-//        public void onAccuracyChanged(Sensor sensor, int i) {
-//        }
-//        
         public Main getMain(){
             return application;
         }

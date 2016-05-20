@@ -13,14 +13,19 @@ import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.jme3.network.Client;
 
 /**
- *
- * @author Marcel
+ * Sensor that receives information about the accelerometer of the Android device.
  */
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
     private HelloActivity act;
     
-    public AccelerometerSensor(HelloActivity act){
+    /**
+     * Constructor for AccelerometerSensor.
+     * 
+     * @param act
+     *      The main activity from which is was created.
+     */
+    public AccelerometerSensor(HelloActivity act) {
         this.act = act;
     }
     
@@ -37,7 +42,6 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             
             // log the sensor values
             Log.d("main", x_force + " " + y_force + " " + z_force);
-
             //Sending the information to the Server.
             sendSensorInformation(x_force, y_force, z_force);
     }

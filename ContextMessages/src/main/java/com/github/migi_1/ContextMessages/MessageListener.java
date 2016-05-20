@@ -15,6 +15,8 @@ import com.jme3.network.Message;
 @SuppressWarnings("rawtypes")
 public abstract class MessageListener<T extends AbstractMessage> 
 		implements com.jme3.network.MessageListener {
+	//To FindBugs: The name shadowing of MessageListener is intentional,
+	//as an indication that the jme3 MessageListener should not be used.
 	
 	/** 
 	 * Called when any message has been received.

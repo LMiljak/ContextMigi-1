@@ -164,7 +164,7 @@ public class Environment extends AbstractAppState {
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() + 0.2f;
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2f;
         }
 
 
@@ -269,7 +269,7 @@ public class Environment extends AbstractAppState {
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - bb.getXExtent();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2f;
             rootNode.attachChild(levelPiece);
         }
 

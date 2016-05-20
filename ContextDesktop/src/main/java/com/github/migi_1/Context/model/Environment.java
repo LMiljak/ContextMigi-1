@@ -137,12 +137,14 @@ public class Environment extends AbstractAppState {
      * Initializes all shadows of the scene.
      */
     private void initShadows() {
-        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+        DirectionalLightShadowRenderer dlsr =
+        		new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsr.setLight(sun);
         viewPort.addProcessor(dlsr);
 
         //adds shadow filter and attaches it to the viewport
-        DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+        DirectionalLightShadowFilter dlsf =
+        		new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
@@ -162,7 +164,7 @@ public class Environment extends AbstractAppState {
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
 
             //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -= 2 * bb.getXExtent()- bb.getXExtent();
+            WORLD_LOCATION.x -= 2 * bb.getXExtent() + 0.2f;
         }
 
 
@@ -198,14 +200,14 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * render the entities.
-     * @param rm manager of the renderengine.
+     * Renders the entities.
+     * @param rm manager of the renderengine
      */
     @Override
     public void render(RenderManager rm) { }
 
     /**
-     * Move the flycam.
+     * Moves the flycam.
      * @param move a vector representation of the movement of the flyCamera.
      */
     public void moveCam(Vector3f move) {
@@ -213,10 +215,10 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * Rotate the flycam.
-     * @param x rotation value on the x-axis.
-     * @param y rotation value on the y-axis.
-     * @param z rotation value on the z-axis.
+     * Rotates the flycam.
+     * @param x rotation value on the x-axis
+     * @param y rotation value on the y-axis
+     * @param z rotation value on the z-axis
      */
     public void rotateCam(float x, float y, float z) {
         flyObs.rotate(x, y, z);
@@ -243,8 +245,7 @@ public class Environment extends AbstractAppState {
             VRApplication.setObserver(vrObs);
         }
     }
-
-        /**
+    /**
      * Updates the test world.
      */
     private void updateTestWorld() {
@@ -304,8 +305,6 @@ public class Environment extends AbstractAppState {
 
     @Override
     public void setEnabled(boolean arg0) { }
-
-
 
     /**
      * Chooses a levelPiece from the randomly generated number rnd.

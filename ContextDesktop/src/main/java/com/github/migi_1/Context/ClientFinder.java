@@ -15,9 +15,9 @@ import java.util.concurrent.Executors;
  * http://michieldemey.be/blog/network-discovery-using-udp-broadcast/
  * This code is highly based on that tutorial.
  *
- * SHINGLETON class.
+ * SINGLETON class.
  */
-public class ClientFinder {
+public final class ClientFinder {
 
 	/** The shingleton instance of this class. */
 	private static final ClientFinder INSTANCE = new ClientFinder();
@@ -27,6 +27,9 @@ public class ClientFinder {
 
 	/** The port to which clients should try and connect. */
 	private static final int PORT = 4269;
+
+	/** Local IP address. **/
+	private static final String IP = "0.0.0.0";
 
 	private DatagramSocket socket;
 
@@ -97,7 +100,7 @@ public class ClientFinder {
 	 */
 	private void findClients() {
 		try {
-			socket = new DatagramSocket(PORT, InetAddress.getByName("0.0.0.0"));
+			socket = new DatagramSocket(PORT, InetAddress.getByName(IP));
 			socket.setBroadcast(true);
 
 			while (running) {
@@ -105,12 +108,15 @@ public class ClientFinder {
 
 				if (checkReceivedPacket(packet)) {
 					byte[] responseData = "Yea dude, Im a real server".getBytes();
-					DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, packet.getAddress(), packet.getPort());
+					DatagramPacket responsePacket = 
+						new DatagramPacket(responseData, responseData.length, packet.getAddress(), packet.getPort());
 					socket.send(responsePacket);
 				}
 			}
 
-		} catch (IOException e) { }
+		} catch (IOException e) {
+		    System.out.println(e.getStackTrace());
+		}
 
 	}
 

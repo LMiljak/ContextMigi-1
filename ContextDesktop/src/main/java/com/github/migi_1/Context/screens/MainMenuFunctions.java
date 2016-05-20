@@ -12,13 +12,13 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class MainMenuFunctions implements ScreenController {
 
     private Nifty nifty;
-    private Screen screen;
+//    private Screen screen;
     private Main main;
 
     /**
      * This function initializes MainMenuFunctions and sets app.
-     * @param stateManager AppStateManager
-     * @param app Application
+     * @param main
+     * 		The main instance.
      */
     public MainMenuFunctions(Main main) {
         this.main = main;
@@ -30,9 +30,9 @@ public class MainMenuFunctions implements ScreenController {
      * @param tpf float
      */
     public void update(float tpf) {
-        if (screen.getScreenId().equals("host")) {
-            // execute functions to update the lobby screen.
-        }
+//        if (screen.getScreenId().equals("host")) {
+//            // TODO: execute functions to update the lobby screen.
+//        }
     }
 
     /**
@@ -43,7 +43,7 @@ public class MainMenuFunctions implements ScreenController {
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
-        this.screen = screen;
+//        this.screen = screen;
     }
 
     /**
@@ -80,7 +80,7 @@ public class MainMenuFunctions implements ScreenController {
     }
 
     /**
-     * This function quits the game
+     * Quits the game.
      * @NOTE For now this exits the game using a System.exit(0),
      * @NOTE in the end app.stop() will probably be a bit nicer (but it is not possible to do so yet).
      */

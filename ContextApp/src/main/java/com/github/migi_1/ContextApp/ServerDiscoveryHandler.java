@@ -13,6 +13,6 @@ public interface ServerDiscoveryHandler {
 	 * @param server
 	 * 		The address of the server found.
 	 */
-	public void onServerDiscovery(InetAddress server);
+	void onServerDiscovery(InetAddress server);
 	
 }

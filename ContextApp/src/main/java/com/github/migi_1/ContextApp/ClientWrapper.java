@@ -8,7 +8,7 @@ import com.jme3.network.Network;
 /**
  * A wrapper class for a com.jme3.network.client object.
  * 
- * SHINGLETON class.
+ * SINGLETON class.
  */
 public class ClientWrapper {
 	
@@ -38,9 +38,7 @@ public class ClientWrapper {
 	 * 
 	 * @param host
 	 * 		The ip address of the host.
-	 * @return
-	 * 		The created Client object.
-	 * @throws IOException
+	 * @throws IOException  
 	 * @throws IllegalStateException if the client has already started.
 	 */
 	public void startClient(String host) throws IOException, IllegalStateException {

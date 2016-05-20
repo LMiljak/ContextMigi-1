@@ -7,12 +7,13 @@
     <version>0.1.0</version>
     <packaging>apk</packaging>
 
-        <repositories>
-    <repository>
-      <id>jme3-repo</id>
-      <url>http://updates.jmonkeyengine.org/maven/</url>
-    </repository>
-  </repositories>
+    <repositories>
+		<repository>
+			<id>local-repo</id>
+			<name>Local Repository</name>
+			<url>file://${basedir}/libs</url>
+		</repository>
+	</repositories>
 
     <properties>
         <!-- use UTF-8 for everything -->

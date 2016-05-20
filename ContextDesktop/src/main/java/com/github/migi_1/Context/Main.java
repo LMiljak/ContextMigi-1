@@ -263,7 +263,13 @@ public class Main extends VRApplication {
     }
 
 
-    public void handleAccelerometerMessage(float orientation){
+    /**
+     * Steers the platform depending on the orientation of an accelerometer.
+     * 
+     * @param orientation
+     * 		The acceleration force along the z axis (including gravity).
+     */
+    public void handleAccelerometerMessage(float orientation) {
         environmentState.steer(orientation);
     }
 

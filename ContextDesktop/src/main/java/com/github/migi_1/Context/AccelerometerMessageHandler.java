@@ -15,6 +15,9 @@ public class AccelerometerMessageHandler extends MessageListener<AccelerometerMe
 	 * Storing this instance somewhere is useless, as it gets registered
 	 * automatically. So all that needs to be done is "new AccelerometerMessageHandler();"
 	 * and you're all set.
+	 * 
+	 * @param main
+	 * 		The instance of the application.
 	 */
 	@SuppressWarnings("unchecked")
 	public AccelerometerMessageHandler(Main main) {

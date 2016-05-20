@@ -62,7 +62,6 @@ public final class ServerWrapper {
 
 	/**
 	 * Starts the Server.
-	 *
 	 * @throws IOException if server can't be created on the specified port.
 	 * @throws IllegalStateException if the server is already running.
 	 */

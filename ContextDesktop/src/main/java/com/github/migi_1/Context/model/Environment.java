@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
@@ -47,13 +48,16 @@ public class Environment extends AbstractAppState {
     private static final int SHADOW_SPLITS = 3;
 
     private static final Vector3f WORLD_LOCATION = new Vector3f(0, -20, 0);
+
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private static final float PLATFORM_SPEED = 0.2f;
 
     private static final int LEVEL_PIECES = 5;
+    private static final int DIFFERENT_WORLDS = 5;
 
     private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
 
@@ -65,7 +69,6 @@ public class Environment extends AbstractAppState {
     private DirectionalLight sun2;
 
     private float steering;
-
 
     /**
      * First method that is called after the state has been created.
@@ -168,10 +171,9 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
         //initialize the given number of level pieces
         while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            Spatial levelPiece = chooseLevelPiece(new Random().nextInt(DIFFERENT_WORLDS));
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
@@ -217,9 +219,7 @@ public class Environment extends AbstractAppState {
      * @param rm manager of the renderengine
      */
     @Override
-    public void render(RenderManager rm) {
-
-    }
+    public void render(RenderManager rm) { }
 
     /**
      * Moves the flycam.
@@ -281,7 +281,7 @@ public class Environment extends AbstractAppState {
 
         //add level pieces until the number of level pieces is correct
         while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = assetManager.loadModel("Models/testWorld.j3o");
+            Spatial levelPiece = chooseLevelPiece(new Random().nextInt(DIFFERENT_WORLDS));
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
@@ -310,19 +310,26 @@ public class Environment extends AbstractAppState {
     ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isInitialized() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void setEnabled(boolean arg0) {
-        // TODO Auto-generated method stub
+    public void setEnabled(boolean arg0) { }
 
+    /**
+     * Chooses a levelPiece from the randomly generated number rnd.
+     * @param rnd the random variable created by Random.nextInt(the amount of different worlds)
+     */
+    private Spatial chooseLevelPiece(int rnd) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Models/world");
+        sb.append(rnd + 1);
+        sb.append(".j3o");
+        return assetManager.loadModel(sb.toString());
     }
 }

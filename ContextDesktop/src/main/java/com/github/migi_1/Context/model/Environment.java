@@ -139,6 +139,9 @@ public class Environment extends AbstractAppState {
         if(results.size() > 0){
 
             System.out.println(results.size());
+
+            rootNode.detachChild(obstacle);
+            results = new CollisionResults();
         }
     }
 

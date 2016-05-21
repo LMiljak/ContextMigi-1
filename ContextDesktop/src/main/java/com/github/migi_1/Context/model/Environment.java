@@ -6,15 +6,14 @@ import java.util.Random;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.StaticObstacle;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -67,7 +66,7 @@ public class Environment extends AbstractAppState {
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
-    private Spatial obstacle;
+    private StaticObstacle obstacle;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -139,14 +138,15 @@ public class Environment extends AbstractAppState {
         testCommander.move(adjustedSpeed * xAxis, 0, adjustedSpeed * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
-        testPlatform.collideWith(obstacle.getWorldBound(), results);
+
+        testPlatform.collideWith(obstacle.getModel().getWorldBound(), results);
         if (decay < 1.0f){
             decay = decay + 0.01f;
         }
         if(results.size() > 0){
 
             System.out.println(results.size());
-            rootNode.detachChild(obstacle);
+            rootNode.detachChild(obstacle.getModel());
             obstacle.move(0.0f, -10.0f, 0.0f);
             results = new CollisionResults();
             decay = 0.0f;
@@ -212,10 +212,10 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
-        obstacle = assetManager.loadModel("Models/testCube2.j3o");
+        obstacle = new StaticObstacle(assetManager);
         obstacle.scale(0.3f);
         obstacle.move(COMMANDER_LOCATION.add(new Vector3f(-50.f, -2.0f,0.0f)));
-        CollisionShape obstacleShape = CollisionShapeFactory.createMeshShape(obstacle);
+//        CollisionShape obstacleShape = CollisionShapeFactory.createMeshShape(obstacle);
 //        this.pSpace.add(obstacleShape);
         //attach all objects to the root pane
         for (Spatial sp : testWorld) {
@@ -224,7 +224,7 @@ public class Environment extends AbstractAppState {
 
         rootNode.attachChild(testPlatform);
         rootNode.attachChild(testCommander);
-        rootNode.attachChild(obstacle);
+        rootNode.attachChild(obstacle.getModel());
     }
 
     /**

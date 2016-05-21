@@ -34,17 +34,21 @@ public class MainMenu extends AbstractAppState {
 
     private MainMenuFunctions mainMenuController;
 
+    private static final String MAIN_SCREEN = "Screens/main_screen.xml";
+
+    private static final String HOST_SCREEN = "Screens/host_screen.xml";
+
      /**
      * Creates the start screen.
      */
      private void createStartScreen() {
-         nifty.fromXml("Screens/main_screen.xml", "start", mainMenuController);
+         nifty.fromXml(MAIN_SCREEN, "start", mainMenuController);
      }
      /**
       * Creates the host screen.
       */
      private void createHostScreen() {
-         nifty.addXml("Screens/host_screen.xml");
+         nifty.addXml(HOST_SCREEN);
      }
 
     /**

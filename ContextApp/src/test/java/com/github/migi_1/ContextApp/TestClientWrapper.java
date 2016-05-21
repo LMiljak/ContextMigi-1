@@ -98,14 +98,6 @@ public class TestClientWrapper {
 		client.startClient("localhost");
 		
 		assertTrue(client.getClient().isStarted());
-                
-                //Waiting for the client to connect. If it fails to do so
-                //within the timeout, the test fails
-                boolean isConnected = false;
-		while (!isConnected) {
-                    isConnected = client.getClient().isConnected();
-                }
-		assertTrue(server.hasConnections());
 	}
 	
 	/**
@@ -138,14 +130,6 @@ public class TestClientWrapper {
 		
 		assertFalse(c.isStarted());
 		assertFalse(c.isConnected());
-                
-                boolean hasConnections = true;
-                
-                 //Waiting for the server to know that the
-		//client has disconnected. This fails if the timeout has been reached.
-		while (!hasConnections) {
-                    hasConnections = server.hasConnections();
-                }
 	}
 	
 	/**

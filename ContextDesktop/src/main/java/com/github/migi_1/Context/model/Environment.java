@@ -12,7 +12,9 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -202,8 +204,8 @@ public class Environment extends AbstractAppState {
         obstacle = assetManager.loadModel("Models/testCube2.j3o");
         obstacle.scale(0.3f);
         obstacle.move(COMMANDER_LOCATION.add(new Vector3f(-50.f, -2.0f,0.0f)));
-
-
+        CollisionShape obstacleShape = CollisionShapeFactory.createMeshShape(obstacle);
+//        this.pSpace.add(obstacleShape);
         //attach all objects to the root pane
         for (Spatial sp : testWorld) {
             rootNode.attachChild(sp);

@@ -1,8 +1,9 @@
 package com.github.migi_1.Context;
 
-import jmevr.app.VRApplication;
 import java.io.IOException;
 import java.util.concurrent.Executors;
+
+import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
@@ -28,6 +29,7 @@ public class Main extends VRApplication {
 
     //the main application
     private static Main main;
+
 
     /**
      * Movements of the flycam.
@@ -67,7 +69,7 @@ public class Main extends VRApplication {
         this.getStateManager().attach(mainMenuState);
         startServer();
     }
-    
+
     /**
      * Starts the server and allows clients to connect to it.
      */
@@ -265,7 +267,7 @@ public class Main extends VRApplication {
 
     /**
      * Steers the platform depending on the orientation of an accelerometer.
-     * 
+     *
      * @param orientation
      * 		The acceleration force along the z axis (including gravity).
      */
@@ -297,4 +299,5 @@ public class Main extends VRApplication {
     public Node getRootNode() {
         return rootNode;
     }
+
 }

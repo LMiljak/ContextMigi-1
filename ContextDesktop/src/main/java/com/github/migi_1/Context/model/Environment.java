@@ -6,7 +6,9 @@ import java.util.Random;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
-import com.github.migi_1.Context.StaticObstacle;
+import com.github.migi_1.Context.Obstacle;
+import com.github.migi_1.Context.ObstacleFactory;
+import com.github.migi_1.Context.StaticObstacleFactory;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -66,7 +68,7 @@ public class Environment extends AbstractAppState {
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
-    private StaticObstacle obstacle;
+    private Obstacle obstacle;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -77,6 +79,8 @@ public class Environment extends AbstractAppState {
     private CollisionResults results;
 
     private float decay;
+
+    private ObstacleFactory obstacleFactory;
 
     /**
      * First method that is called after the state has been created.
@@ -96,6 +100,7 @@ public class Environment extends AbstractAppState {
         steering = 0.f;
         results = new CollisionResults();
         decay = 1;
+        obstacleFactory = new StaticObstacleFactory();
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -212,7 +217,7 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
-        obstacle = new StaticObstacle(assetManager);
+        obstacle = obstacleFactory.produce(assetManager);
         obstacle.scale(0.3f);
         obstacle.move(COMMANDER_LOCATION.add(new Vector3f(-50.f, -2.0f,0.0f)));
 //        CollisionShape obstacleShape = CollisionShapeFactory.createMeshShape(obstacle);

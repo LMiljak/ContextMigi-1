@@ -4,7 +4,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-public class StaticObstacle {
+public class StaticObstacle implements Obstacle {
 
     private static final String MODEL_FILE = "Models/testCube2.j3o";
 

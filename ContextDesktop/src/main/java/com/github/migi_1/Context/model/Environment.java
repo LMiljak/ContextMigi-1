@@ -3,6 +3,8 @@ package com.github.migi_1.Context.model;
 import java.util.LinkedList;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -25,8 +27,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
-import jmevr.app.VRApplication;
-
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
@@ -36,6 +36,7 @@ public class Environment extends AbstractAppState {
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
+    private LinkedList<Carrier> carriers;
 
     private Spatial vrObs;
     private Spatial flyObs;
@@ -86,6 +87,7 @@ public class Environment extends AbstractAppState {
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
         steering = 0.f;
+        carriers = new LinkedList<Carrier>();
 
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
@@ -153,13 +155,13 @@ public class Environment extends AbstractAppState {
      */
     private void initShadows() {
         DirectionalLightShadowRenderer dlsr =
-        		new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+                new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsr.setLight(sun);
         viewPort.addProcessor(dlsr);
 
         //adds shadow filter and attaches it to the viewport
         DirectionalLightShadowFilter dlsf =
-        		new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+                new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
@@ -185,6 +187,13 @@ public class Environment extends AbstractAppState {
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         testPlatform.move(PLATFORM_LOCATION);
+
+        for(int i = 0; i <= 3; i++) {
+            carriers.add(new Carrier(assetManager, i * 10, 0, 0, Integer.toString(i)));            
+        }
+        for(Carrier carrier : carriers) {
+            rootNode.attachChild(carrier.getSpatial());
+        }
         testCommander = assetManager.loadModel("Models/ninja.j3o");
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
@@ -267,15 +276,15 @@ public class Environment extends AbstractAppState {
 
         //delete level piece when it too far back
         if (testWorld.size() > 0) {
-             Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
-             BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
-             if (v1.distance(v2) > 100) {
+            Spatial check = testWorld.peek();
+            BoundingBox bb1 = (BoundingBox) check.getWorldBound();
+            BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
+            Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+            Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
+            if (v1.distance(v2) > 100) {
                 testWorld.poll();
                 rootNode.detachChild(check);
-             }
+            }
         }
 
         //add level pieces until the number of level pieces is correct

@@ -1,11 +1,15 @@
 package com.github.migi_1.Context;
 
-import jmevr.app.VRApplication;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionEvent;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -19,7 +23,7 @@ import com.jme3.system.AppSettings;
  * all things that have to do with the application as a whole can be found in this class
  * @author Damian
  */
-public class Main extends VRApplication {
+public class Main extends VRApplication implements PhysicsCollisionListener {
     //the main menu state
     private MainMenu mainMenuState;
 
@@ -28,6 +32,8 @@ public class Main extends VRApplication {
 
     //the main application
     private static Main main;
+
+    private BulletAppState bulletAppState;
 
     /**
      * Movements of the flycam.
@@ -67,7 +73,7 @@ public class Main extends VRApplication {
         this.getStateManager().attach(mainMenuState);
         startServer();
     }
-    
+
     /**
      * Starts the server and allows clients to connect to it.
      */
@@ -265,7 +271,7 @@ public class Main extends VRApplication {
 
     /**
      * Steers the platform depending on the orientation of an accelerometer.
-     * 
+     *
      * @param orientation
      * 		The acceleration force along the z axis (including gravity).
      */
@@ -296,5 +302,11 @@ public class Main extends VRApplication {
     @Override
     public Node getRootNode() {
         return rootNode;
+    }
+
+    @Override
+    public void collision(PhysicsCollisionEvent arg0) {
+        System.out.println(arg0.getObjectA().getClass().toString());
+
     }
 }

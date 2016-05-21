@@ -77,6 +77,7 @@ public class MainMenuFunctions implements ScreenController {
     public void startGame() {
         main.getStateManager().detach(main.getMainMenu());
         main.getStateManager().attach(main.getEnv());
+        main.getEnv().getPhysicsSpace().addCollisionListener(main);
     }
 
     /**

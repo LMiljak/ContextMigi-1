@@ -7,12 +7,14 @@ import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
-import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -31,7 +33,7 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
  */
-public class Environment extends AbstractAppState {
+public class Environment extends BulletAppState {
     private Main app;
     private ViewPort viewPort;
     private AssetManager assetManager;
@@ -111,7 +113,7 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-        System.out.println(testCommander.getLocalTranslation());
+//        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
         Vector3f loc = testCommander.getLocalTranslation();
         float xAxis = 1;
@@ -193,8 +195,8 @@ public class Environment extends AbstractAppState {
         obstacle = assetManager.loadModel("Models/testCube2.j3o");
         obstacle.scale(0.3f);
         obstacle.move(COMMANDER_LOCATION.add(new Vector3f(-50.f, -2.0f,0.0f)));
-
-
+        CollisionShape obstacleShape = CollisionShapeFactory.createMeshShape(obstacle);
+//        this.pSpace.add(obstacleShape);
         //attach all objects to the root pane
         for (Spatial sp : testWorld) {
             rootNode.attachChild(sp);

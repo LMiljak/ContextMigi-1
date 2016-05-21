@@ -144,4 +144,42 @@ public class TestServerWrapper {
 		
 		verifyStartsAndCloses(1, 1);
 	}
+	
+	/**
+	 * Assert that after starting and then starting it again the server:
+	 * 		start has been called 1 time.
+	 * 		close has been called 0 times.
+	 * 
+	 * @throws IOException if the initialisation of the server failed.
+	 */
+	@Test
+	public void testStartStartServer() throws IOException {
+		ServerWrapper.initialize();
+		
+		ServerWrapper wrapper = ServerWrapper.getInstance();
+		wrapper.startServer();
+		wrapper.startServer();
+		
+		verifyStartsAndCloses(1, 0);
+	}
+	
+	/**
+	 * Assert that after starting, closing, starting and closing again it again, the server:
+	 * 		start has been called 2 times.
+	 * 		close has been called 2 times.
+	 * 
+	 * @throws IOException if the initialisation of the server failed.
+	 */
+	@Test
+	public void testStartCloseStartCloseServer() throws IOException {
+		ServerWrapper.initialize();
+		
+		ServerWrapper wrapper = ServerWrapper.getInstance();
+		wrapper.startServer();
+		wrapper.closeServer();
+		wrapper.startServer();
+		wrapper.closeServer();
+		
+		verifyStartsAndCloses(2, 2);
+	}
 }

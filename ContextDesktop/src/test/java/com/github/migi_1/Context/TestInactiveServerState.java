@@ -1,5 +1,7 @@
 package com.github.migi_1.Context;
 
+import static org.junit.Assert.assertFalse;
+
 import org.mockito.Mockito;
 
 import com.jme3.network.Server;
@@ -18,7 +20,7 @@ public class TestInactiveServerState extends TestServerState {
 
 	@Override
 	public void testOnActivate() {
-		super.getServerState().getServer().isRunning();
+		assertFalse(super.getServerState().getServer().isRunning());
 	}
 
 	@Override

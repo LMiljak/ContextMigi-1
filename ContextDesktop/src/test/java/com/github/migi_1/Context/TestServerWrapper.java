@@ -36,6 +36,8 @@ public class TestServerWrapper {
 		
 		PowerMockito.mockStatic(Network.class);
 		try {
+			//Instead of actually creating a server, which Travis really doesn't like, 
+			//we mock the Network class to return our fake server.
 			Mockito.when(Network.createServer(PORT)).thenReturn(server);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -50,4 +52,14 @@ public class TestServerWrapper {
 		ServerWrapper.getInstance();
 	}
 	
+	/**
+	 * Asserts that the getServer method returns the correct server.
+	 * @throws IOException if the initialisation of the server failed.
+	 */
+	@Test
+	public void testGetServer() throws IOException {
+		ServerWrapper.initialize();
+		
+		assertEquals(server, ServerWrapper.getInstance().getServer());
+	}
 }

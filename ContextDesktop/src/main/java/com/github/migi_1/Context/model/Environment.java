@@ -77,6 +77,8 @@ public class Environment extends AbstractAppState {
 
     private CollisionResults results;
 
+    private float decay;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -94,6 +96,7 @@ public class Environment extends AbstractAppState {
         rootNode = this.app.getRootNode();
         steering = 0.f;
         results = new CollisionResults();
+        decay = 1;
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -131,17 +134,22 @@ public class Environment extends AbstractAppState {
             xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         }
 
-        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
-        testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
+        float adjustedSpeed = -PLATFORM_SPEED * decay;
+        testPlatform.move(adjustedSpeed * xAxis, 0, adjustedSpeed * zAxis);
+        testCommander.move(adjustedSpeed * xAxis, 0, adjustedSpeed * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
         testPlatform.collideWith(obstacle.getWorldBound(), results);
+        if (decay < 1.0f){
+            decay = decay + 0.01f;
+        }
         if(results.size() > 0){
 
             System.out.println(results.size());
-
             rootNode.detachChild(obstacle);
+            obstacle.move(0.0f, -10.0f, 0.0f);
             results = new CollisionResults();
+            decay = 0.0f;
         }
     }
 

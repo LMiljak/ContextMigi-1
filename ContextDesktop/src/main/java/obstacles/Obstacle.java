@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package obstacles;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;

@@ -3,12 +3,12 @@ package com.github.migi_1.Context.model;
 import java.util.LinkedList;
 import java.util.Random;
 
+import obstacles.Obstacle;
+import obstacles.ObstacleFactory;
+import obstacles.StaticObstacleFactory;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
-import com.github.migi_1.Context.Obstacle;
-import com.github.migi_1.Context.ObstacleFactory;
-import com.github.migi_1.Context.StaticObstacleFactory;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;

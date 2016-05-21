@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package obstacles;
 
 import com.jme3.asset.AssetManager;
 

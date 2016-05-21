@@ -186,7 +186,6 @@ public class Environment extends AbstractAppState {
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         testPlatform.move(PLATFORM_LOCATION);
         testCommander = assetManager.loadModel("Models/ninja.j3o");
-        testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
 

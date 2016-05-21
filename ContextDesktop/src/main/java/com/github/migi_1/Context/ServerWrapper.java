@@ -123,7 +123,7 @@ public final class ServerWrapper {
 	 * Closes the server.
 	 */
 	public void closeServer() {
-		
+		switchState(new InactiveServerState(server));
 	}
 	
 	/**
@@ -133,8 +133,10 @@ public final class ServerWrapper {
 	 * 		The new state of the server.
 	 */
 	private void switchState(ServerState newState) {
-		state.onDeactivate();
-		state = newState;
-		state.onActivate();
+		if (!state.equals(newState)) {
+			state.onDeactivate();
+			state = newState;
+			state.onActivate();
+		}
 	}
 }

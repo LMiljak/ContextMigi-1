@@ -39,5 +39,19 @@ public abstract class ServerState {
 	 * This can be used to for example, do some cleanup.
 	 */
 	public abstract void onDeactivate();
-	
+
+	@Override
+	public int hashCode() {
+		return server.hashCode() + getClass().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		ServerState other = (ServerState) obj;
+		
+		return server.equals(other.server);
+	}
 }

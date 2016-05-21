@@ -20,6 +20,7 @@ public class TestInactiveServerState extends TestServerState {
 
 	@Override
 	public void testOnActivate() {
+		super.getServerState().onActivate();
 		assertFalse(super.getServerState().getServer().isRunning());
 	}
 

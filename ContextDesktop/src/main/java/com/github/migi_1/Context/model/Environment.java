@@ -3,10 +3,9 @@ package com.github.migi_1.Context.model;
 import java.util.LinkedList;
 import java.util.Random;
 
-import obstacles.Obstacle;
-import obstacles.ObstacleFactory;
-import obstacles.StaticObstacleFactory;
 import jmevr.app.VRApplication;
+import obstacles.Obstacle;
+import obstacles.ObstacleGenerator;
 
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
@@ -68,7 +67,6 @@ public class Environment extends AbstractAppState {
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
-    private Obstacle obstacle;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -80,7 +78,7 @@ public class Environment extends AbstractAppState {
 
     private float decay;
 
-    private ObstacleFactory obstacleFactory;
+    private ObstacleGenerator obstacleGenerator;
 
     /**
      * First method that is called after the state has been created.
@@ -100,7 +98,7 @@ public class Environment extends AbstractAppState {
         steering = 0.f;
         results = new CollisionResults();
         decay = 1;
-        obstacleFactory = new StaticObstacleFactory();
+        obstacleGenerator = ObstacleGenerator.getInstance(this);
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -124,7 +122,7 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-//        System.out.println(testCommander.getLocalTranslation());
+
         super.update(tpf);
         Vector3f loc = testCommander.getLocalTranslation();
         float xAxis = 1;
@@ -144,15 +142,17 @@ public class Environment extends AbstractAppState {
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
 
-        testPlatform.collideWith(obstacle.getModel().getWorldBound(), results);
+        for (Obstacle obs : obstacleGenerator.getObstacles()){
+            testPlatform.collideWith(obs.getModel().getWorldBound(), results);
+        }
+
+        // regain speed
         if (decay < 1.0f){
             decay = decay + 0.01f;
         }
         if(results.size() > 0){
-
             System.out.println(results.size());
-            rootNode.detachChild(obstacle.getModel());
-            obstacle.move(0.0f, -10.0f, 0.0f);
+            rootNode.detachChild(obstacleGenerator.getObstacles().poll().getModel());
             results = new CollisionResults();
             decay = 0.0f;
         }
@@ -217,11 +217,9 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
-        obstacle = obstacleFactory.produce(assetManager);
-        obstacle.scale(0.3f);
-        obstacle.move(COMMANDER_LOCATION.add(new Vector3f(-50.f, -2.0f,0.0f)));
-//        CollisionShape obstacleShape = CollisionShapeFactory.createMeshShape(obstacle);
-//        this.pSpace.add(obstacleShape);
+        for (Obstacle obs : obstacleGenerator.getObstacles()) {
+            rootNode.attachChild(obs.getModel());
+        }
         //attach all objects to the root pane
         for (Spatial sp : testWorld) {
             rootNode.attachChild(sp);
@@ -229,7 +227,6 @@ public class Environment extends AbstractAppState {
 
         rootNode.attachChild(testPlatform);
         rootNode.attachChild(testCommander);
-        rootNode.attachChild(obstacle.getModel());
     }
 
     /**
@@ -322,6 +319,14 @@ public class Environment extends AbstractAppState {
             rootNode.attachChild(levelPiece);
         }
 
+    }
+
+    public Vector3f getCommanderLocation() {
+        return COMMANDER_LOCATION;
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 
     /**

@@ -3,7 +3,9 @@ package com.github.migi_1.Context;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -41,6 +44,25 @@ public class TestServerWrapper {
 			Mockito.when(Network.createServer(PORT)).thenReturn(server);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Resets the fields in the ServerWrapper class at the end
+	 * of each test. This is because otherwise the other in which tests are executed
+	 * my affect for example the testGetInstanceNotInitialised(), because the class may
+	 * have been initialised by another test.
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
+	 */
+	@After
+	public void resetFields() throws IllegalArgumentException, IllegalAccessException {
+		Field initialised = Whitebox.getField(ServerWrapper.class, "initialised");
+		
+		if (initialised.getBoolean(null)) { //If the ServerWrapper has been initialised, we need to 'uninitialise' it.
+			Whitebox.getField(ServerWrapper.class, "server").set(ServerWrapper.getInstance(), null);
+			Whitebox.getField(ServerWrapper.class, "state").set(ServerWrapper.getInstance(), null);
+			initialised.set(null, Boolean.FALSE);
 		}
 	}
 	
@@ -103,5 +125,23 @@ public class TestServerWrapper {
 		wrapper.closeServer();
 		
 		verifyStartsAndCloses(0, 0);
+	}
+	
+	/**
+	 * Assert that after starting and then closing the server:
+	 * 		start has been called 1 time.
+	 * 		close has been called 1 time.
+	 * 
+	 * @throws IOException if the initialisation of the server failed.
+	 */
+	@Test
+	public void testStartCloseServer() throws IOException {
+		ServerWrapper.initialize();
+		
+		ServerWrapper wrapper = ServerWrapper.getInstance();
+		wrapper.startServer();
+		wrapper.closeServer();
+		
+		verifyStartsAndCloses(1, 1);
 	}
 }

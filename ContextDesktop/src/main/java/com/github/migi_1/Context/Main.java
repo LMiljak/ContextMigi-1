@@ -1,7 +1,6 @@
 package com.github.migi_1.Context;
 
 import jmevr.app.VRApplication;
-import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.Environment;
@@ -77,8 +76,6 @@ public class Main extends VRApplication {
 			ServerWrapper.getInstance().startServer();
 			new AccelerometerMessageHandler(this);
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
     }

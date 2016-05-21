@@ -3,6 +3,9 @@ package com.github.migi_1.Context;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 
 import com.jme3.network.AbstractMessage;
@@ -28,9 +31,14 @@ public final class ServerWrapper {
 	private static final ServerWrapper INSTANCE = new ServerWrapper();
 	/** The port on which the server is running. */
 	private static final int PORT = 4321;
-
-	/** The wrapped server Object. */
+	/** The amount of times the server should restart before sending an error.*/
+	private static final int RESTART_ATTEMPTS = 10;
+	
+	
+	private static boolean initialised = false;
+	
 	private Server server;
+	private ServerState state;
 
 	//Every message types is registered by the Serializer in this class initializer.
 	static {
@@ -44,61 +52,87 @@ public final class ServerWrapper {
 	 *
 	 * @return
 	 * 		The instance of this singleton class.
+	 * @throws IllegalStateException if the class has not yet been initialised.
 	 */
-	public static ServerWrapper getInstance() {
+	public static ServerWrapper getInstance() throws IllegalStateException {
+		if (!initialised) {
+			throw new IllegalStateException("The server has not yet been initialised.");
+		}
 		return INSTANCE;
 	}
+	
+	/**
+	 * Initialises the Server.
+	 * 
+	 * @throws IOException if the server failed to get created after a certain amount of attempts.
+	 * @throws IllegalStateException if this class has already been initialised.
+	 */
+	public static synchronized void initialize() throws IOException, IllegalStateException {
+		INSTANCE.createServer();
+		initialised = true;
+	}
 
-	/** Private Constructor to prevent instantiation. */
+	/** Private constructor to prevent initialisation. */
 	private ServerWrapper() { }
 
 	/**
-	 * Gets the port on which the server is running.
-	 *
-	 * @return
-	 * 		The port on which the server is running.
+	 * Creates the server.
+	 * 
+	 * @throws IOException if the server failed to get created after a certain amount of attempts.
 	 */
-	public int getPort() {
-		return PORT;
-	}
-
-	/**
-	 * Starts the Server.
-	 * @throws IOException if server can't be created on the specified port.
-	 * @throws IllegalStateException if the server is already running.
-	 */
-	public void startServer() throws IOException, IllegalStateException {
-		if (server == null) {
-			server = Network.createServer(PORT);
-			server.start();
-
-		} else {
-			throw new IllegalStateException("Server is already running");
+	private void createServer() throws IOException {
+		Logger logger = Logger.getGlobal();
+		
+		for (int attempt = 1; attempt <= RESTART_ATTEMPTS; attempt++) {
+			try {
+				server = Network.createServer(PORT);
+				logger.log(Level.INFO, "Successfully created a server on port " + PORT + ".");
+				return;
+			} catch (IOException e) {
+				logger.log(Level.WARNING, "Failed to create server: " + e.getMessage() + ". Retrying.");
+			}
 		}
+		
+		final String failMessage = "Failed to create server after " + RESTART_ATTEMPTS + " attempts";
+		logger.log(Level.SEVERE, failMessage);
+		
+		throw new IOException(failMessage);
 	}
-
+	
 	/**
-	 * Closes the Server.
-	 *
-	 * @throws IllegalStateException if the server is not running.
-	 */
-	public void closeServer() throws IllegalStateException {
-		if (server != null) {
-			server.close();
-			server = null;
-		} else {
-			throw new IllegalStateException("Server has already stopped");
-		}
-	}
-
-	/**
-	 * Gets the Server.
-	 *
+	 * Gets the wrapped Server.
+	 * This server can be used to for example: send messages.
+	 * 
 	 * @return
-	 * 		The wrapped server object. Null if the server isn't started.
+	 * 		The wrapped Server.
 	 */
 	public Server getServer() {
 		return server;
 	}
-
+	
+	/**
+	 * Starts the server.
+	 */
+	public void startServer() {
+		switchState(new ActiveServerState(server));
+	}
+	
+	/**
+	 * Closes the server.
+	 */
+	public void closeServer() {
+		
+	}
+	
+	/**
+	 * Switches the current state to a new state.
+	 * 
+	 * @param newState
+	 * 		The new state of the server.
+	 */
+	private void switchState(ServerState newState) {
+		state.onDeactivate();
+		state = newState;
+		state.onActivate();
+	}
 }

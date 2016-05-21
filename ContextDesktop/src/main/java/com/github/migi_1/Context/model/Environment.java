@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import jmevr.app.VRApplication;
-import obstacles.Obstacle;
-import obstacles.ObstacleGenerator;
+import obstacles.DamageDealer;
+import obstacles.DamageDealerGenerator;
 
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
@@ -78,7 +78,7 @@ public class Environment extends AbstractAppState {
 
     private float decay;
 
-    private ObstacleGenerator obstacleGenerator;
+    private DamageDealerGenerator obstacleGenerator;
 
     /**
      * First method that is called after the state has been created.
@@ -98,7 +98,7 @@ public class Environment extends AbstractAppState {
         steering = 0.f;
         results = new CollisionResults();
         decay = 1;
-        obstacleGenerator = ObstacleGenerator.getInstance(this);
+        obstacleGenerator = DamageDealerGenerator.getInstance(this);
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -142,7 +142,7 @@ public class Environment extends AbstractAppState {
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
 
-        for (Obstacle obs : obstacleGenerator.getObstacles()){
+        for (DamageDealer obs : obstacleGenerator.getObstacles()){
             testPlatform.collideWith(obs.getModel().getWorldBound(), results);
         }
 
@@ -217,7 +217,7 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
-        for (Obstacle obs : obstacleGenerator.getObstacles()) {
+        for (DamageDealer obs : obstacleGenerator.getObstacles()) {
             rootNode.attachChild(obs.getModel());
         }
         //attach all objects to the root pane

@@ -3,7 +3,7 @@ package obstacles;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-public interface Obstacle {
+public interface DamageDealer {
 
     public Spatial getModel();
 

@@ -2,7 +2,7 @@ package obstacles;
 
 import com.jme3.asset.AssetManager;
 
-public class StaticObstacleFactory extends ObstacleFactory {
+public class StaticObstacleFactory extends DamageDealerFactory {
 
 
     @Override

@@ -70,6 +70,7 @@ public class Environment extends AbstractAppState {
     private DirectionalLight sun2;
 
     private float steering;
+    private Carrier carrier;
 
     /**
      * First method that is called after the state has been created.
@@ -187,13 +188,13 @@ public class Environment extends AbstractAppState {
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         testPlatform.move(PLATFORM_LOCATION);
-
+        
+        //add the carriers
         for(int i = 0; i <= 3; i++) {
-            carriers.add(new Carrier(assetManager, i * 10, 0, 0, Integer.toString(i)));            
-        }
-        for(Carrier carrier : carriers) {
+            carrier = new Carrier(assetManager, i * 10, 0, 0, Integer.toString(i));   
             rootNode.attachChild(carrier.getSpatial());
         }
+        
         testCommander = assetManager.loadModel("Models/ninja.j3o");
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());

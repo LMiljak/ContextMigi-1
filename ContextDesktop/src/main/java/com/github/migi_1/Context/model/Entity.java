@@ -4,9 +4,6 @@ import com.jme3.scene.Spatial;
 
 public class Entity {
 
-    private float locX;
-    private float locY;
-    private float locZ;
     private int health;
     private Spatial spatial;
 
@@ -20,21 +17,21 @@ public class Entity {
      * @return the locX
      */
     public float getLocX() {
-        return locX;
+        return spatial.getLocalTranslation().x;
     }
 
     /**
      * @return the locY
      */
     public float getLocY() {
-        return locY;
+        return spatial.getLocalTranslation().y;
     }
 
     /**
      * @return the locZ
      */
     public float getLocZ() {
-        return locZ;
+        return spatial.getLocalTranslation().z;
     }
 
     /**

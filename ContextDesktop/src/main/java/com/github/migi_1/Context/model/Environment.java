@@ -13,6 +13,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -71,6 +72,9 @@ public class Environment extends AbstractAppState {
 
     private float steering;
 
+
+    private CollisionResults results;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -87,7 +91,7 @@ public class Environment extends AbstractAppState {
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
         steering = 0.f;
-
+        results = new CollisionResults();
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -111,7 +115,7 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-        System.out.println(testCommander.getLocalTranslation());
+//        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
         Vector3f loc = testCommander.getLocalTranslation();
         float xAxis = 1;
@@ -129,6 +133,11 @@ public class Environment extends AbstractAppState {
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
+        testPlatform.collideWith(obstacle.getWorldBound(), results);
+        if(results.size() > 0){
+
+            System.out.println(results.size());
+        }
     }
 
     /**

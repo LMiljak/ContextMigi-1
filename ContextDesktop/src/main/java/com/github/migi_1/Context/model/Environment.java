@@ -36,7 +36,6 @@ public class Environment extends AbstractAppState {
     private ViewPort viewPort;
     private AssetManager assetManager;
     private Node rootNode;
-    private LinkedList<Carrier> carriers;
 
     private Spatial vrObs;
     private Spatial flyObs;
@@ -52,6 +51,10 @@ public class Environment extends AbstractAppState {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+    private static final Vector3f CARRIER1_LOCATION = new Vector3f(21, -20, 0);
+    private static final Vector3f CARRIER2_LOCATION = new Vector3f(25, -20, 0f);
+    private static final Vector3f CARRIER3_LOCATION = new Vector3f(21, -20, -4f);
+    private static final Vector3f CARRIER4_LOCATION = new Vector3f(25, -20, -4f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -70,7 +73,7 @@ public class Environment extends AbstractAppState {
     private DirectionalLight sun2;
 
     private float steering;
-    private Carrier carrier;
+    private LinkedList<Carrier> carriers;
 
     /**
      * First method that is called after the state has been created.
@@ -127,7 +130,7 @@ public class Environment extends AbstractAppState {
             xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         }
 
-        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
+        //testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
@@ -188,10 +191,15 @@ public class Environment extends AbstractAppState {
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         testPlatform.move(PLATFORM_LOCATION);
-        
+
         //add the carriers
-        for(int i = 0; i <= 3; i++) {
-            carrier = new Carrier(assetManager, i * 10, 0, 0, Integer.toString(i));   
+
+        carriers.add(new Carrier(assetManager, CARRIER1_LOCATION, Integer.toString(1)));
+        carriers.add(new Carrier(assetManager, CARRIER2_LOCATION, Integer.toString(2)));
+        carriers.add(new Carrier(assetManager, CARRIER3_LOCATION, Integer.toString(3)));
+        carriers.add(new Carrier(assetManager, CARRIER4_LOCATION, Integer.toString(4)));
+        
+        for(Carrier carrier : carriers) {
             rootNode.attachChild(carrier.getSpatial());
         }
         

@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model;
 
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 public class Entity {
@@ -7,9 +8,9 @@ public class Entity {
     private int health;
     private Spatial spatial;
 
-    public Entity(Spatial spatial, float locX, float locY, float locZ) {
+    public Entity(Spatial spatial, Vector3f location) {
         this.spatial = spatial;
-        spatial.setLocalTranslation(locX, locY, locZ);        
+        spatial.setLocalTranslation(location);        
         health = 2;
     }
 

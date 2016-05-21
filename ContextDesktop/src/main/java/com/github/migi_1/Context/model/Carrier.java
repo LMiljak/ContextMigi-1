@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.math.Vector3f;
 
 public class Carrier extends Entity {
     
@@ -8,8 +9,8 @@ public class Carrier extends Entity {
     //To differentiate between the 4 carriers
     private String id;
     
-    public Carrier(AssetManager assetManager, float locX, float locY, float locZ, String id) {
-        super(assetManager.loadModel(pathName), locX, locY, locZ);
+    public Carrier(AssetManager assetManager, Vector3f location, String id) {
+        super(assetManager.loadModel(pathName), location);
         this.id = id;
     }
 

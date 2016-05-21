@@ -1,5 +1,9 @@
 package com.github.migi_1.Context;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.jme3.network.Server;
@@ -28,6 +32,30 @@ public class TestActiveServerState extends TestServerState {
 	public void testOnDeactivate() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * Tests that the equals method returns true when called with an equal state.
+	 */
+	@Test
+	public void testEqualsTrue() {
+		assertEquals(getServerState(), new ActiveServerState(getServerState().getServer()));
+	}
+	
+	/**
+	 * Tests that the equals method returns false when called with the InactiveServerState.
+	 */
+	@Test
+	public void testEqualsFalseDifferentClass() {
+		assertNotEquals(getServerState(), new InactiveServerState(getServerState().getServer()));
+	}
+	
+	/**
+	 * Tests that the equals method returns false when called with an ActiveServerState with a different server.
+	 */
+	@Test
+	public void testEqualsFalseDifferentServer() {
+		assertNotEquals(getServerState(), new ActiveServerState(Mockito.mock(Server.class)));
 	}
 
 }

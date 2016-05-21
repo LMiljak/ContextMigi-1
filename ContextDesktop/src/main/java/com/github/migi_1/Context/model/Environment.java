@@ -3,6 +3,8 @@ package com.github.migi_1.Context.model;
 import java.util.LinkedList;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -24,8 +26,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -64,6 +64,7 @@ public class Environment extends AbstractAppState {
     private Spatial testPlatform;
     private LinkedList<Spatial> testWorld;
     private Spatial testCommander;
+    private Spatial obstacle;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -189,6 +190,10 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
+        obstacle = assetManager.loadModel("Models/testCube2.j3o");
+        obstacle.scale(0.3f);
+        obstacle.move(COMMANDER_LOCATION.add(new Vector3f(-50.f, -2.0f,0.0f)));
+
 
         //attach all objects to the root pane
         for (Spatial sp : testWorld) {
@@ -197,6 +202,7 @@ public class Environment extends AbstractAppState {
 
         rootNode.attachChild(testPlatform);
         rootNode.attachChild(testCommander);
+        rootNode.attachChild(obstacle);
     }
 
     /**

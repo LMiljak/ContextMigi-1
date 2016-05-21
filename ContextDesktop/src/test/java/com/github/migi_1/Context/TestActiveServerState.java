@@ -1,7 +1,5 @@
 package com.github.migi_1.Context;
 
-import static org.junit.Assert.assertTrue;
-
 import org.mockito.Mockito;
 
 import com.jme3.network.Server;
@@ -21,7 +19,9 @@ public class TestActiveServerState extends TestServerState {
 	@Override
 	public void testOnActivate() {
 		super.getServerState().onActivate();
-		assertTrue(super.getServerState().getServer().isRunning());
+		
+		//Verify that the server is being started.
+		Mockito.verify(super.getServerState().getServer(), Mockito.times(1)).start();
 	}
 
 	@Override

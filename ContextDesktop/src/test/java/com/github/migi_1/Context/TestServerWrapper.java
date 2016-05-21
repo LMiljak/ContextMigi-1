@@ -62,4 +62,46 @@ public class TestServerWrapper {
 		
 		assertEquals(server, ServerWrapper.getInstance().getServer());
 	}
+	
+	/**
+	 * Verifies that the server.start() method and server.close() method
+	 * have been called a several amount of times.
+	 * 
+	 * @param starts
+	 * 		The amount of times the server.start method should have been called.
+	 * @param closes
+	 * 		The amount of times the server.close method should have been called.
+	 */
+	private void verifyStartsAndCloses(int starts, int closes) {
+		Mockito.verify(server, Mockito.times(starts)).start();
+		Mockito.verify(server, Mockito.times(closes)).close();
+	}
+	
+	/**
+	 * Asserts that the startServer method actually starts the server.
+	 * @throws IOException if the initialisation of the server failed.
+	 */
+	@Test
+	public void testStartServer() throws IOException {
+		ServerWrapper.initialize();
+		
+		ServerWrapper wrapper = ServerWrapper.getInstance();
+		wrapper.startServer();
+		
+		verifyStartsAndCloses(1, 0);
+	}
+	
+	/**
+	 * Asserts that the closeServer does nothing because the server is already closed.
+	 * @throws IOException if the initialisation of the server failed.
+	 */
+	@Test
+	public void testCloseClosedServer() throws IOException {
+		ServerWrapper.initialize();
+		
+		ServerWrapper wrapper = ServerWrapper.getInstance();
+		wrapper.closeServer();
+		
+		verifyStartsAndCloses(0, 0);
+	}
 }

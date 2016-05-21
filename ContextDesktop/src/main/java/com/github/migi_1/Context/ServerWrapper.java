@@ -69,6 +69,8 @@ public final class ServerWrapper {
 	 */
 	public static synchronized void initialize() throws IOException, IllegalStateException {
 		INSTANCE.createServer();
+		INSTANCE.state = new InactiveServerState(INSTANCE.server);
+		
 		initialised = true;
 	}
 

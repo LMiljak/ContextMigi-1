@@ -1,9 +1,10 @@
 package obstacles;
 
-import java.util.LinkedList;
+import java.util.HashMap;
 
 import com.github.migi_1.Context.model.Environment;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 
 public class DamageDealerGenerator {
 
@@ -17,13 +18,13 @@ public class DamageDealerGenerator {
 
     private DamageDealerFactory obstacleFactory;
 
-    private LinkedList<DamageDealer> obstacleList;
+    private HashMap<Geometry, DamageDealer> obstacleList;
 
     public DamageDealerGenerator(Environment environment){
         this.environment = environment;
         this.location = environment.getCommanderLocation();
         this.obstacleFactory = new StaticObstacleFactory();
-        this.obstacleList = new LinkedList<DamageDealer>();
+        this.obstacleList = new HashMap<Geometry, DamageDealer>();
     }
 
     public static DamageDealerGenerator getInstance(Environment environment) {
@@ -33,7 +34,7 @@ public class DamageDealerGenerator {
         return instance;
     }
 
-    public LinkedList<DamageDealer> getObstacles() {
+    public HashMap<Geometry, DamageDealer> getObstacles() {
         while (obstacleList.size() < NUMBER_OBSTACLES){
             DamageDealer obs = obstacleFactory.produce(environment.getAssetManager());
             obs.scale(0.3f);
@@ -41,7 +42,7 @@ public class DamageDealerGenerator {
 
 
             obs.move(location);
-            obstacleList.add(obs);
+            obstacleList.put((Geometry) obs.getModel(),obs);
         }
         return obstacleList;
 

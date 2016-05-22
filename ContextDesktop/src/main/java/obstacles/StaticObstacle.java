@@ -1,6 +1,7 @@
 package obstacles;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -40,6 +41,12 @@ public class StaticObstacle implements DamageDealer {
     @Override
     public void move(float f, float g, float h) {
         model.move(f, g, h);
+
+    }
+
+    @Override
+    public void collideWith(Spatial testPlatform, CollisionResults results) {
+       this.getModel().collideWith(testPlatform.getWorldBound(), results);
 
     }
 

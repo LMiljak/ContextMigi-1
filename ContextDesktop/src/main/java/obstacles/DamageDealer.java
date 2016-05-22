@@ -1,5 +1,6 @@
 package obstacles;
 
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -14,5 +15,7 @@ public interface DamageDealer {
     public void scale(float f);
 
     public void move(Vector3f add);
+
+    public void collideWith(Spatial testPlatform, CollisionResults results);
 
 }

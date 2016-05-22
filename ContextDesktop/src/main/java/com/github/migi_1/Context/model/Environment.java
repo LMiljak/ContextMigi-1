@@ -142,8 +142,8 @@ public class Environment extends AbstractAppState {
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
 
-        for (DamageDealer obs : obstacleGenerator.getObstacles()){
-            testPlatform.collideWith(obs.getModel().getWorldBound(), results);
+        for (DamageDealer obs : obstacleGenerator.getObstacles().values()){
+            obs.collideWith(testPlatform, results);
         }
 
         // regain speed
@@ -152,7 +152,9 @@ public class Environment extends AbstractAppState {
         }
         if(results.size() > 0){
             System.out.println(results.size());
-            rootNode.detachChild(obstacleGenerator.getObstacles().poll().getModel());
+//            rootNode.detachChild(obstacleGenerator.getObstacles().poll().getModel());
+            rootNode.detachChild(results.getClosestCollision().getGeometry());
+            obstacleGenerator.getObstacles().remove(results.getClosestCollision().getGeometry());
             results = new CollisionResults();
             decay = 0.0f;
         }
@@ -217,7 +219,7 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
-        for (DamageDealer obs : obstacleGenerator.getObstacles()) {
+        for (DamageDealer obs : obstacleGenerator.getObstacles().values()) {
             rootNode.attachChild(obs.getModel());
         }
         //attach all objects to the root pane

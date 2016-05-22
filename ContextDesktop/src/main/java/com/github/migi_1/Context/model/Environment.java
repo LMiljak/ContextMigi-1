@@ -143,17 +143,17 @@ public class Environment extends AbstractAppState {
         updateTestWorld();
 
         //add collision check for all obstacles
-        for (DamageDealer obs : obstacleGenerator.getObstacles().values()){
+        for (DamageDealer obs : obstacleGenerator.getObstacles().values()) {
             obs.collideWith(testPlatform, results);
         }
 
         // regain speed
-        if (decay < 1.0f){
+        if (decay < 1.0f) {
             decay = decay + 0.01f;
         }
 
         //if a collision takes place, remove the colliding object and slow down
-        if(results.size() > 0) {
+        if (results.size() > 0) {
             rootNode.detachChild(results.getClosestCollision().getGeometry());
             obstacleGenerator.getObstacles().remove(results.getClosestCollision().getGeometry());
             results = new CollisionResults();

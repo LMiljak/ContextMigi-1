@@ -18,7 +18,8 @@ public interface DamageDealer {
     Spatial getModel();
 
     /**
-     * Set the model of the object.
+     * Set the physical model of the object.
+     * @param model the physical model
      */
     void setModel(Spatial model);
 
@@ -43,7 +44,7 @@ public interface DamageDealer {
     void move(Vector3f add);
 
     /**
-     * Handle collisions between the model of the damage dealer and the platform
+     * Handle collisions between the model of the damage dealer and the platform.
      * @param platform The platform
      * @param results Collision results
      */

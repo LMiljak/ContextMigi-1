@@ -14,23 +14,23 @@ import com.jme3.scene.Geometry;
  * @author Marcel
  *
  */
-public class DamageDealerGenerator {
+public final class DamageDealerGenerator {
 
     /** Class instance. **/
     private static DamageDealerGenerator instance;
 
-    /** Environment instance **/
+    /** Environment instance. **/
     private Environment environment;
 
     private static final int NUMBER_OBSTACLES = 10;
 
-    /** Location of next obstacle spawn location **/
+    /** Location of next obstacle spawn location. **/
     private Vector3f location;
 
-    /** Abstract factory **/
+    /** Abstract factory. **/
     private DamageDealerFactory damageDealerFactory;
 
-    /** HashMap of all geometry pieces **/
+    /** HashMap of all geometry pieces. **/
     private HashMap<Geometry, DamageDealer> obstacleList;
 
     /**
@@ -38,14 +38,17 @@ public class DamageDealerGenerator {
      * Instantiate local variables.
      * @param environment The environment app state.
      */
-    private DamageDealerGenerator(Environment environment){
+    private DamageDealerGenerator(Environment environment) {
         this.environment = environment;
         this.location = environment.getCommanderLocation();
         this.damageDealerFactory = new StaticObstacleFactory();
         this.obstacleList = new HashMap<Geometry, DamageDealer>();
     }
 
-    /** Access method of singleton class **/
+    /** Access method of singleton class.
+     * @param environment Environment state.
+     * @return Instance of this object.
+     */
     public static DamageDealerGenerator getInstance(Environment environment) {
         if (instance == null) {
             instance = new DamageDealerGenerator(environment);
@@ -58,14 +61,14 @@ public class DamageDealerGenerator {
      * @return Map with all DamageDealer objects, with as key value their Geometry in the environment.
      */
     public HashMap<Geometry, DamageDealer> getObstacles() {
-        while (obstacleList.size() < NUMBER_OBSTACLES){
+        while (obstacleList.size() < NUMBER_OBSTACLES) {
             DamageDealer obs = damageDealerFactory.produce(environment.getAssetManager());
             obs.scale(0.3f);
             location = location.add(new Vector3f(-50.f, 0, 0.0f));
 
 
             obs.move(location);
-            obstacleList.put((Geometry) obs.getModel(),obs);
+            obstacleList.put((Geometry) obs.getModel(), obs);
         }
         return obstacleList;
 

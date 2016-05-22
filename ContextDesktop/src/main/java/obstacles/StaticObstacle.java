@@ -12,10 +12,10 @@ import com.jme3.scene.Spatial;
  */
 public class StaticObstacle implements DamageDealer {
 
-    /** File location of model **/
+    /** File location of model. **/
     private static final String MODEL_FILE = "Models/testCube2.j3o";
 
-    /** Physical model of object **/
+    /** Physical model of object. **/
     private Spatial model;
 
     /**

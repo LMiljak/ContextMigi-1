@@ -142,6 +142,7 @@ public class Environment extends AbstractAppState {
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
 
+        //add collision check for all obstacles
         for (DamageDealer obs : obstacleGenerator.getObstacles().values()){
             obs.collideWith(testPlatform, results);
         }
@@ -150,9 +151,9 @@ public class Environment extends AbstractAppState {
         if (decay < 1.0f){
             decay = decay + 0.01f;
         }
-        if(results.size() > 0){
-            System.out.println(results.size());
-//            rootNode.detachChild(obstacleGenerator.getObstacles().poll().getModel());
+
+        //if a collision takes place, remove the colliding object and slow down
+        if(results.size() > 0) {
             rootNode.detachChild(results.getClosestCollision().getGeometry());
             obstacleGenerator.getObstacles().remove(results.getClosestCollision().getGeometry());
             results = new CollisionResults();
@@ -219,10 +220,11 @@ public class Environment extends AbstractAppState {
         testCommander.rotate(0, COMMANDER_ROTATION, 0);
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
+
+        //attach all objects to the root pane
         for (DamageDealer obs : obstacleGenerator.getObstacles().values()) {
             rootNode.attachChild(obs.getModel());
         }
-        //attach all objects to the root pane
         for (Spatial sp : testWorld) {
             rootNode.attachChild(sp);
         }
@@ -323,10 +325,18 @@ public class Environment extends AbstractAppState {
 
     }
 
+    /**
+     * Returns the location of the commander.
+     * @return location of the commander
+     */
     public Vector3f getCommanderLocation() {
         return COMMANDER_LOCATION;
     }
 
+    /**
+     * Return the assetMananager.
+     * @return the assetManager
+     */
     public AssetManager getAssetManager() {
         return assetManager;
     }

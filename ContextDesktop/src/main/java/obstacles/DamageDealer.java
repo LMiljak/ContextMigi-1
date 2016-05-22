@@ -15,12 +15,12 @@ public interface DamageDealer {
      * Return the model of the object.
      * @return the model
      */
-    public Spatial getModel();
+    Spatial getModel();
 
     /**
      * Set the model of the object.
      */
-    public void setModel(Spatial model);
+    void setModel(Spatial model);
 
     /**
      * Move the object.
@@ -28,25 +28,25 @@ public interface DamageDealer {
      * @param y Translation in y direction
      * @param z Translation in z direction
      */
-    public void move(float x, float y, float z);
+    void move(float x, float y, float z);
 
     /**
      * Scale the object.
      * @param f scale factor
      */
-    public void scale(float f);
+    void scale(float f);
 
     /**
      * Move the object.
      * @param add Translation vector
      */
-    public void move(Vector3f add);
+    void move(Vector3f add);
 
     /**
      * Handle collisions between the model of the damage dealer and the platform
      * @param platform The platform
      * @param results Collision results
      */
-    public void collideWith(Spatial platform, CollisionResults results);
+    void collideWith(Spatial platform, CollisionResults results);
 
 }

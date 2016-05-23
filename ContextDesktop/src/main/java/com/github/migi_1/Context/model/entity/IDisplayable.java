@@ -24,10 +24,8 @@ public interface IDisplayable {
     void setModel(Spatial model);
 
     /**
-     * Move the object.
-     * @param x Translation in x direction
-     * @param y Translation in y direction
-     * @param z Translation in z direction
+     * Moves the entity in the given direction.
+     * @param location of where to move the entity to.
      */
     void move(Vector3f location);
 

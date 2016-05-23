@@ -1,12 +1,9 @@
 package com.github.migi_1.Context.model;
 
-import java.util.LinkedList;
-
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
@@ -14,7 +11,6 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
-import com.jme3.collision.Collidable;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -36,8 +32,8 @@ public class Environment extends AbstractAppState {
     private AssetManager assetManager;
     private Node rootNode;
 
-    private VRCam vrObs;
-    private FlyCam flyObs;
+    private Camera vrObs;
+    private Camera flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
     private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
@@ -53,16 +49,7 @@ public class Environment extends AbstractAppState {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float PLATFORM_SPEED = 0.2f;
-
-    private static final int LEVEL_PIECES = 5;
-
     private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
-
-
-    private LinkedList<LevelPiece> testWorld;
-    private LinkedList<IDisplayable> displayables;
-    private LinkedList<Collidable> collidables;
 
     private Platform platform;
     private Commander commander;
@@ -85,14 +72,11 @@ public class Environment extends AbstractAppState {
 
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        this.testWorld = new LinkedList<LevelPiece>();
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
-        collidables = new LinkedList<Collidable>();
-        displayables = new LinkedList<IDisplayable>();
 
         viewPort = app.getViewPort();
-        vrObs = new VRCam();
-        flyObs = new FlyCam();
+        vrObs = new Camera();
+        flyObs = new Camera();
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
@@ -120,22 +104,23 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-//        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
-        Vector3f loc = commander.getModel().getLocalTranslation();
-        float xAxis = 1;
-        float zAxis = 0;
-        if (loc.z > 5f) {
-            zAxis = 0.5f;
-        } else if (loc.z < -5f) {
-            zAxis = -0.5f;
-        } else {
-            zAxis = steering * STEERING_ANGLE;
-            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
-        }
 
-        platform.move(platform.getMovableBehaviour().getMoveVector());
-        commander.move(commander.getMovableBehaviour().getMoveVector());
+//        NOT USED IN THIS VERSION, WILL BE REFACTORED IN SEPERATE BRANCH, MAY STILL BE NEEDED
+//        Vector3f loc = commander.getModel().getLocalTranslation();//
+//        float xAxis = 1;
+//        float zAxis = 0;
+//        if (loc.z > 5f) {
+//            zAxis = 0.5f;
+//        } else if (loc.z < -5f) {
+//            zAxis = -0.5f;
+//        } else {
+//            zAxis = steering * STEERING_ANGLE;
+//            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+//        }
+
+        platform.move(platform.getMoveBehaviour().getMoveVector());
+        commander.move(commander.getMoveBehaviour().getMoveVector());
         vrObs.getModel().setLocalTranslation(commander.getModel().getLocalTranslation());
         updateTestWorld();
     }
@@ -163,13 +148,13 @@ public class Environment extends AbstractAppState {
      */
     private void initShadows() {
         DirectionalLightShadowRenderer dlsr =
-        		new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+                new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsr.setLight(sun);
         viewPort.addProcessor(dlsr);
 
         //adds shadow filter and attaches it to the viewport
         DirectionalLightShadowFilter dlsf =
-        		new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+                new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
@@ -186,7 +171,6 @@ public class Environment extends AbstractAppState {
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
 
-        testWorld = levelGenerator.getLevelPieces(COMMANDER_LOCATION);
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             rootNode.attachChild(levelPiece.getModel());
@@ -288,19 +272,5 @@ public class Environment extends AbstractAppState {
     public void cleanup() {
         super.cleanup();
     }
-
-    ////////////////////////////////////Below methods might be used later on when the pause screen is introduced.
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isInitialized() {
-        return false;
-    }
-
-    @Override
-    public void setEnabled(boolean arg0) { }
 
 }

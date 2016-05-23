@@ -16,25 +16,27 @@ import com.jme3.scene.Spatial;
  *
  */
 public class Carrier implements IMovable, Collidable, IKillable {
-    
+
     //String of the path to the carrier model
-    private static final String pathName = "Models/ninja.j3o";
+    private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
-    private MoveBehaviour movableBehaviour;
+    private MoveBehaviour moveBehaviour;
     private int health;
     private int id;
-    
+
     /**
-     * Constructor for the carrier entity.
+     * constructor of the carrier.
+     * @param startLocation location where the carrier will be initialized
+     * @param id to keep the 4 carriers apart
      */
     public Carrier(Vector3f startLocation, int id) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        movableBehaviour = new AcceleratorMovableBehaviour();
+        moveBehaviour = new AcceleratorMovableBehaviour();
         health = 2;
         this.id = id;
     }
-    
+
     /**
      * Returns the model of the carrier.
      * @return
@@ -43,24 +45,24 @@ public class Carrier implements IMovable, Collidable, IKillable {
     public Spatial getModel() {
         return model;
     }
-    
+
     /**
      * Sets the model of the carrier.
      * @param model
      */
     @Override
     public void setModel(Spatial model) {
-        this.model = model;        
+        this.model = model;
     }
-    
+
     /**
      * Move the carrier.
      * @param location to which the carrier should move.
      */
     @Override
     public void move(Vector3f location) {
-        model.setLocalTranslation(location);
-        
+        model.move(location);
+
     }
 
     /**
@@ -69,28 +71,28 @@ public class Carrier implements IMovable, Collidable, IKillable {
      */
     @Override
     public void scale(float f) {
-        model.scale(f);       
+        model.scale(f);
     }
-    
+
     /**
      * Returns the movable behaviour of the carrier.
      * @return
      */
     @Override
-    public MoveBehaviour getMovableBehaviour() {
-        return movableBehaviour;
+    public MoveBehaviour getMoveBehaviour() {
+        return moveBehaviour;
     }
-    
+
     /**
      * sets the movable behaviour of the carrier.
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MoveBehaviour mbh) {
-        movableBehaviour = mbh;
-        
+    public void SetMoveBehaviour(MoveBehaviour mbh) {
+        moveBehaviour = mbh;
+
     }
-    
+
     /**
      * Method that registers a collision.
      * @param arg0 Collidable to check the collision against.
@@ -104,7 +106,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
         model.collideWith(arg0, arg1);
         return 0;
     }
-    
+
     /**
      * Method called when the carrier takes damage.
      * reduced the carriers health by the amount of damage.
@@ -113,15 +115,15 @@ public class Carrier implements IMovable, Collidable, IKillable {
     public void takeDamage(int damage) {
         health -= damage;
     }
-    
+
     /**
      * Returns the health of the carrier.
      */
     @Override
     public int getHealth() {
         return health;
-    }    
-    
+    }
+
     /**
      * Sets the health of the carrier.
      */
@@ -143,7 +145,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
+
 
 }

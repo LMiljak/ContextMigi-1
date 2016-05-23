@@ -13,17 +13,22 @@ import com.jme3.scene.Spatial;
  *
  */
 public class Platform implements IMovable {
-    
-    private static final String pathName = "Models/testPlatform.j3o";
+
+    private static final String PATHNAME = "Models/testPlatform.j3o";
     private Spatial model;
-    private MoveBehaviour movableBehaviour;
-    
+    private MoveBehaviour moveBehaviour;
+
+
+    /**
+     * constructor of the platform.
+     * @param startLocation location where the carrier will be initialized
+     */
     public Platform(Vector3f startLocation) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        movableBehaviour = new AcceleratorMovableBehaviour();
+        moveBehaviour = new AcceleratorMovableBehaviour();
     }
-    
+
     /**
      * Returns the model of the platform.
      * @return
@@ -32,16 +37,16 @@ public class Platform implements IMovable {
     public Spatial getModel() {
         return model;
     }
-    
+
     /**
      * Sets the model of the platform.
      * @param model
      */
     @Override
     public void setModel(Spatial model) {
-        this.model = model;        
+        this.model = model;
     }
-    
+
     /**
      * Move the platform.
      * @param location to which the platform should move.
@@ -49,7 +54,7 @@ public class Platform implements IMovable {
     @Override
     public void move(Vector3f location) {
         model.move(location);
-        
+
     }
 
     /**
@@ -58,26 +63,26 @@ public class Platform implements IMovable {
      */
     @Override
     public void scale(float f) {
-        model.scale(f);       
+        model.scale(f);
     }
-    
+
     /**
      * Returns the movable behaviour of the platform.
      * @return
      */
     @Override
-    public MoveBehaviour getMovableBehaviour() {
-        return movableBehaviour;
+    public MoveBehaviour getMoveBehaviour() {
+        return moveBehaviour;
     }
-    
+
     /**
      * Sets the movable behaviour of the platform.
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MoveBehaviour mbh) {
-        movableBehaviour = mbh;
+    public void SetMoveBehaviour(MoveBehaviour mbh) {
+        moveBehaviour = mbh;
     }
-    
-    
+
+
 }

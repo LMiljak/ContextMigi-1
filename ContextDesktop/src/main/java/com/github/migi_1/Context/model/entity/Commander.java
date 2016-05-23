@@ -16,21 +16,22 @@ import com.jme3.scene.Spatial;
  *
  */
 public class Commander implements IMovable, Collidable {
-    
+
     //String of the path to the commander model
-    private static final String pathName = "Models/ninja.j3o";
+    private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
-    private MoveBehaviour movableBehaviour;
-    
+    private MoveBehaviour moveBehaviour;
+
     /**
-     * Constructor for the commander entity.
+     * Constructor of the commander.
+     * @param startLocation startLocation location where the Commander will be initialized
      */
     public Commander(Vector3f startLocation) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        movableBehaviour = new AcceleratorMovableBehaviour();
+        moveBehaviour = new AcceleratorMovableBehaviour();
     }
-    
+
     /**
      * Returns the model of the commander.
      * @return
@@ -39,16 +40,16 @@ public class Commander implements IMovable, Collidable {
     public Spatial getModel() {
         return model;
     }
-    
+
     /**
      * Sets the model of the commander.
      * @param model
      */
     @Override
     public void setModel(Spatial model) {
-        this.model = model;        
+        this.model = model;
     }
-    
+
     /**
      * Move the commander.
      * @param location to which the commander should move.
@@ -56,7 +57,7 @@ public class Commander implements IMovable, Collidable {
     @Override
     public void move(Vector3f location) {
         model.move(location);
-        
+
     }
 
     /**
@@ -65,28 +66,28 @@ public class Commander implements IMovable, Collidable {
      */
     @Override
     public void scale(float f) {
-        model.scale(f);       
+        model.scale(f);
     }
-    
+
     /**
      * Returns the movable behaviour of the commander.
      * @return
      */
     @Override
-    public MoveBehaviour getMovableBehaviour() {
-        return movableBehaviour;
+    public MoveBehaviour getMoveBehaviour() {
+        return moveBehaviour;
     }
-    
+
     /**
      * sets the movable behaviour of the commander.
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MoveBehaviour mbh) {
-        movableBehaviour = mbh;
-        
+    public void SetMoveBehaviour(MoveBehaviour mbh) {
+        moveBehaviour = mbh;
+
     }
-    
+
     /**
      * Method that registers a collision.
      * @param arg0 Collidable to check the collision against.

@@ -47,7 +47,7 @@ public class DamageDealerGenerator {
      */
     public HashMap<Geometry, DamageDealer> getObstacles() {
         while (obstacleList.size() < NUMBER_OBSTACLES) {
-            DamageDealer obs = damageDealerFactory.produce(environment.getAssetManager());
+            DamageDealer obs = damageDealerFactory.produce();
             obs.scale(0.3f);
             location = location.add(new Vector3f(-50.f, 0, 0.0f));
 

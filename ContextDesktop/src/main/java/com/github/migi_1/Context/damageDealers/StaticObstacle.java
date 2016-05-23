@@ -1,7 +1,7 @@
 package com.github.migi_1.Context.damageDealers;
 
 import com.github.migi_1.Context.model.entity.MovableBehaviour;
-import com.jme3.asset.AssetManager;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -23,8 +23,8 @@ public class StaticObstacle implements DamageDealer {
      * Instantiate object.
      * @param assetManager AssetManager that provides access to asset files.
      */
-    public StaticObstacle(AssetManager assetManager) {
-        setModel(assetManager.loadModel(MODEL_FILE));
+    public StaticObstacle() {
+        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(MODEL_FILE));
         model.move(0.0f, -2.0f, 0.0f);
     }
 

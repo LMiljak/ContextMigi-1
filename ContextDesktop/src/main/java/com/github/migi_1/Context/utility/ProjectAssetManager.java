@@ -24,6 +24,11 @@ public final class ProjectAssetManager {
     private static final ProjectAssetManager instance = new ProjectAssetManager();
 
     /**
+     * Private singleton constructor.
+     */
+    private ProjectAssetManager() {};
+
+    /**
      * Singleton initialisation method.
      * @return newly created instance
      */

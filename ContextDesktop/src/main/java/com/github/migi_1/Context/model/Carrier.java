@@ -21,12 +21,15 @@ public class Carrier implements IMovable, Collidable, IKillable {
     private Spatial model;
     private MovableBehaviour movableBehaviour;
     private int health;
+    private int id;
     
     /**
      * Constructor for the carrier entity.
      */
-    public Carrier() {
+    public Carrier(int id) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        health = 2;
+        this.id = id;
     }
     
     /**
@@ -99,19 +102,45 @@ public class Carrier implements IMovable, Collidable, IKillable {
         return 0;
     }
     
+    /**
+     * Method called when the carrier takes damage.
+     * reduced the carriers health by the amount of damage.
+     */
     @Override
     public void takeDamage(int damage) {
         health -= damage;
     }
-
+    
+    /**
+     * Returns the health of the carrier.
+     */
     @Override
     public int getHealth() {
         return health;
     }    
-
+    
+    /**
+     * Sets the health of the carrier.
+     */
     @Override
     public void setHealth(int h) {
         health = h;
     }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 
 }

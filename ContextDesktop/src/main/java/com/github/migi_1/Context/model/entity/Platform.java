@@ -48,7 +48,7 @@ public class Platform implements IMovable {
      */
     @Override
     public void move(Vector3f location) {
-        model.setLocalTranslation(location);
+        model.move(location);
         
     }
 

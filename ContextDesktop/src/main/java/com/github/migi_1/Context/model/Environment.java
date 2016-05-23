@@ -5,13 +5,16 @@ import java.util.LinkedList;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.IDisplayable;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
-import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.collision.Collidable;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -19,9 +22,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
@@ -58,9 +59,13 @@ public class Environment extends AbstractAppState {
 
     private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
 
-    private Spatial testPlatform;
+
     private LinkedList<LevelPiece> testWorld;
-    private Spatial testCommander;
+    private LinkedList<IDisplayable> displayables;
+    private LinkedList<Collidable> collidables;
+
+    private Platform platform;
+    private Commander commander;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -82,6 +87,9 @@ public class Environment extends AbstractAppState {
         this.app = (Main) app;
         this.testWorld = new LinkedList<LevelPiece>();
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
+        collidables = new LinkedList<Collidable>();
+        displayables = new LinkedList<IDisplayable>();
+
         viewPort = app.getViewPort();
         vrObs = new VRCam();
         flyObs = new FlyCam();
@@ -114,7 +122,7 @@ public class Environment extends AbstractAppState {
     public void update(float tpf) {
 //        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
-        Vector3f loc = testCommander.getLocalTranslation();
+        Vector3f loc = commander.getModel().getLocalTranslation();
         float xAxis = 1;
         float zAxis = 0;
         if (loc.z > 5f) {
@@ -126,9 +134,9 @@ public class Environment extends AbstractAppState {
             xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         }
 
-        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
-        testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
-        vrObs.getModel().setLocalTranslation(testCommander.getLocalTranslation());
+        platform.move(platform.getMovableBehaviour().getMoveVector());
+        commander.move(commander.getMovableBehaviour().getMoveVector());
+        vrObs.getModel().setLocalTranslation(commander.getModel().getLocalTranslation());
         updateTestWorld();
     }
 
@@ -175,14 +183,8 @@ public class Environment extends AbstractAppState {
     private void initSpatials() {
 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
-
-        testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
-        testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
-        testPlatform.move(PLATFORM_LOCATION);
-        testCommander = assetManager.loadModel("Models/ninja.j3o");
-        testCommander.rotate(0, COMMANDER_ROTATION, 0);
-        testCommander.move(COMMANDER_LOCATION);
-        testCommander.addControl(new RigidBodyControl());
+        platform = new Platform(PLATFORM_LOCATION);
+        commander = new Commander(COMMANDER_LOCATION);
 
         testWorld = levelGenerator.getLevelPieces(COMMANDER_LOCATION);
         //attach all objects to the root pane
@@ -190,8 +192,8 @@ public class Environment extends AbstractAppState {
             rootNode.attachChild(levelPiece.getModel());
         }
 
-        rootNode.attachChild(testPlatform);
-        rootNode.attachChild(testCommander);
+        rootNode.attachChild(platform.getModel());
+        rootNode.attachChild(commander.getModel());
     }
 
     /**
@@ -263,10 +265,10 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(testCommander.getLocalTranslation())) {
+        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(commander.getModel().getLocalTranslation())) {
             rootNode.detachChild(levelPiece.getModel());
         }
-        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(testCommander.getLocalTranslation())) {
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
             rootNode.attachChild(levelPiece.getModel());
         }
     }

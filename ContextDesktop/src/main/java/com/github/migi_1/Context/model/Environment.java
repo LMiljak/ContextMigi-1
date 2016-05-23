@@ -68,6 +68,8 @@ public class Environment extends AbstractAppState {
 
     private float steering;
 
+    private boolean flyCamActive;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -84,6 +86,7 @@ public class Environment extends AbstractAppState {
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
         steering = 0.f;
+        flyCamActive = false;
 
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
@@ -251,11 +254,12 @@ public class Environment extends AbstractAppState {
      * VRCam <-> FlyCam.
      */
     public void swapCamera() {
-        Spatial obs = (Spatial) VRApplication.getObserver();
-        if (obs.getName().equals("VR")) {
+        if (!flyCamActive) {
             VRApplication.setObserver(flyObs);
-        } else if (obs.getName().equals("FLY")) {
+            flyCamActive = true;
+        } else {
             VRApplication.setObserver(vrObs);
+            flyCamActive = false;
         }
     }
 

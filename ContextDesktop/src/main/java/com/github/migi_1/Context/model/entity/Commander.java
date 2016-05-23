@@ -23,7 +23,8 @@ public class Commander implements IMovable, Collidable {
     private MovableBehaviour movableBehaviour;
     
     /**
-     * Constructor for the commander entity.
+     * Constructor of the commander.
+     * @param startLocation startLocation location where the Commander will be initialized
      */
     public Commander(Vector3f startLocation) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);

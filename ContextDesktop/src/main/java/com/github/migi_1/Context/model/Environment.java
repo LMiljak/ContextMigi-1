@@ -37,7 +37,7 @@ public class Environment extends AbstractAppState {
     private AssetManager assetManager;
     private Node rootNode;
 
-    private Spatial vrObs;
+    private VRCam vrObs;
     private Spatial flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
@@ -83,7 +83,7 @@ public class Environment extends AbstractAppState {
         this.testWorld = new LinkedList<LevelPiece>();
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         viewPort = app.getViewPort();
-        vrObs = new Node("VR");
+        vrObs = new VRCam();
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
         steering = 0.f;
@@ -128,7 +128,7 @@ public class Environment extends AbstractAppState {
 
         testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
-        vrObs.setLocalTranslation(testCommander.getLocalTranslation());
+        vrObs.getModel().setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
     }
 
@@ -206,13 +206,13 @@ public class Environment extends AbstractAppState {
      * Starts with the VR camera.
      */
     private void initCameras() {
-        vrObs.setLocalTranslation(new Vector3f(0f, 0f, 0f));
-        vrObs.rotate(0f, COMMANDER_ROTATION, 0f);
+        vrObs.getModel().setLocalTranslation(new Vector3f(0f, 0f, 0f));
+        vrObs.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
         flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
         flyObs.setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
-        VRApplication.setObserver(vrObs);
-        rootNode.attachChild(vrObs);
+        VRApplication.setObserver(vrObs.getModel());
+        rootNode.attachChild(vrObs.getModel());
         rootNode.attachChild(flyObs);
     }
 
@@ -259,7 +259,7 @@ public class Environment extends AbstractAppState {
             VRApplication.setObserver(flyObs);
             flyCamActive = true;
         } else {
-            VRApplication.setObserver(vrObs);
+            VRApplication.setObserver(vrObs.getModel());
             flyCamActive = false;
         }
     }

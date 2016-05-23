@@ -26,7 +26,6 @@ public class LevelGenerator {
             BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
             Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
-            System.out.println(v1.distance(v2));
             if (v1.distance(v2) > 100) {
                deleteList.add(levelPieces.poll());
             }

@@ -15,7 +15,7 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Carrier implements IMovable, Collidable, IKillable {
+public class Carrier extends Entity implements IMovable, Collidable, IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";

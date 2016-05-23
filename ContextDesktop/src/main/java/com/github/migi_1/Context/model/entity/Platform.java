@@ -1,51 +1,80 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
- * 
- * @author TUDelft SID
+ * Class that handles everything that have to do with the platform.
+ * It implements collidable to register collisions.
+ * It implements IMovable to register a movable behaviour. A movable behaviour
+ * Sets how the platform moves after every tick.
+ * @author Damian
  *
  */
 public class Platform implements IMovable {
     
+    private static final String pathName = "Models/testPlatform.j3o";
+    private Spatial model;
+    private MovableBehaviour movableBehaviour;
     
-
+    public Platform() {
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+    }
+    
+    /**
+     * Returns the model of the platform.
+     * @return
+     */
     @Override
     public Spatial getModel() {
-        // TODO Auto-generated method stub
-        return null;
+        return model;
     }
-
+    
+    /**
+     * Sets the model of the platform.
+     * @param model
+     */
     @Override
     public void setModel(Spatial model) {
-        // TODO Auto-generated method stub
-        
+        this.model = model;        
     }
-
+    
+    /**
+     * Move the platform.
+     * @param location to which the platform should move.
+     */
     @Override
     public void move(Vector3f location) {
-        // TODO Auto-generated method stub
+        model.setLocalTranslation(location);
         
     }
 
+    /**
+     * scale the model of the platform.
+     * @param f factor to scale the platform to.
+     */
     @Override
     public void scale(float f) {
-        // TODO Auto-generated method stub
-        
+        model.scale(f);       
     }
-
+    
+    /**
+     * Returns the movable behaviour of the platform.
+     * @return
+     */
     @Override
     public MovableBehaviour getMovableBehaviour() {
-        // TODO Auto-generated method stub
-        return null;
+        return movableBehaviour;
     }
-
+    
+    /**
+     * Sets the movable behaviour of the platform.
+     * @param mbh to set the movable behaviour to
+     */
     @Override
     public void SetMovableBehaviour(MovableBehaviour mbh) {
-        // TODO Auto-generated method stub
-        
+        movableBehaviour = mbh;
     }
     
     

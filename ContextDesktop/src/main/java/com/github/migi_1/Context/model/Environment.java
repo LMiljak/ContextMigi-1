@@ -1,7 +1,6 @@
 package com.github.migi_1.Context.model;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import jmevr.app.VRApplication;
 
@@ -57,12 +56,11 @@ public class Environment extends AbstractAppState {
     private static final float PLATFORM_SPEED = 0.2f;
 
     private static final int LEVEL_PIECES = 5;
-    private static final int DIFFERENT_WORLDS = 5;
 
     private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
 
     private Spatial testPlatform;
-    private LinkedList<Spatial> testWorld;
+    private LinkedList<LevelPiece> testWorld;
     private Spatial testCommander;
 
     private DirectionalLight sun;
@@ -79,7 +77,7 @@ public class Environment extends AbstractAppState {
 
         super.initialize(stateManager, app);
         this.app = (Main) app;
-        this.testWorld = new LinkedList<Spatial>();
+        this.testWorld = new LinkedList<LevelPiece>();
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new Node("VR");
@@ -173,10 +171,10 @@ public class Environment extends AbstractAppState {
     private void initSpatials() {
         //initialize the given number of level pieces
         while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = chooseLevelPiece(new Random().nextInt(DIFFERENT_WORLDS));
+            LevelPiece levelPiece = new LevelPiece();
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
 
             //shift orientation to where the next level piece should spawn
             WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
@@ -191,8 +189,8 @@ public class Environment extends AbstractAppState {
         testCommander.addControl(new RigidBodyControl());
 
         //attach all objects to the root pane
-        for (Spatial sp : testWorld) {
-            rootNode.attachChild(sp);
+        for (LevelPiece levelPiece : testWorld) {
+            rootNode.attachChild(levelPiece.getModel());
         }
 
         rootNode.attachChild(testPlatform);
@@ -268,25 +266,25 @@ public class Environment extends AbstractAppState {
 
         //delete level piece when it too far back
         if (testWorld.size() > 0) {
-             Spatial check = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox) check.getWorldBound();
+             LevelPiece checkLevelPiece = testWorld.peek();
+             BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
              BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
              Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
              Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
              if (v1.distance(v2) > 100) {
                 testWorld.poll();
-                rootNode.detachChild(check);
+                rootNode.detachChild(checkLevelPiece.getModel());
              }
         }
 
         //add level pieces until the number of level pieces is correct
         while (testWorld.size() < LEVEL_PIECES) {
-            Spatial levelPiece = chooseLevelPiece(new Random().nextInt(DIFFERENT_WORLDS));
+            LevelPiece levelPiece = new LevelPiece();
             levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
             testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getWorldBound();
+            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
             WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
-            rootNode.attachChild(levelPiece);
+            rootNode.attachChild(levelPiece.getModel());
         }
 
     }
@@ -321,15 +319,4 @@ public class Environment extends AbstractAppState {
     @Override
     public void setEnabled(boolean arg0) { }
 
-    /**
-     * Chooses a levelPiece from the randomly generated number rnd.
-     * @param rnd the random variable created by Random.nextInt(the amount of different worlds)
-     */
-    private Spatial chooseLevelPiece(int rnd) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Models/world");
-        sb.append(rnd + 1);
-        sb.append(".j3o");
-        return assetManager.loadModel(sb.toString());
-    }
 }

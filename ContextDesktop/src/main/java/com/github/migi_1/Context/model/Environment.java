@@ -80,7 +80,7 @@ public class Environment extends AbstractAppState {
         super.initialize(stateManager, app);
         this.app = (Main) app;
         this.testWorld = new LinkedList<Spatial>();
-        assetManager = app.getAssetManager();
+        assetManager = ProjectAssetManager.getInstance().getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new Node("VR");
         flyObs = new Node("FLY");

@@ -3,7 +3,6 @@ Thumbs.db
 # Ignore eclipse project files
 .classpath
 .project
-.pmd
 .settings/
 # Ignore binary files
 *.class
@@ -14,6 +13,7 @@ Thumbs.db
 /target/
 /ContextApp/target/
 /ContextDesktop/target/
+/ContextMessages/target/
 *.class
 *.dll
 nb-configuration.xml

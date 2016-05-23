@@ -5,14 +5,20 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 
 /**
- * test
+ * The Main class of the Application.
  * @author normenhansen
  */
 public class Main extends SimpleApplication {
     
     private MainMenuAndroid menu;
     private static Main app;
-    
+
+    /**
+     * Starts the application.
+     * 
+     * @param args 
+     *      Ignored.
+     */
     public static void main(String[] args) {
         app = new Main();
         app.start();
@@ -39,6 +45,6 @@ public class Main extends SimpleApplication {
     /**
      * This method has no functionality, it is merely used to show you can communicate between activity and game.
      */
-    public void gyroscopeChange(){
+    public void gyroscopeChange() {
     }
 }

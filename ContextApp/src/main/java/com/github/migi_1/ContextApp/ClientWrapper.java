@@ -1,17 +1,22 @@
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.jme3.network.AbstractMessage;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.jme3.network.Client;
 import com.jme3.network.Network;
+import com.jme3.network.serializing.Serializer;
+import java.util.List;
 
 /**
  * A wrapper class for a com.jme3.network.client object.
  * 
- * SHINGLETON class.
+ * SINGLETON class.
  */
 public class ClientWrapper {
-	
+    
 	/** The shingleton instance of this class. */
 	private static final ClientWrapper INSTANCE = new ClientWrapper();
 	/** The default port on which servers are running. */
@@ -19,7 +24,12 @@ public class ClientWrapper {
 	
 	/** The wrapped client Object. */
 	private Client client;
-	
+        
+	//Every message types is registered by the Serializer in this class initializer.
+        static {
+            Serializer.registerClass(AccelerometerMessage.class);
+        }
+        
 	/**
 	 * Gets the instance of this shingleton class.
 	 * 
@@ -38,9 +48,7 @@ public class ClientWrapper {
 	 * 
 	 * @param host
 	 * 		The ip address of the host.
-	 * @return
-	 * 		The created Client object.
-	 * @throws IOException
+	 * @throws IOException  
 	 * @throws IllegalStateException if the client has already started.
 	 */
 	public void startClient(String host) throws IOException, IllegalStateException {

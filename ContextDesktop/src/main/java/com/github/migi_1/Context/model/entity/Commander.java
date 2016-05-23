@@ -18,7 +18,7 @@ import com.jme3.scene.Spatial;
 public class Commander implements IMovable, Collidable {
     
     //String of the path to the commander model
-    private static final String pathName = "Models/ninja.j3o";
+    private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
     
@@ -26,7 +26,7 @@ public class Commander implements IMovable, Collidable {
      * Constructor for the commander entity.
      */
     public Commander(Vector3f startLocation) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
         movableBehaviour = new AcceleratorMovableBehaviour();
     }

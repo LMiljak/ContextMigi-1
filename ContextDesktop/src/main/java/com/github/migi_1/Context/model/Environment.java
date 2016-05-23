@@ -61,7 +61,6 @@ public class Environment extends AbstractAppState {
 
 
     private LinkedList<LevelPiece> testWorld;
-    private LinkedList<IDisplayable> displayables;
     private LinkedList<Collidable> collidables;
 
     private Platform platform;
@@ -88,7 +87,6 @@ public class Environment extends AbstractAppState {
         this.testWorld = new LinkedList<LevelPiece>();
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         collidables = new LinkedList<Collidable>();
-        displayables = new LinkedList<IDisplayable>();
 
         viewPort = app.getViewPort();
         vrObs = new VRCam();
@@ -191,7 +189,7 @@ public class Environment extends AbstractAppState {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             rootNode.attachChild(levelPiece.getModel());
         }
-
+        
         rootNode.attachChild(platform.getModel());
         rootNode.attachChild(commander.getModel());
     }

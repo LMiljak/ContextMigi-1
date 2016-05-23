@@ -18,17 +18,19 @@ import com.jme3.scene.Spatial;
 public class Carrier implements IMovable, Collidable, IKillable {
     
     //String of the path to the carrier model
-    private static final String pathName = "Models/ninja.j3o";
+    private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
     private int health;
     private int id;
     
     /**
-     * Constructor for the carrier entity.
+     * constructor of the carrier.
+     * @param startLocation location where the carrier will be initialized
+     * @param id to keep the 4 carriers apart
      */
     public Carrier(Vector3f startLocation, int id) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
         movableBehaviour = new AcceleratorMovableBehaviour();
         health = 2;
@@ -59,7 +61,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
      */
     @Override
     public void move(Vector3f location) {
-        model.setLocalTranslation(location);
+        model.move(location);
         
     }
 

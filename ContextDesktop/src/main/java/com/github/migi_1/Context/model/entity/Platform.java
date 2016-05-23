@@ -14,12 +14,12 @@ import com.jme3.scene.Spatial;
  */
 public class Platform implements IMovable {
     
-    private static final String pathName = "Models/testPlatform.j3o";
+    private static final String PATHNAME = "Models/testPlatform.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
     
     public Platform(Vector3f startLocation) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
         movableBehaviour = new AcceleratorMovableBehaviour();
     }

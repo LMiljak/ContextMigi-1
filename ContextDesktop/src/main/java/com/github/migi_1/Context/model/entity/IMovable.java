@@ -9,17 +9,17 @@ package com.github.migi_1.Context.model.entity;
  *
  */
 public interface IMovable extends IDisplayable {
-    
+
     /**
      * Method for gettin the movable behaviour of an entity.
-     * @return
+     * @return the current movable behaviour of the entity.
      */
     MovableBehaviour getMovableBehaviour();
-    
+
     /**
      * Method for setting the movable behaviour of an entity.
-     * @param mbh
+     * @param mbh the bahviour of the movement to set the entities behaviour to.
      */
     void SetMovableBehaviour(MovableBehaviour mbh);
-    
+
 }

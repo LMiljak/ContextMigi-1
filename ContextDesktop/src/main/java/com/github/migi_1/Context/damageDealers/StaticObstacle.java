@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.damageDealers;
 
+import com.github.migi_1.Context.model.entity.MovableBehaviour;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
@@ -76,6 +77,18 @@ public class StaticObstacle implements DamageDealer {
     @Override
     public void collideWith(Spatial testPlatform, CollisionResults results) {
        this.getModel().collideWith(testPlatform.getWorldBound(), results);
+
+    }
+
+    @Override
+    public MovableBehaviour getMovableBehaviour() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void SetMovableBehaviour(MovableBehaviour mbh) {
+        // TODO Auto-generated method stub
 
     }
 

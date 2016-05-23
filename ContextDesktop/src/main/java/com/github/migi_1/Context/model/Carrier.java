@@ -7,29 +7,30 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
- * Class that handles everything that have to do with the commander.
+ * Class that handles everything that have to do with the carrier.
  * It implements collidable to register collisions.
  * It implements IMovable to register a movable behaviour. A movable behaviour
- * Sets how the commander moves after every tick.
+ * Sets how the carrier moves after every tick.
  * @author Damian
  *
  */
-public class Commander implements IMovable, Collidable {
+public class Carrier implements IMovable, Collidable, IKillable {
     
-    //String of the path to the commander model
+    //String of the path to the carrier model
     private static final String pathName = "Models/ninja.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
+    private int health;
     
     /**
-     * Constructor for the commander entity.
+     * Constructor for the carrier entity.
      */
-    public Commander() {
+    public Carrier() {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
     }
     
     /**
-     * Returns the model of the commander.
+     * Returns the model of the carrier.
      * @return
      */
     @Override
@@ -38,7 +39,7 @@ public class Commander implements IMovable, Collidable {
     }
     
     /**
-     * Sets the model of the commander.
+     * Sets the model of the carrier.
      * @param model
      */
     @Override
@@ -47,8 +48,8 @@ public class Commander implements IMovable, Collidable {
     }
     
     /**
-     * Move the commander.
-     * @param location to which the commander should move.
+     * Move the carrier.
+     * @param location to which the carrier should move.
      */
     @Override
     public void move(Vector3f location) {
@@ -57,8 +58,8 @@ public class Commander implements IMovable, Collidable {
     }
 
     /**
-     * scale the model of the commander.
-     * @param f factor to scale the commander to.
+     * scale the model of the carrier.
+     * @param f factor to scale the carrier to.
      */
     @Override
     public void scale(float f) {
@@ -66,7 +67,7 @@ public class Commander implements IMovable, Collidable {
     }
     
     /**
-     * Returns the movable behaviour of the commander.
+     * Returns the movable behaviour of the carrier.
      * @return
      */
     @Override
@@ -75,7 +76,7 @@ public class Commander implements IMovable, Collidable {
     }
     
     /**
-     * sets the movable behaviour of the commander.
+     * sets the movable behaviour of the carrier.
      * @param mbh to set the movable behaviour to
      */
     @Override
@@ -96,6 +97,21 @@ public class Commander implements IMovable, Collidable {
             throws UnsupportedCollisionException {
         model.collideWith(arg0, arg1);
         return 0;
+    }
+    
+    @Override
+    public void takeDamage(int damage) {
+        health -= damage;
+    }
+
+    @Override
+    public int getHealth() {
+        return health;
+    }    
+
+    @Override
+    public void setHealth(int h) {
+        health = h;
     }
 
 }

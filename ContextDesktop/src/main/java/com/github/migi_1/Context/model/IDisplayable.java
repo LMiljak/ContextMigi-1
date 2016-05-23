@@ -29,19 +29,13 @@ public interface IDisplayable {
      * @param y Translation in y direction
      * @param z Translation in z direction
      */
-    void move(float x, float y, float z);
+    void move(Vector3f location);
 
     /**
      * Scale the object.
      * @param f scale factor
      */
     void scale(float f);
-
-    /**
-     * Move the object.
-     * @param add Translation vector
-     */
-    void move(Vector3f add);
 
 
 }

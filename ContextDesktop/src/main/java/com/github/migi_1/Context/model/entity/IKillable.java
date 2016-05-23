@@ -21,10 +21,15 @@ public interface IKillable {
     void setHealth(int health);
 
     /**
-     * Reduces the entity's health by the given damage. 
+     * Reduces the entity's health by the given damage.
      * @param damage how much damage to deal to the entity
-     * 
+     *
      */
     void takeDamage(int damage);
+
+    /**
+     * This method is called when the object has zero health points.
+     */
+    void onKilled();
 
 }

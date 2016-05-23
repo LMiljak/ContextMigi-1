@@ -127,6 +127,11 @@ public class Carrier implements IMovable, Collidable, IKillable {
         this.id = id;
     }
 
+    @Override
+    public void onKilled() {
+
+    }
+
 
 
 }

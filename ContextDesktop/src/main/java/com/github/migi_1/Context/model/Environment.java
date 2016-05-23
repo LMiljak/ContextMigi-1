@@ -344,7 +344,7 @@ public class Environment extends AbstractAppState {
      * @param rnd the random variable created by Random.nextInt(the amount of different worlds)
      */
     private Spatial chooseLevelPiece(int rnd) {
-        return assetManager.loadModel("Models/world11.j3o");
+        return assetManager.loadModel("Models/world2.j3o");
 //        StringBuilder sb = new StringBuilder();
 //        sb.append("Models/world");
 //        sb.append(rnd + 1);

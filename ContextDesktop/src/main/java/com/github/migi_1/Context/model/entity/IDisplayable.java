@@ -25,7 +25,7 @@ public interface IDisplayable {
 
     /**
      * Moves the entity in the given direction.
-     * @param location of where to move the entity to.
+     * @param location of where to move the displayable to.
      */
     default void move(Vector3f location) {
         getModel().move(location);

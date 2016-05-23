@@ -32,12 +32,6 @@ public class LevelPiece implements IMovable {
     }
 
     @Override
-    public void move(float x, float y, float z) {
-        model.move(x, y, z);
-
-    }
-
-    @Override
     public void scale(float f) {
         model.scale(f);
 

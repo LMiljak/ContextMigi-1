@@ -55,7 +55,7 @@ public class Commander implements IMovable, Collidable {
      */
     @Override
     public void move(Vector3f location) {
-        model.setLocalTranslation(location);
+        model.move(location);
         
     }
 

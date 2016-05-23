@@ -12,11 +12,10 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Platform implements IMovable {
+public class Platform extends Entity implements IMovable {
 
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private Spatial model;
-    private MoveBehaviour moveBehaviour;
 
 
     /**
@@ -45,24 +44,6 @@ public class Platform implements IMovable {
     @Override
     public void setModel(Spatial model) {
         this.model = model;
-    }
-
-    /**
-     * Returns the movable behaviour of the platform.
-     * @return
-     */
-    @Override
-    public MoveBehaviour getMoveBehaviour() {
-        return moveBehaviour;
-    }
-
-    /**
-     * Sets the movable behaviour of the platform.
-     * @param moveBehaviour to set the movable behaviour to
-     */
-    @Override
-    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
-        this.moveBehaviour = moveBehaviour;
     }
 
 

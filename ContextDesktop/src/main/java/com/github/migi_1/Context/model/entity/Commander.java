@@ -15,12 +15,11 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Commander implements IMovable, Collidable {
+public class Commander extends Entity implements IMovable, Collidable {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
-    private MoveBehaviour moveBehaviour;
 
     /**
      * Constructor of the commander.
@@ -48,25 +47,6 @@ public class Commander implements IMovable, Collidable {
     @Override
     public void setModel(Spatial model) {
         this.model = model;
-    }
-
-    /**
-     * Returns the movable behaviour of the commander.
-     * @return
-     */
-    @Override
-    public MoveBehaviour getMoveBehaviour() {
-        return moveBehaviour;
-    }
-
-    /**
-     * sets the movable behaviour of the commander.
-     * @param moveBehaviour to set the movable behaviour to
-     */
-    @Override
-    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
-        this.moveBehaviour = moveBehaviour;
-
     }
 
     /**

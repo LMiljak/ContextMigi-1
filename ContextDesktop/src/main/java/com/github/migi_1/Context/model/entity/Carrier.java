@@ -20,7 +20,6 @@ public class Carrier extends Entity implements IMovable, Collidable, IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
-    private MoveBehaviour moveBehaviour;
     private int health;
     private int id;
 
@@ -53,25 +52,6 @@ public class Carrier extends Entity implements IMovable, Collidable, IKillable {
     @Override
     public void setModel(Spatial model) {
         this.model = model;
-    }
-
-    /**
-     * Returns the movable behaviour of the carrier.
-     * @return
-     */
-    @Override
-    public MoveBehaviour getMoveBehaviour() {
-        return moveBehaviour;
-    }
-
-    /**
-     * sets the movable behaviour of the carrier.
-     * @param moveBehaviour to set the movable behaviour to
-     */
-    @Override
-    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
-        this.moveBehaviour = moveBehaviour;
-
     }
 
     /**

@@ -1,4 +1,4 @@
-package obstacles;
+package com.github.migi_1.Context.damageDealers;
 
 import com.jme3.asset.AssetManager;
 

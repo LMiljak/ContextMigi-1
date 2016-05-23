@@ -1,4 +1,4 @@
-package obstacles;
+package com.github.migi_1.Context.damageDealers;
 
 import java.util.HashMap;
 

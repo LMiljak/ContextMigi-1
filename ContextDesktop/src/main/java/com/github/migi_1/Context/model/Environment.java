@@ -3,10 +3,10 @@ package com.github.migi_1.Context.model;
 import java.util.LinkedList;
 
 import jmevr.app.VRApplication;
-import obstacles.DamageDealer;
-import obstacles.DamageDealerGenerator;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.damageDealers.DamageDealer;
+import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;

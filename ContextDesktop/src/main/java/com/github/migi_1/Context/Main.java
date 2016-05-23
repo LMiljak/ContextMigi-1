@@ -48,7 +48,8 @@ public class Main extends VRApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
-
+        settings.setVSync(true);
+        
         main = new Main();
         main.setSettings(settings);
         main.configureVR();

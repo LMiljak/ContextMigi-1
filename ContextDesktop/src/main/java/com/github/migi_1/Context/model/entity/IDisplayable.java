@@ -4,7 +4,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
- * Interface for all items that are displayed.
+ * Interface for all items that can be displayed.
  *
  * @author Marcel
  *
@@ -25,15 +25,19 @@ public interface IDisplayable {
 
     /**
      * Moves the entity in the given direction.
-     * @param location of where to move the entity to.
+     * @param location of where to move the displayable to.
      */
-    void move(Vector3f location);
+    default void move(Vector3f location) {
+        getModel().move(location);
+    }
 
     /**
      * Scale the object.
      * @param f scale factor
      */
-    void scale(float f);
+    default void scale(float f) {
+        getModel().scale(f);
+    }
 
 
 }

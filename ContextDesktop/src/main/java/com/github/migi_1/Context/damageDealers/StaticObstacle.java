@@ -1,25 +1,23 @@
 package com.github.migi_1.Context.damageDealers;
 
-import com.github.migi_1.Context.model.entity.MovableBehaviour;
+import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.IKillable;
+import com.github.migi_1.Context.model.entity.StaticMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
+import com.jme3.collision.UnsupportedCollisionException;
 
 /**
  * A non-moving obstacle.
  * @author Marcel
  *
  */
-public class StaticObstacle implements DamageDealer {
+public class StaticObstacle extends Entity implements DamageDealer, IKillable {
 
     /** File location of model. **/
     private static final String MODEL_FILE = "Models/testCube2.j3o";
 
-    /** Physical model of object. **/
-    private Spatial model;
-
-    private MovableBehaviour moveBehaviour;
 
     /**
      * Instantiate object.
@@ -27,73 +25,40 @@ public class StaticObstacle implements DamageDealer {
      */
     public StaticObstacle() {
         setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(MODEL_FILE));
-        model.move(0.0f, -2.0f, 0.0f);
-        moveBehaviour = new MovableBehaviour();
+        getModel().move(0.0f, -2.0f, 0.0f);
+        setMoveBehaviour(new StaticMoveBehaviour());
     }
 
-    /**
-     * Return the physical model.
-     */
     @Override
-    public Spatial getModel() {
-        return model;
+    public int getHealth() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
-    /**
-     * Set the physical model.
-     */
     @Override
-    public void setModel(Spatial model) {
-        this.model = model;
-    }
-
-    /**
-     * Scale the physical model.
-     */
-    @Override
-    public void scale(float f) {
-        model.scale(f);
-
-    }
-
-    /**
-     * Move the physical model.
-     */
-    @Override
-    public void move(Vector3f add) {
-        model.move(add);
-
-    }
-
-    /**
-     * Move the physical model.
-     */
-    @Override
-    public void move(float f, float g, float h) {
-        model.move(f, g, h);
-
-    }
-
-    /**
-     * Add collision for the physical model.
-     */
-    @Override
-    public void collideWith(Spatial testPlatform, CollisionResults results) {
-       this.getModel().collideWith(testPlatform.getWorldBound(), results);
+    public void setHealth(int health) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
-    public MovableBehaviour getMovableBehaviour() {
-        return moveBehaviour;
+    public void takeDamage(int damage) {
+        // TODO Auto-generated method stub
+
     }
 
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
-        moveBehaviour = mbh;
+    public void onKilled() {
+        // TODO Auto-generated method stub
+
     }
 
-
+    @Override
+    public int collideWith(Collidable arg0, CollisionResults arg1)
+            throws UnsupportedCollisionException {
+        getModel().collideWith(arg0, arg1);
+        return 0;
+    }
 
 
 }

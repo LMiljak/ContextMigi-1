@@ -10,14 +10,10 @@ import com.jme3.scene.Geometry;
  * This class handles how often and what types of enemies spawn.
  * TODO: Create better obstacle spawn routine.'
  *
- * SINGLETON class.
  * @author Marcel
  *
  */
-public final class DamageDealerGenerator {
-
-    /** Class instance. **/
-    private static DamageDealerGenerator instance;
+public class DamageDealerGenerator {
 
     /** Environment instance. **/
     private Environment environment;
@@ -38,22 +34,11 @@ public final class DamageDealerGenerator {
      * Instantiate local variables.
      * @param environment The environment app state.
      */
-    private DamageDealerGenerator(Environment environment) {
+    public DamageDealerGenerator(Environment environment) {
         this.environment = environment;
         this.location = environment.getCommanderLocation();
         this.damageDealerFactory = new StaticObstacleFactory();
         this.obstacleList = new HashMap<Geometry, DamageDealer>();
-    }
-
-    /** Access method of singleton class.
-     * @param environment Environment state.
-     * @return Instance of this object.
-     */
-    public static DamageDealerGenerator getInstance(Environment environment) {
-        if (instance == null) {
-            instance = new DamageDealerGenerator(environment);
-        }
-        return instance;
     }
 
     /**

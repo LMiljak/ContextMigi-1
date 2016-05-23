@@ -98,7 +98,7 @@ public class Environment extends AbstractAppState {
         steering = 0.f;
         results = new CollisionResults();
         decay = 1;
-        obstacleGenerator = DamageDealerGenerator.getInstance(this);
+        obstacleGenerator = new DamageDealerGenerator(this);
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 

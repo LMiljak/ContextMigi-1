@@ -20,7 +20,7 @@ public class Commander implements IMovable, Collidable {
     //String of the path to the commander model
     private static final String pathName = "Models/ninja.j3o";
     private Spatial model;
-    private MovableBehaviour movableBehaviour;
+    private MoveBehaviour movableBehaviour;
     
     /**
      * Constructor for the commander entity.
@@ -73,7 +73,7 @@ public class Commander implements IMovable, Collidable {
      * @return
      */
     @Override
-    public MovableBehaviour getMovableBehaviour() {
+    public MoveBehaviour getMovableBehaviour() {
         return movableBehaviour;
     }
     
@@ -82,7 +82,7 @@ public class Commander implements IMovable, Collidable {
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
+    public void SetMovableBehaviour(MoveBehaviour mbh) {
         movableBehaviour = mbh;
         
     }

@@ -3,7 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.Random;
 
 import com.github.migi_1.Context.model.entity.IMovable;
-import com.github.migi_1.Context.model.entity.MovableBehaviour;
+import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -47,12 +47,12 @@ public class LevelPiece implements IMovable {
     }
 
     @Override
-    public MovableBehaviour getMovableBehaviour() {
+    public MoveBehaviour getMovableBehaviour() {
         return null;
     }
 
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
+    public void SetMovableBehaviour(MoveBehaviour mbh) {
 
     }
 

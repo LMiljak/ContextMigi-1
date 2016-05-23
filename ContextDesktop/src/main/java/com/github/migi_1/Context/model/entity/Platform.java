@@ -16,7 +16,7 @@ public class Platform implements IMovable {
     
     private static final String pathName = "Models/testPlatform.j3o";
     private Spatial model;
-    private MovableBehaviour movableBehaviour;
+    private MoveBehaviour movableBehaviour;
     
     public Platform(Vector3f startLocation) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
@@ -66,7 +66,7 @@ public class Platform implements IMovable {
      * @return
      */
     @Override
-    public MovableBehaviour getMovableBehaviour() {
+    public MoveBehaviour getMovableBehaviour() {
         return movableBehaviour;
     }
     
@@ -75,7 +75,7 @@ public class Platform implements IMovable {
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
+    public void SetMovableBehaviour(MoveBehaviour mbh) {
         movableBehaviour = mbh;
     }
     

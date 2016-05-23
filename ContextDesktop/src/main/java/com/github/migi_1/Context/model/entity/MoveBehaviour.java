@@ -7,7 +7,7 @@ import com.jme3.math.Vector3f;
  * @author Damian
  *
  */
-public class MovableBehaviour {
+public class MoveBehaviour {
     
     /**
      * Creates a certain movable behaviour for an entity.

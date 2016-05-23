@@ -20,7 +20,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
     //String of the path to the carrier model
     private static final String pathName = "Models/ninja.j3o";
     private Spatial model;
-    private MovableBehaviour movableBehaviour;
+    private MoveBehaviour movableBehaviour;
     private int health;
     private int id;
     
@@ -77,7 +77,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
      * @return
      */
     @Override
-    public MovableBehaviour getMovableBehaviour() {
+    public MoveBehaviour getMovableBehaviour() {
         return movableBehaviour;
     }
     
@@ -86,7 +86,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
+    public void SetMovableBehaviour(MoveBehaviour mbh) {
         movableBehaviour = mbh;
         
     }

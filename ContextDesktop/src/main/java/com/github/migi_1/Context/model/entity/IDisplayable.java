@@ -4,7 +4,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
- * Interface for all items that are displayed.
+ * Interface for all items that can be displayed.
  *
  * @author Marcel
  *

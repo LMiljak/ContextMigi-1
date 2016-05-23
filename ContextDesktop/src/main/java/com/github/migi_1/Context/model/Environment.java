@@ -71,6 +71,8 @@ public class Environment extends AbstractAppState {
 
     private boolean flyCamActive;
 
+    private LevelGenerator levelGenerator;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -88,6 +90,7 @@ public class Environment extends AbstractAppState {
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
+        levelGenerator = new LevelGenerator(WORLD_LOCATION);
 
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
@@ -112,7 +115,7 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-        System.out.println(testCommander.getLocalTranslation());
+//        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
         Vector3f loc = testCommander.getLocalTranslation();
         float xAxis = 1;

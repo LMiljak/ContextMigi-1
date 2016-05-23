@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model;
 
+import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;

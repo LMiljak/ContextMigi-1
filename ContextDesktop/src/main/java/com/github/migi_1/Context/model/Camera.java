@@ -13,7 +13,7 @@ import com.jme3.scene.Spatial;
  * @author Marcel
  *
  */
-public abstract class Camera implements IDisplayable {
+public class Camera implements IDisplayable {
 
     private Spatial model;
 

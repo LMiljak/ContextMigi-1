@@ -33,7 +33,7 @@ public class Environment extends AbstractAppState {
     private Node rootNode;
 
     private VRCam vrObs;
-    private FlyCam flyObs;
+    private Camera flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
     private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
@@ -76,7 +76,7 @@ public class Environment extends AbstractAppState {
 
         viewPort = app.getViewPort();
         vrObs = new VRCam();
-        flyObs = new FlyCam();
+        flyObs = new Camera();
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
@@ -104,19 +104,20 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-        //        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
-        Vector3f loc = commander.getModel().getLocalTranslation();
-        float xAxis = 1;
-        float zAxis = 0;
-        if (loc.z > 5f) {
-            zAxis = 0.5f;
-        } else if (loc.z < -5f) {
-            zAxis = -0.5f;
-        } else {
-            zAxis = steering * STEERING_ANGLE;
-            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
-        }
+        
+//        NOT USED IN THIS VERSION, WILL BE REFACTORED IN SEPERATE BRANCH, MAY STILL BE NEEDED
+//        Vector3f loc = commander.getModel().getLocalTranslation();//        
+//        float xAxis = 1;
+//        float zAxis = 0;
+//        if (loc.z > 5f) {
+//            zAxis = 0.5f;
+//        } else if (loc.z < -5f) {
+//            zAxis = -0.5f;
+//        } else {
+//            zAxis = steering * STEERING_ANGLE;
+//            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
+//        }
 
         platform.move(platform.getMovableBehaviour().getMoveVector());
         commander.move(commander.getMovableBehaviour().getMoveVector());

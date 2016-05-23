@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model;
 
 import java.util.LinkedList;
 
+import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 
 public class LevelGenerator {
@@ -21,7 +22,12 @@ public class LevelGenerator {
 
         while (levelPieces.size() < LEVEL_PIECES) {
             LevelPiece levelPiece = new LevelPiece();
+            levelPiece.move(locationNextPiece);
             levelPieces.add(levelPiece);
+            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
+
+            //shift orientation to where the next level piece should spawn
+            locationNextPiece.x -= 2 * bb.getXExtent() - 2.0f;
         }
         return levelPieces;
     }

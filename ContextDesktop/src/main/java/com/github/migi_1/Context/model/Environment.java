@@ -47,7 +47,7 @@ public class Environment extends AbstractAppState {
     private static final int SHADOWMAP_SIZE = 1024;
     private static final int SHADOW_SPLITS = 3;
 
-    private static final Vector3f WORLD_LOCATION = new Vector3f(0, -20, 0);
+    private static final Vector3f WORLD_LOCATION = new Vector3f(300, -20, 0);
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
@@ -90,7 +90,6 @@ public class Environment extends AbstractAppState {
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
-        levelGenerator = new LevelGenerator(WORLD_LOCATION);
 
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
@@ -176,16 +175,8 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        //initialize the given number of level pieces
-        while (testWorld.size() < LEVEL_PIECES) {
-            LevelPiece levelPiece = new LevelPiece();
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
-            testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
 
-            //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
-        }
+        levelGenerator = new LevelGenerator(WORLD_LOCATION);
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
@@ -195,8 +186,9 @@ public class Environment extends AbstractAppState {
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
 
+        testWorld = levelGenerator.getLevelPieces();
         //attach all objects to the root pane
-        for (LevelPiece levelPiece : testWorld) {
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces()) {
             rootNode.attachChild(levelPiece.getModel());
         }
 

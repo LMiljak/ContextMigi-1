@@ -1,7 +1,6 @@
 package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.model.entity.IDisplayable;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -26,7 +25,7 @@ public class Camera implements IDisplayable {
 
     /**
      * returns the model of the camera.
-     * 
+     *
      */
     @Override
     public Spatial getModel() {
@@ -39,24 +38,6 @@ public class Camera implements IDisplayable {
     @Override
     public void setModel(Spatial model) {
         this.model = model;
-    }
-
-    /**
-     * moves the camera to the given location.
-     * @param location location to move the camera to.
-     */
-    @Override
-    public void move(Vector3f location) {
-        model.move(location);
-    }
-
-    /**
-     * scales the camera, won't be used, function of Spatial.
-     */
-    @Override
-    public void scale(float f) {
-        model.scale(f);
-
     }
 
 }

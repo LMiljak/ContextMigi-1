@@ -56,25 +56,6 @@ public class Carrier implements IMovable, Collidable, IKillable {
     }
 
     /**
-     * Move the carrier.
-     * @param location to which the carrier should move.
-     */
-    @Override
-    public void move(Vector3f location) {
-        model.move(location);
-
-    }
-
-    /**
-     * scale the model of the carrier.
-     * @param f factor to scale the carrier to.
-     */
-    @Override
-    public void scale(float f) {
-        model.scale(f);
-    }
-
-    /**
      * Returns the movable behaviour of the carrier.
      * @return
      */

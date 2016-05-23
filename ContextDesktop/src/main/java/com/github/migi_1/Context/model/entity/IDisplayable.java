@@ -27,13 +27,17 @@ public interface IDisplayable {
      * Moves the entity in the given direction.
      * @param location of where to move the entity to.
      */
-    void move(Vector3f location);
+    default void move(Vector3f location) {
+        getModel().move(location);
+    }
 
     /**
      * Scale the object.
      * @param f scale factor
      */
-    void scale(float f);
+    default void scale(float f) {
+        getModel().scale(f);
+    }
 
 
 }

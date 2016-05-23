@@ -48,25 +48,6 @@ public class Platform implements IMovable {
     }
 
     /**
-     * Move the platform.
-     * @param location to which the platform should move.
-     */
-    @Override
-    public void move(Vector3f location) {
-        model.move(location);
-
-    }
-
-    /**
-     * scale the model of the platform.
-     * @param f factor to scale the platform to.
-     */
-    @Override
-    public void scale(float f) {
-        model.scale(f);
-    }
-
-    /**
      * Returns the movable behaviour of the platform.
      * @return
      */

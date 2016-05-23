@@ -9,7 +9,7 @@ import com.jme3.scene.Spatial;
  * @author Marcel
  *
  */
-public interface Displayable {
+public interface IDisplayable {
 
     /**
      * Get the physical model of the object.

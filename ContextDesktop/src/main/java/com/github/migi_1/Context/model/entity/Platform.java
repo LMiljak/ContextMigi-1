@@ -12,7 +12,7 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Platform extends Entity implements IMovable {
+public class Platform extends Entity {
 
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private Spatial model;

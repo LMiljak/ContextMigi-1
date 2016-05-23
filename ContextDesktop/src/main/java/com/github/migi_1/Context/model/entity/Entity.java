@@ -6,7 +6,7 @@ package com.github.migi_1.Context.model.entity;
  * @author Marcel
  *
  */
-public abstract class Entity {
+public abstract class Entity implements IMovable{
 
     /**
      * Move behaviour of particular Entity.
@@ -17,6 +17,7 @@ public abstract class Entity {
      * Get the MoveBehaviour of the Entity.
      * @return MoveBehaviour
      */
+    @Override
     public MoveBehaviour getMoveBehaviour() {
         return moveBehaviour;
     }
@@ -25,6 +26,7 @@ public abstract class Entity {
      * Set the MoveBehaviour of the Entity.
      * @param moveBehaviour MoveBehaviour
      */
+    @Override
     public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
         this.moveBehaviour = moveBehaviour;
     }

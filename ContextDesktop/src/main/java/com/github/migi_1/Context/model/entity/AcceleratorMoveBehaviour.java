@@ -6,7 +6,7 @@ import com.jme3.math.Vector3f;
  * @author Damian
  *
  */
-public class AcceleratorMovableBehaviour extends MoveBehaviour {
+public class AcceleratorMoveBehaviour extends MoveBehaviour {
 
     @Override
     public Vector3f getMoveVector() {

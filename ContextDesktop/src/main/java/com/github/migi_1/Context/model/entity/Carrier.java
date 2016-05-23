@@ -32,7 +32,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
     public Carrier(Vector3f startLocation, int id) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        moveBehaviour = new AcceleratorMovableBehaviour();
+        moveBehaviour = new AcceleratorMoveBehaviour();
         health = 2;
         this.id = id;
     }

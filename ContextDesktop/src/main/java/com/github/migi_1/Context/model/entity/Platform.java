@@ -26,7 +26,7 @@ public class Platform implements IMovable {
     public Platform(Vector3f startLocation) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        moveBehaviour = new AcceleratorMovableBehaviour();
+        moveBehaviour = new AcceleratorMoveBehaviour();
     }
 
     /**

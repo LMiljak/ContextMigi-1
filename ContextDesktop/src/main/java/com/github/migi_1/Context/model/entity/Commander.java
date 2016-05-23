@@ -64,7 +64,7 @@ public class Commander implements IMovable, Collidable {
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMoveBehaviour(MoveBehaviour moveBehaviour) {
+    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
         this.moveBehaviour = moveBehaviour;
 
     }

@@ -58,10 +58,10 @@ public class Platform implements IMovable {
 
     /**
      * Sets the movable behaviour of the platform.
-     * @param mbh to set the movable behaviour to
+     * @param moveBehaviour to set the movable behaviour to
      */
     @Override
-    public void SetMoveBehaviour(MoveBehaviour moveBehaviour) {
+    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
         this.moveBehaviour = moveBehaviour;
     }
 

@@ -18,8 +18,8 @@ public interface IMovable extends IDisplayable {
 
     /**
      * Method for setting the movable behaviour of an entity.
-     * @param mbh the behaviour of the movement to set the entities behaviour to.
+     * @param moveBehaviour the behaviour of the movement to set the entities behaviour to.
      */
-    void SetMoveBehaviour(MoveBehaviour moveBehaviour);
+    void setMoveBehaviour(MoveBehaviour moveBehaviour);
 
 }

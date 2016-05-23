@@ -38,7 +38,7 @@ public class Environment extends AbstractAppState {
     private Node rootNode;
 
     private VRCam vrObs;
-    private Spatial flyObs;
+    private FlyCam flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
     private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
@@ -84,7 +84,7 @@ public class Environment extends AbstractAppState {
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new VRCam();
-        flyObs = new Node("FLY");
+        flyObs = new FlyCam();
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
@@ -208,12 +208,12 @@ public class Environment extends AbstractAppState {
     private void initCameras() {
         vrObs.getModel().setLocalTranslation(new Vector3f(0f, 0f, 0f));
         vrObs.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
-        flyObs.setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         VRApplication.setObserver(vrObs.getModel());
         rootNode.attachChild(vrObs.getModel());
-        rootNode.attachChild(flyObs);
+        rootNode.attachChild(flyObs.getModel());
     }
 
     /**
@@ -228,7 +228,7 @@ public class Environment extends AbstractAppState {
      * @param move a vector representation of the movement of the flyCamera.
      */
     public void moveCam(Vector3f move) {
-        flyObs.move(move);
+        flyObs.getModel().move(move);
     }
 
     /**
@@ -238,7 +238,7 @@ public class Environment extends AbstractAppState {
      * @param z rotation value on the z-axis
      */
     public void rotateCam(float x, float y, float z) {
-        flyObs.rotate(x, y, z);
+        flyObs.getModel().rotate(x, y, z);
     }
 
     /**
@@ -246,8 +246,8 @@ public class Environment extends AbstractAppState {
      * @return A string representation of the current camera:
      * "VR (Node)" or "FLY (Node)".
      */
-    public String getCamera() {
-        return VRApplication.getObserver().toString();
+    public boolean getFlyCamActive() {
+        return flyCamActive;
     }
 
     /**
@@ -256,7 +256,7 @@ public class Environment extends AbstractAppState {
      */
     public void swapCamera() {
         if (!flyCamActive) {
-            VRApplication.setObserver(flyObs);
+            VRApplication.setObserver(flyObs.getModel());
             flyCamActive = true;
         } else {
             VRApplication.setObserver(vrObs.getModel());

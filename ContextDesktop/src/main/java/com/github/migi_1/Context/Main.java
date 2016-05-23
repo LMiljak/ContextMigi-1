@@ -145,7 +145,7 @@ public class Main extends VRApplication {
 
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
-                 System.out.println(environmentState.getCamera().toString());
+//                 System.out.println(environmentState.getCamera().toString());
                  if (name.equals("exit") && keyPressed) {
                      System.exit(0);
                  } else if (name.equals("cam_switch") && keyPressed) {
@@ -153,7 +153,7 @@ public class Main extends VRApplication {
                  }
 
                  //Controls that only work with flycam.
-                 if (environmentState.getCamera().toString().equals("FLY (Node)")) {
+                 if (environmentState.getFlyCamActive()) {
                      switch (name) {
                          case "forward":
                              forwards = keyPressed;

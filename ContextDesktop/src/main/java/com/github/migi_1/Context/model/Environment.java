@@ -38,7 +38,7 @@ public class Environment extends AbstractAppState {
     private Node rootNode;
 
     private VRCam vrObs;
-    private Spatial flyObs;
+    private FlyCam flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
     private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
@@ -47,7 +47,7 @@ public class Environment extends AbstractAppState {
     private static final int SHADOWMAP_SIZE = 1024;
     private static final int SHADOW_SPLITS = 3;
 
-    private static final Vector3f WORLD_LOCATION = new Vector3f(0, -20, 0);
+    private static final Vector3f WORLD_LOCATION = new Vector3f(300, -20, 0);
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
@@ -71,6 +71,8 @@ public class Environment extends AbstractAppState {
 
     private boolean flyCamActive;
 
+    private LevelGenerator levelGenerator;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -84,7 +86,7 @@ public class Environment extends AbstractAppState {
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         viewPort = app.getViewPort();
         vrObs = new VRCam();
-        flyObs = new Node("FLY");
+        flyObs = new FlyCam();
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
@@ -112,7 +114,7 @@ public class Environment extends AbstractAppState {
      */
     @Override
     public void update(float tpf) {
-        System.out.println(testCommander.getLocalTranslation());
+//        System.out.println(testCommander.getLocalTranslation());
         super.update(tpf);
         Vector3f loc = testCommander.getLocalTranslation();
         float xAxis = 1;
@@ -173,16 +175,8 @@ public class Environment extends AbstractAppState {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        //initialize the given number of level pieces
-        while (testWorld.size() < LEVEL_PIECES) {
-            LevelPiece levelPiece = new LevelPiece();
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.x));
-            testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
 
-            //shift orientation to where the next level piece should spawn
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
-        }
+        levelGenerator = new LevelGenerator(WORLD_LOCATION);
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
@@ -192,8 +186,9 @@ public class Environment extends AbstractAppState {
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
 
+        testWorld = levelGenerator.getLevelPieces();
         //attach all objects to the root pane
-        for (LevelPiece levelPiece : testWorld) {
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces()) {
             rootNode.attachChild(levelPiece.getModel());
         }
 
@@ -208,12 +203,12 @@ public class Environment extends AbstractAppState {
     private void initCameras() {
         vrObs.getModel().setLocalTranslation(new Vector3f(0f, 0f, 0f));
         vrObs.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.setLocalTranslation(new Vector3f(-12f, 0f, -16f));
-        flyObs.setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         VRApplication.setObserver(vrObs.getModel());
         rootNode.attachChild(vrObs.getModel());
-        rootNode.attachChild(flyObs);
+        rootNode.attachChild(flyObs.getModel());
     }
 
     /**
@@ -228,7 +223,7 @@ public class Environment extends AbstractAppState {
      * @param move a vector representation of the movement of the flyCamera.
      */
     public void moveCam(Vector3f move) {
-        flyObs.move(move);
+        flyObs.getModel().move(move);
     }
 
     /**
@@ -238,7 +233,7 @@ public class Environment extends AbstractAppState {
      * @param z rotation value on the z-axis
      */
     public void rotateCam(float x, float y, float z) {
-        flyObs.rotate(x, y, z);
+        flyObs.getModel().rotate(x, y, z);
     }
 
     /**
@@ -246,8 +241,8 @@ public class Environment extends AbstractAppState {
      * @return A string representation of the current camera:
      * "VR (Node)" or "FLY (Node)".
      */
-    public String getCamera() {
-        return VRApplication.getObserver().toString();
+    public boolean getFlyCamActive() {
+        return flyCamActive;
     }
 
     /**
@@ -256,7 +251,7 @@ public class Environment extends AbstractAppState {
      */
     public void swapCamera() {
         if (!flyCamActive) {
-            VRApplication.setObserver(flyObs);
+            VRApplication.setObserver(flyObs.getModel());
             flyCamActive = true;
         } else {
             VRApplication.setObserver(vrObs.getModel());

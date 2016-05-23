@@ -11,12 +11,10 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
@@ -186,9 +184,9 @@ public class Environment extends AbstractAppState {
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
 
-        testWorld = levelGenerator.getLevelPieces();
+        testWorld = levelGenerator.getLevelPieces(COMMANDER_LOCATION);
         //attach all objects to the root pane
-        for (LevelPiece levelPiece : levelGenerator.getLevelPieces()) {
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             rootNode.attachChild(levelPiece.getModel());
         }
 
@@ -265,28 +263,12 @@ public class Environment extends AbstractAppState {
     private void updateTestWorld() {
 
         //delete level piece when it too far back
-        if (testWorld.size() > 0) {
-             LevelPiece checkLevelPiece = testWorld.peek();
-             BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
-             BoundingBox bb2 = (BoundingBox) this.testCommander.getWorldBound();
-             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
-             Vector2f v2 = new Vector2f(bb2.getCenter().x, bb2.getCenter().y);
-             if (v1.distance(v2) > 100) {
-                testWorld.poll();
-                rootNode.detachChild(checkLevelPiece.getModel());
-             }
+        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(testCommander.getLocalTranslation())) {
+            rootNode.detachChild(levelPiece.getModel());
         }
-
-        //add level pieces until the number of level pieces is correct
-        while (testWorld.size() < LEVEL_PIECES) {
-            LevelPiece levelPiece = new LevelPiece();
-            levelPiece.move(WORLD_LOCATION.setX(WORLD_LOCATION.getX() + 0.2f));
-            testWorld.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
-            WORLD_LOCATION.x -= 2 * bb.getXExtent() - 2.0f;
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(testCommander.getLocalTranslation())) {
             rootNode.attachChild(levelPiece.getModel());
         }
-
     }
 
     /**

@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
  * @author Marcel
  *
  */
-public abstract class Entity implements IMovable{
+public abstract class Entity implements IMovable {
 
     private Spatial model;
 
@@ -51,7 +51,7 @@ public abstract class Entity implements IMovable{
     }
 
     /**
-     * Set the model of the Entity
+     * Set the model of the Entity.
      */
     @Override
     public void setModel(Spatial model) {

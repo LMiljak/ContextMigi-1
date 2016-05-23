@@ -21,19 +21,19 @@ public final class ProjectAssetManager {
     /**
      * Singleton instance.
      */
-    private static final ProjectAssetManager instance = new ProjectAssetManager();
+    private static final ProjectAssetManager INSTANCE = new ProjectAssetManager();
 
     /**
      * Private singleton constructor.
      */
-    private ProjectAssetManager() {};
+    private ProjectAssetManager() { };
 
     /**
      * Singleton initialisation method.
      * @return newly created instance
      */
     public static ProjectAssetManager getInstance() {
-        return instance;
+        return INSTANCE;
 
     }
 

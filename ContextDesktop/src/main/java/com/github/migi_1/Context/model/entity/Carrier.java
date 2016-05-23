@@ -88,7 +88,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
      * @param mbh to set the movable behaviour to
      */
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
+    public void setMovableBehaviour(MovableBehaviour mbh) {
         movableBehaviour = mbh;
 
     }

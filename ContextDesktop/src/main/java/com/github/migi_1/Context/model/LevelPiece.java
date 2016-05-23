@@ -52,7 +52,7 @@ public class LevelPiece implements IMovable {
     }
 
     @Override
-    public void SetMovableBehaviour(MovableBehaviour mbh) {
+    public void setMovableBehaviour(MovableBehaviour mbh) {
 
     }
 

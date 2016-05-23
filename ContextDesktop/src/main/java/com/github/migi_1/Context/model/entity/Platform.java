@@ -25,7 +25,7 @@ public class Platform extends Entity {
     public Platform(Vector3f startLocation) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        moveBehaviour = new AcceleratorMoveBehaviour();
+        setMoveBehaviour(new AcceleratorMoveBehaviour());
     }
 
     /**

@@ -11,7 +11,11 @@ public abstract class Entity implements IMovable{
     /**
      * Move behaviour of particular Entity.
      */
-    protected MoveBehaviour moveBehaviour;
+    private MoveBehaviour moveBehaviour;
+
+    public Entity() {
+        moveBehaviour = new StaticMoveBehaviour();
+    }
 
     /**
      * Get the MoveBehaviour of the Entity.

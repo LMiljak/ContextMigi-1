@@ -31,7 +31,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
     public Carrier(Vector3f startLocation, int id) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        moveBehaviour = new AcceleratorMoveBehaviour();
+        setMoveBehaviour(new AcceleratorMoveBehaviour());
         health = 2;
         this.id = id;
     }

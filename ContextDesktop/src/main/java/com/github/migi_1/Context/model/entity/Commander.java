@@ -28,7 +28,7 @@ public class Commander extends Entity implements Collidable {
     public Commander(Vector3f startLocation) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
         model.setLocalTranslation(startLocation);
-        moveBehaviour = new AcceleratorMoveBehaviour();
+        setMoveBehaviour(new AcceleratorMoveBehaviour());
     }
 
     /**

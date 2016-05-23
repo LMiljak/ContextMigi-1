@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model;
+package com.github.migi_1.Context.model.entity;
 
 import com.jme3.math.Vector3f;
 

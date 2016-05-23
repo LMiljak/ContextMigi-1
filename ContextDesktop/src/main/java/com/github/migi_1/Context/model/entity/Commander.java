@@ -1,5 +1,6 @@
-package com.github.migi_1.Context.model;
+package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
@@ -7,33 +8,29 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
- * Class that handles everything that have to do with the carrier.
+ * Class that handles everything that have to do with the commander.
  * It implements collidable to register collisions.
  * It implements IMovable to register a movable behaviour. A movable behaviour
- * Sets how the carrier moves after every tick.
+ * Sets how the commander moves after every tick.
  * @author Damian
  *
  */
-public class Carrier implements IMovable, Collidable, IKillable {
+public class Commander implements IMovable, Collidable {
     
-    //String of the path to the carrier model
+    //String of the path to the commander model
     private static final String pathName = "Models/ninja.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
-    private int health;
-    private int id;
     
     /**
-     * Constructor for the carrier entity.
+     * Constructor for the commander entity.
      */
-    public Carrier(int id) {
+    public Commander() {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
-        health = 2;
-        this.id = id;
     }
     
     /**
-     * Returns the model of the carrier.
+     * Returns the model of the commander.
      * @return
      */
     @Override
@@ -42,7 +39,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
     }
     
     /**
-     * Sets the model of the carrier.
+     * Sets the model of the commander.
      * @param model
      */
     @Override
@@ -51,8 +48,8 @@ public class Carrier implements IMovable, Collidable, IKillable {
     }
     
     /**
-     * Move the carrier.
-     * @param location to which the carrier should move.
+     * Move the commander.
+     * @param location to which the commander should move.
      */
     @Override
     public void move(Vector3f location) {
@@ -61,8 +58,8 @@ public class Carrier implements IMovable, Collidable, IKillable {
     }
 
     /**
-     * scale the model of the carrier.
-     * @param f factor to scale the carrier to.
+     * scale the model of the commander.
+     * @param f factor to scale the commander to.
      */
     @Override
     public void scale(float f) {
@@ -70,7 +67,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
     }
     
     /**
-     * Returns the movable behaviour of the carrier.
+     * Returns the movable behaviour of the commander.
      * @return
      */
     @Override
@@ -79,7 +76,7 @@ public class Carrier implements IMovable, Collidable, IKillable {
     }
     
     /**
-     * sets the movable behaviour of the carrier.
+     * sets the movable behaviour of the commander.
      * @param mbh to set the movable behaviour to
      */
     @Override
@@ -101,46 +98,5 @@ public class Carrier implements IMovable, Collidable, IKillable {
         model.collideWith(arg0, arg1);
         return 0;
     }
-    
-    /**
-     * Method called when the carrier takes damage.
-     * reduced the carriers health by the amount of damage.
-     */
-    @Override
-    public void takeDamage(int damage) {
-        health -= damage;
-    }
-    
-    /**
-     * Returns the health of the carrier.
-     */
-    @Override
-    public int getHealth() {
-        return health;
-    }    
-    
-    /**
-     * Sets the health of the carrier.
-     */
-    @Override
-    public void setHealth(int h) {
-        health = h;
-    }
-
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
 
 }

@@ -1,4 +1,5 @@
-package com.github.migi_1.Context.model;
+package com.github.migi_1.Context.model.entity;
+
 
 /**
  * Interface for every entity that moves, has a method getMovableBehaviour.

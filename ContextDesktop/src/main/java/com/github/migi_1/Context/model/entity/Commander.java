@@ -16,12 +16,12 @@ import com.jme3.scene.Spatial;
  *
  */
 public class Commander implements IMovable, Collidable {
-    
+
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
-    
+
     /**
      * Constructor of the commander.
      * @param startLocation startLocation location where the Commander will be initialized
@@ -31,7 +31,7 @@ public class Commander implements IMovable, Collidable {
         model.setLocalTranslation(startLocation);
         movableBehaviour = new AcceleratorMovableBehaviour();
     }
-    
+
     /**
      * Returns the model of the commander.
      * @return
@@ -40,7 +40,7 @@ public class Commander implements IMovable, Collidable {
     public Spatial getModel() {
         return model;
     }
-    
+
     /**
      * Sets the model of the commander.
      * @param model
@@ -49,7 +49,7 @@ public class Commander implements IMovable, Collidable {
     public void setModel(Spatial model) {
         this.model = model;        
     }
-    
+
     /**
      * Move the commander.
      * @param location to which the commander should move.
@@ -57,7 +57,7 @@ public class Commander implements IMovable, Collidable {
     @Override
     public void move(Vector3f location) {
         model.move(location);
-        
+
     }
 
     /**
@@ -68,7 +68,7 @@ public class Commander implements IMovable, Collidable {
     public void scale(float f) {
         model.scale(f);       
     }
-    
+
     /**
      * Returns the movable behaviour of the commander.
      * @return
@@ -77,7 +77,7 @@ public class Commander implements IMovable, Collidable {
     public MovableBehaviour getMovableBehaviour() {
         return movableBehaviour;
     }
-    
+
     /**
      * sets the movable behaviour of the commander.
      * @param mbh to set the movable behaviour to
@@ -85,9 +85,9 @@ public class Commander implements IMovable, Collidable {
     @Override
     public void SetMovableBehaviour(MovableBehaviour mbh) {
         movableBehaviour = mbh;
-        
+
     }
-    
+
     /**
      * Method that registers a collision.
      * @param arg0 Collidable to check the collision against.

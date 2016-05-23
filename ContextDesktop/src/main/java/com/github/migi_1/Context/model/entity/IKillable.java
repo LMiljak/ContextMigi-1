@@ -7,24 +7,24 @@ package com.github.migi_1.Context.model.entity;
  *
  */
 public interface IKillable {
-    
+
     /**
      * Returns the health of the entity.
-     * @return
+     * @return the current health of the entity.
      */
     int getHealth();
-    
+
     /**
      * Sets the health of the entity.
-     * @param health
+     * @param health how much the entity's health should be.
      */
     void setHealth(int health);
-    
+
     /**
      * Reduces the entity's health by the given damage. 
-     * @param damage
-     * @return
+     * @param damage how much damage to deal to the entity
+     * 
      */
     void takeDamage(int damage);
-    
+
 }

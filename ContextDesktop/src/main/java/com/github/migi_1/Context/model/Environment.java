@@ -32,7 +32,7 @@ public class Environment extends AbstractAppState {
     private AssetManager assetManager;
     private Node rootNode;
 
-    private VRCam vrObs;
+    private Camera vrObs;
     private Camera flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
@@ -75,7 +75,7 @@ public class Environment extends AbstractAppState {
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
         viewPort = app.getViewPort();
-        vrObs = new VRCam();
+        vrObs = new Camera();
         flyObs = new Camera();
         rootNode = this.app.getRootNode();
         steering = 0.f;

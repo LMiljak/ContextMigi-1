@@ -27,8 +27,10 @@ public class Carrier implements IMovable, Collidable, IKillable {
     /**
      * Constructor for the carrier entity.
      */
-    public Carrier(int id) {
+    public Carrier(Vector3f startLocation, int id) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model.setLocalTranslation(startLocation);
+        movableBehaviour = new AcceleratorMovableBehaviour();
         health = 2;
         this.id = id;
     }

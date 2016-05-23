@@ -11,10 +11,7 @@ import com.jme3.asset.AssetManager;
  */
 public final class ProjectAssetManager {
 
-    /**
-     * Object instance.
-     */
-    private  static ProjectAssetManager instance;
+
 
     /**
      * Instance of the Asset Manager.
@@ -22,19 +19,15 @@ public final class ProjectAssetManager {
     private AssetManager assetManager;
 
     /**
-     * Private singleton constructor.
+     * Singleton instance.
      */
-    private ProjectAssetManager() { }
+    private static final ProjectAssetManager instance = new ProjectAssetManager();
 
     /**
      * Singleton initialisation method.
      * @return newly created instance
      */
     public static ProjectAssetManager getInstance() {
-        if (instance == null) {
-            instance = new ProjectAssetManager();
-        }
-
         return instance;
 
     }

@@ -154,6 +154,7 @@ public class Environment extends AbstractAppState {
         //add collision check for all obstacles
         for (DamageDealer obs : obstacleGenerator.getObstacles().values()) {
             obs.collideWith(platform.getModel(), results);
+            obs.move(obs.getMovableBehaviour().getMoveVector());
         }
 
         // regain speed

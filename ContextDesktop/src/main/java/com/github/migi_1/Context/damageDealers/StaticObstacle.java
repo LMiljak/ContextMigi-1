@@ -19,6 +19,8 @@ public class StaticObstacle implements DamageDealer {
     /** Physical model of object. **/
     private Spatial model;
 
+    private MovableBehaviour moveBehaviour;
+
     /**
      * Instantiate object.
      * @param assetManager AssetManager that provides access to asset files.
@@ -26,6 +28,7 @@ public class StaticObstacle implements DamageDealer {
     public StaticObstacle() {
         setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(MODEL_FILE));
         model.move(0.0f, -2.0f, 0.0f);
+        moveBehaviour = new MovableBehaviour();
     }
 
     /**
@@ -82,14 +85,12 @@ public class StaticObstacle implements DamageDealer {
 
     @Override
     public MovableBehaviour getMovableBehaviour() {
-        // TODO Auto-generated method stub
-        return null;
+        return moveBehaviour;
     }
 
     @Override
     public void SetMovableBehaviour(MovableBehaviour mbh) {
-        // TODO Auto-generated method stub
-
+        moveBehaviour = mbh;
     }
 
 

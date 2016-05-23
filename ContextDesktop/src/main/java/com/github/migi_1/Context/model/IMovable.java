@@ -13,12 +13,12 @@ public interface IMovable extends IDisplayable {
      * Method for gettin the movable behaviour of an entity.
      * @return
      */
-    public MovableBehaviour getMovableBehaviour();
+    MovableBehaviour getMovableBehaviour();
     
     /**
      * Method for setting the movable behaviour of an entity.
      * @param mbh
      */
-    public void SetMovableBehaviour(MovableBehaviour mbh);
+    void SetMovableBehaviour(MovableBehaviour mbh);
     
 }

@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.jme3.scene.Spatial;
+
 /**
  * Superclass of all object that implement some MovableBehaviour.
  *
@@ -7,6 +9,8 @@ package com.github.migi_1.Context.model.entity;
  *
  */
 public abstract class Entity implements IMovable{
+
+    private Spatial model;
 
     /**
      * Move behaviour of particular Entity.
@@ -36,5 +40,22 @@ public abstract class Entity implements IMovable{
     @Override
     public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
         this.moveBehaviour = moveBehaviour;
+    }
+
+    /**
+     * Get the model of the Entity.
+     */
+    @Override
+    public Spatial getModel() {
+        return model;
+    }
+
+    /**
+     * Set the model of the Entity
+     */
+    @Override
+    public void setModel(Spatial model) {
+        this.model = model;
+
     }
 }

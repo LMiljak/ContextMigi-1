@@ -5,7 +5,6 @@ import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
 
 /**
  * Class that handles everything that have to do with the carrier.
@@ -19,7 +18,6 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
-    private Spatial model;
     private int health;
     private int id;
 
@@ -29,30 +27,13 @@ public class Carrier extends Entity implements Collidable, IKillable {
      * @param id to keep the 4 carriers apart
      */
     public Carrier(Vector3f startLocation, int id) {
-        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
-        model.setLocalTranslation(startLocation);
+        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME));
+        getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new AcceleratorMoveBehaviour());
         health = 2;
         this.id = id;
     }
 
-    /**
-     * Returns the model of the carrier.
-     * @return
-     */
-    @Override
-    public Spatial getModel() {
-        return model;
-    }
-
-    /**
-     * Sets the model of the carrier.
-     * @param model
-     */
-    @Override
-    public void setModel(Spatial model) {
-        this.model = model;
-    }
 
     /**
      * Method that registers a collision.
@@ -64,7 +45,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
     @Override
     public int collideWith(Collidable arg0, CollisionResults arg1)
             throws UnsupportedCollisionException {
-        model.collideWith(arg0, arg1);
+        getModel().collideWith(arg0, arg1);
         return 0;
     }
 
@@ -111,6 +92,8 @@ public class Carrier extends Entity implements Collidable, IKillable {
     public void onKilled() {
 
     }
+
+
 
 
 

@@ -73,7 +73,6 @@ public class Environment extends AbstractAppState {
     private DirectionalLight sun2;
 
     private float steering;
-    private LinkedList<Carrier> carriers;
 
     /**
      * First method that is called after the state has been created.
@@ -91,7 +90,6 @@ public class Environment extends AbstractAppState {
         flyObs = new Node("FLY");
         rootNode = this.app.getRootNode();
         steering = 0.f;
-        carriers = new LinkedList<Carrier>();
 
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
@@ -192,17 +190,6 @@ public class Environment extends AbstractAppState {
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
         testPlatform.scale(2, 1, 1);
         testPlatform.move(PLATFORM_LOCATION);
-
-        //add the carriers
-
-        carriers.add(new Carrier(assetManager, CARRIER1_LOCATION, Integer.toString(1)));
-        carriers.add(new Carrier(assetManager, CARRIER2_LOCATION, Integer.toString(2)));
-        carriers.add(new Carrier(assetManager, CARRIER3_LOCATION, Integer.toString(3)));
-        carriers.add(new Carrier(assetManager, CARRIER4_LOCATION, Integer.toString(4)));
-
-        for(Carrier carrier : carriers) {
-            rootNode.attachChild(carrier.getSpatial());
-        }
 
         testCommander = assetManager.loadModel("Models/ninja.j3o");
         testCommander.move(COMMANDER_LOCATION);

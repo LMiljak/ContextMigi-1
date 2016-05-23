@@ -18,8 +18,10 @@ public class Platform implements IMovable {
     private Spatial model;
     private MovableBehaviour movableBehaviour;
     
-    public Platform() {
+    public Platform(Vector3f startLocation) {
         model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
+        model.setLocalTranslation(startLocation);
+        movableBehaviour = new AcceleratorMovableBehaviour();
     }
     
     /**

@@ -14,7 +14,7 @@ public class MovableBehaviour {
      * @return Vector3f for the entity to move to.
      */
     public Vector3f getMoveVector() {
-        return null;
+        return new Vector3f(0, 0, 0);
     }
     
 }

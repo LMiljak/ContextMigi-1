@@ -6,7 +6,7 @@ import com.jme3.collision.CollisionResults;
  * @author Marcel
  *
  */
-public interface ICollidable extends Displayable {
+public interface ICollidable extends IDisplayable {
 
     /**
      * Handle collisions with another ICollidable.

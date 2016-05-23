@@ -7,7 +7,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 /**
- * Class responsible for generating and deleting the levelpieces 
+ * Class responsible for generating and deleting the levelpieces
  * at the correct time.
  * @author Marcel
  *
@@ -19,7 +19,7 @@ public class LevelGenerator {
     private LinkedList<LevelPiece> levelPieces;
 
     private Vector3f locationNextPiece;
-    
+
     /**
      * Constructor of the levelGenerator.
      * @param locationNextPiece location of the next piece to be placed.
@@ -28,9 +28,9 @@ public class LevelGenerator {
        levelPieces = new LinkedList<LevelPiece>();
        this.locationNextPiece = locationNextPiece;
     }
-    
+
     /**
-     * Checks how far away the player is from the last piece, it checks which pieces are 
+     * Checks how far away the player is from the last piece, it checks which pieces are
      * ready to be deleted and adds them to the delete list.
      * @param commanderLocation to check how far away the commander is from the last platform.
      * @return the list of pieces to delete.
@@ -42,14 +42,13 @@ public class LevelGenerator {
             BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
             Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
             Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
-            System.out.println(v1.distance(v2));
             if (v1.distance(v2) > 100) {
                deleteList.add(levelPieces.poll());
             }
        }
        return deleteList;
     }
-    
+
     /**
      * Returns the levelpieces to add and which location to place them at.
      * @param commanderLocation to check if new pieces need to be added.

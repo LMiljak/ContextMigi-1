@@ -7,6 +7,7 @@ import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -65,7 +66,7 @@ public class Main extends VRApplication {
 
         mainMenuState = new MainMenu();
         environmentState = new Environment();
-
+        ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
         startServer();
     }
@@ -145,7 +146,7 @@ public class Main extends VRApplication {
 
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
-                 System.out.println(environmentState.getCamera().toString());
+//                 System.out.println(environmentState.getCamera().toString());
                  if (name.equals("exit") && keyPressed) {
                      System.exit(0);
                  } else if (name.equals("cam_switch") && keyPressed) {
@@ -153,7 +154,7 @@ public class Main extends VRApplication {
                  }
 
                  //Controls that only work with flycam.
-                 if (environmentState.getCamera().toString().equals("FLY (Node)")) {
+                 if (environmentState.getFlyCamActive()) {
                      switch (name) {
                          case "forward":
                              forwards = keyPressed;

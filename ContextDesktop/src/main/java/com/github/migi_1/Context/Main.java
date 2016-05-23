@@ -6,8 +6,8 @@ import java.util.concurrent.Executors;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.model.Environment;
-import com.github.migi_1.Context.model.ProjectAssetManager;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;

@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model;
+package com.github.migi_1.Context.utility;
 
 import com.jme3.asset.AssetManager;
 

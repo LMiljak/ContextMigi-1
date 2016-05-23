@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;

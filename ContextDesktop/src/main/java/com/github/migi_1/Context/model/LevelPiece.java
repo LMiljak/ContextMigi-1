@@ -2,6 +2,9 @@ package com.github.migi_1.Context.model;
 
 import java.util.Random;
 
+import com.github.migi_1.Context.model.entity.IMovable;
+import com.github.migi_1.Context.model.entity.MovableBehaviour;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 

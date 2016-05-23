@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model;
+package com.github.migi_1.Context.model.entity;
 
 /**
  * Interface for everything that is killable,

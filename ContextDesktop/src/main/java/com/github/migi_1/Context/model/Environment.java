@@ -3,8 +3,6 @@ package com.github.migi_1.Context.model;
 import java.util.LinkedList;
 import java.util.Random;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -26,6 +24,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -52,9 +52,9 @@ public class Environment extends AbstractAppState {
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
     private static final Vector3f CARRIER1_LOCATION = new Vector3f(21, -20, 0);
-    private static final Vector3f CARRIER2_LOCATION = new Vector3f(25, -20, 0f);
+    private static final Vector3f CARRIER2_LOCATION = new Vector3f(29, -20, 0f);
     private static final Vector3f CARRIER3_LOCATION = new Vector3f(21, -20, -4f);
-    private static final Vector3f CARRIER4_LOCATION = new Vector3f(25, -20, -4f);
+    private static final Vector3f CARRIER4_LOCATION = new Vector3f(29, -20, -4f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -130,7 +130,7 @@ public class Environment extends AbstractAppState {
             xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
         }
 
-        //testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
+//        testPlatform.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         testCommander.move(-PLATFORM_SPEED * xAxis, 0, -PLATFORM_SPEED * zAxis);
         vrObs.setLocalTranslation(testCommander.getLocalTranslation());
         updateTestWorld();
@@ -190,6 +190,7 @@ public class Environment extends AbstractAppState {
 
         testPlatform = assetManager.loadModel("Models/testPlatform.j3o");
         testPlatform.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
+        testPlatform.scale(2, 1, 1);
         testPlatform.move(PLATFORM_LOCATION);
 
         //add the carriers
@@ -198,11 +199,11 @@ public class Environment extends AbstractAppState {
         carriers.add(new Carrier(assetManager, CARRIER2_LOCATION, Integer.toString(2)));
         carriers.add(new Carrier(assetManager, CARRIER3_LOCATION, Integer.toString(3)));
         carriers.add(new Carrier(assetManager, CARRIER4_LOCATION, Integer.toString(4)));
-        
+
         for(Carrier carrier : carriers) {
             rootNode.attachChild(carrier.getSpatial());
         }
-        
+
         testCommander = assetManager.loadModel("Models/ninja.j3o");
         testCommander.move(COMMANDER_LOCATION);
         testCommander.addControl(new RigidBodyControl());
@@ -343,10 +344,11 @@ public class Environment extends AbstractAppState {
      * @param rnd the random variable created by Random.nextInt(the amount of different worlds)
      */
     private Spatial chooseLevelPiece(int rnd) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Models/world");
-        sb.append(rnd + 1);
-        sb.append(".j3o");
-        return assetManager.loadModel(sb.toString());
+        return assetManager.loadModel("Models/world11.j3o");
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Models/world");
+//        sb.append(rnd + 1);
+//        sb.append(".j3o");
+//        return assetManager.loadModel(sb.toString());
     }
 }

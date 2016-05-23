@@ -1,20 +1,31 @@
 package com.github.migi_1.Context.model;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+/**
+ * Class that handles everything that have to do with the commander.
+ * It implements collidable to register collisions.
+ * It implements IMovable to register a movable behaviour. A movable behaviour
+ * Sets how the commander moves after every tick.
+ * @author Damian
+ *
+ */
 public class Commander implements IMovable, Collidable{
     
+    //String of the path to the commander model
     private static final String pathName = "Models/ninja.j3o";
     private Spatial model;
     private MovableBehaviour movableBehaviour;
     
-    public Commander(AssetManager assetManager) {
-        model = assetManager.loadModel(pathName);
+    /**
+     * Constructor for the commander entity.
+     */
+    public Commander() {
+        model = ProjectAssetManager.getInstance().getAssetManager().loadModel(pathName);
     }
     
     /**

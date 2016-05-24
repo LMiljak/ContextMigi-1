@@ -3,8 +3,6 @@ package com.github.migi_1.Context;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -16,11 +14,14 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
+import jmevr.app.VRApplication;
+
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
  * all things that have to do with the application as a whole can be found in this class
  * @author Damian
  */
+
 public class Main extends VRApplication {
     //the main menu state
     private MainMenu mainMenuState;
@@ -48,7 +49,7 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
-        
+
         main = new Main();
         main.setSettings(settings);
         main.configureVR();
@@ -299,5 +300,13 @@ public class Main extends VRApplication {
     @Override
     public Node getRootNode() {
         return rootNode;
+    }
+
+    /**
+     * Returns the only instance of main.
+     * @return main.
+     */
+    public static Main getInstance() {
+        return main;
     }
 }

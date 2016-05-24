@@ -51,4 +51,15 @@ public abstract class TestEntity {
 
     }
 
+    @Test
+    public void testGetModel() {
+        assertEquals(model, entity.getModel());
+    }
+
+    @Test
+    public void testSetModel(Spatial model) {
+        entity.setModel(model);
+        assertEquals(model, entity.getModel());
+
+    }
 }

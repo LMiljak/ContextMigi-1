@@ -5,20 +5,35 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
+import com.jme3.scene.Spatial;
 
 
 @PrepareForTest({Entity.class})
 public abstract class TestEntity {
 
-    private Entity testEntity;
+    private Entity entity;
 
-    private MoveBehaviour testMoveBehaviour;
+    private MoveBehaviour moveBehaviour;
+
+    private Spatial model;
 
     @Before
     public abstract void setUp();
 
     protected void setMoveBehaviour(MoveBehaviour moveBehaviour) {
-        testMoveBehaviour = moveBehaviour;
+        this.moveBehaviour = moveBehaviour;
+    }
+
+    protected MoveBehaviour getMoveBehaviour() {
+        return moveBehaviour;
+    }
+
+    protected void setModel(Spatial model) {
+        this.model = model;
+    }
+
+    protected Spatial getModel() {
+        return model;
     }
 
 }

@@ -44,4 +44,11 @@ public abstract class TestEntity {
         assertEquals(moveBehaviour, entity.getMoveBehaviour());
     }
 
+    @Test
+    public void testSetMoveBehaviour(MoveBehaviour moveBehaviour) {
+        entity.setMoveBehaviour(moveBehaviour);
+        assertEquals(moveBehaviour, entity.getMoveBehaviour());
+
+    }
+
 }

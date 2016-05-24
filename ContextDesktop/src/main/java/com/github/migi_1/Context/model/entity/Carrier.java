@@ -5,6 +5,7 @@ import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 
 /**
  * Class that handles everything that have to do with the carrier.
@@ -28,7 +29,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
      */
     public Carrier(Vector3f startLocation, int id) {
         super();
-        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME));
+        setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new AcceleratorMoveBehaviour());
         health = 2;
@@ -92,6 +93,12 @@ public class Carrier extends Entity implements Collidable, IKillable {
     @Override
     public void onKilled() {
 
+    }
+
+
+    @Override
+    public Spatial getDefaultModel() {
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
 

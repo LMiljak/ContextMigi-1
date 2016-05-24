@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 
 /**
  * Class that handles everything that have to do with the platform.
@@ -22,9 +23,15 @@ public class Platform extends Entity {
      */
     public Platform(Vector3f startLocation) {
         super();
-        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME));
+        setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new AcceleratorMoveBehaviour());
+    }
+
+
+    @Override
+    public Spatial getDefaultModel() {
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
 

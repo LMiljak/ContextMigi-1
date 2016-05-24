@@ -35,5 +35,10 @@ public class TestEntity {
         testEntity.setMoveBehaviour(testMoveBehaviour);
         assertEquals(testEntity.getMoveBehaviour(), testMoveBehaviour);
     }
+//
+//    @Test
+//    public void testGetModel() {
+//        assertEquals(testEntity.getModel(), null);
+//    }
 
 }

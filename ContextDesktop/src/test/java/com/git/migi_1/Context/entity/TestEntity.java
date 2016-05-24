@@ -1,6 +1,9 @@
 package com.git.migi_1.Context.entity;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
+import org.junit.Test;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.github.migi_1.Context.model.entity.Entity;
@@ -34,6 +37,11 @@ public abstract class TestEntity {
 
     protected Spatial getModel() {
         return model;
+    }
+
+    @Test
+    public void testGetMoveBehaviour() {
+        assertEquals(moveBehaviour, entity.getMoveBehaviour());
     }
 
 }

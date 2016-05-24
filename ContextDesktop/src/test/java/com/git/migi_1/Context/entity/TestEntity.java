@@ -1,29 +1,24 @@
 package com.git.migi_1.Context.entity;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.github.migi_1.Context.model.entity.Entity;
-import com.jme3.math.Vector3f;
+import com.github.migi_1.Context.model.entity.MoveBehaviour;
 
 
 @PrepareForTest({Entity.class})
-public class TestEntity {
+public abstract class TestEntity {
 
     private Entity testEntity;
 
-    @Before
-    public void setUp() {
-        testEntity = Mockito.spy(Entity.class);
-    }
+    private MoveBehaviour testMoveBehaviour;
 
-    @Test
-    public void testGetMoveBehaviour() {
-        assertEquals(testEntity.getMoveBehaviour().getMoveVector(), new Vector3f(0, 0, 0));
+    @Before
+    public abstract void setUp();
+
+    protected void setMoveBehaviour(MoveBehaviour moveBehaviour) {
+        testMoveBehaviour = moveBehaviour;
     }
 
 }

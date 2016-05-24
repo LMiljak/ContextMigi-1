@@ -22,6 +22,7 @@ public abstract class Entity implements IMovable {
      */
     public Entity() {
         moveBehaviour = new StaticMoveBehaviour();
+        this.model = getDefaultModel();
     }
 
     /**
@@ -58,4 +59,6 @@ public abstract class Entity implements IMovable {
         this.model = model;
 
     }
+
+    public abstract Spatial getDefaultModel();
 }

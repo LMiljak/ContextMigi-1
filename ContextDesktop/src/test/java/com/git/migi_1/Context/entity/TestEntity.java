@@ -4,62 +4,38 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.jme3.scene.Spatial;
 
-
-@PrepareForTest({Entity.class})
 public abstract class TestEntity {
 
-    private Entity entity;
+    private Spatial model;
 
     private MoveBehaviour moveBehaviour;
 
-    private Spatial model;
+    private Entity testEntity;
 
     @Before
     public abstract void setUp();
 
-    protected void setMoveBehaviour(MoveBehaviour moveBehaviour) {
-        this.moveBehaviour = moveBehaviour;
-    }
+    @Test
+    public void testGetMoveBehaviour() {
+        testEntity.setMoveBehaviour(moveBehaviour);
+        assertEquals(moveBehaviour, testEntity.getMoveBehaviour());
+    };
 
-    protected MoveBehaviour getMoveBehaviour() {
-        return moveBehaviour;
-    }
-
-    protected void setModel(Spatial model) {
+    public void setModel(Spatial model) {
         this.model = model;
     }
 
-    protected Spatial getModel() {
-        return model;
+    public void setMoveBehaviour(MoveBehaviour moveBehaviour) {
+        this.moveBehaviour = moveBehaviour;
     }
 
-    @Test
-    public void testGetMoveBehaviour() {
-        assertEquals(moveBehaviour, entity.getMoveBehaviour());
+    public void setEntity(Entity testEntity) {
+        this.testEntity = testEntity;
     }
 
-    @Test
-    public void testSetMoveBehaviour(MoveBehaviour moveBehaviour) {
-        entity.setMoveBehaviour(moveBehaviour);
-        assertEquals(moveBehaviour, entity.getMoveBehaviour());
-
-    }
-
-    @Test
-    public void testGetModel() {
-        assertEquals(model, entity.getModel());
-    }
-
-    @Test
-    public void testSetModel(Spatial model) {
-        entity.setModel(model);
-        assertEquals(model, entity.getModel());
-
-    }
 }

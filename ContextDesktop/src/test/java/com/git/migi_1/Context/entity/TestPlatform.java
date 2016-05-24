@@ -12,6 +12,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
@@ -21,7 +22,7 @@ import com.jme3.scene.Spatial;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
-public class TestPlatform {
+public class TestPlatform extends TestEntity {
 
     Platform platform;
 
@@ -29,10 +30,13 @@ public class TestPlatform {
 
     AssetManager assetManager;
 
+    MoveBehaviour moveBehaviour;
+
     Main main;
 
     Spatial model;
 
+    @Override
     @Before
     public void setUp() {
 
@@ -40,7 +44,8 @@ public class TestPlatform {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
 
         assetManager = Mockito.mock(AssetManager.class);
-        model = Mockito.mock(Spatial.class);
+        model =  Mockito.mock(Spatial.class);
+        moveBehaviour = Mockito.mock(MoveBehaviour.class);
 //        main = Mockito.mock(Main.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
@@ -49,6 +54,9 @@ public class TestPlatform {
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
         platform = new Platform(new Vector3f(0, 0, 0));
+        setModel(model);
+        setMoveBehaviour(moveBehaviour);
+        setEntity(platform);
 //        Main.main(new String[0]);
 
     }

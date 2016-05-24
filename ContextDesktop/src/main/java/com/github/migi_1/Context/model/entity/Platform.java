@@ -21,6 +21,7 @@ public class Platform extends Entity {
      * @param startLocation location where the carrier will be initialized
      */
     public Platform(Vector3f startLocation) {
+        super();
         setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME));
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new AcceleratorMoveBehaviour());

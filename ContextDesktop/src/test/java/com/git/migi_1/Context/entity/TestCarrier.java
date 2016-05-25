@@ -35,7 +35,7 @@ public class TestCarrier extends TestEntity {
     private Spatial model;
 
     /**
-     * Initialise all mock objects, static class responses and initialise the tested object.
+     * Initialises all mock objects, static class responses and initialise the tested object.
      */
     @Override
     @Before
@@ -58,7 +58,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the collideWithMethod.
+     * Tests the collideWithMethod.
      */
     @Test
     public void collideWithTest() {
@@ -69,7 +69,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the takeDamage method.
+     * Tests the takeDamage method.
      */
     @Test
     public void takeDamageTest() {
@@ -78,7 +78,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the onKilled method.
+     * Tests the onKilled method.
      */
     @Test
     public void onKilledTest() {
@@ -86,7 +86,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the setHealth method.
+     * Tests the setHealth method.
      */
     @Test
     public void setHealthTest() {
@@ -95,7 +95,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the getId method.
+     * Tests the getId method.
      */
     @Test
     public void getIdTest() {
@@ -103,7 +103,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the setId method.
+     * Tests the setId method.
      */
     @Test
     public void setIdTest() {

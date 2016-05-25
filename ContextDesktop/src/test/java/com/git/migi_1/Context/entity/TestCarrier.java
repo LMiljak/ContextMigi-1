@@ -46,25 +46,20 @@ public class TestCarrier extends TestEntity {
     @Before
     public void setUp() {
 
-
-
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
-
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
         moveBehaviour = Mockito.mock(MoveBehaviour.class);
-//        main = Mockito.mock(Main.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
-//        Mockito.when(pAssetManager.getAssetManager()).thenReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
         testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
+
         setModel(model);
         setMoveBehaviour(moveBehaviour);
         setEntity(testCarrier);
-//        Main.main(new String[0]);
 
     }
 

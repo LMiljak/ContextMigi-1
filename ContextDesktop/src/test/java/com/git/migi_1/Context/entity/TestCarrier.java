@@ -87,6 +87,23 @@ public class TestCarrier extends TestEntity {
         testCarrier.onKilled();
     }
 
+    @Test
+    public void setHealthTest() {
+        testCarrier.setHealth(42);
+        assertEquals(testCarrier.getHealth(), 42);
+    }
+
+    @Test
+    public void getIdTest() {
+        assertEquals(testCarrier.getId(), 0);
+    }
+
+    @Test
+    public void setIdTest() {
+        testCarrier.setId(10);
+        assertEquals(testCarrier.getId(), 10);
+    }
+
 
 
 

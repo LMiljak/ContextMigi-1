@@ -54,15 +54,6 @@ public class Carrier extends Entity implements Collidable, IKillable {
     }
 
     /**
-     * Method called when the carrier takes damage.
-     * reduced the carriers health by the amount of damage.
-     */
-    @Override
-    public void takeDamage(int damage) {
-        health -= damage;
-    }
-
-    /**
      * Returns the health of the carrier.
      */
     @Override

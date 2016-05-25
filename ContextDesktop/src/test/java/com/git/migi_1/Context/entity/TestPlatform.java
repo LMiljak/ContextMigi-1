@@ -34,7 +34,7 @@ public class TestPlatform extends TestEntity {
     private Spatial model;
 
     /**
-     * Initialise all mock objects, static class responses and initialise the tested object.
+     * Initialises all mock objects, static class responses and initialise the tested object.
      */
     @Override
     @Before
@@ -57,7 +57,7 @@ public class TestPlatform extends TestEntity {
     }
 
     /**
-     * Test getDefaultModel method.
+     * Tests getDefaultModel method.
      */
     @Test
     public void testGetDefaultModel() {

@@ -1,24 +1,28 @@
 package com.github.migi_1.Context;
 
-import jmevr.app.VRApplication;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+
+import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
  * all things that have to do with the application as a whole can be found in this class
  * @author Damian
  */
+
 public class Main extends VRApplication {
     //the main menu state
     private MainMenu mainMenuState;
@@ -45,6 +49,7 @@ public class Main extends VRApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
+        settings.setVSync(true);
 
         main = new Main();
         main.setSettings(settings);
@@ -63,11 +68,11 @@ public class Main extends VRApplication {
 
         mainMenuState = new MainMenu();
         environmentState = new Environment();
-
+        ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
         startServer();
     }
-    
+
     /**
      * Starts the server and allows clients to connect to it.
      */
@@ -99,10 +104,10 @@ public class Main extends VRApplication {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(-tpf * 8f));
         }
         if (left) {
-        	environmentState.rotateCam(0f, 0.75f * tpf, 0f);
+        	environmentState.rotateCam(new Vector3f(0f, 0.75f * tpf, 0f));
         }
         if (right) {
-        	environmentState.rotateCam(0, -0.75f * tpf, 0);
+        	environmentState.rotateCam(new Vector3f(0, -0.75f * tpf, 0));
         }
         if (up) {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(tpf * 8f));
@@ -143,7 +148,7 @@ public class Main extends VRApplication {
 
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
-                 System.out.println(environmentState.getCamera().toString());
+//                 System.out.println(environmentState.getCamera().toString());
                  if (name.equals("exit") && keyPressed) {
                      System.exit(0);
                  } else if (name.equals("cam_switch") && keyPressed) {
@@ -151,7 +156,7 @@ public class Main extends VRApplication {
                  }
 
                  //Controls that only work with flycam.
-                 if (environmentState.getCamera().toString().equals("FLY (Node)")) {
+                 if (environmentState.getFlyCamActive()) {
                      switch (name) {
                          case "forward":
                              forwards = keyPressed;
@@ -265,7 +270,7 @@ public class Main extends VRApplication {
 
     /**
      * Steers the platform depending on the orientation of an accelerometer.
-     * 
+     *
      * @param orientation
      * 		The acceleration force along the z axis (including gravity).
      */
@@ -296,5 +301,13 @@ public class Main extends VRApplication {
     @Override
     public Node getRootNode() {
         return rootNode;
+    }
+
+    /**
+     * Returns the only instance of main.
+     * @return main.
+     */
+    public static Main getInstance() {
+        return main;
     }
 }

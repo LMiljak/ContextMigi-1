@@ -20,28 +20,25 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-
+/**
+ * Test class for the Carrier class.
+ * @author Marcel
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestCarrier extends TestEntity {
 
     Carrier testCarrier;
-
     ProjectAssetManager pAssetManager;
-
     AssetManager assetManager;
-
     MoveBehaviour moveBehaviour;
-
     Main main;
-
     Spatial model;
 
-    Vector3f vector;
-
-    Integer id;
-
-
+    /**
+     * Initialise all mock objects, static class responses and initialise the tested object.
+     */
     @Override
     @Before
     public void setUp() {
@@ -63,6 +60,9 @@ public class TestCarrier extends TestEntity {
 
     }
 
+    /**
+     * Test the collideWithMethod.
+     */
     @Test
     public void collideWithTest() {
         Spatial collider = Mockito.mock(Spatial.class);
@@ -71,28 +71,43 @@ public class TestCarrier extends TestEntity {
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
 
+    /**
+     * Test the takeDamage method.
+     */
     @Test
     public void takeDamageTest() {
         testCarrier.takeDamage(1);
         assertEquals(testCarrier.getHealth(), 1);
     }
 
+    /**
+     * Test the onKilled method.
+     */
     @Test
     public void onKilledTest() {
         testCarrier.onKilled();
     }
 
+    /**
+     * Test the setHealth method.
+     */
     @Test
     public void setHealthTest() {
         testCarrier.setHealth(42);
         assertEquals(testCarrier.getHealth(), 42);
     }
 
+    /**
+     * Test the getId method.
+     */
     @Test
     public void getIdTest() {
         assertEquals(testCarrier.getId(), 0);
     }
 
+    /**
+     * Test the setId method
+     */
     @Test
     public void setIdTest() {
         testCarrier.setId(10);

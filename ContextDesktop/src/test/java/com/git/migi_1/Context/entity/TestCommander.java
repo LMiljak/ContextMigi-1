@@ -18,28 +18,29 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-
+/**
+ * Test class for the Commander class.
+ * @author Marcel
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestCommander extends TestEntity {
 
     Commander testCommander;
-
     ProjectAssetManager pAssetManager;
-
     AssetManager assetManager;
-
     MoveBehaviour moveBehaviour;
-
     Main main;
-
     Spatial model;
-
     Vector3f vector;
-
     Integer id;
 
 
+
+    /**
+     * Initialise all mock objects, static class responses and initialise the tested object.
+     */
     @Override
     @Before
     public void setUp() {
@@ -61,6 +62,9 @@ public class TestCommander extends TestEntity {
 
     }
 
+    /**
+     * Test the collideWith method.
+     */
     @Test
     public void collideWithTest() {
         Spatial collider = Mockito.mock(Spatial.class);

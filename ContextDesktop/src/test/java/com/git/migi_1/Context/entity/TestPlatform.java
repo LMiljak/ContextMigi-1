@@ -19,7 +19,11 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-
+/**
+ * Test class for the Platform class.
+ * @author Marcel
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestPlatform extends TestEntity {

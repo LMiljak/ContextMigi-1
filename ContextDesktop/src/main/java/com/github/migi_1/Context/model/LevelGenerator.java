@@ -41,8 +41,8 @@ public class LevelGenerator {
         while (!done) {
             if (levelPieces.size() > 0) {
                 LevelPiece checkLevelPiece = levelPieces.peek();
-                BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
-                Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+                Vector3f v = checkLevelPiece.getModel().getLocalTranslation();
+                Vector2f v1 = new Vector2f(v.getX(), v.getY());
                 Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
                 if (v1.distance(v2) > 100) {
                    deleteList.add(levelPieces.poll());
@@ -82,6 +82,10 @@ public class LevelGenerator {
      */
     public int getNumberOfLevelPieces() {
         return LEVEL_PIECES;
+    }
+
+    public void setLevelPieces(LinkedList<LevelPiece> levelPieces) {
+        this.levelPieces = levelPieces;
     }
 
 }

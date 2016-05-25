@@ -1,5 +1,7 @@
 package com.git.migi_1.Context.entity;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +25,7 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestCarrier extends TestEntity {
 
-    Carrier carrier;
+    Carrier testCarrier;
 
     ProjectAssetManager pAssetManager;
 
@@ -58,10 +60,10 @@ public class TestCarrier extends TestEntity {
 //        Mockito.when(pAssetManager.getAssetManager()).thenReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        carrier = new Carrier(new Vector3f(0, 0, 0), 0);
+        testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
         setModel(model);
         setMoveBehaviour(moveBehaviour);
-        setEntity(carrier);
+        setEntity(testCarrier);
 //        Main.main(new String[0]);
 
     }
@@ -70,8 +72,14 @@ public class TestCarrier extends TestEntity {
     public void collideWithTest() {
         Spatial collider = Mockito.mock(Spatial.class);
         CollisionResults results = Mockito.mock(CollisionResults.class);
-        carrier.collideWith(collider, results);
+        testCarrier.collideWith(collider, results);
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
+    }
+
+    @Test
+    public void takeDamageTest() {
+        testCarrier.takeDamage(1);
+        assertEquals(testCarrier.getHealth(), 1);
     }
 
 

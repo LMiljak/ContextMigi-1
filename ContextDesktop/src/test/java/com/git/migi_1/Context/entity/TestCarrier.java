@@ -1,6 +1,7 @@
 package com.git.migi_1.Context.entity;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -13,6 +14,7 @@ import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -62,6 +64,14 @@ public class TestCarrier extends TestEntity {
         setEntity(carrier);
 //        Main.main(new String[0]);
 
+    }
+
+    @Test
+    public void collideWithTest() {
+        Spatial collider = Mockito.mock(Spatial.class);
+        CollisionResults results = Mockito.mock(CollisionResults.class);
+        carrier.collideWith(collider, results);
+        Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
 
 

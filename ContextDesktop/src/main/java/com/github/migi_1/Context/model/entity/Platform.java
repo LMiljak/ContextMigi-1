@@ -5,10 +5,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
- * Class that handles everything that have to do with the platform.
- * It implements collidable to register collisions.
- * It implements IMovable to register a movable behaviour. A movable behaviour
- * Sets how the platform moves after every tick.
+ * Entity that handles everything that has to do with the platform.
  * @author Damian
  *
  */

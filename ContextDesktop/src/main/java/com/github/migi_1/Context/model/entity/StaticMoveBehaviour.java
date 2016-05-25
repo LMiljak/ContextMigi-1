@@ -3,7 +3,7 @@ package com.github.migi_1.Context.model.entity;
 import com.jme3.math.Vector3f;
 
 /**
- * Move behaviour of a static object.
+ * Move behaviour of a static (non-moving) object.
  *
  * @author Marcel
  *

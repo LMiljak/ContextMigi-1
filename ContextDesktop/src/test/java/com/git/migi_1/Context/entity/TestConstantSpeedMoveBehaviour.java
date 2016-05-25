@@ -9,11 +9,11 @@ import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**
- * Test class for the AccelerometerMoveBehaviour class.
+ * Test class for the ConstantSpeedMoveBehaviour class.
  * @author Marcel
  *
  */
-public class TestAcceleratorMoveBehaviour {
+public class TestConstantSpeedMoveBehaviour {
 
     /**
      * Instance of tested class.

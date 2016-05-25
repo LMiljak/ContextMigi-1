@@ -10,6 +10,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -103,10 +104,10 @@ public class Main extends VRApplication {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(-tpf * 8f));
         }
         if (left) {
-        	environmentState.rotateCam(0f, 0.75f * tpf, 0f);
+        	environmentState.rotateCam(new Vector3f(0f, 0.75f * tpf, 0f));
         }
         if (right) {
-        	environmentState.rotateCam(0, -0.75f * tpf, 0);
+        	environmentState.rotateCam(new Vector3f(0, -0.75f * tpf, 0));
         }
         if (up) {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(tpf * 8f));

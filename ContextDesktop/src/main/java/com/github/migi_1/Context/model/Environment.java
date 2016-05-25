@@ -1,7 +1,5 @@
 package com.github.migi_1.Context.model;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -21,6 +19,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -216,8 +216,8 @@ public class Environment extends AbstractAppState {
      * @param y rotation value on the y-axis
      * @param z rotation value on the z-axis
      */
-    public void rotateCam(float x, float y, float z) {
-        flyObs.getModel().rotate(x, y, z);
+    public void rotateCam(Vector3f rotation) {
+        flyObs.getModel().rotate(rotation.x, rotation.y, rotation.z);
     }
 
     /**
@@ -273,4 +273,19 @@ public class Environment extends AbstractAppState {
         super.cleanup();
     }
 
+    /**
+     * Setter for the flycam
+     * @param cam the new flycam
+     */
+    public void setFlyCam(Camera cam) {
+        flyObs = cam;
+    }
+
+    /**
+     * Returns the steering variable.
+     * @return steering.
+     */
+    public float getSteering() {
+        return steering;
+    }
 }

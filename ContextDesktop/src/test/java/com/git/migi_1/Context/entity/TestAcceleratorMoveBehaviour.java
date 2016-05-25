@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.github.migi_1.Context.model.entity.AcceleratorMoveBehaviour;
 import com.jme3.math.Vector3f;
 
-public class AcceleratorMoveBehaviourTest {
+public class TestAcceleratorMoveBehaviour {
 
     private AcceleratorMoveBehaviour testMoveBehaviour;
 

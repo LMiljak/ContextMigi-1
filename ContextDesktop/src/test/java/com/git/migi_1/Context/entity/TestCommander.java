@@ -9,7 +9,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -27,14 +26,11 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestCommander extends TestEntity {
 
-    Commander testCommander;
-    ProjectAssetManager pAssetManager;
-    AssetManager assetManager;
-    MoveBehaviour moveBehaviour;
-    Main main;
-    Spatial model;
-    Vector3f vector;
-    Integer id;
+    private Commander testCommander;
+    private ProjectAssetManager pAssetManager;
+    private AssetManager assetManager;
+    private MoveBehaviour moveBehaviour;
+    private Spatial model;
 
 
 

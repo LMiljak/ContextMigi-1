@@ -60,5 +60,9 @@ public abstract class Entity implements IMovable {
 
     }
 
+    /**
+     * Get the defaulted model for a particular instance.
+     * @return defaultModel
+     */
     public abstract Spatial getDefaultModel();
 }

@@ -11,7 +11,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -29,12 +28,11 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestCarrier extends TestEntity {
 
-    Carrier testCarrier;
-    ProjectAssetManager pAssetManager;
-    AssetManager assetManager;
-    MoveBehaviour moveBehaviour;
-    Main main;
-    Spatial model;
+    private Carrier testCarrier;
+    private ProjectAssetManager pAssetManager;
+    private AssetManager assetManager;
+    private MoveBehaviour moveBehaviour;
+    private Spatial model;
 
     /**
      * Initialise all mock objects, static class responses and initialise the tested object.
@@ -106,7 +104,7 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Test the setId method
+     * Test the setId method.
      */
     @Test
     public void setIdTest() {

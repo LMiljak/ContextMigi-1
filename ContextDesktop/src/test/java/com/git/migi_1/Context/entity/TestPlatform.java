@@ -11,7 +11,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -28,18 +27,15 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestPlatform extends TestEntity {
 
-    Platform platform;
+    private Platform platform;
+    private ProjectAssetManager pAssetManager;
+    private AssetManager assetManager;
+    private MoveBehaviour moveBehaviour;
+    private Spatial model;
 
-    ProjectAssetManager pAssetManager;
-
-    AssetManager assetManager;
-
-    MoveBehaviour moveBehaviour;
-
-    Main main;
-
-    Spatial model;
-
+    /**
+     * Initialise all mock objects, static class responses and initialise the tested object.
+     */
     @Override
     @Before
     public void setUp() {
@@ -61,6 +57,9 @@ public class TestPlatform extends TestEntity {
 
     }
 
+    /**
+     * Test getDefaultModel method.
+     */
     @Test
     public void testGetDefaultModel() {
         assertEquals(platform.getDefaultModel(), model);

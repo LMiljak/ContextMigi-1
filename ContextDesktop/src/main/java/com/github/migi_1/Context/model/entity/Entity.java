@@ -3,7 +3,7 @@ package com.github.migi_1.Context.model.entity;
 import com.jme3.scene.Spatial;
 
 /**
- * Represents an object that can be placed in an Environment.
+ * Represents an object that can be placed in an Environment. 
  *
  * @author Marcel
  *

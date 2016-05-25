@@ -15,6 +15,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
+
+/**
+ * Test class for the LevelPiece class.
+ * @author Nils
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestLevelPiece {
@@ -24,8 +30,11 @@ public class TestLevelPiece {
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
 
+    /**
+     * Initialise all mock objects, static class responses and initialise the tested object.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
@@ -37,6 +46,9 @@ public class TestLevelPiece {
         lvlPiece = new LevelPiece();
     }
 
+    /**
+     * Test the getters and setters.
+     */
     @Test
     public void getAndSetModelTest() {
         assertNull(lvlPiece.getModel());

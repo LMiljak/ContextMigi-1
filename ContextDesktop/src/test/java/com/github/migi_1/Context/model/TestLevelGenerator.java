@@ -17,6 +17,11 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+/**
+ * Test class for the levelGenerator class.
+ * @author Nils
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class})
 public class TestLevelGenerator {
@@ -27,6 +32,9 @@ public class TestLevelGenerator {
     private AssetManager assetManager;
     private Spatial model;
 
+    /**
+     * Initialise all mock objects, static class responses and initialise the tested object.
+     */
     @Before
     public void setUp() {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);

@@ -9,11 +9,19 @@ import org.mockito.Mockito;
 
 import com.jme3.asset.AssetManager;
 
+/**
+ * Test class for the ProjectAssetManager class.
+ * @author Nils
+ *
+ */
 public class TestProjectAssetManager {
 
     private AssetManager assetManager;
     private ProjectAssetManager projAssetManager;
 
+    /**
+     * Initialise all mock objects, static class responses and initialise the tested object.
+     */
     @Before
     public void setup() {
         assetManager = Mockito.mock(AssetManager.class);

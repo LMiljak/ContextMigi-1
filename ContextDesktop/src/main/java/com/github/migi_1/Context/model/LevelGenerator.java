@@ -66,6 +66,10 @@ public class LevelGenerator {
         return levelPieces;
     }
 
+    /**
+     * Return the number of LevelPiece objects.
+     * @return Value of LEVEL_PIECES attribute
+     */
     public int getNumberOfLevelPieces() {
         return LEVEL_PIECES;
     }

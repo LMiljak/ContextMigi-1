@@ -10,13 +10,21 @@ import org.mockito.Mockito;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+/**
+ * Test class for the Camera class.
+ * @author Nils
+ *
+ */
 public class TestCamera {
 
     private Camera cam;
     private Spatial model;
 
+    /**
+     * Set up the test object and the mock.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         cam = new Camera();
         model = Mockito.mock(Spatial.class);
     }

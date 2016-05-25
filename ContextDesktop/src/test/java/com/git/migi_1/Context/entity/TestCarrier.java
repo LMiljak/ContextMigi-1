@@ -52,7 +52,6 @@ public class TestCarrier extends TestEntity {
 
         testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
 
-        setModel(model);
         setMoveBehaviour(moveBehaviour);
         setEntity(testCarrier);
 

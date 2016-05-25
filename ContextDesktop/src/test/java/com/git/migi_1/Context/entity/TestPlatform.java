@@ -51,7 +51,6 @@ public class TestPlatform extends TestEntity {
 
         platform = new Platform(new Vector3f(0, 0, 0));
 
-        setModel(model);
         setMoveBehaviour(moveBehaviour);
         setEntity(platform);
 

@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
-import com.jme3.scene.Spatial;
 
 /**
  * Test class for the Entity super class.
@@ -16,7 +15,6 @@ import com.jme3.scene.Spatial;
  */
 public abstract class TestEntity {
 
-    private Spatial model;
     private MoveBehaviour moveBehaviour;
     private Entity testEntity;
 
@@ -36,14 +34,6 @@ public abstract class TestEntity {
     };
 
     /**
-     * Sets the model attribute.
-     * @param model Model attribute
-     */
-    public void setModel(Spatial model) {
-        this.model = model;
-    }
-
-    /**
      * Sets the moveBehaviour attribute.
      * @param moveBehaviour MoveBehaviour attribute
      */
@@ -52,7 +42,7 @@ public abstract class TestEntity {
     }
 
     /**
-     * Set the entity.
+     * Sets the entity.
      * @param testEntity entity to set
      */
     public void setEntity(Entity testEntity) {

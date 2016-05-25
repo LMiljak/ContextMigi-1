@@ -52,7 +52,6 @@ public class TestCommander extends TestEntity {
 
         testCommander = new Commander(new Vector3f(0, 0, 0));
 
-        setModel(model);
         setMoveBehaviour(moveBehaviour);
         setEntity(testCommander);
 

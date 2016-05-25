@@ -35,7 +35,7 @@ public class TestCommander extends TestEntity {
 
 
     /**
-     * Initialise all mock objects, static class responses and initialise the tested object.
+     * Initialises all mock objects, static class responses and initialise the tested object.
      */
     @Override
     @Before
@@ -58,7 +58,7 @@ public class TestCommander extends TestEntity {
     }
 
     /**
-     * Test the collideWith method.
+     * Tests the collideWith method.
      */
     @Test
     public void collideWithTest() {

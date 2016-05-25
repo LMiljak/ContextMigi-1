@@ -15,10 +15,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.Main;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.material.MatParamTexture;
@@ -29,6 +27,10 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+/**
+ * Test class that tests the Environment class.
+ * @author Nils
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class})
 public class TestEnvironment {
@@ -36,7 +38,6 @@ public class TestEnvironment {
     private Environment env;
     private AppStateManager stateManager;
     private Main app;
-
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
     private ViewPort viewPort;
@@ -44,10 +45,12 @@ public class TestEnvironment {
     private MaterialDef matDef;
     private MatParamTexture matParam;
     private Spatial model;
-    private MoveBehaviour moveBehaviour;
     private RenderManager renderManager;
     private Camera cam;
 
+    /**
+     * This method starts every time a new test case starts.
+     */
     @Before
     public void setUp() {
         env = PowerMockito.spy(new Environment());
@@ -71,7 +74,6 @@ public class TestEnvironment {
         Mockito.when(cam.getModel()).thenReturn(model);
         Mockito.when(app.getViewPort()).thenReturn(viewPort);
         Mockito.when(app.getRootNode()).thenReturn(rootNode);
-        Mockito.when(assetManager.loadAsset(Mockito.any(AssetKey.class))).thenReturn(matDef);
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));
@@ -166,7 +168,7 @@ public class TestEnvironment {
 
     /**
      * Test for the updateTestWorld method.
-     * @throws Exception
+     * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
      */
     @Test
     public void updateTestWorldTest() throws Exception {

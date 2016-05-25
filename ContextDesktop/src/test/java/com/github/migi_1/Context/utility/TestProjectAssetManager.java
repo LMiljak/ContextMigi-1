@@ -23,7 +23,7 @@ public class TestProjectAssetManager {
      * Initialise all mock objects, static class responses and initialise the tested object.
      */
     @Before
-    public void setup() {
+    public void setUp() {
         assetManager = Mockito.mock(AssetManager.class);
         projAssetManager = ProjectAssetManager.getInstance();
     }

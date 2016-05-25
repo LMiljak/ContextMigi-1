@@ -84,6 +84,11 @@ public class LevelGenerator {
         return LEVEL_PIECES;
     }
 
+    /**
+     * Set level pieces linked list.
+     * Used in testing.
+     * @param levelPieces the new levelPieces linked list.
+     */
     public void setLevelPieces(LinkedList<LevelPiece> levelPieces) {
         this.levelPieces = levelPieces;
     }

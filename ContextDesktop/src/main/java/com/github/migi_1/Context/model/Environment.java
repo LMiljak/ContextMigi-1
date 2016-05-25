@@ -49,8 +49,6 @@ public class Environment extends AbstractAppState {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final float STEERING_ANGLE = (float) (Math.sqrt(2.f) / 2.f);
-
     private Platform platform;
     private Commander commander;
 
@@ -212,9 +210,7 @@ public class Environment extends AbstractAppState {
 
     /**
      * Rotates the flycam.
-     * @param x rotation value on the x-axis
-     * @param y rotation value on the y-axis
-     * @param z rotation value on the z-axis
+     * @param rotation the rotation vector.
      */
     public void rotateCam(Vector3f rotation) {
         flyObs.getModel().rotate(rotation.x, rotation.y, rotation.z);
@@ -274,8 +270,8 @@ public class Environment extends AbstractAppState {
     }
 
     /**
-     * Setter for the flycam
-     * @param cam the new flycam
+     * Setter for the flycam.
+     * @param cam the new flycam.
      */
     public void setFlyCam(Camera cam) {
         flyObs = cam;

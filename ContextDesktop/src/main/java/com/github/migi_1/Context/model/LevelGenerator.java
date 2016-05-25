@@ -60,11 +60,14 @@ public class LevelGenerator {
             levelPiece.move(locationNextPiece);
             levelPieces.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
-
             //shift orientation to where the next level piece should spawn
             locationNextPiece.x -= 2 * bb.getXExtent() - 2.0f;
         }
         return levelPieces;
+    }
+
+    public int getNumberOfLevelPieces() {
+        return LEVEL_PIECES;
     }
 
 }

@@ -1,7 +1,5 @@
 package com.git.migi_1.Context.entity;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,19 +10,20 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
-import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
-public class TestPlatform extends TestEntity {
+public class TestCommander extends TestEntity {
 
-    Platform platform;
+    Commander testCommander;
 
     ProjectAssetManager pAssetManager;
 
@@ -35,6 +34,11 @@ public class TestPlatform extends TestEntity {
     Main main;
 
     Spatial model;
+
+    Vector3f vector;
+
+    Integer id;
+
 
     @Override
     @Before
@@ -49,16 +53,20 @@ public class TestPlatform extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        platform = new Platform(new Vector3f(0, 0, 0));
+        testCommander = new Commander(new Vector3f(0, 0, 0));
 
         setModel(model);
         setMoveBehaviour(moveBehaviour);
-        setEntity(platform);
+        setEntity(testCommander);
 
     }
 
     @Test
-    public void testGetDefaultModel() {
-        assertEquals(platform.getDefaultModel(), model);
+    public void collideWithTest() {
+        Spatial collider = Mockito.mock(Spatial.class);
+        CollisionResults results = Mockito.mock(CollisionResults.class);
+        testCommander.collideWith(collider, results);
+        Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
+
 }

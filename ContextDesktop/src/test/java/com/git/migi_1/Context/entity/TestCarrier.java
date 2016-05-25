@@ -12,19 +12,20 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
-import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
-public class TestPlatform extends TestEntity {
+public class TestCarrier extends TestEntity {
 
-    Platform platform;
+    Carrier testCarrier;
 
     ProjectAssetManager pAssetManager;
 
@@ -35,6 +36,11 @@ public class TestPlatform extends TestEntity {
     Main main;
 
     Spatial model;
+
+    Vector3f vector;
+
+    Integer id;
+
 
     @Override
     @Before
@@ -49,16 +55,51 @@ public class TestPlatform extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        platform = new Platform(new Vector3f(0, 0, 0));
+        testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
 
         setModel(model);
         setMoveBehaviour(moveBehaviour);
-        setEntity(platform);
+        setEntity(testCarrier);
 
     }
 
     @Test
-    public void testGetDefaultModel() {
-        assertEquals(platform.getDefaultModel(), model);
+    public void collideWithTest() {
+        Spatial collider = Mockito.mock(Spatial.class);
+        CollisionResults results = Mockito.mock(CollisionResults.class);
+        testCarrier.collideWith(collider, results);
+        Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
+
+    @Test
+    public void takeDamageTest() {
+        testCarrier.takeDamage(1);
+        assertEquals(testCarrier.getHealth(), 1);
+    }
+
+    @Test
+    public void onKilledTest() {
+        testCarrier.onKilled();
+    }
+
+    @Test
+    public void setHealthTest() {
+        testCarrier.setHealth(42);
+        assertEquals(testCarrier.getHealth(), 42);
+    }
+
+    @Test
+    public void getIdTest() {
+        assertEquals(testCarrier.getId(), 0);
+    }
+
+    @Test
+    public void setIdTest() {
+        testCarrier.setId(10);
+        assertEquals(testCarrier.getId(), 10);
+    }
+
+
+
+
 }

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.migi_1.Context.model.entity.AcceleratorMoveBehaviour;
+import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**
@@ -18,22 +18,24 @@ public class TestAcceleratorMoveBehaviour {
     /**
      * Instance of tested class.
      */
-    private AcceleratorMoveBehaviour testMoveBehaviour;
+    private ConstantSpeedMoveBehaviour testMoveBehaviour;
+    
+    private Vector3f moveVector = new Vector3f(1, 2, 3);
 
     /**
-     * Initialise the tested object.
+     * Initialises the tested object.
      */
     @Before
     public void setUp() {
-        testMoveBehaviour = new AcceleratorMoveBehaviour();
+        testMoveBehaviour = new ConstantSpeedMoveBehaviour(moveVector);
     }
 
     /**
-     * Test the getMoveBehaviour method.
+     * Tests the getMoveBehaviour method.
      */
     @Test
     public void testGetMoveBehaviour() {
-        assertEquals(testMoveBehaviour.getMoveVector(), new Vector3f(-0.2f, 0, 0));
+        assertEquals(moveVector, testMoveBehaviour.getMoveVector());
     }
 
 }

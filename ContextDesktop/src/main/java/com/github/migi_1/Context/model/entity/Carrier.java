@@ -19,6 +19,8 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
+    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
+    
     private int health;
     private int id;
 
@@ -31,7 +33,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new AcceleratorMoveBehaviour());
+        setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
         health = 2;
         this.id = id;
     }

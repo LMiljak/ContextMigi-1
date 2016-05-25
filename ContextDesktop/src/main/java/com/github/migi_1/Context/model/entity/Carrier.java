@@ -22,7 +22,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     
     private int health;
-    private int id;
+    private int id; //Represents the location of the carrier under the platform.
 
     /**
      * constructor of the carrier.
@@ -53,24 +53,21 @@ public class Carrier extends Entity implements Collidable, IKillable {
         return 0;
     }
 
-    /**
-     * Returns the health of the carrier.
-     */
     @Override
     public int getHealth() {
         return health;
     }
 
-    /**
-     * Sets the health of the carrier.
-     */
     @Override
     public void setHealth(int h) {
         health = h;
     }
 
     /**
-     * @return the id
+     * Gets the id that represents the location of the Carrier under the platform.
+     * 
+     * @return 
+     * 		the id
      */
     public int getId() {
         return id;
@@ -88,14 +85,9 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     }
 
-
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
-
-
-
-
 
 }

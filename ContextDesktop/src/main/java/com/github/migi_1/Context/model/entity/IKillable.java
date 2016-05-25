@@ -1,21 +1,21 @@
 package com.github.migi_1.Context.model.entity;
 
 /**
- * Interface for everything that is killable,
- * forces implementation of health, and being able to take damage.
+ * Interface for everything object that can get killed.
+ * Forces implementation of health and being able to take damage.
  * @author Damian
  *
  */
 public interface IKillable {
 
     /**
-     * Returns the health of the entity.
+     * Gets the amount of health of the entity.
      * @return the current health of the entity.
      */
     int getHealth();
 
     /**
-     * Sets the health of the entity.
+     * Sets the amount of health of the entity.
      * @param health how much the entity's health should be.
      */
     void setHealth(int health);
@@ -28,7 +28,7 @@ public interface IKillable {
     void takeDamage(int damage);
 
     /**
-     * This method is called when the object has zero health points.
+     * This method is called when the object has zero health points or less.
      */
     void onKilled();
 

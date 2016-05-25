@@ -37,15 +37,25 @@ public class LevelGenerator {
      */
     public LinkedList<LevelPiece> deleteLevelPieces(Vector3f commanderLocation) {
         LinkedList<LevelPiece> deleteList = new LinkedList<LevelPiece>();
-        if (levelPieces.size() > 0) {
-            LevelPiece checkLevelPiece = levelPieces.peek();
-            BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
-            Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
-            Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
-            if (v1.distance(v2) > 100) {
-               deleteList.add(levelPieces.poll());
+        Boolean done = false;
+        while (!done) {
+            if (levelPieces.size() > 0) {
+                LevelPiece checkLevelPiece = levelPieces.peek();
+                BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
+                Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
+                Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
+                if (v1.distance(v2) > 100) {
+                   deleteList.add(levelPieces.poll());
+                }
+                else {
+                    done = true;
+                }
+           }
+            else {
+                done = true;
             }
-       }
+        }
+
        return deleteList;
     }
 

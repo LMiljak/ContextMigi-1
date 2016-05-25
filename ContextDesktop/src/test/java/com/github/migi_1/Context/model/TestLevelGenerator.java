@@ -83,7 +83,7 @@ public class TestLevelGenerator {
     public void deleteAndGetLevelPiecesTest() {
         levelGenerator.getLevelPieces(vec);
         //Ensure 1 level piece gets deleted when the player is far away.
-        assertEquals(1, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
+        assertEquals(5, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
         //Make sure that the number of levelpieces gets back up to the regular amount.
         assertEquals(levelGenerator.getLevelPieces(vec).size(), levelGenerator.getNumberOfLevelPieces());
     }
@@ -95,12 +95,7 @@ public class TestLevelGenerator {
     public void deleteAllLevelPiecesGetTest() {
         levelGenerator.getLevelPieces(vec);
         //Ensure 1 level piece gets deleted when the player is far away.
-        assertEquals(1, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
-        assertEquals(1, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
-        assertEquals(1, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
-        assertEquals(1, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
-        assertEquals(1, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
-        assertEquals(0, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
+        assertEquals(5, levelGenerator.deleteLevelPieces(new Vector3f(500, 500, 500)).size());
         //Make sure that the number of levelpieces gets back up to the regular amount.
         assertEquals(levelGenerator.getLevelPieces(vec).size(), levelGenerator.getNumberOfLevelPieces());
     }

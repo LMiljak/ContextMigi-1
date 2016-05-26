@@ -24,7 +24,6 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
 
     /**
      * Instantiate object.
-     * @param assetManager AssetManager that provides access to asset files.
      */
     public StaticObstacle() {
         super();

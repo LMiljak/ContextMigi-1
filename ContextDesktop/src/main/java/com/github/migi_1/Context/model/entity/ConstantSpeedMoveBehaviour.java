@@ -13,7 +13,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 	private float decay;
 
 	/**
-	 * Constructor for ConstantSpeedMoveBehaviour
+	 * Constructor for ConstantSpeedMoveBehaviour.
 	 *
 	 * @param moveVector
 	 * 		The direction and speed of this behaviour.
@@ -28,10 +28,16 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
         return moveVector.mult(decay);
     }
 
+    /**
+     * Collision has taken place.
+     */
     public void collided() {
         decay = 0.0f;
     }
 
+    /**
+     * MoveVector is updated.
+     */
     @Override
     public void updateMoveVector() {
 

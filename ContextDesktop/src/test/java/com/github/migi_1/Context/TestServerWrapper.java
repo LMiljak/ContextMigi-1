@@ -1,6 +1,7 @@
 package com.github.migi_1.Context;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import org.junit.Before;
@@ -137,5 +138,22 @@ public class TestServerWrapper {
 		wrapper.closeServer();
 		
 		verifyStartsAndCloses(2, 2);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testFailedToCreateServer() throws IOException {
+		Mockito.when(Network.createServer(PORT)).thenThrow(IOException.class);
+		
+		final int restartAttempts = 10;
+		
+		try {
+			new ServerWrapper();
+			fail();
+		} catch (IOException e) {
+			PowerMockito.verifyStatic(Mockito.times(restartAttempts + 1)); // + 1`because we create another ServerWrapper in
+																		  //the setup method.
+			Network.createServer(Mockito.anyInt());
+		}
 	}
 }

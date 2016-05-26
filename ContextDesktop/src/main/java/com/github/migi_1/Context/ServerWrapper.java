@@ -56,8 +56,13 @@ public class ServerWrapper {
 	}
 	
 	/**
-	 * Creates a server on the .
+	 * Creates a server.
 	 * 
+	 * @param port
+	 * 		The port on which the server should be running.
+	 * @param restartAttempts
+	 * 		The amount of times the server is allowed to fail to start
+	 * 		until an exception is thrown.
 	 * @throws IOException if the server failed to get created after a certain amount of attempts.
 	 * @return The created server.
 	 */

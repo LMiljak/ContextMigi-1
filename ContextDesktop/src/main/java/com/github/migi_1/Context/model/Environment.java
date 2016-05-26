@@ -157,6 +157,7 @@ public class Environment extends AbstractAppState {
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
         }
 
+        //update the move vectors of the platform and commander
         platform.getMoveBehaviour().updateMoveVector();
         commander.getMoveBehaviour().updateMoveVector();
     }

@@ -78,4 +78,18 @@ public class TestEnvironment {
 		
 		verify(root, times(1)).attachChild(model);
 	}
+	
+	/**
+	 * Tests the removeDisplayabl method.
+	 */
+	@Test
+	public void testRemoveDisplayable() {
+		IDisplayable displayable = mock(IDisplayable.class);
+		Spatial model = mock(Spatial.class);
+		when(displayable.getModel()).thenReturn(model);
+		
+		environment.removeDisplayable(displayable);
+		
+		verify(root, times(1)).detachChild(model);
+	}
 }

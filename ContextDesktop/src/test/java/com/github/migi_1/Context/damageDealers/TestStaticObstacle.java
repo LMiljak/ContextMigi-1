@@ -1,22 +1,27 @@
 package com.github.migi_1.Context.damageDealers;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.git.migi_1.Context.entity.TestEntity;
-import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestStaticObstacle extends TestEntity {
 
-    private Commander testCommander;
+    private StaticObstacle staticObstacle;
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
@@ -35,10 +40,10 @@ public class TestStaticObstacle extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCommander = new Commander(new Vector3f(0, 0, 0));
+        staticObstacle = new StaticObstacle();
 
         setMoveBehaviour(moveBehaviour);
-        setEntity(testCommander);
+        setEntity(staticObstacle);
 
     }
 
@@ -49,9 +54,33 @@ public class TestStaticObstacle extends TestEntity {
     public void collideWithTest() {
         Spatial collider = Mockito.mock(Spatial.class);
         CollisionResults results = Mockito.mock(CollisionResults.class);
-        testCommander.collideWith(collider, results);
+        staticObstacle.collideWith(collider, results);
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
 
+    @Test
+    public void getHealthTest() {
+       assertEquals(staticObstacle.getHealth(), 1);
+    }
 
+    @Test
+    public void setHealthTest() {
+
+        staticObstacle.setHealth(10);
+        assertEquals(staticObstacle.getHealth(), 10);
+
+    }
+
+    @Test
+    public void takeDamageTest() {
+
+        staticObstacle.takeDamage(1);
+        assertEquals(staticObstacle.getHealth(), 0);
+
+    }
+
+    @Test
+    public void onKilledTest() {
+        staticObstacle.onKilled();
+    }
 }

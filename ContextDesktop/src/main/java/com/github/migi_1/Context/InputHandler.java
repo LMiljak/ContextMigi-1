@@ -8,6 +8,10 @@ import com.jme3.math.Vector3f;
 
 import jmevr.app.VRApplication;
 
+/**
+ * Handles input from the Main class.
+ * @author Nils
+ */
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right", "up", "down", "steer_left", "steer_right"};
@@ -16,6 +20,10 @@ public final class InputHandler {
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
 
+    /**
+     * Constructor for the InputHandler.
+     * @param main the Main menu from which the input needs to be handled.
+     */
     public InputHandler(Main main) {
         this.main = main;
     }
@@ -39,7 +47,6 @@ public final class InputHandler {
         InputManager inputManager = main.getInputManager();
         addMappings(inputManager);
         ActionListener acl = new ActionListener() {
-
             @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
                 if (name.equals("exit") && keyPressed) {
@@ -73,9 +80,7 @@ public final class InputHandler {
                     }
                 }
                 checkSteering(name, keyPressed);
-
             }
-
         };
         addListeners(inputManager, acl);
     }
@@ -90,6 +95,11 @@ public final class InputHandler {
         }
     }
 
+    /**
+     * Adds key-input event listeners to the inputmanager.
+     * @param inputManager The input manager to which these listeners are added.
+     * @param acl The actionlistener that listens to the key-input events.
+     */
     private void addListeners(InputManager inputManager, ActionListener acl) {
         for(String action : actions) {
             inputManager.addListener(acl, action);
@@ -117,9 +127,12 @@ public final class InputHandler {
        }
     }
 
+    /**
+     * Makes the flyCamera move around in the environment.
+     * @param tpf the update factor, determines the speed of rotation/movement.
+     */
     public void moveCamera(float tpf) {
         if (forwards) {
-            System.out.println(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf * 8f));
             main.getEnv().moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf * 8f));
         }
         if (back) {

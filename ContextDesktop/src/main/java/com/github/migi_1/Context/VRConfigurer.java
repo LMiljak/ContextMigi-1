@@ -2,6 +2,11 @@ package com.github.migi_1.Context;
 
 import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
 
+/**
+ * Configures the VR setup for the game.
+ * @author Nils
+ *
+ */
 public final class VRConfigurer {
 
     /**

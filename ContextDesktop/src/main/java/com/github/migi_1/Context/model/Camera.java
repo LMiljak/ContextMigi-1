@@ -1,8 +1,11 @@
 package com.github.migi_1.Context.model;
 
+import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
+import jmevr.app.VRApplication;
 
 /**
  * Class that handles the debugging camera.
@@ -12,32 +15,18 @@ import com.jme3.scene.Spatial;
  * @author Marcel
  *
  */
-public class Camera implements IDisplayable {
-
-    private Spatial model;
+public class Camera extends Entity {
 
     /**
-     * Contructor of the camera, treats it as a node.
+     * Displays the view of this camera on the screen.
      */
-    public Camera() {
-        this.model = new Node();
+    public void makeObserver() {
+    	VRApplication.setObserver(this.getModel());
     }
 
-    /**
-     * returns the model of the camera.
-     *
-     */
-    @Override
-    public Spatial getModel() {
-        return model;
-    }
-
-    /**
-     * Sets the model of the camera.
-     */
-    @Override
-    public void setModel(Spatial model) {
-        this.model = model;
-    }
+	@Override
+	public Spatial getDefaultModel() {
+		return new Node();
+	}
 
 }

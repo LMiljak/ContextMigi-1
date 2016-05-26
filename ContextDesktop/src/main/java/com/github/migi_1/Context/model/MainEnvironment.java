@@ -67,7 +67,7 @@ public class MainEnvironment extends Environment {
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
-        //creates the lights
+        //creates the lights 
         initLights();
 
         //creates shadowmap and attach it to the sun

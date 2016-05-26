@@ -1,9 +1,12 @@
 package com.github.migi_1.Context.model;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.damageDealers.DamageDealer;
 import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
@@ -22,8 +25,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -156,7 +157,8 @@ public class Environment extends AbstractAppState {
             rootNode.detachChild(results.getClosestCollision().getGeometry());
             obstacleGenerator.getObstacles().remove(results.getClosestCollision().getGeometry());
             results = new CollisionResults();
-            decay = 0.0f;
+            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
+            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
         }
     }
 

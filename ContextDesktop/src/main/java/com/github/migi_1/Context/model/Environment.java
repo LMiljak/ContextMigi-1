@@ -96,6 +96,17 @@ public class Environment extends AbstractAppState {
 	}
 	
 	/**
+	 * Removes an Entity from the world.
+	 * 
+	 * @param entity
+	 * 		The entity to remove.
+	 */
+	public void removeEntity(Entity entity) {
+		removeDisplayable(entity);
+		movables.remove(entity);
+	}
+	
+	/**
 	 * Moves all Movable objects in the world using the MoveBehaviours.
 	 */
 	private void moveMovables() {

@@ -1,6 +1,5 @@
 language: android
 
-dist: trusty
 sudo: required
 addons:
   apt:
@@ -13,6 +12,10 @@ before_install:
 env:
   - BUILD_PR_BRANCH=true USE_FRAMEBUFFER=true
   - BUILD_PR_BRANCH=false USE_FRAMEBUFFER=true
+
+script:
+  - sudo apt-get update && sudo apt-get install oracle-java8-installer
+  - java -version  
 
 matrix:
   allow_failures:

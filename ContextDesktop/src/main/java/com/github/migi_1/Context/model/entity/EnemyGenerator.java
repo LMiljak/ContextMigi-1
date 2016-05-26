@@ -20,7 +20,7 @@ public class EnemyGenerator {
         enemies = new LinkedList<Enemy>();
         levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
         levelPieceLength = levelPieceBoundingBox.getXExtent();
-        levelPieceWidth = levelPieceBoundingBox.getZExtent();
+        levelPieceWidth =  levelPieceBoundingBox.getCenter().z;
         currentLevelPiece = 0;
         lastLevelPiece = -1;
     }
@@ -31,14 +31,15 @@ public class EnemyGenerator {
         if(currentLevelPiece != lastLevelPiece){
             lastLevelPiece = currentLevelPiece;
             
-            Enemy enemy1 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), ENEMYHEIGHT, 2));
+            Enemy enemy1 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), ENEMYHEIGHT,
+                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)));
             Enemy enemy2 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, ENEMYHEIGHT, 2));
+                    + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)));
             Enemy enemy3 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, ENEMYHEIGHT, -7));
+                    + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)));
             
             double random = Math.random();
-            if(random < 0.6) {
+            if(random > 0.3 && random < 0.6){
                 enemies.add(enemy1);
             } else if(random > 0.6 && random < 0.85) {
                 enemies.add(enemy1);

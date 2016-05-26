@@ -20,6 +20,7 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
     /** File location of model. **/
     private static final String PATHNAME = "Models/testCube2.j3o";
 
+    private int health;
 
     /**
      * Instantiate object.
@@ -30,29 +31,28 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
         setModel(getDefaultModel());
         setMoveBehaviour(new StaticMoveBehaviour());
         getModel().move(new Vector3f(0, -2.0f, 0));
+        health = 1;
     }
 
     @Override
     public int getHealth() {
-        // TODO Auto-generated method stub
-        return 0;
+        return health;
     }
 
     @Override
     public void setHealth(int health) {
-        // TODO Auto-generated method stub
+        this.health = health;
 
     }
 
     @Override
     public void takeDamage(int damage) {
-        // TODO Auto-generated method stub
+        this.health -= damage;
 
     }
 
     @Override
     public void onKilled() {
-        // TODO Auto-generated method stub
 
     }
 

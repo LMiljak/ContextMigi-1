@@ -1,7 +1,10 @@
 package com.github.migi_1.Context.model;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Enemy;
 import com.github.migi_1.Context.model.entity.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -20,8 +23,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -105,7 +106,9 @@ public class Environment extends AbstractAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        lvl.generateEnemies(commander.getModel().getLocalTranslation());
+        for(Enemy enemy : lvl.generateEnemies(commander.getModel().getLocalTranslation())) {
+            rootNode.attachChild(enemy.getModel());
+        }
 //        NOT USED IN THIS VERSION, WILL BE REFACTORED IN SEPERATE BRANCH, MAY STILL BE NEEDED
 //        Vector3f loc = commander.getModel().getLocalTranslation();//
 //        float xAxis = 1;

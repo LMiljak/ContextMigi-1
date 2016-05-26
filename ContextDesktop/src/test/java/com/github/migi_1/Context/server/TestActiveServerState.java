@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.server;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

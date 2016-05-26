@@ -7,7 +7,7 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 
 public class EnemyGenerator {
-
+    
     private LinkedList<Enemy> enemies;
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
@@ -27,9 +27,23 @@ public class EnemyGenerator {
        // System.out.println(currentLevelPiece);
         if(currentLevelPiece != lastLevelPiece){
             lastLevelPiece = currentLevelPiece;
-            enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -20, 2)));
-            System.out.println("Commander : " + commanderLocation);
-            System.out.println("Enemy : " + enemies.getLast().getModel().getLocalTranslation().x);
+            double random = Math.random();
+            if(random < 0.5 ) {
+                System.out.println("one");
+                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
+            } else if(random < 0.8 && random > 0.5) {
+                System.out.println("two");
+                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
+                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                        + levelPieceLength * 1/2, -16, 2)));
+            } else {
+                System.out.println("three");
+                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
+                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                        + levelPieceLength * 1/2, -16, 2)));
+                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                        + levelPieceLength * 1/2, -16, -7)));
+            }            
         }
         return enemies;        
     }

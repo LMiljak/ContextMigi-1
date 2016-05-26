@@ -8,6 +8,7 @@ import com.jme3.math.Vector3f;
 
 public class EnemyGenerator {
     
+    private static final int ENEMYHEIGHT = -16;
     private LinkedList<Enemy> enemies;
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
@@ -35,14 +36,14 @@ public class EnemyGenerator {
                 System.out.println("two");
                 enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
                 enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                        + levelPieceLength * 1/2, -16, 2)));
+                        + levelPieceLength * 1/2, ENEMYHEIGHT, 2)));
             } else {
                 System.out.println("three");
                 enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
                 enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                        + levelPieceLength * 1/2, -16, 2)));
+                        + levelPieceLength * 1/2, ENEMYHEIGHT, 2)));
                 enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                        + levelPieceLength * 1/2, -16, -7)));
+                        + levelPieceLength * 1/2, ENEMYHEIGHT, -7)));
             }            
         }
         return enemies;        

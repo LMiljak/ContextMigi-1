@@ -17,6 +17,12 @@ import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Spatial;
 
+
+/**
+ * Test class for the StaticObstacle class.
+ * @author Marcel
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestStaticObstacle extends TestEntity {
@@ -27,7 +33,9 @@ public class TestStaticObstacle extends TestEntity {
     private MoveBehaviour moveBehaviour;
     private Spatial model;
 
-
+    /**
+     * Initialises all mock objects, static class responses and initialise the tested object.
+     */
     @Override
     public void setUp() {
 
@@ -58,11 +66,17 @@ public class TestStaticObstacle extends TestEntity {
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
 
+    /**
+     * Test the getHealth method.
+     */
     @Test
     public void getHealthTest() {
        assertEquals(staticObstacle.getHealth(), 1);
     }
 
+    /**
+     * Test the setHealth method.
+     */
     @Test
     public void setHealthTest() {
 
@@ -71,6 +85,9 @@ public class TestStaticObstacle extends TestEntity {
 
     }
 
+    /**
+     * Test the takeDamage method.
+     */
     @Test
     public void takeDamageTest() {
 
@@ -79,6 +96,9 @@ public class TestStaticObstacle extends TestEntity {
 
     }
 
+    /**
+     * Test the onKilled method.
+     */
     @Test
     public void onKilledTest() {
         staticObstacle.onKilled();

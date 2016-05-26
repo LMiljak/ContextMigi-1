@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
@@ -60,7 +61,7 @@ public class Environment extends AbstractAppState {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
-
+    private EnemyGenerator lvl;
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -78,7 +79,8 @@ public class Environment extends AbstractAppState {
         rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
-
+        
+        lvl = new EnemyGenerator();
         //deprecated method, it does however makse it possible to load assets from a non default location
         assetManager.registerLocator("assets", FileLocator.class);
 
@@ -103,7 +105,7 @@ public class Environment extends AbstractAppState {
     @Override
     public void update(float tpf) {
         super.update(tpf);
-
+        lvl.generateEnemies(commander.getModel().getLocalTranslation());
 //        NOT USED IN THIS VERSION, WILL BE REFACTORED IN SEPERATE BRANCH, MAY STILL BE NEEDED
 //        Vector3f loc = commander.getModel().getLocalTranslation();//
 //        float xAxis = 1;

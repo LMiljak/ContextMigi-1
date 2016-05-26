@@ -64,8 +64,6 @@ public class Environment extends AbstractAppState {
 
     private CollisionResults results;
 
-    private float decay;
-
     private DamageDealerGenerator obstacleGenerator;
 
     private boolean flyCamActive;
@@ -89,7 +87,6 @@ public class Environment extends AbstractAppState {
         rootNode = this.app.getRootNode();
         steering = 0.f;
         results = new CollisionResults();
-        decay = 1;
         obstacleGenerator = new DamageDealerGenerator(this);
         flyCamActive = false;
 

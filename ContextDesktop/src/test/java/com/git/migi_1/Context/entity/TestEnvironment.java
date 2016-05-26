@@ -16,7 +16,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.Environment;
-import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;

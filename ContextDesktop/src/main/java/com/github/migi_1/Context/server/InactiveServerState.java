@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.server.ClientFinder;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;

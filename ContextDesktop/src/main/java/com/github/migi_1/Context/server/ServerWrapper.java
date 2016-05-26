@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.server;
 
 import java.io.IOException;
 import java.util.Arrays;

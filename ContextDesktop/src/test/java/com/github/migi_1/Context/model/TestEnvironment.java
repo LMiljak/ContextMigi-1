@@ -17,6 +17,7 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.material.MatParamTexture;
@@ -74,7 +75,7 @@ public class TestEnvironment {
         Mockito.when(cam.getModel()).thenReturn(model);
         Mockito.when(app.getViewPort()).thenReturn(viewPort);
         Mockito.when(app.getRootNode()).thenReturn(rootNode);
-        Mockito.when(assetManager.loadAsset(Mockito.any())).thenReturn(matDef);
+        Mockito.when(assetManager.loadAsset(Mockito.any(AssetKey.class))).thenReturn(matDef);
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));

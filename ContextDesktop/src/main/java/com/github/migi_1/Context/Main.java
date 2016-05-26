@@ -3,7 +3,7 @@ package com.github.migi_1.Context;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
-import com.github.migi_1.Context.model.TempEnvironment;
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.input.InputManager;
@@ -28,7 +28,7 @@ public class Main extends VRApplication {
     private MainMenu mainMenuState;
 
     //the game state
-    private TempEnvironment environmentState;
+    private MainEnvironment environmentState;
 
     //the main application
     private static Main main;
@@ -67,7 +67,7 @@ public class Main extends VRApplication {
         initInputs();
 
         mainMenuState = new MainMenu();
-        environmentState = new TempEnvironment();
+        environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
         startServer();
@@ -95,7 +95,7 @@ public class Main extends VRApplication {
     @Override
     public void simpleUpdate(float tpf) {
         if (getStateManager().hasState(environmentState)) {
-            getStateManager().getState(TempEnvironment.class).update(tpf);
+            getStateManager().getState(MainEnvironment.class).update(tpf);
         }
         if (forwards) {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(tpf * 8f));
@@ -290,7 +290,7 @@ public class Main extends VRApplication {
      * Returns the environment state.
      * @return the env
      */
-    public TempEnvironment getEnv() {
+    public MainEnvironment getEnv() {
         return environmentState;
     }
 

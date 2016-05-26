@@ -21,7 +21,7 @@ import jmevr.app.VRApplication;
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
  */
-public class TempEnvironment extends Environment {
+public class MainEnvironment extends Environment {
     private ViewPort viewPort;
 
     private Camera flyObs;

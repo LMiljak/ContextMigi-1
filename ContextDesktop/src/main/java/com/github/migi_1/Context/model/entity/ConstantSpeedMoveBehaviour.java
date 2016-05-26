@@ -11,7 +11,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 	private Vector3f moveVector;
 	
 	/**
-	 * Constructor for ConstantSpeedMoveBehaviour
+	 * Constructor for ConstantSpeedMoveBehaviour.
 	 * 
 	 * @param moveVector
 	 * 		The direction and speed of this behaviour.

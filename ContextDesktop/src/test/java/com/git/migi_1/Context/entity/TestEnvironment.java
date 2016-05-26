@@ -1,7 +1,6 @@
 package com.git.migi_1.Context.entity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -35,6 +34,7 @@ public class TestEnvironment {
 	private Environment environment;
 	
 	private Node root;
+	private AssetManager assetManager;
 	
 	/**
 	 * Initialises the environment field for testing.
@@ -47,7 +47,8 @@ public class TestEnvironment {
 		ProjectAssetManager projectAssetManager = mock(ProjectAssetManager.class);
 		PowerMockito.mockStatic(ProjectAssetManager.class);
 		when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
-		when(projectAssetManager.getAssetManager()).thenReturn(Mockito.mock(AssetManager.class));
+		this.assetManager = Mockito.mock(AssetManager.class);
+		when(projectAssetManager.getAssetManager()).thenReturn(assetManager);
 		
 		Main app = mock(Main.class);
 		this.root = mock(Node.class);
@@ -91,5 +92,10 @@ public class TestEnvironment {
 		environment.removeDisplayable(displayable);
 		
 		verify(root, times(1)).detachChild(model);
+	}
+	
+	@Test
+	public void testGetAssetManager() {
+		assertEquals(assetManager, environment.getAssetManager());
 	}
 }

@@ -2,6 +2,8 @@ package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Enemy;
+import com.github.migi_1.Context.model.entity.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -51,6 +53,7 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+    private EnemyGenerator enemyGenerator;
 
     /**
      * First method that is called after the state has been created.
@@ -85,7 +88,8 @@ public class MainEnvironment extends Environment {
     	super.update(tpf);
     	
     	updateTestWorld();
-    }
+    	updateEnemies();
+    }    
 
     /**
      * Initializes all lights of the scene.
@@ -130,6 +134,7 @@ public class MainEnvironment extends Environment {
     private void initSpatials() {
 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
+        enemyGenerator = new EnemyGenerator();
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
 
@@ -213,6 +218,13 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
         	addDisplayable(levelPiece);
         }
+    }
+    
+    private void updateEnemies() {
+        for(Enemy enemy : enemyGenerator.generateEnemies(commander.getModel().getLocalTranslation())) {
+            addEntity(enemy);
+        }
+        
     }
 
     /**

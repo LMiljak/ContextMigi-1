@@ -15,6 +15,11 @@ import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
 
 
+/**
+ * Test class for the StaticObstacleFactory class.
+ * @author Marcel
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestStaticObstacleFactory extends TestDamageDealerFactory {
@@ -24,7 +29,9 @@ public class TestStaticObstacleFactory extends TestDamageDealerFactory {
     private AssetManager assetManager;
     private Spatial model;
 
-
+    /**
+     * Initialises all mock objects, static class responses and initialise the tested object.
+     */
     @Override
     public void setUp() {
 
@@ -40,6 +47,9 @@ public class TestStaticObstacleFactory extends TestDamageDealerFactory {
         setTestDamageDealerFactory(new StaticObstacleFactory());
     }
 
+    /**
+     * Test the produce method.
+     */
     @Override
     @Test
     public void testProduce() {

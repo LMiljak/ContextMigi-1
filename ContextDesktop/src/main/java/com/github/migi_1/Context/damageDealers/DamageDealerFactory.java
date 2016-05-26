@@ -10,7 +10,6 @@ public abstract class DamageDealerFactory {
 
     /**
      * Generate a DamageDealer object.
-     * @param assetManager AssetManager that supplies the model.
      * @return generated DamageDealer object
      */
     public abstract DamageDealer produce();

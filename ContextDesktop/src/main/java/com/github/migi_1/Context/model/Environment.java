@@ -64,8 +64,6 @@ public class Environment extends AbstractAppState {
 
     private CollisionResults results;
 
-    private float decay;
-
     private DamageDealerGenerator obstacleGenerator;
 
     private boolean flyCamActive;
@@ -89,7 +87,6 @@ public class Environment extends AbstractAppState {
         rootNode = this.app.getRootNode();
         steering = 0.f;
         results = new CollisionResults();
-        decay = 1;
         obstacleGenerator = new DamageDealerGenerator(this);
         flyCamActive = false;
 
@@ -157,6 +154,7 @@ public class Environment extends AbstractAppState {
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
         }
 
+        //update the move vectors of the platform and commander
         platform.getMoveBehaviour().updateMoveVector();
         commander.getMoveBehaviour().updateMoveVector();
     }

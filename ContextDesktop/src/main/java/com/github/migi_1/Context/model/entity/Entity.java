@@ -10,38 +10,6 @@ import com.jme3.scene.Spatial;
  */
 public abstract class Entity implements IMovable {
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((model == null) ? 0 : model.hashCode());
-        result = prime * result
-                + ((moveBehaviour == null) ? 0 : moveBehaviour.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Entity other = (Entity) obj;
-        if (model == null) {
-            if (other.model != null)
-                return false;
-        } else if (!model.equals(other.model))
-            return false;
-        if (moveBehaviour == null) {
-            if (other.moveBehaviour != null)
-                return false;
-        } else if (!moveBehaviour.equals(other.moveBehaviour))
-            return false;
-        return true;
-    }
-
     private Spatial model;
     /** Move behaviour of particular Entity. */
     private MoveBehaviour moveBehaviour;

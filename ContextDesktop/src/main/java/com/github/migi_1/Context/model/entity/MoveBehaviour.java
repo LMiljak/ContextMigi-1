@@ -19,6 +19,9 @@ public abstract class MoveBehaviour {
      */
     public abstract Vector3f getMoveVector();
 
+    /**
+     * Update the moveVector.
+     */
     public void updateMoveVector() {
     }
 

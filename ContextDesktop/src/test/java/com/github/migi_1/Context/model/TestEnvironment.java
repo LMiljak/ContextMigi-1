@@ -32,10 +32,10 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class})
 public class TestEnvironment {
 
-	private Environment environment;
+	protected Environment environment;
 	
-	private Node root;
-	private AssetManager assetManager;
+	protected Node root;
+	protected AssetManager assetManager;
 	
 	/**
 	 * Initialises the environment field for testing.

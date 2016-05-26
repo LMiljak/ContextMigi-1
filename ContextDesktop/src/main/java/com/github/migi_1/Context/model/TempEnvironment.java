@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;

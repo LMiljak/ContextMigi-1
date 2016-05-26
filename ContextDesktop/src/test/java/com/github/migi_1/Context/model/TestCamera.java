@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.github.migi_1.Context.model.entity.Camera;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 

@@ -1,7 +1,5 @@
-package com.github.migi_1.Context.model;
+package com.github.migi_1.Context.model.entity;
 
-import com.github.migi_1.Context.model.entity.Entity;
-import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 

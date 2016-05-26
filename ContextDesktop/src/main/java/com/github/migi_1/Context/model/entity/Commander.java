@@ -15,7 +15,7 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Commander extends Entity implements Collidable {
+public class Commander extends Camera implements Collidable {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";

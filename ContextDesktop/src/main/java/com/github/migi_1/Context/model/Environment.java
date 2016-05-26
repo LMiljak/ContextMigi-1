@@ -147,10 +147,6 @@ public class Environment extends AbstractAppState {
             damageDealer.move(damageDealer.getMoveBehaviour().getMoveVector());
         }
 
-        // regain speed
-        if (decay < 1.0f) {
-            decay = decay + 0.01f;
-        }
 
         //if a collision takes place, remove the colliding object and slow down
         if (results.size() > 0) {
@@ -160,6 +156,9 @@ public class Environment extends AbstractAppState {
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
         }
+
+        platform.getMoveBehaviour().updateMoveVector();
+        commander.getMoveBehaviour().updateMoveVector();
     }
 
     /**

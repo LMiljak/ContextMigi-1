@@ -35,5 +35,11 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
     @Override
     public void updateMoveVector() {
 
+
+        // regain speed
+        if (decay < 1.0f) {
+            decay = decay + 0.01f;
+        }
+
     }
 }

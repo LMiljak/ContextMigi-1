@@ -1,11 +1,16 @@
 package com.github.migi_1.Context;
 
+import java.io.IOException;
+import java.util.concurrent.Executors;
+
 import com.github.migi_1.Context.model.Environment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -17,6 +22,7 @@ import jmevr.app.VRApplication;
  * all things that have to do with the application as a whole can be found in this class
  * @author Damian
  */
+
 public class Main extends VRApplication {
     //the main menu state
     private MainMenu mainMenuState;
@@ -35,7 +41,7 @@ public class Main extends VRApplication {
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
-     * 
+     *
      * @param args
      * 		ignored.
      */
@@ -43,6 +49,7 @@ public class Main extends VRApplication {
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
+        settings.setVSync(true);
 
         main = new Main();
         main.setSettings(settings);
@@ -61,8 +68,24 @@ public class Main extends VRApplication {
 
         mainMenuState = new MainMenu();
         environmentState = new Environment();
-
+        ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
+        startServer();
+    }
+
+    /**
+     * Starts the server and allows clients to connect to it.
+     */
+    private void startServer() {
+    	try {
+        	ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(1));
+			ServerWrapper.getInstance().startServer();
+			new AccelerometerMessageHandler(this);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -81,10 +104,10 @@ public class Main extends VRApplication {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(-tpf * 8f));
         }
         if (left) {
-        	environmentState.rotateCam(0f, 0.75f * tpf, 0f);
+        	environmentState.rotateCam(new Vector3f(0f, 0.75f * tpf, 0f));
         }
         if (right) {
-        	environmentState.rotateCam(0, -0.75f * tpf, 0);
+        	environmentState.rotateCam(new Vector3f(0, -0.75f * tpf, 0));
         }
         if (up) {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(tpf * 8f));
@@ -105,7 +128,7 @@ public class Main extends VRApplication {
 
     /**
      * Initialises the game inputs (keys).
-     * 
+     *
      * Key bindings:
      * Escape key: Exit the game
      * c: switches camera
@@ -125,7 +148,7 @@ public class Main extends VRApplication {
 
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
-                 System.out.println(environmentState.getCamera().toString());
+//                 System.out.println(environmentState.getCamera().toString());
                  if (name.equals("exit") && keyPressed) {
                      System.exit(0);
                  } else if (name.equals("cam_switch") && keyPressed) {
@@ -133,7 +156,7 @@ public class Main extends VRApplication {
                  }
 
                  //Controls that only work with flycam.
-                 if (environmentState.getCamera().toString().equals("FLY (Node)")) {
+                 if (environmentState.getFlyCamActive()) {
                      switch (name) {
                          case "forward":
                              forwards = keyPressed;
@@ -157,7 +180,7 @@ public class Main extends VRApplication {
                      }
                  }
                  checkSteering(name, keyPressed);
-                 
+
              }
 
          };
@@ -176,15 +199,15 @@ public class Main extends VRApplication {
              if (name.equals("steer_left")) {
                  environmentState.steer(-1.f);
              }
-            if (name.equals("steer_right")) {
+             else if (name.equals("steer_right")) {
                 environmentState.steer(1.f);
             }
         }
-        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {  
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {
             environmentState.steer(0.f);
-        }         
+        }
      }
-     
+
     /**
      * Configures the VR.
      * Method to configure the vr.
@@ -200,11 +223,11 @@ public class Main extends VRApplication {
         // set frustum distances here before app starts
         main.preconfigureFrustrumNearFar(0.1f, 512f);
         // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false); 
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
         // runs faster when set to false, but will allow mirroring
         main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false);
         // render two eyes, regardless of SteamVR
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false); 
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
         // you can downsample for performance reasons
         main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
     }
@@ -246,6 +269,16 @@ public class Main extends VRApplication {
 
 
     /**
+     * Steers the platform depending on the orientation of an accelerometer.
+     *
+     * @param orientation
+     * 		The acceleration force along the z axis (including gravity).
+     */
+    public void handleAccelerometerMessage(float orientation) {
+        environmentState.steer(orientation);
+    }
+
+    /**
      * Returns the main menu state.
      * @return the mainMenu
      */
@@ -268,5 +301,13 @@ public class Main extends VRApplication {
     @Override
     public Node getRootNode() {
         return rootNode;
+    }
+
+    /**
+     * Returns the only instance of main.
+     * @return main.
+     */
+    public static Main getInstance() {
+        return main;
     }
 }

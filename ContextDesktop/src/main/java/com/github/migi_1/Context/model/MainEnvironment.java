@@ -1,9 +1,9 @@
 package com.github.migi_1.Context.model;
 
+import com.github.migi_1.Context.model.Enemy.Enemy;
+import com.github.migi_1.Context.model.Enemy.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.Enemy;
-import com.github.migi_1.Context.model.entity.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;

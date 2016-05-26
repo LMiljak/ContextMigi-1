@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.github.migi_1.ContextMessages.PositionMessage;
 
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
@@ -20,8 +21,8 @@ public final class ServerWrapper {
 	/** The message the server should be able to handle. */
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
 		= Arrays.asList(
-				AccelerometerMessage.class
-				//, more message types here
+				AccelerometerMessage.class,
+				PositionMessage.class
 				);
 
 	/** The singleton instance of this class. */

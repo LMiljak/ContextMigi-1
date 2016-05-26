@@ -1,14 +1,11 @@
 package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
-import com.jme3.network.AbstractMessage;
+import com.github.migi_1.ContextMessages.PositionMessage;
 import java.io.IOException;
-import java.util.Arrays;
-
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
-import java.util.List;
 
 /**
  * A wrapper class for a com.jme3.network.client object.
@@ -28,6 +25,7 @@ public class ClientWrapper {
 	//Every message types is registered by the Serializer in this class initializer.
         static {
             Serializer.registerClass(AccelerometerMessage.class);
+            Serializer.registerClass(PositionMessage.class);
         }
         
 	/**

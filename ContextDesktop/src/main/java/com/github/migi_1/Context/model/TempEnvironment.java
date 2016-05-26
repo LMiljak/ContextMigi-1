@@ -1,15 +1,10 @@
 package com.github.migi_1.Context.model;
 
-import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
-import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
-import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -17,7 +12,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Node;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
@@ -28,12 +22,8 @@ import jmevr.app.VRApplication;
  * @author Damian
  */
 public class TempEnvironment extends Environment {
-    private Main app;
     private ViewPort viewPort;
-    private AssetManager assetManager;
-    private Node rootNode;
 
-    private Camera vrObs;
     private Camera flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
@@ -68,20 +58,12 @@ public class TempEnvironment extends Environment {
      */
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-
         super.initialize(stateManager, app);
-        this.app = (Main) app;
-        assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
         viewPort = app.getViewPort();
-        vrObs = new Camera();
         flyObs = new Camera();
-        rootNode = this.app.getRootNode();
         steering = 0.f;
         flyCamActive = false;
-
-        //deprecated method, it does however makse it possible to load assets from a non default location
-        assetManager.registerLocator("assets", FileLocator.class);
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
@@ -97,31 +79,12 @@ public class TempEnvironment extends Environment {
         //Init the camera
         initCameras();
     }
-
-    /**
-     * Update the entities and cameras.
-     */
+    
     @Override
     public void update(float tpf) {
-        super.update(tpf);
-
-//        NOT USED IN THIS VERSION, WILL BE REFACTORED IN SEPERATE BRANCH, MAY STILL BE NEEDED
-//        Vector3f loc = commander.getModel().getLocalTranslation();//
-//        float xAxis = 1;
-//        float zAxis = 0;
-//        if (loc.z > 5f) {
-//            zAxis = 0.5f;
-//        } else if (loc.z < -5f) {
-//            zAxis = -0.5f;
-//        } else {
-//            zAxis = steering * STEERING_ANGLE;
-//            xAxis = (float) Math.sqrt(1 - Math.pow(zAxis, 2));
-//        }
-
-        platform.move(platform.getMoveBehaviour().getMoveVector());
-        commander.move(commander.getMoveBehaviour().getMoveVector());
-        vrObs.getModel().setLocalTranslation(commander.getModel().getLocalTranslation());
-        updateTestWorld();
+    	super.update(tpf);
+    	
+    	updateTestWorld();
     }
 
     /**
@@ -138,8 +101,8 @@ public class TempEnvironment extends Environment {
         sun2.setDirection(new Vector3f(SUNVECTOR_2).normalizeLocal());
 
         //adds the lights to the root pane
-        rootNode.addLight(sun);
-        rootNode.addLight(sun2);
+        getRootNode().addLight(sun);
+        getRootNode().addLight(sun2);
     }
 
     /**
@@ -147,16 +110,16 @@ public class TempEnvironment extends Environment {
      */
     private void initShadows() {
         DirectionalLightShadowRenderer dlsr =
-                new DirectionalLightShadowRenderer(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+                new DirectionalLightShadowRenderer(getAssetManager(), SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsr.setLight(sun);
         viewPort.addProcessor(dlsr);
 
         //adds shadow filter and attaches it to the viewport
         DirectionalLightShadowFilter dlsf =
-                new DirectionalLightShadowFilter(assetManager, SHADOWMAP_SIZE, SHADOW_SPLITS);
+                new DirectionalLightShadowFilter(getAssetManager(), SHADOWMAP_SIZE, SHADOW_SPLITS);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
-        FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
+        FilterPostProcessor fpp = new FilterPostProcessor(getAssetManager());
         fpp.addFilter(dlsf);
         viewPort.addProcessor(fpp);
     }
@@ -172,11 +135,11 @@ public class TempEnvironment extends Environment {
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
-            rootNode.attachChild(levelPiece.getModel());
+            addDisplayable(levelPiece);
         }
 
-        rootNode.attachChild(platform.getModel());
-        rootNode.attachChild(commander.getModel());
+        addEntity(platform);
+        addEntity(commander);
     }
 
     /**
@@ -184,14 +147,12 @@ public class TempEnvironment extends Environment {
      * Starts with the VR camera.
      */
     private void initCameras() {
-        vrObs.getModel().setLocalTranslation(new Vector3f(0f, 0f, 0f));
-        vrObs.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
+        commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
         flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
-        VRApplication.setObserver(vrObs.getModel());
-        rootNode.attachChild(vrObs.getModel());
-        rootNode.attachChild(flyObs.getModel());
+        commander.makeObserver();
+        addEntity(flyObs);
     }
 
     /**
@@ -235,7 +196,7 @@ public class TempEnvironment extends Environment {
             VRApplication.setObserver(flyObs.getModel());
             flyCamActive = true;
         } else {
-            VRApplication.setObserver(vrObs.getModel());
+            VRApplication.setObserver(commander.getModel());
             flyCamActive = false;
         }
     }
@@ -247,10 +208,10 @@ public class TempEnvironment extends Environment {
 
         //delete level piece when it too far back
         for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(commander.getModel().getLocalTranslation())) {
-            rootNode.detachChild(levelPiece.getModel());
+        	removeDisplayable(levelPiece);
         }
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
-            rootNode.attachChild(levelPiece.getModel());
+        	addDisplayable(levelPiece);
         }
     }
 

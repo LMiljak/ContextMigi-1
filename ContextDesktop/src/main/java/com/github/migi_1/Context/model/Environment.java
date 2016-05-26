@@ -7,9 +7,12 @@ import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.IMovable;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.asset.AssetManager;
+import com.jme3.asset.plugins.FileLocator;
 import com.jme3.scene.Node;
 
 /**
@@ -19,14 +22,18 @@ import com.jme3.scene.Node;
 public class Environment extends AbstractAppState {
 
 	private Node rootNode;
+	private AssetManager assetManager;
 	private Collection<IMovable> movables;
 	
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		
-		this.rootNode = ((Main) app).getRootNode();
+		this.rootNode = Main.getMainVRApp().getRootNode();
 		this.movables = new ArrayList<>();
+		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
+		
+		this.assetManager.registerLocator("assets", FileLocator.class);
 	}
 	
 	@Override
@@ -55,6 +62,26 @@ public class Environment extends AbstractAppState {
 	 */
 	public void removeDisplayable(IDisplayable displayable) {
 		rootNode.detachChild(displayable.getModel());
+	}
+	
+	/**
+	 * Gets the root node of the application.
+	 * 
+	 * @return
+	 * 		The root node of the application.
+	 */
+	public Node getRootNode() {
+		return rootNode;
+	}
+	
+	/**
+	 * Gets the asset manager.
+	 * 
+	 * @return
+	 * 		The asset manager.
+	 */
+	public AssetManager getAssetManager() {
+		return assetManager;
 	}
 	
 	/**

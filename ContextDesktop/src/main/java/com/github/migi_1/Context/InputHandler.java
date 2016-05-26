@@ -14,9 +14,11 @@ import jmevr.app.VRApplication;
  */
 public final class InputHandler {
 
-    private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right", "up", "down", "steer_left", "steer_right"};
-    private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S, KeyInput.KEY_A, KeyInput.KEY_D,
-                               KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT, KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT};
+    private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
+                                "up", "down", "steer_left", "steer_right"};
+    private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
+                               KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
+                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT};
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
 
@@ -42,6 +44,7 @@ public final class InputHandler {
      * Lshift: move down
      * space: move up
      * ---MORE CAN BE ADDED IF NEEDED---
+     * @param main the Main menu the inputs have to be configured for.
      */
     public void initInputs(Main main) {
         InputManager inputManager = main.getInputManager();
@@ -90,7 +93,7 @@ public final class InputHandler {
      * @param inputManager the inputmanager for which these keymappings are set.
      */
     private void addMappings(InputManager inputManager) {
-        for(int i = 0; i < actions.length; i++) {
+        for (int i = 0; i < actions.length; i++) {
             inputManager.addMapping(actions[i], new KeyTrigger(keyInputs[i]));
         }
     }
@@ -101,7 +104,7 @@ public final class InputHandler {
      * @param acl The actionlistener that listens to the key-input events.
      */
     private void addListeners(InputManager inputManager, ActionListener acl) {
-        for(String action : actions) {
+        for (String action : actions) {
             inputManager.addListener(acl, action);
         }
     }

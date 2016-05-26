@@ -7,10 +7,11 @@ import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
  * @author Nils
  *
  */
-public final class VRConfigurer {
+public abstract class VRConfigurer {
 
     /**
      * Method to configure the vr.
+     * @param main the main Menu that the VR has to be configured for.
      */
     public static void configureVR(Main main) {
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FLIP_EYES, false);

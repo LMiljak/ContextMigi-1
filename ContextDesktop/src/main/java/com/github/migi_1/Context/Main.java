@@ -17,8 +17,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
-import jmevr.app.VRApplication;
-
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
  * all things that have to do with the application as a whole can be found in this class

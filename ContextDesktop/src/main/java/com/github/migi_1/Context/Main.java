@@ -1,6 +1,8 @@
 package com.github.migi_1.Context;
 
 import jmevr.app.VRApplication;
+
+import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.Environment;
@@ -37,6 +39,8 @@ public class Main extends VRApplication {
      * Movements of the flycam.
      */
     private boolean forwards, back, left, right, up, down;
+    
+    private ServerWrapper server;
 
     /**
      * main function of the appication, sets some meta-parameters of the application
@@ -59,6 +63,16 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Gets the instance of this Application.
+     * 
+     * @return
+     * 		The instance of this Application.
+     */
+    public static Main getMain() {
+    	return main;
+    }
+    
+    /**
      * First method that is called when the application launches.
      * Sets the input, initializes all states and loads the main menu.
      */
@@ -70,19 +84,20 @@ public class Main extends VRApplication {
         environmentState = new Environment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
-        startServer();
+        
+        launchServer();
     }
 
     /**
-     * Starts the server and allows clients to connect to it.
+     * Creates, initialises and starts the server.
      */
-    private void startServer() {
+    private void launchServer() {
     	try {
-        	ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(1));
-			ServerWrapper.getInstance().startServer();
-			new AccelerometerMessageHandler(this);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			this.server = new ServerWrapper();
+			ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(10));
+			server.startServer();
+		} catch (IOException e) {
+			this.stop();
 		}
     }
 
@@ -307,5 +322,15 @@ public class Main extends VRApplication {
      */
     public static Main getInstance() {
         return main;
+    }
+    
+    /**
+     * Gets the server on which this application is running.
+     * 
+     * @return
+     * 		The server on which this server is running.
+     */
+    public ServerWrapper getServer() {
+    	return server;
     }
 }

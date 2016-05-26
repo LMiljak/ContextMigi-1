@@ -28,13 +28,15 @@ public class TestServerWrapper {
 	/** The port on which the server is running. */
 	private static final int PORT = 4321;
 	
+	private ServerWrapper wrapper;
 	private Server server;
 	
 	/**
 	 * Initialises the attributes in this class used for testing.
+	 * @throws IOException 
 	 */
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		server = Mockito.mock(Server.class);
 		
 		PowerMockito.mockStatic(Network.class);
@@ -45,33 +47,8 @@ public class TestServerWrapper {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Resets the fields in the ServerWrapper class at the end
-	 * of each test. This is because otherwise the other in which tests are executed
-	 * my affect for example the testGetInstanceNotInitialised(), because the class may
-	 * have been initialised by another test.
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 */
-	@After
-	public void resetFields() throws IllegalArgumentException, IllegalAccessException {
-		Field initialised = Whitebox.getField(ServerWrapper.class, "initialised");
 		
-		if (initialised.getBoolean(null)) { //If the ServerWrapper has been initialised, we need to 'uninitialise' it.
-			Whitebox.getField(ServerWrapper.class, "server").set(ServerWrapper.getInstance(), null);
-			Whitebox.getField(ServerWrapper.class, "state").set(ServerWrapper.getInstance(), null);
-			initialised.set(null, Boolean.FALSE);
-		}
-	}
-	
-	/**
-	 * Checks that the getInstance method throws an IllegalStateException if the class hasn't been initialised yet.
-	 */
-	@Test(expected = IllegalStateException.class)
-	public void testGetInstanceNotInitialised() {
-		ServerWrapper.getInstance();
+		wrapper = new ServerWrapper();
 	}
 	
 	/**
@@ -80,9 +57,7 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testGetServer() throws IOException {
-		ServerWrapper.initialize();
-		
-		assertEquals(server, ServerWrapper.getInstance().getServer());
+		assertEquals(server, wrapper.getServer());
 	}
 	
 	/**
@@ -105,9 +80,6 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testStartServer() throws IOException {
-		ServerWrapper.initialize();
-		
-		ServerWrapper wrapper = ServerWrapper.getInstance();
 		wrapper.startServer();
 		
 		verifyStartsAndCloses(1, 0);
@@ -119,9 +91,6 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testCloseClosedServer() throws IOException {
-		ServerWrapper.initialize();
-		
-		ServerWrapper wrapper = ServerWrapper.getInstance();
 		wrapper.closeServer();
 		
 		verifyStartsAndCloses(0, 0);
@@ -136,9 +105,6 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testStartCloseServer() throws IOException {
-		ServerWrapper.initialize();
-		
-		ServerWrapper wrapper = ServerWrapper.getInstance();
 		wrapper.startServer();
 		wrapper.closeServer();
 		
@@ -154,9 +120,6 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testStartStartServer() throws IOException {
-		ServerWrapper.initialize();
-		
-		ServerWrapper wrapper = ServerWrapper.getInstance();
 		wrapper.startServer();
 		wrapper.startServer();
 		
@@ -172,9 +135,6 @@ public class TestServerWrapper {
 	 */
 	@Test
 	public void testStartCloseStartCloseServer() throws IOException {
-		ServerWrapper.initialize();
-		
-		ServerWrapper wrapper = ServerWrapper.getInstance();
 		wrapper.startServer();
 		wrapper.closeServer();
 		wrapper.startServer();

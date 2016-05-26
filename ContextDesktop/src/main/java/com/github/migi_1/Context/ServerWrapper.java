@@ -2,12 +2,13 @@ package com.github.migi_1.Context;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
-
+import com.github.migi_1.ContextMessages.MessageListener;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -15,10 +16,8 @@ import com.jme3.network.serializing.Serializer;
 
 /**
  * A wrapper class for a com.jme3.network.Server.
- *
- * SINGLETON class.
  */
-public final class ServerWrapper {
+public class ServerWrapper {
 
 	/** The message the server should be able to handle. */
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
@@ -27,15 +26,10 @@ public final class ServerWrapper {
 				//, more message types here
 				);
 
-	/** The singleton instance of this class. */
-	private static final ServerWrapper INSTANCE = new ServerWrapper();
 	/** The port on which the server is running. */
 	private static final int PORT = 4321;
 	/** The amount of times the server should restart before sending an error.*/
 	private static final int RESTART_ATTEMPTS = 10;
-	
-	
-	private static boolean initialised = false;
 	
 	private Server server;
 	private ServerState state;
@@ -48,54 +42,39 @@ public final class ServerWrapper {
 	}
 
 	/**
-	 * Gets the instance of this singleton class.
-	 *
-	 * @return
-	 * 		The instance of this singleton class.
-	 * @throws IllegalStateException if the class has not yet been initialised.
+	 * Constructor for ServerWrapper.
+	 * Creates a server that starts inactive.
+	 * 
+	 * @throws IOException
+	 * 		If the Server failed to get created after a certain amount of attempts.
 	 */
-	public static ServerWrapper getInstance() throws IllegalStateException {
-		if (!initialised) {
-			throw new IllegalStateException("The server has not yet been initialised.");
-		}
-		return INSTANCE;
+	public ServerWrapper() throws IOException {
+		this.server = createServer(PORT, RESTART_ATTEMPTS);
+		
+		final ServerState initialState = new InactiveServerState(server);
+		this.state = initialState;
 	}
 	
 	/**
-	 * Initialises the Server.
+	 * Creates a server on the .
 	 * 
 	 * @throws IOException if the server failed to get created after a certain amount of attempts.
-	 * @throws IllegalStateException if this class has already been initialised.
+	 * @return The created server.
 	 */
-	public static synchronized void initialize() throws IOException, IllegalStateException {
-		INSTANCE.createServer();
-		INSTANCE.state = new InactiveServerState(INSTANCE.server);
-		
-		initialised = true;
-	}
-
-	/** Private constructor to prevent initialisation. */
-	private ServerWrapper() { }
-
-	/**
-	 * Creates the server.
-	 * 
-	 * @throws IOException if the server failed to get created after a certain amount of attempts.
-	 */
-	private void createServer() throws IOException {
+	private Server createServer(int port, int restartAttempts) throws IOException {
 		Logger logger = Logger.getGlobal();
 		
-		for (int attempt = 1; attempt <= RESTART_ATTEMPTS; attempt++) {
+		for (int attempt = 1; attempt <= restartAttempts; attempt++) {
 			try {
-				server = Network.createServer(PORT);
-				logger.log(Level.INFO, "Successfully created a server on port " + PORT + ".");
-				return;
+				Server server = Network.createServer(port);
+				logger.log(Level.INFO, "Successfully created a server on port " + port + ".");
+				return server;
 			} catch (IOException e) {
 				logger.log(Level.WARNING, "Failed to create server: " + e.getMessage() + ". Retrying.");
 			}
 		}
 		
-		final String failMessage = "Failed to create server after " + RESTART_ATTEMPTS + " attempts";
+		final String failMessage = "Failed to create server after " + restartAttempts + " attempts";
 		logger.log(Level.SEVERE, failMessage);
 		
 		throw new IOException(failMessage);
@@ -133,7 +112,7 @@ public final class ServerWrapper {
 	 * 		The new state of the server.
 	 */
 	private void switchState(ServerState newState) {
-		if (!state.equals(newState)) {
+		if (!newState.equals(state)) {
 			state.onDeactivate();
 			state = newState;
 			state.onActivate();

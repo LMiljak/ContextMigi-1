@@ -71,8 +71,15 @@ public class HelloActivity extends AndroidHarness {
             // start the sensor manager
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
             
+            // show the user the app is looking for a server
+            setContentView(R.layout.android_searching);
+            
+            // start the autoconnector
             AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
                     ClientWrapper.getInstance());
+            
+            // set the ui to the ingame screen
+            setContentView(R.layout.android_ingame_fr);
         }
 
         /**

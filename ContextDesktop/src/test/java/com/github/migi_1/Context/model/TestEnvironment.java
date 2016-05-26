@@ -36,7 +36,7 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class})
 public class TestEnvironment {
 
-    private Environment env;
+    private TempEnvironment env;
     private AppStateManager stateManager;
     private Main app;
     private ProjectAssetManager pAssetManager;
@@ -54,7 +54,7 @@ public class TestEnvironment {
      */
     @Before
     public void setUp() {
-        env = PowerMockito.spy(new Environment());
+        env = PowerMockito.spy(new TempEnvironment());
 
         stateManager = Mockito.mock(AppStateManager.class);
         app = Mockito.mock(Main.class);

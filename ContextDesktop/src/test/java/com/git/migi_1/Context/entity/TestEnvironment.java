@@ -1,6 +1,11 @@
 package com.git.migi_1.Context.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +17,13 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.Main;
 import com.github.migi_1.Context.model.Environment;
+import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  * Test suite for the Environment class.
@@ -36,23 +43,39 @@ public class TestEnvironment {
 	public void setUp() {
 		this.environment = new Environment();
 		
-		AppStateManager manager = Mockito.mock(AppStateManager.class);
-		ProjectAssetManager projectAssetManager = Mockito.mock(ProjectAssetManager.class);
+		AppStateManager manager = mock(AppStateManager.class);
+		ProjectAssetManager projectAssetManager = mock(ProjectAssetManager.class);
 		PowerMockito.mockStatic(ProjectAssetManager.class);
-		Mockito.when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
-		Mockito.when(projectAssetManager.getAssetManager()).thenReturn(Mockito.mock(AssetManager.class));
+		when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
+		when(projectAssetManager.getAssetManager()).thenReturn(Mockito.mock(AssetManager.class));
 		
-		Main app = Mockito.mock(Main.class);
-		this.root = Mockito.mock(Node.class);
-		Mockito.when(app.getRootNode()).thenReturn(root);
+		Main app = mock(Main.class);
+		this.root = mock(Node.class);
+		when(app.getRootNode()).thenReturn(root);
 		
 		
 		this.environment.initialize(manager, app);
 	}
 	
+	/**
+	 * Tests the getRootNode method.
+	 */
 	@Test
 	public void testGetRootNode() {
 		assertEquals(root, environment.getRootNode());
 	}
 	
+	/**
+	 * Tests the addDisplayable method.
+	 */
+	@Test
+	public void testAddDisplayable() {
+		IDisplayable displayable = mock(IDisplayable.class);
+		Spatial model = mock(Spatial.class);
+		when(displayable.getModel()).thenReturn(model);
+		
+		environment.addDisplayable(displayable);
+		
+		verify(root, times(1)).attachChild(model);
+	}
 }

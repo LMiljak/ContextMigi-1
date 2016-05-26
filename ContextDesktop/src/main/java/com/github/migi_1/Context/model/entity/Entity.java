@@ -3,7 +3,7 @@ package com.github.migi_1.Context.model.entity;
 import com.jme3.scene.Spatial;
 
 /**
- * Superclass of all object that implement some MovableBehaviour.
+ * Represents an object that can be placed in an Environment. 
  *
  * @author Marcel
  *
@@ -11,21 +11,20 @@ import com.jme3.scene.Spatial;
 public abstract class Entity implements IMovable {
 
     private Spatial model;
-
-    /**
-     * Move behaviour of particular Entity.
-     */
+    /** Move behaviour of particular Entity. */
     private MoveBehaviour moveBehaviour;
 
     /**
-     * Instantiate a generic MoveBehaviour.
+     * Constructor for abstract Entity where the default behaviour
+     * is a StaticMoveBehaviour.
      */
     public Entity() {
         moveBehaviour = new StaticMoveBehaviour();
+        this.model = getDefaultModel();
     }
 
     /**
-     * Get the MoveBehaviour of the Entity.
+     * Gets the MoveBehaviour of the Entity.
      * @return MoveBehaviour
      */
     @Override
@@ -34,7 +33,7 @@ public abstract class Entity implements IMovable {
     }
 
     /**
-     * Set the MoveBehaviour of the Entity.
+     * Sets the MoveBehaviour of the Entity.
      * @param moveBehaviour MoveBehaviour
      */
     @Override
@@ -43,7 +42,7 @@ public abstract class Entity implements IMovable {
     }
 
     /**
-     * Get the model of the Entity.
+     * Gets the model of the Entity.
      */
     @Override
     public Spatial getModel() {
@@ -51,11 +50,17 @@ public abstract class Entity implements IMovable {
     }
 
     /**
-     * Set the model of the Entity.
+     * Sets the model of the Entity.
      */
     @Override
     public void setModel(Spatial model) {
         this.model = model;
 
     }
+
+    /**
+     * Get the default model for a particular instance.
+     * @return defaultModel
+     */
+    public abstract Spatial getDefaultModel();
 }

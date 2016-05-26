@@ -7,6 +7,8 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 
 /**
  * A non-moving obstacle.
@@ -16,7 +18,7 @@ import com.jme3.collision.UnsupportedCollisionException;
 public class StaticObstacle extends Entity implements DamageDealer, IKillable {
 
     /** File location of model. **/
-    private static final String MODEL_FILE = "Models/testCube2.j3o";
+    private static final String PATHNAME = "Models/testCube2.j3o";
 
 
     /**
@@ -24,9 +26,10 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
      * @param assetManager AssetManager that provides access to asset files.
      */
     public StaticObstacle() {
-        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(MODEL_FILE));
-        getModel().move(0.0f, -2.0f, 0.0f);
+        super();
+        setModel(getDefaultModel());
         setMoveBehaviour(new StaticMoveBehaviour());
+        getModel().move(new Vector3f(0, -2.0f, 0));
     }
 
     @Override
@@ -58,6 +61,11 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
             throws UnsupportedCollisionException {
         getModel().collideWith(arg0, arg1);
         return 0;
+    }
+
+    @Override
+    public Spatial getDefaultModel() {
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
 

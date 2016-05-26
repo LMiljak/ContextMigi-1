@@ -5,6 +5,7 @@ import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 
 /**
  * Class that handles everything that have to do with the carrier.
@@ -18,8 +19,10 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
+    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
+    
     private int health;
-    private int id;
+    private int id; //Represents the location of the carrier under the platform.
 
     /**
      * constructor of the carrier.
@@ -27,9 +30,10 @@ public class Carrier extends Entity implements Collidable, IKillable {
      * @param id to keep the 4 carriers apart
      */
     public Carrier(Vector3f startLocation, int id) {
-        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME));
+        super();
+        setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new AcceleratorMoveBehaviour());
+        setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
         health = 2;
         this.id = id;
     }
@@ -49,33 +53,21 @@ public class Carrier extends Entity implements Collidable, IKillable {
         return 0;
     }
 
-    /**
-     * Method called when the carrier takes damage.
-     * reduced the carriers health by the amount of damage.
-     */
-    @Override
-    public void takeDamage(int damage) {
-        health -= damage;
-    }
-
-    /**
-     * Returns the health of the carrier.
-     */
     @Override
     public int getHealth() {
         return health;
     }
 
-    /**
-     * Sets the health of the carrier.
-     */
     @Override
     public void setHealth(int h) {
         health = h;
     }
 
     /**
-     * @return the id
+     * Gets the id that represents the location of the Carrier under the platform.
+     * 
+     * @return 
+     * 		the id
      */
     public int getId() {
         return id;
@@ -93,8 +85,9 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     }
 
-
-
-
+    @Override
+    public Spatial getDefaultModel() {
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+    }
 
 }

@@ -37,15 +37,25 @@ public class LevelGenerator {
      */
     public LinkedList<LevelPiece> deleteLevelPieces(Vector3f commanderLocation) {
         LinkedList<LevelPiece> deleteList = new LinkedList<LevelPiece>();
-        if (levelPieces.size() > 0) {
-            LevelPiece checkLevelPiece = levelPieces.peek();
-            BoundingBox bb1 = (BoundingBox) checkLevelPiece.getModel().getWorldBound();
-            Vector2f v1 = new Vector2f(bb1.getCenter().x, bb1.getCenter().y);
-            Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
-            if (v1.distance(v2) > 100) {
-               deleteList.add(levelPieces.poll());
+        Boolean done = false;
+        while (!done) {
+            if (levelPieces.size() > 0) {
+                LevelPiece checkLevelPiece = levelPieces.peek();
+                Vector3f v = checkLevelPiece.getModel().getLocalTranslation();
+                Vector2f v1 = new Vector2f(v.getX(), v.getY());
+                Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
+                if (v1.distance(v2) > 100) {
+                   deleteList.add(levelPieces.poll());
+                }
+                else {
+                    done = true;
+                }
+           }
+            else {
+                done = true;
             }
-       }
+        }
+
        return deleteList;
     }
 
@@ -60,11 +70,27 @@ public class LevelGenerator {
             levelPiece.move(locationNextPiece);
             levelPieces.add(levelPiece);
             BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
-
             //shift orientation to where the next level piece should spawn
             locationNextPiece.x -= 2 * bb.getXExtent() - 2.0f;
         }
         return levelPieces;
+    }
+
+    /**
+     * Return the number of LevelPiece objects.
+     * @return Value of LEVEL_PIECES attribute
+     */
+    public int getNumberOfLevelPieces() {
+        return LEVEL_PIECES;
+    }
+
+    /**
+     * Set level pieces linked list.
+     * Used in testing.
+     * @param levelPieces the new levelPieces linked list.
+     */
+    public void setLevelPieces(LinkedList<LevelPiece> levelPieces) {
+        this.levelPieces = levelPieces;
     }
 
 }

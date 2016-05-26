@@ -12,6 +12,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -21,6 +22,7 @@ import com.jme3.system.AppSettings;
  * all things that have to do with the application as a whole can be found in this class
  * @author Damian
  */
+
 public class Main extends VRApplication {
     //the main menu state
     private MainMenu mainMenuState;
@@ -49,7 +51,7 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
-        
+
         main = new Main();
         main.setSettings(settings);
         main.configureVR();
@@ -103,10 +105,10 @@ public class Main extends VRApplication {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(2).mult(-tpf * 8f));
         }
         if (left) {
-        	environmentState.rotateCam(0f, 0.75f * tpf, 0f);
+        	environmentState.rotateCam(new Vector3f(0f, 0.75f * tpf, 0f));
         }
         if (right) {
-        	environmentState.rotateCam(0, -0.75f * tpf, 0);
+        	environmentState.rotateCam(new Vector3f(0, -0.75f * tpf, 0));
         }
         if (up) {
         	environmentState.moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(tpf * 8f));
@@ -302,4 +304,11 @@ public class Main extends VRApplication {
         return rootNode;
     }
 
+    /**
+     * Returns the only instance of main.
+     * @return main.
+     */
+    public static Main getInstance() {
+        return main;
+    }
 }

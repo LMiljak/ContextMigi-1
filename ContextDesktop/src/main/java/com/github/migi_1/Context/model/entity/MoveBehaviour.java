@@ -3,15 +3,19 @@ package com.github.migi_1.Context.model.entity;
 import com.jme3.math.Vector3f;
 
 /**
- * class for handling the creation of a certain moving behaviour for an entity.
+ * Abstract behaviour for objects that can move in the Environment. 
  * @author Damian
  *
  */
 public abstract class MoveBehaviour {
 
     /**
-     * Creates a certain movable behaviour for an entity.
-     * @return Vector3f for the entity to move to.
+     * Gets the move vector of this behaviour.
+     * This method is called every tick of the game and this move vector will be added
+     * to the object's location vector.
+     * 
+     * @return Vector3f 
+     * 		The move vector of the behaviour.
      */
     public abstract Vector3f getMoveVector();
 

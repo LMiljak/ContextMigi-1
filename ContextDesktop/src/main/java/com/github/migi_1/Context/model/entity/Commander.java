@@ -5,6 +5,7 @@ import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 
 /**
  * Class that handles everything that have to do with the commander.
@@ -18,15 +19,17 @@ public class Commander extends Entity implements Collidable {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
+    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
     /**
      * Constructor of the commander.
      * @param startLocation startLocation location where the Commander will be initialized
      */
     public Commander(Vector3f startLocation) {
-        setModel(ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME));
+        super();
+        setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new AcceleratorMoveBehaviour());
+        setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
     }
 
 
@@ -42,6 +45,12 @@ public class Commander extends Entity implements Collidable {
             throws UnsupportedCollisionException {
         getModel().collideWith(arg0, arg1);
         return 0;
+    }
+
+
+    @Override
+    public Spatial getDefaultModel() {
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
 }

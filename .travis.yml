@@ -1,5 +1,7 @@
 language: android
-sudo: false
+
+dist: trusty
+sudo: required
 addons:
   apt:
     packages:

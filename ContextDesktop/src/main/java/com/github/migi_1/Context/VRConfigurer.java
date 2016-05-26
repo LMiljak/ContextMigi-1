@@ -7,7 +7,7 @@ import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
  * @author Nils
  *
  */
-public abstract class VRConfigurer {
+public final class VRConfigurer {
 
     /**
      * Method to configure the vr.

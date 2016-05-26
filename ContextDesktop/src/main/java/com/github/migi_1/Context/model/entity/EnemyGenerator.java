@@ -14,11 +14,13 @@ public class EnemyGenerator {
     private float levelPieceLength;
     private double currentLevelPiece;
     private double lastLevelPiece;
+    private float levelPieceWidth;
 
     public EnemyGenerator() {
         enemies = new LinkedList<Enemy>();
         levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
         levelPieceLength = levelPieceBoundingBox.getXExtent();
+        levelPieceWidth = levelPieceBoundingBox.getZExtent();
         currentLevelPiece = 0;
         lastLevelPiece = -1;
     }
@@ -28,22 +30,23 @@ public class EnemyGenerator {
        // System.out.println(currentLevelPiece);
         if(currentLevelPiece != lastLevelPiece){
             lastLevelPiece = currentLevelPiece;
+            
+            Enemy enemy1 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), ENEMYHEIGHT, 2));
+            Enemy enemy2 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                    + levelPieceLength * 1/2, ENEMYHEIGHT, 2));
+            Enemy enemy3 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                    + levelPieceLength * 1/2, ENEMYHEIGHT, -7));
+            
             double random = Math.random();
-            if(random < 0.5 ) {
-                System.out.println("one");
-                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
-            } else if(random < 0.8 && random > 0.5) {
-                System.out.println("two");
-                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
-                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                        + levelPieceLength * 1/2, ENEMYHEIGHT, 2)));
+            if(random < 0.6) {
+                enemies.add(enemy1);
+            } else if(random > 0.6 && random < 0.85) {
+                enemies.add(enemy1);
+                enemies.add(enemy2);
             } else {
-                System.out.println("three");
-                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), -16, 2)));
-                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                        + levelPieceLength * 1/2, ENEMYHEIGHT, 2)));
-                enemies.add(new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                        + levelPieceLength * 1/2, ENEMYHEIGHT, -7)));
+                enemies.add(enemy1);
+                enemies.add(enemy2);
+                enemies.add(enemy3);
             }            
         }
         return enemies;        

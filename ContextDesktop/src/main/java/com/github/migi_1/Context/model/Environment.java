@@ -20,6 +20,7 @@ import com.jme3.scene.Node;
  * of objects that can be added/removed.
  */
 public class Environment extends AbstractAppState {
+
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
@@ -113,4 +114,5 @@ public class Environment extends AbstractAppState {
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
+
 }

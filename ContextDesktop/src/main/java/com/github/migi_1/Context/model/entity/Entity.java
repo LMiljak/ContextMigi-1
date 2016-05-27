@@ -1,14 +1,17 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.jme3.collision.Collidable;
+import com.jme3.collision.CollisionResults;
+import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.scene.Spatial;
 
 /**
- * Represents an object that can be placed in an Environment. 
+ * Represents an object that can be placed in an Environment.
  *
  * @author Marcel
  *
  */
-public abstract class Entity implements IMovable {
+public abstract class Entity implements IMovable, Collidable {
 
     private Spatial model;
     /** Move behaviour of particular Entity. */
@@ -63,4 +66,12 @@ public abstract class Entity implements IMovable {
      * @return defaultModel
      */
     public abstract Spatial getDefaultModel();
+
+
+    @Override
+    public int collideWith(Collidable other, CollisionResults results)
+            throws UnsupportedCollisionException {
+        return model.collideWith(other, results);
+    }
+
 }

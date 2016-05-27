@@ -62,27 +62,7 @@ public final class InputHandler {
 
                 //Controls that only work with flycam.
                 if (main.getEnv().getFlyCamActive()) {
-                    switch (name) {
-                        case "forwards":
-                            forwards = keyPressed;
-                            break;
-                        case "backwards":
-                            back = keyPressed;
-                            break;
-                        case "left":
-                            left = keyPressed;
-                            break;
-                        case "right":
-                            right = keyPressed;
-                            break;
-                        case "up":
-                            up = keyPressed;
-                            break;
-                        case "down":
-                            down = keyPressed;
-                            break;
-                        default: //Do nothing when an unknown button is pressed.
-                    }
+                    checkMovements(name, keyPressed);
                 }
                 checkSteering(name, keyPressed);
             }
@@ -154,6 +134,37 @@ public final class InputHandler {
         }
         if (down) {
             main.getEnv().moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(-tpf * 8f));
+        }
+    }
+
+    /**
+     * Checks if the camera needs to move in a certain way.
+     * @param name the name of the button that is pressed,
+     *          as stated in the listeners.
+     * @param keyPressed whether or not the key is pressed (true)
+     *          or released (false).
+     */
+    private void checkMovements(String name, boolean keyPressed) {
+        switch (name) {
+            case "forwards":
+                forwards = keyPressed;
+                break;
+            case "backwards":
+                back = keyPressed;
+                break;
+            case "left":
+                left = keyPressed;
+                break;
+            case "right":
+                right = keyPressed;
+                break;
+            case "up":
+                up = keyPressed;
+                break;
+            case "down":
+                down = keyPressed;
+                break;
+            default: //Do nothing when an unknown button is pressed.
         }
     }
 

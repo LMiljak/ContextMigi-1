@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.github.migi_1.Context.server.ActiveServerState;
-import com.github.migi_1.Context.server.InactiveServerState;
 import com.jme3.network.Server;
 
 /**

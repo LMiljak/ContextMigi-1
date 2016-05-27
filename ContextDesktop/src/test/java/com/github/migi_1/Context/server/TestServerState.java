@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.migi_1.Context.server.ServerState;
 import com.jme3.network.Server;
 
 /**

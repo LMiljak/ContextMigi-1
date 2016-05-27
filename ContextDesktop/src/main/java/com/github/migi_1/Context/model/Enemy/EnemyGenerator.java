@@ -18,6 +18,9 @@ public class EnemyGenerator {
     private double lastLevelPiece;
     private float levelPieceWidth;
     private Vector3f commanderLocation;
+    
+    private int countL = 0;
+    private int countR = 0;
 
     public EnemyGenerator(Commander commander) {
         enemies = new LinkedList<Enemy>();
@@ -42,17 +45,25 @@ public class EnemyGenerator {
             Enemy enemy3 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
                     + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)), commander);
             
+            
             double random = Math.random();
-            if(random > 0.3 && random < 0.6){
-                enemies.add(enemy1);
+            if(random > 0.25 && random < 0.6){
+                enemies.add(enemy3);
+                countR++;
             } else if(random > 0.6 && random < 0.85) {
                 enemies.add(enemy1);
-                enemies.add(enemy2);
+                enemies.add(enemy3);
+                countL++;
+                countR++;
             } else {
                 enemies.add(enemy1);
                 enemies.add(enemy2);
                 enemies.add(enemy3);
+                countR++;
+                countL += 2;
             }            
+            System.out.println("Left: " + countL);
+            System.out.println("Right: " + countR);
         }
         return enemies;        
     }

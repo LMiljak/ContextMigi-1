@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.main;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -157,30 +157,58 @@ public final class InputHandler {
         }
     }
 
+    /**
+     * Returns if the forwards key is pressed.
+     * @return true when pressed.
+     */
     public boolean isForwards() {
         return forwards;
     }
 
+    /**
+     * Returns if the backwards key is pressed.
+     * @return true when pressed.
+     */
     public boolean isBack() {
         return back;
     }
 
+    /**
+     * Returns if the left key is pressed.
+     * @return true when pressed.
+     */
     public boolean isLeft() {
         return left;
     }
 
+    /**
+     * Returns if the right key is pressed.
+     * @return true when pressed.
+     */
     public boolean isRight() {
         return right;
     }
 
+    /**
+     * Returns if the up key is pressed.
+     * @return true when pressed.
+     */
     public boolean isUp() {
         return up;
     }
 
+    /**
+     * Returns if the down key is pressed.
+     * @return true when pressed.
+     */
     public boolean isDown() {
         return down;
     }
 
+    /**
+     * Returns the actionListener of the InputHandler.
+     * @return the actionListener.
+     */
     public ActionListener getActionListener() {
         return actionListener;
     }

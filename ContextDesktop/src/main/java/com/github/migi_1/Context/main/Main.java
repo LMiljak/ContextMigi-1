@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.main;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -34,11 +34,6 @@ public class Main extends VRApplication {
 
     private static AppSettings settings;
 
-    /**
-     * Movements of the flycam.
-     */
-    private boolean forwards, back, left, right, up, down;
-
     private ServerWrapper server;
 
 
@@ -55,7 +50,11 @@ public class Main extends VRApplication {
         main.start();
     }
 
-    public void setUpMain() {
+    /**
+     * Configuration for main.
+     * In this method the AppSettings and VRConfiguration are done.
+     */
+    private void setUpMain() {
         settings = new AppSettings(true);
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);

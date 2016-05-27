@@ -1,6 +1,6 @@
 package com.github.migi_1.Context.screens;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.Main;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;

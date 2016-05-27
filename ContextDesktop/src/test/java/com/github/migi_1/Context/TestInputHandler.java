@@ -12,6 +12,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.main.InputHandler;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.input.InputManager;
 import com.jme3.math.Quaternion;
@@ -37,10 +39,9 @@ public class TestInputHandler {
 
     /**
      * Setup for this test class.
-     * @throws Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         main = Mockito.mock(Main.class);
         inputManager = Mockito.mock(InputManager.class);
         envState = Mockito.mock(MainEnvironment.class);
@@ -70,6 +71,9 @@ public class TestInputHandler {
         Mockito.verify(inputManager, Mockito.times(10)).addListener(Mockito.any(), Mockito.anyString());
     }
 
+    /**
+     * Tests if the camera moves forwards correctly.
+     */
     @Test
     public void moveCamForwardsTest() {
         inputHandler.getActionListener().onAction("forwards", true, 0f);
@@ -78,6 +82,9 @@ public class TestInputHandler {
         Mockito.verify(envState).moveCam(Mockito.any());
     }
 
+    /**
+     * Tests if the camera moves backwards correctly.
+     */
     @Test
     public void moveCamBackwardsTest() {
         inputHandler.getActionListener().onAction("backwards", true, 0f);
@@ -86,6 +93,9 @@ public class TestInputHandler {
         Mockito.verify(envState).moveCam(Mockito.any());
     }
 
+    /**
+     * Tests if the camera moves left correctly.
+     */
     @Test
     public void moveCamLeftTest() {
         inputHandler.getActionListener().onAction("left", true, 0f);
@@ -94,6 +104,9 @@ public class TestInputHandler {
         Mockito.verify(envState).rotateCam(Mockito.any());
     }
 
+    /**
+     * Tests if the camera moves right correctly.
+     */
     @Test
     public void moveCamRightTest() {
         inputHandler.getActionListener().onAction("right", true, 0f);
@@ -102,6 +115,9 @@ public class TestInputHandler {
         Mockito.verify(envState).rotateCam(Mockito.any());
     }
 
+    /**
+     * Tests if the camera moves up correctly.
+     */
     @Test
     public void moveCamUpTest() {
         inputHandler.getActionListener().onAction("up", true, 0f);
@@ -110,6 +126,9 @@ public class TestInputHandler {
         Mockito.verify(envState).moveCam(Mockito.any());
     }
 
+    /**
+     * Tests if the camera moves down correctly.
+     */
     @Test
     public void moveCamDownTest() {
         inputHandler.getActionListener().onAction("down", true, 0f);
@@ -120,6 +139,9 @@ public class TestInputHandler {
 
     //The following tests test the action listener.
 
+    /**
+     * Test if the actionlistener correctly detects the forwards key press.
+     */
     @Test
     public void testForwards() {
         assertFalse(inputHandler.isForwards());
@@ -127,6 +149,9 @@ public class TestInputHandler {
         assertTrue(inputHandler.isForwards());
     }
 
+    /**
+     * Test if the actionlistener correctly detects the backwards key press.
+     */
     @Test
     public void testBackwards() {
         assertFalse(inputHandler.isBack());
@@ -134,6 +159,9 @@ public class TestInputHandler {
         assertTrue(inputHandler.isBack());
     }
 
+    /**
+     * Test if the actionlistener correctly detects the left key press.
+     */
     @Test
     public void testLeft() {
         assertFalse(inputHandler.isLeft());
@@ -141,6 +169,9 @@ public class TestInputHandler {
         assertTrue(inputHandler.isLeft());
     }
 
+    /**
+     * Test if the actionlistener correctly detects the right key press.
+     */
     @Test
     public void testRight() {
         assertFalse(inputHandler.isRight());
@@ -148,6 +179,9 @@ public class TestInputHandler {
         assertTrue(inputHandler.isRight());
     }
 
+    /**
+     * Test if the actionlistener correctly detects the up key press.
+     */
     @Test
     public void testUp() {
         assertFalse(inputHandler.isUp());
@@ -155,6 +189,9 @@ public class TestInputHandler {
         assertTrue(inputHandler.isUp());
     }
 
+    /**
+     * Test if the actionlistener correctly detects the down key press.
+     */
     @Test
     public void testDown() {
         assertFalse(inputHandler.isDown());
@@ -162,6 +199,10 @@ public class TestInputHandler {
         assertTrue(inputHandler.isDown());
     }
 
+    /**
+     * Test if the actionlistener correctly does nothing
+     *  when an unused key is pressed.
+     */
     @Test
     public void testUnknownButton() {
         assertFalse(inputHandler.isDown());
@@ -169,6 +210,10 @@ public class TestInputHandler {
         assertFalse(inputHandler.isDown());
     }
 
+    /**
+     * Tests if the actionListener ignores movement
+     * for the flycam when it is not active.
+     */
     @Test
     public void testNoFlyCamButtonPress() {
         //Overwrite method stub for this method only.
@@ -178,6 +223,9 @@ public class TestInputHandler {
         assertFalse(inputHandler.isDown());
     }
 
+    /**
+     * Test if the actionlistener correctly detects the exit key press.
+     */
     @Test
     public void testExit() {
         Mockito.verify(main, Mockito.never()).destroy();
@@ -187,6 +235,9 @@ public class TestInputHandler {
         Mockito.verify(main).destroy();
     }
 
+    /**
+     * Test if the actionlistener correctly detects the cam_switch key press.
+     */
     @Test
     public void testCamSwitch() {
         Mockito.verify(envState, Mockito.never()).swapCamera();

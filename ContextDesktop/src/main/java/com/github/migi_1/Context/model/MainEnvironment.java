@@ -1,6 +1,9 @@
 package com.github.migi_1.Context.model;
 
+import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.ServerWrapper;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
@@ -59,7 +62,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -78,6 +81,8 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
+        
+        new CarrierAssigner(platform, ServerWrapper.getInstance());
     }
     
     @Override

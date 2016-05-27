@@ -53,10 +53,16 @@ public class ClientWrapper {
 		if (client == null) {
 			client = Network.connectToServer(host, PORT);
 			client.start();
+                        
+                        initMessageListeners();
 		} else {
 			throw new IllegalStateException("Client has already been started");
 		}
 	}
+        
+        private void initMessageListeners() {
+            client.addMessageListener(PositionHolder.getInstance());
+        }
 	
 	/**
 	 * Closes the Client.

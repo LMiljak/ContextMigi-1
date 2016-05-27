@@ -1,6 +1,9 @@
 package com.github.migi_1.Context.model.entity;
 
+import java.util.HashMap;
+
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -13,6 +16,8 @@ public class Platform extends Entity {
 
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
+
+    private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
     
     /**
      * constructor of the platform.
@@ -20,11 +25,29 @@ public class Platform extends Entity {
      */
     public Platform(Vector3f startLocation) {
         super();
+        
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
     }
 
+    public void addCarrier(Carrier carrier) {
+    	carriers.put(carrier.getPosition(), carrier);
+    }
+    
+    public Carrier getCarrier(PlatformPosition position) {
+    	return carriers.get(position);
+    }
+    
+    public boolean isFull() {
+    	for (PlatformPosition position : PlatformPosition.values()) {
+    		if (carriers.get(position) == null) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
 
     @Override
     public Spatial getDefaultModel() {

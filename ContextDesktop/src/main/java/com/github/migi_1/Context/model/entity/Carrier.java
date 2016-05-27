@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
@@ -22,20 +23,21 @@ public class Carrier extends Entity implements Collidable, IKillable {
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     
     private int health;
-    private int id; //Represents the location of the carrier under the platform.
+    private PlatformPosition position;
 
     /**
      * constructor of the carrier.
      * @param startLocation location where the carrier will be initialized
-     * @param id to keep the 4 carriers apart
+     * @param position position of the carrier under the platform.
      */
-    public Carrier(Vector3f startLocation, int id) {
+    public Carrier(Vector3f startLocation, PlatformPosition position) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
         health = 2;
-        this.id = id;
+        
+        this.position = position;
     }
 
 
@@ -63,21 +65,8 @@ public class Carrier extends Entity implements Collidable, IKillable {
         health = h;
     }
 
-    /**
-     * Gets the id that represents the location of the Carrier under the platform.
-     * 
-     * @return 
-     * 		the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
+    public PlatformPosition getPosition() {
+        return position;
     }
 
     @Override

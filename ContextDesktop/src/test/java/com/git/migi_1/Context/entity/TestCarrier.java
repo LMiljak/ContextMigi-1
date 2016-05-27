@@ -13,7 +13,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
@@ -50,7 +52,7 @@ public class TestCarrier extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
+        testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT);
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCarrier);
@@ -95,20 +97,11 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Tests the getId method.
+     * Tests the getPosition method.
      */
     @Test
-    public void getIdTest() {
-        assertEquals(testCarrier.getId(), 0);
-    }
-
-    /**
-     * Tests the setId method.
-     */
-    @Test
-    public void setIdTest() {
-        testCarrier.setId(10);
-        assertEquals(testCarrier.getId(), 10);
+    public void getPositionTest() {
+        assertEquals(testCarrier.getPosition(), PlatformPosition.BACKLEFT);
     }
 
 

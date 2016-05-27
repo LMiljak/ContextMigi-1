@@ -1,5 +1,6 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.server;
 
+import com.github.migi_1.Context.Main;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 
@@ -12,16 +13,11 @@ public class AccelerometerMessageHandler extends MessageListener<AccelerometerMe
     
 	/**
 	 * Creates and registers a new AccelerometerMessageHandler.
-	 * Storing this instance somewhere is useless, as it gets registered
-	 * automatically. So all that needs to be done is "new AccelerometerMessageHandler();"
-	 * and you're all set.
 	 * 
 	 * @param main
 	 * 		The instance of the application.
 	 */
-	@SuppressWarnings("unchecked")
 	public AccelerometerMessageHandler(Main main) {
-		ServerWrapper.getInstance().getServer().addMessageListener(this);
 		this.main = main;
 	}
 

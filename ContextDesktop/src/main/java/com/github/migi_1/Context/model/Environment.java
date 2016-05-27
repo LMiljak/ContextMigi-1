@@ -20,73 +20,72 @@ import com.jme3.scene.Node;
  * of objects that can be added/removed.
  */
 public class Environment extends AbstractAppState {
-
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
-	
+
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-		
+
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-		
+
 		this.assetManager.registerLocator("assets", FileLocator.class);
 	}
-	
+
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		
+
 		moveMovables();
 	}
-	
+
 	/**
 	 * Adds a Displayable object to the world.
 	 * Note: Do not add Entities using this method.
-	 * 
+	 *
 	 * @param displayable
 	 * 		The displayable to add.
 	 */
 	public void addDisplayable(IDisplayable displayable) {
 		rootNode.attachChild(displayable.getModel());
 	}
-	
+
 	/**
 	 * Removes a Displayable object from the world.
-	 * 
+	 *
 	 * @param displayable
 	 * 		The displayable to remove.
 	 */
 	public void removeDisplayable(IDisplayable displayable) {
 		rootNode.detachChild(displayable.getModel());
 	}
-	
+
 	/**
 	 * Gets the root node of the application.
-	 * 
+	 *
 	 * @return
 	 * 		The root node of the application.
 	 */
 	public Node getRootNode() {
 		return rootNode;
 	}
-	
+
 	/**
 	 * Gets the asset manager.
-	 * 
+	 *
 	 * @return
 	 * 		The asset manager.
 	 */
 	public AssetManager getAssetManager() {
 		return assetManager;
 	}
-	
+
 	/**
 	 * Adds an Entity to the world.
-	 * 
+	 *
 	 * @param entity
 	 * 		The entity to add.
 	 */
@@ -94,10 +93,10 @@ public class Environment extends AbstractAppState {
 		addDisplayable(entity);
 		movables.add(entity);
 	}
-	
+
 	/**
 	 * Removes an Entity from the world.
-	 * 
+	 *
 	 * @param entity
 	 * 		The entity to remove.
 	 */
@@ -105,7 +104,7 @@ public class Environment extends AbstractAppState {
 		removeDisplayable(entity);
 		movables.remove(entity);
 	}
-	
+
 	/**
 	 * Moves all Movable objects in the world using the MoveBehaviours.
 	 */

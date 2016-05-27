@@ -79,11 +79,11 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
     }
-    
+
     @Override
     public void update(float tpf) {
     	super.update(tpf);
-    	
+
     	updateTestWorld();
     }
 
@@ -136,6 +136,10 @@ public class MainEnvironment extends Environment {
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
+        }
+
+        for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
+            addDisplayable(path);
         }
 
         addEntity(platform);
@@ -205,14 +209,26 @@ public class MainEnvironment extends Environment {
      * Updates the test world.
      */
     private void updateTestWorld() {
+        Vector3f loc = commander.getModel().getLocalTranslation();
 
-        //delete level piece when it too far back
-        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(commander.getModel().getLocalTranslation())) {
-        	removeDisplayable(levelPiece);
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
+            addDisplayable(levelPiece);
         }
-        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
-        	addDisplayable(levelPiece);
+
+        //delete level piece when it is too far back
+        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
+            removeDisplayable(levelPiece);
         }
+
+        for (Path path : levelGenerator.getPathPieces(loc)) {
+            addDisplayable(path);
+        }
+
+        //delete path when it is too far back
+        for (Path path : levelGenerator.deletePathPieces(loc)) {
+            removeDisplayable(path);
+        }
+
     }
 
     /**

@@ -108,16 +108,16 @@ public class HelloActivity extends AndroidHarness {
         
         /**
          * Makes sure buttonpresses are logged.
-         * @param b Button
-         * @param s String
+         * @param butt Button
+         * @param str String
          */
-        public void setButtons(Button b, final String s) {
+        public void setButtons(Button butt, final String str) {
 
-            b.setOnClickListener(new OnClickListener() {
+            butt.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Log.d("buttonpress", s);
+                Log.d("buttonpress", str);
             }
             });
         }

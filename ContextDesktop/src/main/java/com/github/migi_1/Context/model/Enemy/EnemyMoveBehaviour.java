@@ -19,11 +19,11 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     }
 
     public void update(Vector3f localTranslation, Vector3f commanderLocation) {
-        if (commanderLocation.getX() - localTranslation.getX() < 10) {
+        if (commanderLocation.getX() - localTranslation.getX() < 30) {
             if (commanderLocation.getX() > localTranslation.getX()) {
-                localTranslation.setX(localTranslation.x + speed);
+                moveVector.setX(speed);
             } else {
-                localTranslation.setX(localTranslation.x - speed);
+                moveVector.setX(-speed);
             }
         }
 

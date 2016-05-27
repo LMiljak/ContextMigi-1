@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/MrCrime/ContextMigi-1.svg?branch=master)](https://travis-ci.org/MrCrime/ContextMigi-1)
+[![Coverage Status](https://coveralls.io/repos/github/MrCrime/ContextMigi-1/badge.svg?branch=master)](https://coveralls.io/github/MrCrime/ContextMigi-1?branch=master)
 
 
 # ContextMigi-1

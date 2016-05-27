@@ -18,6 +18,6 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
       }
 
     public void update(Vector3f localTranslation) {
-  
+        
     }
 }

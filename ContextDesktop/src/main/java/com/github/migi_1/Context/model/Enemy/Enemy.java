@@ -11,7 +11,6 @@ public class Enemy extends Entity implements IKillable {
     
     private static final String PATH_NAME = "Models/ninja.j3o";
     private EnemyMoveBehaviour moveBehaviour;
-    private Spatial model;
     private int health;
     
     public Enemy (Vector3f startLocation) {
@@ -44,7 +43,7 @@ public class Enemy extends Entity implements IKillable {
     
     @Override
     public MoveBehaviour getMoveBehaviour() {
-        moveBehaviour.update(model.getLocalTranslation());
+        moveBehaviour.update(getModel().getLocalTranslation());
         return moveBehaviour;
         
     }

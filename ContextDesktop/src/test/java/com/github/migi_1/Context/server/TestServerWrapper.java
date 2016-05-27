@@ -141,6 +141,12 @@ public class TestServerWrapper {
 		verifyStartsAndCloses(2, 2);
 	}
 	
+	/**
+	 * Tests the createServer method by checking that it fails after 10 failing
+	 * attempts of creating the server.
+	 * 
+	 * @throws IOException 
+	 */
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testFailedToCreateServer() throws IOException {
@@ -152,8 +158,8 @@ public class TestServerWrapper {
 			new ServerWrapper();
 			fail();
 		} catch (IOException e) {
-			PowerMockito.verifyStatic(Mockito.times(restartAttempts + 1)); // + 1`because we create another ServerWrapper in
-																		  //the setup method.
+			PowerMockito.verifyStatic(Mockito.times(restartAttempts + 1)); // + 1 because we create another 
+			//ServerWrapper in the setup method.
 			Network.createServer(Mockito.anyInt());
 		}
 	}

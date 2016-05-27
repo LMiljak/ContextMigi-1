@@ -1,7 +1,5 @@
 package com.github.migi_1.Context;
 
-import jmevr.app.VRApplication;
-
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
@@ -42,7 +40,7 @@ public class Main extends VRApplication {
      * Movements of the flycam.
      */
     private boolean forwards, back, left, right, up, down;
-    
+
     private ServerWrapper server;
 
     /**
@@ -67,14 +65,14 @@ public class Main extends VRApplication {
 
     /**
      * Gets the instance of this Application.
-     * 
+     *
      * @return
      * 		The instance of this Application.
      */
     public static Main getMain() {
     	return main;
     }
-    
+
     /**
      * First method that is called when the application launches.
      * Sets the input, initializes all states and loads the main menu.
@@ -87,7 +85,7 @@ public class Main extends VRApplication {
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
-        
+
         launchServer();
     }
 
@@ -326,10 +324,10 @@ public class Main extends VRApplication {
     public static Main getInstance() {
         return main;
     }
-    
+
     /**
      * Gets the server on which this application is running.
-     * 
+     *
      * @return
      * 		The server on which this server is running.
      */

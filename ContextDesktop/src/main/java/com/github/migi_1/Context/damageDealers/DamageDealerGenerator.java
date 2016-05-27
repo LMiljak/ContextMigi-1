@@ -31,7 +31,7 @@ public class DamageDealerGenerator {
     /**
      * Private constructor.
      * Instantiate local variables.
-     * @param environment The environment app state.
+     * @param commander The Commander object.
      */
     public DamageDealerGenerator(Commander commander) {
         this.location = commander.getModel().getLocalTranslation();
@@ -58,11 +58,16 @@ public class DamageDealerGenerator {
 
     }
 
+    /**
+     * Remove a damageDealer after collision.
+     * @return DamageDealer that is deleted
+     */
     public DamageDealer removeDamageDealer() {
         float distance = Float.MAX_VALUE;
         DamageDealer closest = damageDealerList.get(0);
-        for(DamageDealer damageDealer : damageDealerList) {
-            float check = damageDealer.getModel().getLocalTranslation().distance(commander.getModel().getLocalTranslation());
+        for (DamageDealer damageDealer : damageDealerList) {
+            Vector3f checkLocation = damageDealer.getModel().getLocalTranslation();
+            float check = checkLocation.distance(commander.getModel().getLocalTranslation());
             if (check < distance) {
                 distance = check;
                 closest = damageDealer;

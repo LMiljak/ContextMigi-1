@@ -3,7 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.IMovable;

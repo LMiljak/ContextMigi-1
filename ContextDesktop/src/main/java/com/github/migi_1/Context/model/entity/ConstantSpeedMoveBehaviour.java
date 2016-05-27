@@ -23,6 +23,10 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 		this.decay = 1.0f;
 	}
 
+	/**
+	 * Returns the move vector.
+	 * @return the moveVector.
+	 */
     @Override
     public Vector3f getMoveVector() {
         updateMoveVector();

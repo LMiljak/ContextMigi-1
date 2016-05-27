@@ -20,7 +20,7 @@ public class TestVRConfigurer {
     }
 
     @Test
-    public void test() {
+    public void configureVRTest() {
         VRConfigurer.configureVR(main);
         Mockito.verify(main, Mockito.times(8)).preconfigureVRApp(Mockito.any(), Mockito.anyBoolean());
         Mockito.verify(main).preconfigureFrustrumNearFar(Mockito.anyFloat(), Mockito.anyFloat());

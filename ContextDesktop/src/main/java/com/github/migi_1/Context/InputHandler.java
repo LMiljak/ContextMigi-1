@@ -21,6 +21,8 @@ public final class InputHandler {
                                KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT};
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
+    private ActionListener actionListener;
+    private InputManager inputManager;
 
     /**
      * Constructor for the InputHandler.
@@ -47,13 +49,13 @@ public final class InputHandler {
      * @param main the Main menu the inputs have to be configured for.
      */
     public void initInputs(Main main) {
-        InputManager inputManager = main.getInputManager();
-        addMappings(inputManager);
-        ActionListener acl = new ActionListener() {
+        inputManager = main.getInputManager();
+        addMappings();
+        actionListener = new ActionListener() {
             @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
                 if (name.equals("exit") && keyPressed) {
-                    System.exit(0);
+                    main.destroy();
                 } else if (name.equals("cam_switch") && keyPressed) {
                     main.getEnv().swapCamera();
                 }
@@ -85,14 +87,14 @@ public final class InputHandler {
                 checkSteering(name, keyPressed);
             }
         };
-        addListeners(inputManager, acl);
+        addListeners();
     }
 
     /**
      * Adds all the mappings for the different function names to the different keys.
      * @param inputManager the inputmanager for which these keymappings are set.
      */
-    private void addMappings(InputManager inputManager) {
+    private void addMappings() {
         for (int i = 0; i < actions.length; i++) {
             inputManager.addMapping(actions[i], new KeyTrigger(keyInputs[i]));
         }
@@ -103,9 +105,9 @@ public final class InputHandler {
      * @param inputManager The input manager to which these listeners are added.
      * @param acl The actionlistener that listens to the key-input events.
      */
-    private void addListeners(InputManager inputManager, ActionListener acl) {
+    private void addListeners() {
         for (String action : actions) {
-            inputManager.addListener(acl, action);
+            inputManager.addListener(actionListener, action);
         }
     }
 
@@ -153,5 +155,33 @@ public final class InputHandler {
         if (down) {
             main.getEnv().moveCam(VRApplication.getFinalObserverRotation().getRotationColumn(1).mult(-tpf * 8f));
         }
+    }
+
+    public boolean isForwards() {
+        return forwards;
+    }
+
+    public boolean isBack() {
+        return back;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public ActionListener getActionListener() {
+        return actionListener;
     }
 }

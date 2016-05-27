@@ -252,6 +252,11 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
         	addDisplayable(levelPiece);
         }
+
+        //update the damagedealer
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            addDisplayable(damageDealer);
+        }
     }
 
     /**

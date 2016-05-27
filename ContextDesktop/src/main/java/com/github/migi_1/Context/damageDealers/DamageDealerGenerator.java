@@ -29,7 +29,6 @@ public class DamageDealerGenerator {
     private Commander commander;
 
     /**
-     * Private constructor.
      * Instantiate local variables.
      * @param commander The Commander object.
      */

@@ -15,8 +15,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.Main;
-import com.github.migi_1.Context.ServerWrapper;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetKey;
@@ -36,7 +36,7 @@ import com.jme3.scene.Spatial;
  * @author Nils
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class, ServerWrapper.class})
+@PrepareForTest({ProjectAssetManager.class})
 public class TestMainEnvironment {
 
     private MainEnvironment env;
@@ -86,7 +86,7 @@ public class TestMainEnvironment {
     
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
-        Mockito.when(ServerWrapper.getInstance()).thenReturn(wrapper);
+        Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
     }
 

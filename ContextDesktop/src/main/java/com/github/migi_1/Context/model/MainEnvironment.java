@@ -1,7 +1,6 @@
 package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.Main;
-import com.github.migi_1.Context.ServerWrapper;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
@@ -82,7 +81,7 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
         
-        new CarrierAssigner(platform, ServerWrapper.getInstance());
+        new CarrierAssigner(platform, ((Main) app).getServer());
     }
     
     @Override

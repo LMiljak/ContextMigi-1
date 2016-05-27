@@ -25,6 +25,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 
     @Override
     public Vector3f getMoveVector() {
+        updateMoveVector();
         return moveVector.mult(decay);
     }
 
@@ -32,6 +33,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
      * Collision has taken place.
      */
     public void collided() {
+
         decay = 0.0f;
     }
 
@@ -40,7 +42,6 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
      */
     @Override
     public void updateMoveVector() {
-
 
         // regain speed
         if (decay < 1.0f) {

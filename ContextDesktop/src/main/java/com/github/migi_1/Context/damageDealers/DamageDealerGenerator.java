@@ -1,9 +1,9 @@
 package com.github.migi_1.Context.damageDealers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
+import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 
 /**
  * This class handles how often and what types of enemies spawn.
@@ -23,36 +23,53 @@ public class DamageDealerGenerator {
     /** Abstract factory. **/
     private DamageDealerFactory damageDealerFactory;
 
-    /** HashMap of all geometry pieces. **/
-    private HashMap<Geometry, DamageDealer> obstacleList;
+    /** ArrayList of all geometry pieces. **/
+    private ArrayList<DamageDealer> damageDealerList;
+
+    private Commander commander;
 
     /**
      * Private constructor.
      * Instantiate local variables.
      * @param environment The environment app state.
      */
-    public DamageDealerGenerator(Vector3f commanderLocation) {
-        this.location = commanderLocation;
+    public DamageDealerGenerator(Commander commander) {
+        this.location = commander.getModel().getLocalTranslation();
+        this.commander = commander;
         this.damageDealerFactory = new StaticObstacleFactory();
-        this.obstacleList = new HashMap<Geometry, DamageDealer>();
+        this.damageDealerList = new ArrayList<DamageDealer>();
     }
 
     /**
      * Create list of damage dealers that are to be spawned in the environment.
      * @return Map with all DamageDealer objects, with as key value their Geometry in the environment.
      */
-    public HashMap<Geometry, DamageDealer> getObstacles() {
-        while (obstacleList.size() < NUMBER_OBSTACLES) {
+    public ArrayList<DamageDealer> getObstacles() {
+        while (damageDealerList.size() < NUMBER_OBSTACLES) {
             DamageDealer obs = damageDealerFactory.produce();
             obs.scale(0.3f);
             location = location.add(new Vector3f(-50.f, 0, 0.0f));
 
 
             obs.move(location);
-            obstacleList.put((Geometry) obs.getModel(), obs);
+            damageDealerList.add(obs);
         }
-        return obstacleList;
+        return damageDealerList;
 
+    }
+
+    public DamageDealer removeDamageDealer() {
+        float distance = Float.MAX_VALUE;
+        DamageDealer closest = damageDealerList.get(0);
+        for(DamageDealer damageDealer : damageDealerList) {
+            float check = damageDealer.getModel().getLocalTranslation().distance(commander.getModel().getLocalTranslation());
+            if (check < distance) {
+                distance = check;
+                closest = damageDealer;
+            }
+        }
+        damageDealerList.remove(closest);
+        return closest;
     }
 
 

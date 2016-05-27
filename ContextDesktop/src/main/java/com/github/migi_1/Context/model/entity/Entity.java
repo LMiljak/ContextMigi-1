@@ -67,6 +67,7 @@ public abstract class Entity implements IMovable, Collidable {
      */
     public abstract Spatial getDefaultModel();
 
+
     @Override
     public int collideWith(Collidable other, CollisionResults results)
             throws UnsupportedCollisionException {

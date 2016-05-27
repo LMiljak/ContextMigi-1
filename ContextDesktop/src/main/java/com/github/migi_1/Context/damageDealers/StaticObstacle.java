@@ -4,9 +4,6 @@ import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.model.entity.StaticMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResults;
-import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -53,14 +50,6 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
     @Override
     public void onKilled() {
 
-    }
-
-    @Override
-    public int collideWith(Collidable arg0, CollisionResults arg1)
-            throws UnsupportedCollisionException {
-
-        System.out.println("hoi");
-        return getModel().collideWith(arg0, arg1);
     }
 
     @Override

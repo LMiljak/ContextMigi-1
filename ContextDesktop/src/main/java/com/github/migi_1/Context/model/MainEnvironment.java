@@ -78,7 +78,6 @@ public class MainEnvironment extends Environment {
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
 
-        damageDealerGenerator = new DamageDealerGenerator(COMMANDER_LOCATION);
 
         results = new CollisionResults();
 
@@ -104,14 +103,19 @@ public class MainEnvironment extends Environment {
     }
 
     private void checkCollision() {
+
+        //add collision check for all obstacles
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+        }
+
+        //if a collision takes place, remove the colliding object and slow down
         if (results.size() > 0) {
-            getRootNode().detachChild(results.getClosestCollision().getGeometry());
-            damageDealerGenerator.getObstacles().remove(results.getClosestCollision().getGeometry());
+            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
             results = new CollisionResults();
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
         }
-
     }
 
     /**
@@ -161,12 +165,14 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
 
 
+        damageDealerGenerator = new DamageDealerGenerator(commander);
+
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
 
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles().values()) {
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
             damageDealer.collideWith(platform.getModel().getWorldBound(), results);
             addDisplayable(damageDealer);
         }

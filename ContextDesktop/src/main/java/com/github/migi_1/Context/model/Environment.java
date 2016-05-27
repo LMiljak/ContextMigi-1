@@ -46,10 +46,6 @@ public class Environment extends AbstractAppState {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f CARRIER1_LOCATION = new Vector3f(21, -20, 0);
-    private static final Vector3f CARRIER2_LOCATION = new Vector3f(29, -20, 0f);
-    private static final Vector3f CARRIER3_LOCATION = new Vector3f(21, -20, -4f);
-    private static final Vector3f CARRIER4_LOCATION = new Vector3f(29, -20, -4f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 

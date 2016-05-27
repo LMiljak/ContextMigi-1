@@ -148,7 +148,6 @@ public class Main extends VRApplication {
 
              @Override
              public void onAction(String name, boolean keyPressed, float tpf) {
-//                 System.out.println(environmentState.getCamera().toString());
                  if (name.equals("exit") && keyPressed) {
                      System.exit(0);
                  } else if (name.equals("cam_switch") && keyPressed) {

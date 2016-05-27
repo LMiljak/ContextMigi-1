@@ -212,7 +212,6 @@ public class MainEnvironment extends Environment {
         Vector3f loc = commander.getModel().getLocalTranslation();
 
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
-            System.out.println("SPAWN LEVEL" + levelPiece.getModel().getLocalTranslation());
             addDisplayable(levelPiece);
         }
 
@@ -222,7 +221,6 @@ public class MainEnvironment extends Environment {
         }
 
         for (Path path : levelGenerator.getPathPieces(loc)) {
-            System.out.println("SPAWN PATH" + path.getModel().getLocalTranslation());
             addDisplayable(path);
         }
 

@@ -15,6 +15,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.ServerWrapper;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
@@ -24,17 +25,18 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
- * Test class that tests the Environment class.
+ * Test class that tests the MainEnvironment class.
  * @author Nils
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class})
+@PrepareForTest({ProjectAssetManager.class, ServerWrapper.class})
 public class TestMainEnvironment {
 
     private MainEnvironment env;
@@ -53,7 +55,8 @@ public class TestMainEnvironment {
     /**
      * This method starts every time a new test case starts.
      */
-    @Before
+    @SuppressWarnings("unchecked")
+	@Before
     public void setUp() {
         env = PowerMockito.spy(new MainEnvironment());
 
@@ -80,6 +83,11 @@ public class TestMainEnvironment {
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));
+    
+        ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
+        PowerMockito.mockStatic(ServerWrapper.class);
+        Mockito.when(ServerWrapper.getInstance()).thenReturn(wrapper);
+        Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
     }
 
     /**

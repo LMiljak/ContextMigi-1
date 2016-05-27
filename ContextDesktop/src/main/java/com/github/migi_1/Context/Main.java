@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.server.ClientFinder;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
@@ -33,6 +35,14 @@ public class Main extends VRApplication {
     private static AppSettings settings;
 
     /**
+     * Movements of the flycam.
+     */
+    private boolean forwards, back, left, right, up, down;
+
+    private ServerWrapper server;
+
+
+    /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
      *
@@ -57,6 +67,16 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Gets the instance of this Application.
+     *
+     * @return
+     * 		The instance of this Application.
+     */
+    public static Main getMain() {
+    	return main;
+    }
+
+    /**
      * First method that is called when the application launches.
      * Sets the input, initializes all states and loads the main menu.
      */
@@ -69,21 +89,20 @@ public class Main extends VRApplication {
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
-        startServer();
+
+        launchServer();
     }
 
     /**
-     * Starts the server and allows clients to connect to it.
+     * Creates, initialises and starts the server.
      */
-    private void startServer() {
+    private void launchServer() {
     	try {
-        	ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(1));
-			ServerWrapper.getInstance().startServer();
-			new AccelerometerMessageHandler(this);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			this.server = new ServerWrapper();
+			ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(10));
+			server.startServer();
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.stop();
 		}
     }
 
@@ -155,5 +174,14 @@ public class Main extends VRApplication {
      */
     public AppSettings getSettings() {
         return settings;
+    }
+    /**
+     * Gets the server on which this application is running.
+     *
+     * @return
+     * 		The server on which this server is running.
+     */
+    public ServerWrapper getServer() {
+    	return server;
     }
 }

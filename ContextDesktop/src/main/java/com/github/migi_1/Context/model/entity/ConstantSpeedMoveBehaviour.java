@@ -10,6 +10,8 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 
 	private Vector3f moveVector;
 
+	private float decay;
+
 	/**
 	 * Constructor for ConstantSpeedMoveBehaviour.
 	 *
@@ -18,6 +20,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 	 */
 	public ConstantSpeedMoveBehaviour(Vector3f moveVector) {
 		this.moveVector = moveVector;
+		this.decay = 1.0f;
 	}
 
 	/**
@@ -26,6 +29,44 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 	 */
     @Override
     public Vector3f getMoveVector() {
-        return moveVector;
+        updateMoveVector();
+        return moveVector.mult(decay);
+    }
+
+    /**
+     * Collision has taken place.
+     */
+    public void collided() {
+
+        decay = 0.0f;
+    }
+
+    /**
+     * MoveVector is updated.
+     */
+    @Override
+    public void updateMoveVector() {
+
+        // regain speed
+        if (decay < 1.0f) {
+            decay = decay + 0.01f;
+        }
+
+    }
+
+    /**
+     * Return the decay term.
+     * @return decay
+     */
+    public float getDecay() {
+        return decay;
+    }
+
+    /**
+     * Set the decay term.
+     * @param decay Term to set
+     */
+    public void setDecay(float decay) {
+        this.decay = decay;
     }
 }

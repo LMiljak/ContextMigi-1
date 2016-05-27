@@ -30,6 +30,8 @@ public class Main extends VRApplication {
 
     private InputHandler inputHandler;
 
+    private static AppSettings settings;
+
     /**
      * main function of the appication, sets some meta-parameters of the application
      * and starts it.
@@ -39,12 +41,12 @@ public class Main extends VRApplication {
      */
     public static void main(String[] args) {
         main = new Main();
-        setUpMain();
+        main.setUpMain();
         main.start();
     }
 
-    private static void setUpMain() {
-        AppSettings settings = new AppSettings(true);
+    public void setUpMain() {
+        settings = new AppSettings(true);
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
@@ -145,5 +147,13 @@ public class Main extends VRApplication {
      */
     public static Main getInstance() {
         return main;
+    }
+
+    /**
+     * Returns the settings of the main menu.
+     * Used in testing.
+     */
+    public AppSettings getSettings() {
+        return settings;
     }
 }

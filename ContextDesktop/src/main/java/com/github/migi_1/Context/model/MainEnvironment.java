@@ -138,10 +138,10 @@ public class MainEnvironment extends Environment {
     private void initSpatials() {
         
         enemies = new LinkedList<Enemy>();
-        levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        enemyGenerator = new EnemyGenerator();
+        levelGenerator = new LevelGenerator(WORLD_LOCATION);        
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
+        enemyGenerator = new EnemyGenerator(commander);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -226,12 +226,8 @@ public class MainEnvironment extends Environment {
     }
     
     private void updateEnemies() {
-        for(Enemy enemy : enemyGenerator.generateEnemies(commander.getModel().getLocalTranslation())) {
-            getRootNode().attachChild(enemy.getModel());
-            enemies.add(enemy);
-        }
-        for(Enemy enemy : enemies) {
-            enemy.move(enemy.getMoveBehaviour(commander.getModel().getLocalTranslation()).getMoveVector());
+        for(Enemy enemy : enemyGenerator.generateEnemies()) {
+            addEntity(enemy);
         }
         
     }

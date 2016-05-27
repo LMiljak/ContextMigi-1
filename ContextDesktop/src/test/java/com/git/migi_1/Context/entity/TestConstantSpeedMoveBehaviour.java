@@ -49,6 +49,9 @@ public class TestConstantSpeedMoveBehaviour {
         assertTrue(Math.abs(testMoveBehaviour.getDecay()) < 0.01);
     }
 
+    /**
+     * Test the updateMoveVector method.
+     */
     @Test
     public void updateMoveVectorTest() {
         testMoveBehaviour.setDecay(0.4f);

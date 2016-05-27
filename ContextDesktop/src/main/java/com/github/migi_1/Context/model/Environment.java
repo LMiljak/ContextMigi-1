@@ -21,7 +21,6 @@ import com.jme3.scene.Node;
  */
 public class Environment extends AbstractAppState {
 
-
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
@@ -106,7 +105,6 @@ public class Environment extends AbstractAppState {
 		removeDisplayable(entity);
 		movables.remove(entity);
 	}
-
 
 	/**
 	 * Moves all Movable objects in the world using the MoveBehaviours.

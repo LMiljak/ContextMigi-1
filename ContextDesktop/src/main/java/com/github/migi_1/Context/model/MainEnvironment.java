@@ -176,6 +176,9 @@ public class MainEnvironment extends Environment {
             damageDealer.collideWith(platform.getModel().getWorldBound(), results);
             addDisplayable(damageDealer);
         }
+        for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
+            addDisplayable(path);
+        }
 
         addEntity(platform);
         addEntity(commander);
@@ -244,19 +247,31 @@ public class MainEnvironment extends Environment {
      * Updates the test world.
      */
     private void updateTestWorld() {
+        Vector3f loc = commander.getModel().getLocalTranslation();
 
-        //delete level piece when it too far back
-        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(commander.getModel().getLocalTranslation())) {
-        	removeDisplayable(levelPiece);
-        }
-        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
-        	addDisplayable(levelPiece);
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
+            addDisplayable(levelPiece);
         }
 
-        //update the damagedealer
+        //delete level piece when it is too far back
+        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
+            removeDisplayable(levelPiece);
+        }
+
+        //update the damagedealers
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
             addDisplayable(damageDealer);
         }
+
+        for (Path path : levelGenerator.getPathPieces(loc)) {
+            addDisplayable(path);
+        }
+
+        //delete path when it is too far back
+        for (Path path : levelGenerator.deletePathPieces(loc)) {
+            removeDisplayable(path);
+        }
+
     }
 
     /**

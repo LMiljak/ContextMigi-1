@@ -17,8 +17,10 @@ public class LevelGenerator {
     private static final int LEVEL_PIECES = 5;
 
     private LinkedList<LevelPiece> levelPieces;
+    private LinkedList<Path> pathPieces;
 
     private Vector3f locationNextPiece;
+    private Vector3f locationNextPath;
 
     /**
      * Constructor of the levelGenerator.
@@ -26,7 +28,26 @@ public class LevelGenerator {
      */
     public LevelGenerator(Vector3f locationNextPiece) {
        levelPieces = new LinkedList<LevelPiece>();
+       pathPieces = new LinkedList<Path>();
        this.locationNextPiece = locationNextPiece;
+       this.locationNextPath = locationNextPiece.clone();
+    }
+
+    /**
+     * Returns the levelpieces to add and which location to place them at.
+     * @param commanderLocation to check if new pieces need to be added.
+     * @return the list of pieces to be added.
+     */
+    public LinkedList<LevelPiece> getLevelPieces(Vector3f commanderLocation) {
+        while (levelPieces.size() < LEVEL_PIECES) {
+            LevelPiece levelPiece = new LevelPiece();
+            levelPiece.move(locationNextPiece);
+            levelPieces.add(levelPiece);
+            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
+            //shift orientation to where the next level piece should spawn
+            locationNextPiece.x -= 2 * bb.getXExtent() - 2.0f;
+        }
+        return levelPieces;
     }
 
     /**
@@ -64,16 +85,46 @@ public class LevelGenerator {
      * @param commanderLocation to check if new pieces need to be added.
      * @return the list of pieces to be added.
      */
-    public LinkedList<LevelPiece> getLevelPieces(Vector3f commanderLocation) {
-        while (levelPieces.size() < LEVEL_PIECES) {
-            LevelPiece levelPiece = new LevelPiece();
-            levelPiece.move(locationNextPiece);
-            levelPieces.add(levelPiece);
-            BoundingBox bb = (BoundingBox) levelPiece.getModel().getWorldBound();
+    public LinkedList<Path> getPathPieces(Vector3f commanderLocation) {
+        while (pathPieces.size() < LEVEL_PIECES) {
+            Path path = new Path();
+            path.move(locationNextPath);
+            pathPieces.add(path);
+            BoundingBox bb = (BoundingBox) path.getModel().getWorldBound();
             //shift orientation to where the next level piece should spawn
-            locationNextPiece.x -= 2 * bb.getXExtent() - 2.0f;
+            locationNextPath.x -= 2 * bb.getXExtent() - 2.0f;
         }
-        return levelPieces;
+        return pathPieces;
+    }
+
+    /**
+     * Checks how far away the player is from the last piece, it checks which pieces are
+     * ready to be deleted and adds them to the delete list.
+     * @param commanderLocation to check how far away the commander is from the last platform.
+     * @return the list of pieces to delete.
+     */
+    public LinkedList<Path> deletePathPieces(Vector3f commanderLocation) {
+        LinkedList<Path> deleteList = new LinkedList<Path>();
+        Boolean done = false;
+        while (!done) {
+            if (pathPieces.size() > 0) {
+                Path path = pathPieces.peek();
+                Vector3f v = path.getModel().getLocalTranslation();
+                Vector2f v1 = new Vector2f(v.getX(), v.getY());
+                Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
+                if (v1.distance(v2) > 100) {
+                   deleteList.add(pathPieces.poll());
+                }
+                else {
+                    done = true;
+                }
+           }
+            else {
+                done = true;
+            }
+        }
+
+       return deleteList;
     }
 
     /**

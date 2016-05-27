@@ -31,6 +31,7 @@ public class CarrierAssigner implements ConnectionListener {
 	public CarrierAssigner(Platform platform, ServerWrapper server) {
 		this.platform = platform;
 		server.getServer().addConnectionListener(this);
+		System.out.println("hi");
 	}
 
 	/**
@@ -41,6 +42,7 @@ public class CarrierAssigner implements ConnectionListener {
 	 */
 	@Override
 	public void connectionAdded(Server server, HostedConnection conn) {
+		System.out.println("hi");
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
 				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position);

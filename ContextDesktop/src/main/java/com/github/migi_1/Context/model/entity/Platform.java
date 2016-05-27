@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model.entity;
 
 import java.util.HashMap;
 
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -29,7 +30,7 @@ public class Platform extends Entity {
         
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
+        setMoveBehaviour(new AccelerometerMoveBehaviour());
     }
 
     /**

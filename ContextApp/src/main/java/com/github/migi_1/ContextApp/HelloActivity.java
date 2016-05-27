@@ -2,7 +2,11 @@ package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.view.View;
 import android.os.Bundle;
+import android.util.Log;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -80,6 +84,16 @@ public class HelloActivity extends AndroidHarness {
             
             // set the ui to the ingame screen
             setContentView(R.layout.android_ingame_fr);
+            
+            // Retrieve buttons
+            Button leftButton = (Button) findViewById(R.id.FR_button_left);
+            Button middleButton = (Button) findViewById(R.id.FR_button_middle);
+            Button rightButton = (Button) findViewById(R.id.FR_button_right);
+            
+            // add logging functionality
+            setButtons(leftButton, "left");
+            setButtons(middleButton, "middle");
+            setButtons(rightButton, "right");
         }
 
         /**
@@ -90,6 +104,20 @@ public class HelloActivity extends AndroidHarness {
          */
         public Main getMain() {
             return application;
+        }
+        
+        /**
+         * Makes sure buttonpresses are logged
+         */
+        public void setButtons(Button b, final String s) {
+
+            b.setOnClickListener( new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("buttonpress", s);
+            }
+            });
         }
 
 }

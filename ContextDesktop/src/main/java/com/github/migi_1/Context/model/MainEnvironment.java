@@ -1,16 +1,21 @@
 package com.github.migi_1.Context.model;
 
+
 import java.util.LinkedList;
 
 import jmevr.app.VRApplication;
 
+import com.github.migi_1.Context.damageDealers.DamageDealer;
+import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.Enemy.Enemy;
 import com.github.migi_1.Context.model.Enemy.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -59,6 +64,12 @@ public class MainEnvironment extends Environment {
 
     private LinkedList<Enemy> enemies;
 
+
+    private CollisionResults results;
+
+    private DamageDealerGenerator damageDealerGenerator;
+
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -74,6 +85,10 @@ public class MainEnvironment extends Environment {
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
+
+
+        results = new CollisionResults();
+
         //creates the lights
         initLights();
 
@@ -86,14 +101,31 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
     }
-    
+
     @Override
     public void update(float tpf) {
     	super.update(tpf);
-    	
+
+        checkCollision();
     	updateTestWorld();
     	updateEnemies();
     }    
+
+    private void checkCollision() {
+
+        //add collision check for all obstacles
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+        }
+
+        //if a collision takes place, remove the colliding object and slow down
+        if (results.size() > 0) {
+            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
+            results = new CollisionResults();
+            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
+            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+        }
+    }
 
     /**
      * Initializes all lights of the scene.
@@ -143,9 +175,17 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         enemyGenerator = new EnemyGenerator(commander);
 
+
+        damageDealerGenerator = new DamageDealerGenerator(commander);
+
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
+        }
+
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+            addDisplayable(damageDealer);
         }
 
         addEntity(platform);

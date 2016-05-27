@@ -3,8 +3,8 @@ package com.github.migi_1.Context;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import com.github.migi_1.ContextMessages.AccelerometerMessage;
 
+import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;

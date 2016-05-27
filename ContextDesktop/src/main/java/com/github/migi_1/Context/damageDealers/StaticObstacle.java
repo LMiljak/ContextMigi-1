@@ -58,8 +58,9 @@ public class StaticObstacle extends Entity implements DamageDealer, IKillable {
     @Override
     public int collideWith(Collidable arg0, CollisionResults arg1)
             throws UnsupportedCollisionException {
-        getModel().collideWith(arg0, arg1);
-        return 0;
+
+        System.out.println("hoi");
+        return getModel().collideWith(arg0, arg1);
     }
 
     @Override

@@ -1,10 +1,16 @@
 package com.github.migi_1.Context.model;
 
+import jmevr.app.VRApplication;
+
+import com.github.migi_1.Context.damageDealers.DamageDealer;
+import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -14,8 +20,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -52,6 +56,12 @@ public class MainEnvironment extends Environment {
 
     private LevelGenerator levelGenerator;
 
+
+    private CollisionResults results;
+
+    private DamageDealerGenerator damageDealerGenerator;
+
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -67,6 +77,11 @@ public class MainEnvironment extends Environment {
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
+
+        damageDealerGenerator = new DamageDealerGenerator(COMMANDER_LOCATION);
+
+        results = new CollisionResults();
+
         //creates the lights
         initLights();
 
@@ -79,12 +94,24 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
     }
-    
+
     @Override
     public void update(float tpf) {
     	super.update(tpf);
-    	
+
+        checkCollision();
     	updateTestWorld();
+    }
+
+    private void checkCollision() {
+        if (results.size() > 0) {
+            getRootNode().detachChild(results.getClosestCollision().getGeometry());
+            damageDealerGenerator.getObstacles().remove(results.getClosestCollision().getGeometry());
+            results = new CollisionResults();
+            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
+            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+        }
+
     }
 
     /**
@@ -133,9 +160,15 @@ public class MainEnvironment extends Environment {
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
 
+
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
+        }
+
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles().values()) {
+            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+            addDisplayable(damageDealer);
         }
 
         addEntity(platform);

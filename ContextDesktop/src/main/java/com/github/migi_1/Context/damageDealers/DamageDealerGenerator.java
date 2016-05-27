@@ -2,7 +2,6 @@ package com.github.migi_1.Context.damageDealers;
 
 import java.util.HashMap;
 
-import com.github.migi_1.Context.model.Environment;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
@@ -15,8 +14,6 @@ import com.jme3.scene.Geometry;
  */
 public class DamageDealerGenerator {
 
-    /** Environment instance. **/
-    private Environment environment;
 
     private static final int NUMBER_OBSTACLES = 10;
 
@@ -34,9 +31,8 @@ public class DamageDealerGenerator {
      * Instantiate local variables.
      * @param environment The environment app state.
      */
-    public DamageDealerGenerator(Environment environment) {
-        this.environment = environment;
-        this.location = environment.getCommanderLocation();
+    public DamageDealerGenerator(Vector3f commanderLocation) {
+        this.location = commanderLocation;
         this.damageDealerFactory = new StaticObstacleFactory();
         this.obstacleList = new HashMap<Geometry, DamageDealer>();
     }

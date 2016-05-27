@@ -20,6 +20,10 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 		this.moveVector = moveVector;
 	}
 
+	/**
+	 * Returns the move vector.
+	 * @return the moveVector.
+	 */
     @Override
     public Vector3f getMoveVector() {
         return moveVector;

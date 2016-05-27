@@ -8,7 +8,7 @@
     <packaging>apk</packaging>
 
   <repositories>
-   <!-- <repository>
+   <repository>
       <id>jme3-repo</id>
       <url>http://updates.jmonkeyengine.org/maven/</url>
     </repository> 
@@ -16,7 +16,12 @@
     <repository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </repository>  -->
+    </repository>
+    
+    <repository>
+        <id>uiq3</id>
+        <url>http://uiq3.sourceforge.net/Repository/</url>
+    </repository>
 
     <repository>
       <id>local-repo</id>
@@ -99,6 +104,20 @@
 	  <artifactId>jme3-networking</artifactId>
 	  <version>3.1.0-alpha2</version>
 	</dependency>
+        
+        <dependency>
+          <groupId>android.support</groupId>
+          <artifactId>compatibility-v7-appcompat</artifactId>
+          <version>19.1.0</version>
+          <type>apklib</type>
+        </dependency>
+
+        <dependency>
+          <groupId>android.support</groupId>
+          <artifactId>compatibility-v7-appcompat</artifactId>
+          <version>19.1.0</version>
+          <type>jar</type>
+        </dependency>
     </dependencies>
     
     

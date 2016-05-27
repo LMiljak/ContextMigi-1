@@ -17,7 +17,7 @@
         android:text="Position: front/right"
         android:id="@+id/BR_location"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:textColor="#ffffff" />
 
     <Button
@@ -27,7 +27,7 @@
         android:text="Hit NE"
         android:background="#4643d3"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:layout_width="160dp"
@@ -45,7 +45,7 @@
         android:text="Hit SW"
         android:background="#37af33"
         android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentRight="true" />
 
     <ImageView
         android:layout_width="70dp"
@@ -61,7 +61,7 @@
         android:id="@+id/BR_heart_1"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/BR_heart_2" />
+        android:layout_toLeftOf="@+id/BR_heart_2" />
 
     <ImageView
         android:layout_width="70dp"
@@ -69,6 +69,6 @@
         android:id="@+id/BR_heart_3"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/BR_heart_2" />
+        android:layout_toRightOf="@+id/BR_heart_2" />
 
 </RelativeLayout>

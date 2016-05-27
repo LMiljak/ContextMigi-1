@@ -31,14 +31,37 @@ public class Platform extends Entity {
         setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
     }
 
+    /**
+     * Adds a Carrier to this Platform.
+     * If there already is a Carrier on the position of the new Carrier,
+     * the old one gets removed.
+     * 
+     * @param carrier
+     * 		The carrier to add.
+     */
     public void addCarrier(Carrier carrier) {
     	carriers.put(carrier.getPosition(), carrier);
     }
     
+    /**
+     * Gets a carrier of this platform.
+     * 
+     * @param position
+     * 		The position of the carrier under the platform.
+     * @return
+     * 		The carrier under the given position. Null if there
+     * 		is no carrier.
+     */
     public Carrier getCarrier(PlatformPosition position) {
     	return carriers.get(position);
     }
     
+    /**
+     * Checks if the platform is fully being carried by four carriers.
+     * 
+     * @return
+     * 		True iff the platform is carried by four carriers.
+     */
     public boolean isFull() {
     	for (PlatformPosition position : PlatformPosition.values()) {
     		if (carriers.get(position) == null) {

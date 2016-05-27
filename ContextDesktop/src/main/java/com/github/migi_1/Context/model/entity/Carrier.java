@@ -65,6 +65,12 @@ public class Carrier extends Entity implements Collidable, IKillable {
         health = h;
     }
 
+    /**
+     * Gets the position of this Carrier under the Platform.
+     * 
+     * @return
+     * 		The position of this Carrier under the Platform.
+     */
     public PlatformPosition getPosition() {
         return position;
     }

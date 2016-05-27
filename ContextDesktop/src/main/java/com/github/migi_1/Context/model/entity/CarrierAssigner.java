@@ -11,16 +11,34 @@ import com.jme3.network.ConnectionListener;
 import com.jme3.network.HostedConnection;
 import com.jme3.network.Server;
 
+/**
+ * Assigns carriers to a position under a platform when
+ * a connection has been established with a client.
+ */
 public class CarrierAssigner implements ConnectionListener {
 
 	private Platform platform;
 	private HashMap<String, Carrier> addressCarrierMap = new HashMap<>(4);
 	
+	/**
+	 * Constructor for CarrierAssigner.
+	 * 
+	 * @param platform
+	 * 		The platform to which the carriers should be assigned to.
+	 * @param server
+	 * 		The server to which the clients can connect.
+	 */
 	public CarrierAssigner(Platform platform, ServerWrapper server) {
 		this.platform = platform;
 		server.getServer().addConnectionListener(this);
 	}
 
+	/**
+	 * Called when a connection has been established with the server.
+	 * 
+	 * Assigns the client that connected a position under the platform
+	 * and also places a Carrier under the platform on the created position.
+	 */
 	@Override
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {

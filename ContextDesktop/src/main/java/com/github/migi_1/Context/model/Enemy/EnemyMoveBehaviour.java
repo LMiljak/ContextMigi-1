@@ -7,7 +7,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     private Vector3f moveVector;
     private float speed = 0.001f;
-    
+
     public EnemyMoveBehaviour() {
         super();
         moveVector = new Vector3f(0, 0, 0);
@@ -15,15 +15,19 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     @Override
     public Vector3f getMoveVector() {
-          return moveVector;
-      }
+        return moveVector;
+    }
 
     public void update(Vector3f localTranslation, Vector3f commanderLocation) {
-        if (commanderLocation.getX() > localTranslation.getX()) {
-            localTranslation.setX(localTranslation.x + speed);
-        } else {
-            localTranslation.setX(localTranslation.x - speed);
+        if (commanderLocation.getX() - localTranslation.getX() < 10) {
+            if (commanderLocation.getX() > localTranslation.getX()) {
+                localTranslation.setX(localTranslation.x + speed);
+            } else {
+                localTranslation.setX(localTranslation.x - speed);
+            }
         }
-        
+
+
+
     }
 }

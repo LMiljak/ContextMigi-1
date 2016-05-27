@@ -36,11 +36,14 @@ public class EnemyGenerator {
             lastLevelPiece = currentLevelPiece;
             
             Enemy enemy1 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), ENEMYHEIGHT,
-                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander);
+                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander);            
             Enemy enemy2 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
                     + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander);
             Enemy enemy3 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)), commander);            
+                    + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)), commander);  
+            
+            enemy1.getModel().rotate(0, (float) Math.PI, 0);
+            enemy2.getModel().rotate(0, (float) Math.PI, 0);
             
             double random = Math.random();
             if(random > 0.25 && random < 0.6){

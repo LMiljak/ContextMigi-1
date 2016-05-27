@@ -38,16 +38,20 @@ public class Main extends VRApplication {
      * 		ignored.
      */
     public static void main(String[] args) {
+        main = new Main();
+        setUpMain();
+        main.start();
+    }
+
+    private static void setUpMain() {
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
 
-        main = new Main();
         main.setSettings(settings);
         VRConfigurer.configureVR(main);
         main.setPauseOnLostFocus(true);
-        main.start();
     }
 
     /**

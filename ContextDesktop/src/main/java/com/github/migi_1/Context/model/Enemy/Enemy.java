@@ -41,9 +41,8 @@ public class Enemy extends Entity implements IKillable {
         // TODO Auto-generated method stub        
     }
     
-    @Override
-    public MoveBehaviour getMoveBehaviour() {
-        moveBehaviour.update(getModel().getLocalTranslation());
+    public MoveBehaviour getMoveBehaviour(Vector3f commanderLocation) {
+        moveBehaviour.update(getModel().getLocalTranslation(), commanderLocation);
         return moveBehaviour;
         
     }

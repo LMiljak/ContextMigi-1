@@ -1,5 +1,9 @@
 package com.github.migi_1.Context.model;
 
+import java.util.LinkedList;
+
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.model.Enemy.Enemy;
 import com.github.migi_1.Context.model.Enemy.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
@@ -16,8 +20,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -54,6 +56,8 @@ public class MainEnvironment extends Environment {
 
     private LevelGenerator levelGenerator;
     private EnemyGenerator enemyGenerator;
+
+    private LinkedList<Enemy> enemies;
 
     /**
      * First method that is called after the state has been created.
@@ -132,7 +136,8 @@ public class MainEnvironment extends Environment {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
+        
+        enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         enemyGenerator = new EnemyGenerator();
         platform = new Platform(PLATFORM_LOCATION);
@@ -222,7 +227,11 @@ public class MainEnvironment extends Environment {
     
     private void updateEnemies() {
         for(Enemy enemy : enemyGenerator.generateEnemies(commander.getModel().getLocalTranslation())) {
-            addEntity(enemy);
+            getRootNode().attachChild(enemy.getModel());
+            enemies.add(enemy);
+        }
+        for(Enemy enemy : enemies) {
+            enemy.move(enemy.getMoveBehaviour(commander.getModel().getLocalTranslation()).getMoveVector());
         }
         
     }

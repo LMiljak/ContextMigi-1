@@ -49,4 +49,20 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
         }
 
     }
+
+    /**
+     * Return the decay term.
+     * @return decay
+     */
+    public float getDecay() {
+        return decay;
+    }
+
+    /**
+     * Set the decay term.
+     * @param decay Term to set
+     */
+    public void setDecay(float decay) {
+        this.decay = decay;
+    }
 }

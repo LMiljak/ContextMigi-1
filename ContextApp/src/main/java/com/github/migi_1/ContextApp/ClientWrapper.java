@@ -60,6 +60,9 @@ public class ClientWrapper {
 		}
 	}
         
+        /**
+         * Registers some default MessageListeners to the server.
+         */
         private void initMessageListeners() {
             client.addMessageListener(PositionHolder.getInstance());
         }

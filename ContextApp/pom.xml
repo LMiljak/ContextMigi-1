@@ -16,12 +16,7 @@
     <repository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </repository> 
-
-    <repository>
-      <id>nifty-maven-repo.sourceforge.net</id>
-      <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
-    </repository> -->
+    </repository>  -->
 
     <repository>
       <id>local-repo</id>
@@ -104,34 +99,6 @@
 	  <artifactId>jme3-networking</artifactId>
 	  <version>3.1.0-alpha2</version>
 	</dependency>
-        
-        <dependency>
-	  <groupId>org.jmonkeyengine</groupId>
-	  <artifactId>jme3-niftygui</artifactId>
-	  <version>3.1.0-alpha2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xpp3</artifactId>
-                    <groupId>xpp3</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>nifty</artifactId>
-                    <groupId>lessvoid</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-                
-        <dependency>
-          <groupId>com.github.nifty-gui</groupId>
-          <artifactId>nifty</artifactId>
-          <version>1.4.2-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xpp3</artifactId>
-                    <groupId>xpp3</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
     
     

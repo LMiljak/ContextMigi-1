@@ -1,6 +1,5 @@
 package com.github.migi_1.ContextApp;
 
-import com.github.migi_1.ContextApp.screens.MainMenuAndroid;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 
@@ -10,7 +9,6 @@ import com.jme3.renderer.RenderManager;
  */
 public class Main extends SimpleApplication {
     
-    private MainMenuAndroid menu;
     private static Main app;
 
     /**
@@ -26,9 +24,6 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        //menu = new MainMenuAndroid();
-        //menu.initMenu(getAssetManager(), getInputManager(), getAudioRenderer(),
-                //getGuiViewPort());
     }
 
     @Override

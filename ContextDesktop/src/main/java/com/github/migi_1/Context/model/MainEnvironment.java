@@ -102,6 +102,9 @@ public class MainEnvironment extends Environment {
     	updateTestWorld();
     }
 
+    /**
+     * Handle collision checking.
+     */
     private void checkCollision() {
 
         //add collision check for all obstacles

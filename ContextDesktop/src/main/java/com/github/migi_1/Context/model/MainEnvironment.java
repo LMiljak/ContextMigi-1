@@ -6,6 +6,7 @@ import com.github.migi_1.Context.damageDealers.DamageDealer;
 import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -122,7 +123,7 @@ public class MainEnvironment extends Environment {
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
             for (int i = 0; i < carriers.length; i++) {
-                ((ConstantSpeedMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+                ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
             }
         }
     }

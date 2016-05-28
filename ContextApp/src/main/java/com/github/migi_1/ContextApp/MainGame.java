@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,14 @@ public class MainGame extends Activity {
         this.act = act;
     }
     
-    public void onCreate() {
+    /**
+     * Projects the game's UI to the device's screen.
+     * @param savedInstanceState 
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
         // set the ui to the ingame screen
             setContentView(R.layout.android_ingame_fr);
             

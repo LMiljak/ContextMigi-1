@@ -172,7 +172,7 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-        carriers = getCarriers();
+        carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
 
         //attach all objects to the root pane
@@ -199,7 +199,7 @@ public class MainEnvironment extends Environment {
      * Create the carriers.
      * @return Array with carriers
      */
-    private Carrier[] getCarriers() {
+    private Carrier[] createCarriers() {
         carriers = new Carrier[4];
         float x, y, z;
         y = RELATIVE_CARRIER_LOCATION.y;

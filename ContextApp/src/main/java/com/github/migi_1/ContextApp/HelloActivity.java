@@ -108,8 +108,8 @@ public class HelloActivity extends AndroidHarness {
         
         /**
          * Makes sure buttonpresses are logged.
-         * @param butt Button
-         * @param str String
+         * @param butt = the button to which a clicklistener is set
+         * @param str = message to be logged
          */
         public void setButtons(Button butt, final String str) {
 

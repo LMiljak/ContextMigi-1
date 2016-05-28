@@ -2,11 +2,7 @@ package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.widget.Button;
-import android.view.View.OnClickListener;
-import android.view.View;
 import android.os.Bundle;
-import android.util.Log;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -22,6 +18,8 @@ public class HelloActivity extends AndroidHarness {
         private Main application;
         private SensorManager mSensorManager;
         private AccelerometerSensor as;
+        private MainGame mg;
+        
         /**
          * Configure the game instance that is launched and start the logger.
          */
@@ -82,18 +80,7 @@ public class HelloActivity extends AndroidHarness {
             AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
                     ClientWrapper.getInstance());
             
-            // set the ui to the ingame screen
-            setContentView(R.layout.android_ingame_fr);
-            
-            // Retrieve buttons
-            Button leftButton = (Button) findViewById(R.id.FR_button_left);
-            Button middleButton = (Button) findViewById(R.id.FR_button_middle);
-            Button rightButton = (Button) findViewById(R.id.FR_button_right);
-            
-            // add logging functionality
-            setButtons(leftButton, "left");
-            setButtons(middleButton, "middle");
-            setButtons(rightButton, "right");
+            mg = new MainGame(this);
         }
 
         /**
@@ -104,22 +91,6 @@ public class HelloActivity extends AndroidHarness {
          */
         public Main getMain() {
             return application;
-        }
-        
-        /**
-         * Makes sure buttonpresses are logged.
-         * @param butt = the button to which a clicklistener is set
-         * @param str = message to be logged
-         */
-        public void setButtons(Button butt, final String str) {
-
-            butt.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Log.d("buttonpress", str);
-            }
-            });
         }
 
 }

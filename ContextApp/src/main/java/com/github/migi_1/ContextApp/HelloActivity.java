@@ -89,11 +89,16 @@ public class HelloActivity extends AndroidHarness {
             Button leftButton = (Button) findViewById(R.id.FR_button_left);
             Button middleButton = (Button) findViewById(R.id.FR_button_middle);
             Button rightButton = (Button) findViewById(R.id.FR_button_right);
+            Button triggerButton  = (Button) findViewById(R.id.FR_button_trigger);
+            
+            //Button eventButton = (Button) findViewById(R.id.event1_button);
             
             // add logging functionality
             setButtons(leftButton, "left");
             setButtons(middleButton, "middle");
             setButtons(rightButton, "right");
+            setButtons(triggerButton, "trigger");
+            //setButtons(eventButton, "event");
         }
 
         /**
@@ -118,6 +123,15 @@ public class HelloActivity extends AndroidHarness {
             @Override
             public void onClick(View v) {
                 Log.d("buttonpress", str);
+                switch(str) {
+//                    case "trigger":
+//                        setContentView(R.layout.android_event_button);
+//                        break;
+                    case "event":
+                        setContentView(R.layout.android_ingame_fr);
+                        break;
+                    default:
+                }
             }
             });
         }

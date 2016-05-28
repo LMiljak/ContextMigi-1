@@ -183,7 +183,7 @@ public class MainEnvironment extends Environment {
             if (i > 1) {
                 x = -x;
             }
-            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)),i);
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), i);
         }
 
         damageDealerGenerator = new DamageDealerGenerator(commander);

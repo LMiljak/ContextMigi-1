@@ -121,6 +121,9 @@ public class MainEnvironment extends Environment {
             results = new CollisionResults();
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+            for (int i = 0; i < carriers.length; i++) {
+                ((ConstantSpeedMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+            }
         }
     }
 

@@ -74,7 +74,7 @@ public class TestCarrier extends TestEntity {
     @Test
     public void takeDamageTest() {
         testCarrier.takeDamage(1);
-        assertEquals(testCarrier.getHealth(), 1);
+        assertEquals(testCarrier.getHealth(), 2);
     }
 
     /**

@@ -12,14 +12,18 @@
 	<artifactId>ContextApp</artifactId>
 	<packaging>apk</packaging>
 
-	<repositories>
-		<repository>
-			<id>local-repo</id>
-			<name>Local Repository</name>
-			<url>file://${basedir}/src/libs</url>
-		</repository>
-		
-	</repositories>
+      <repositories>
+        <repository>
+            <id>uiq3</id>
+            <url>http://uiq3.sourceforge.net/Repository/</url>
+        </repository>
+
+        <repository>
+          <id>local-repo</id>
+          <name>Local Repository</name>
+          <url>file://${basedir}/src/libs</url>
+        </repository>	
+      </repositories>
 
 	<properties>
 		<!-- use UTF-8 for everything -->
@@ -97,6 +101,19 @@
 			<version>3.1.0-alpha2</version>
 		</dependency>
         
+        <dependency>
+          <groupId>android.support</groupId>
+          <artifactId>compatibility-v7-appcompat</artifactId>
+          <version>19.1.0</version>
+          <type>apklib</type>
+        </dependency>
+
+        <dependency>
+          <groupId>android.support</groupId>
+          <artifactId>compatibility-v7-appcompat</artifactId>
+          <version>19.1.0</version>
+          <type>jar</type>
+        </dependency>
     </dependencies>
     
  

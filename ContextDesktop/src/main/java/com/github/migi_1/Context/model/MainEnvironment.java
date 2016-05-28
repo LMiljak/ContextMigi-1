@@ -169,10 +169,18 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-        carriers = new Carrier[1];
+        carriers = new Carrier[4];
         for (int i = 0; i < carriers.length; i++) {
-            Vector3f relativeLocation = RELATIVE_CARRIER_LOCATION;
-            carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation),i);
+            float x = RELATIVE_CARRIER_LOCATION.x;
+            float z = RELATIVE_CARRIER_LOCATION.z;
+            float y = RELATIVE_CARRIER_LOCATION.y;
+            if ((i + 1) % 2 == 0) {
+                z =  -z;
+            }
+            if (i > 1) {
+                x = -x;
+            }
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)),i);
         }
 
         damageDealerGenerator = new DamageDealerGenerator(commander);

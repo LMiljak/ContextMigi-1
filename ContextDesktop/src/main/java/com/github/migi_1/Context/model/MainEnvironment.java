@@ -5,6 +5,7 @@ import jmevr.app.VRApplication;
 import com.github.migi_1.Context.damageDealers.DamageDealer;
 import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -41,11 +42,13 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(10, -5, 10);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private Platform platform;
     private Commander commander;
+    private Carrier[] carriers;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -166,7 +169,7 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-
+        carriers = new Carrier[4];
 
         damageDealerGenerator = new DamageDealerGenerator(commander);
 

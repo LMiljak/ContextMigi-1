@@ -5,6 +5,7 @@ import jmevr.app.VRApplication;
 import com.github.migi_1.Context.damageDealers.DamageDealer;
 import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -41,11 +42,15 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private static final int NUMBER_OF_CARRIERS = 4;
+
     private Platform platform;
     private Commander commander;
+    private Carrier[] carriers;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -118,6 +123,9 @@ public class MainEnvironment extends Environment {
             results = new CollisionResults();
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+            for (int i = 0; i < carriers.length; i++) {
+                ((ConstantSpeedMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+            }
         }
     }
 
@@ -166,8 +174,7 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-
-
+        carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
 
         //attach all objects to the root pane
@@ -185,6 +192,35 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
+        for (int i = 0; i < carriers.length; i++) {
+            addEntity(carriers[i]);
+        }
+    }
+
+    /**
+     * Create the carriers.
+     * @return Array with carriers
+     */
+    private Carrier[] createCarriers() {
+        carriers = new Carrier[NUMBER_OF_CARRIERS];
+        float x, y, z;
+        y = RELATIVE_CARRIER_LOCATION.y;
+        for (int i = 0; i < carriers.length; i++) {
+            x = RELATIVE_CARRIER_LOCATION.x;
+            z = RELATIVE_CARRIER_LOCATION.z;
+
+            //put two carriers on the right side.
+            if ((i == 1) || (i == 3)) {
+                z =  -z;
+            }
+
+            //put two carriers on the back side.
+            if ((i == 2) || (i == 3)) {
+                x = -x;
+            }
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), i);
+        }
+        return carriers;
     }
 
     /**

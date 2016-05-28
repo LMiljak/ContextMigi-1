@@ -46,6 +46,8 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private static final int NUMBER_OF_CARRIERS = 4;
+
     private Platform platform;
     private Commander commander;
     private Carrier[] carriers;
@@ -200,7 +202,7 @@ public class MainEnvironment extends Environment {
      * @return Array with carriers
      */
     private Carrier[] createCarriers() {
-        carriers = new Carrier[4];
+        carriers = new Carrier[NUMBER_OF_CARRIERS];
         float x, y, z;
         y = RELATIVE_CARRIER_LOCATION.y;
         for (int i = 0; i < carriers.length; i++) {

@@ -30,7 +30,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
     @Override
     public Vector3f getMoveVector() {
         updateMoveVector();
-        return moveVector.mult(decay);
+        return moveVector.mult(0);
     }
 
     /**

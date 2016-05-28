@@ -42,7 +42,7 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(10, -5, 10);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -169,7 +169,11 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-        carriers = new Carrier[4];
+        carriers = new Carrier[1];
+        for (int i = 0; i < carriers.length; i++) {
+            Vector3f relativeLocation = RELATIVE_CARRIER_LOCATION;
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation),i);
+        }
 
         damageDealerGenerator = new DamageDealerGenerator(commander);
 
@@ -188,6 +192,9 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
+        for (int i = 0; i < carriers.length; i++) {
+            addEntity(carriers[i]);
+        }
     }
 
     /**

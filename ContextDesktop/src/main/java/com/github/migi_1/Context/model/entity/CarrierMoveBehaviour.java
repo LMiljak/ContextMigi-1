@@ -8,13 +8,24 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
 
     private int immobalized;
 
-    public CarrierMoveBehaviour(Vector3f moveVector) {
+    private Commander commander;
+
+    private Boolean catchUp;
+
+    private Carrier carrier;
+
+    private Vector3f relativeLocation;
+
+    public CarrierMoveBehaviour(Vector3f moveVector, Carrier carrier) {
         this.moveVector = moveVector;
         this.immobalized = 0;
+        this.carrier = carrier;
+        this.catchUp = false;
     }
 
     public void collided() {
-        immobalized = 120;
+        immobalized = 60;
+        catchUp = true;
     }
 
     @Override
@@ -22,6 +33,9 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
         updateMoveVector();
         if (immobalized > 0) {
             return new Vector3f(0, 0, 0);
+        }
+        if (catchUp) {
+            return moveVector.mult(4.0f);
         }
         return moveVector;
     }
@@ -31,6 +45,24 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
         if (immobalized > 0) {
             immobalized -= 1;
         }
+        if (catchUp) {
+            Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
+
+            if (carrier.getModel().getLocalTranslation().x < destination.x) {
+                catchUp = false;
+                carrier.getModel().setLocalTranslation(destination);
+            }
+        }
+
+    }
+
+    public void setCommander(Commander commander) {
+        this.commander = commander;
+    }
+
+    public void setRelativeLocation(Vector3f relativeLocation) {
+        this.relativeLocation = relativeLocation;
+
     }
 
 }

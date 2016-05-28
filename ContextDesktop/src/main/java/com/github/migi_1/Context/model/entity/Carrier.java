@@ -34,7 +34,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
-        health = 2;
+        health = 3;
         this.id = id;
     }
 
@@ -61,6 +61,16 @@ public class Carrier extends Entity implements Collidable, IKillable {
     @Override
     public void setHealth(int h) {
         health = h;
+        sendHealth();
+    }
+    
+    @Override
+    public void takeDamage(int damage) {
+        setHealth(getHealth() - damage);
+        sendHealth();
+    	if (getHealth() <= 0) {
+    		onKilled();
+    	}
     }
 
     /**
@@ -90,4 +100,10 @@ public class Carrier extends Entity implements Collidable, IKillable {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
+    /**
+     * This function sends the health value to the right android app.
+     */
+    public void sendHealth() {
+        // TODO
+    }
 }

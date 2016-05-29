@@ -90,12 +90,16 @@ public class MainGame extends Activity {
             }
         }
         
-        public void makeRed(int heartno) {
+        /**
+         * Makes a heart red
+         * @param heartid the id of the heart which has its sprite changed
+         */
+        public void makeRed(int heartid) {
             ImageView img;
-            if (heartno == 1) {
+            if (heartid == 1) {
                 img = (ImageView) findViewById(R.id.FR_heart_1);
             }
-            else if (heartno == 2) {
+            else if (heartid == 2) {
                 img = (ImageView) findViewById(R.id.FR_heart_2);
             }
             else {
@@ -104,12 +108,16 @@ public class MainGame extends Activity {
             img.setImageResource(R.drawable.heart_red);
         }
         
-        public void makeGrey(int heartno) {
+        /**
+         * Makes a heart grey
+         * @param heartid the id of the heart which has its sprite changed
+         */
+        public void makeGrey(int heartid) {
             ImageView img;
-            if (heartno == 1) {
+            if (heartid == 1) {
                 img = (ImageView) findViewById(R.id.FR_heart_1);
             }
-            else if (heartno == 2) {
+            else if (heartid == 2) {
                 img = (ImageView) findViewById(R.id.FR_heart_2);
             }
             else {

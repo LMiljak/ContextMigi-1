@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 /**
  *
@@ -60,5 +61,60 @@ public class MainGame extends Activity {
                 Log.d("buttonpress", str);
             }
             });
+        }
+        
+        /**
+         * Calls functions to make the hearts the right colour.
+         * @param health the amount of health that has to be displayed in grey
+         *      and red hearts.
+         */
+        public void setHealth(int health) {
+            if (health > 0) {
+                makeRed(1);
+                if (health > 1){
+                    makeRed(2);
+                    if (health > 2)
+                        makeRed(3);
+                    else
+                        makeGrey(3);
+                }
+                else {
+                    makeGrey(2);
+                    makeGrey(3);
+                }
+            }
+            else {
+                makeGrey(1);
+                makeGrey(2);
+                makeGrey(3);
+            }
+        }
+        
+        public void makeRed(int heartno) {
+            ImageView img;
+            if (heartno == 1) {
+                img = (ImageView) findViewById(R.id.FR_heart_1);
+            }
+            else if (heartno == 2) {
+                img = (ImageView) findViewById(R.id.FR_heart_2);
+            }
+            else {
+                img = (ImageView) findViewById(R.id.FR_heart_3);
+            }
+            img.setImageResource(R.drawable.heart_red);
+        }
+        
+        public void makeGrey(int heartno) {
+            ImageView img;
+            if (heartno == 1) {
+                img = (ImageView) findViewById(R.id.FR_heart_1);
+            }
+            else if (heartno == 2) {
+                img = (ImageView) findViewById(R.id.FR_heart_2);
+            }
+            else {
+                img = (ImageView) findViewById(R.id.FR_heart_3);
+            }
+            img.setImageResource(R.drawable.heart_grey);
         }
 }

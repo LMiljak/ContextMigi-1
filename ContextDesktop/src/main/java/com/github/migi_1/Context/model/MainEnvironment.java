@@ -118,13 +118,14 @@ public class MainEnvironment extends Environment {
 
         //add collision check for all obstacles
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            for (CollisionResults collisionResults: results.values()) {
-                damageDealer.collideWith(platform.getModel().getWorldBound(), collisionResults);
+            for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+                damageDealer.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
         }
 
         //if a collision takes place, remove the colliding object and slow down
         Boolean collided  = false;
+        System.out.println(results.get(carriers[0]).size());
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
@@ -186,16 +187,16 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
-        results.put(platform, new CollisionResults());
-        results.put(platform, new CollisionResults());
+//        results.put(platform, new CollisionResults());
+//        results.put(platform, new CollisionResults());
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
 
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            for (CollisionResults collisionResults : results.values())
-            damageDealer.collideWith(platform.getModel().getWorldBound(), collisionResults);
+            for (Entry<Entity, CollisionResults> entry : results.entrySet())
+            damageDealer.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             addDisplayable(damageDealer);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {

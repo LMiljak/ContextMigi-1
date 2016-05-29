@@ -12,6 +12,7 @@ import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -25,6 +26,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+import java.util.ArrayList;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -54,7 +56,7 @@ public class MainEnvironment extends Environment {
 
     private Platform platform;
     private Commander commander;
-    private Carrier[] carriers;
+    private ArrayList<Carrier> carriers;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -129,8 +131,8 @@ public class MainEnvironment extends Environment {
             results = new CollisionResults();
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
-            for (int i = 0; i < carriers.length; i++) {
-                ((ConstantSpeedMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+            for (int i = 0; i < carriers.size(); i++) {
+                ((ConstantSpeedMoveBehaviour) carriers.get(i).getMoveBehaviour()).collided();
             }
         }
     }
@@ -198,8 +200,8 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
-        for (int i = 0; i < carriers.length; i++) {
-            addEntity(carriers[i]);
+        for (int i = 0; i < carriers.size(); i++) {
+            addEntity(carriers.get(i));
         }
     }
 
@@ -207,24 +209,21 @@ public class MainEnvironment extends Environment {
      * Create the carriers.
      * @return Array with carriers
      */
-    private Carrier[] createCarriers() {
-        carriers = new Carrier[NUMBER_OF_CARRIERS];
+    private ArrayList<Carrier> createCarriers() {
+        carriers = new ArrayList<Carrier>();
         float x, y, z;
         y = RELATIVE_CARRIER_LOCATION.y;
-        for (int i = 0; i < carriers.length; i++) {
+        for (PlatformPosition p : PlatformPosition.values()) {
             x = RELATIVE_CARRIER_LOCATION.x;
             z = RELATIVE_CARRIER_LOCATION.z;
 
             //put two carriers on the right side.
-            if ((i == 1) || (i == 3)) {
-                z =  -z;
-            }
+            z = z * p.getzFactor();
 
             //put two carriers on the back side.
-            if ((i == 2) || (i == 3)) {
-                x = -x;
-            }
-            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), i);
+            x = x * p.getxFactor();
+            
+            carriers.add(new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), p));
         }
         return carriers;
     }

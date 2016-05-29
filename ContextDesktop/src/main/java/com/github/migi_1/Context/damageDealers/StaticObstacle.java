@@ -2,7 +2,7 @@ package com.github.migi_1.Context.damageDealers;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
-import com.github.migi_1.Context.model.entity.StaticMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;

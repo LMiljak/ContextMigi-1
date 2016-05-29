@@ -11,7 +11,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.git.migi_1.Context.entity.TestEntity;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;

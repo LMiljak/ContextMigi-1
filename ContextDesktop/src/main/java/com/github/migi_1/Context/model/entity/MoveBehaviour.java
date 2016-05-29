@@ -33,8 +33,7 @@ public abstract class MoveBehaviour {
     /**
      * Update the moveVector.
      */
-    public void updateMoveVector() {
-    }
+    public void updateMoveVector() { }
 
     /**
      * Setter for the MoveVector attribute.

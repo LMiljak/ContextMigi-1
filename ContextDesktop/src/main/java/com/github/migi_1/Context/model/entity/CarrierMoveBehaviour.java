@@ -10,8 +10,6 @@ import com.jme3.math.Vector3f;
  */
 public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
-    private Vector3f moveVector;
-
     private int immobalised;
 
     private Commander commander;
@@ -30,7 +28,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param carrier designated carrier
      */
     public CarrierMoveBehaviour(Vector3f moveVector, Carrier carrier) {
-        this.moveVector = moveVector;
+        setMoveVector(moveVector);
         this.immobalised = 0;
         this.carrier = carrier;
         this.catchUp = false;
@@ -59,9 +57,9 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
         //when catching up, move twice as fast
         if (catchUp) {
-            return moveVector.mult(2.0f);
+            return super.getMoveVector().mult(2.0f);
         }
-        return moveVector;
+        return super.getMoveVector();
     }
 
     /**

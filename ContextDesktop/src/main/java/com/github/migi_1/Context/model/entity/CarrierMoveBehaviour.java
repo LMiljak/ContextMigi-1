@@ -12,7 +12,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     private Vector3f moveVector;
 
-    private int immobalized;
+    private int immobalised;
 
     private Commander commander;
 
@@ -22,6 +22,8 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     private Vector3f relativeLocation;
 
+    private static final int NUMBER_FRAMES = 120;
+
     /**
      * Constructor.
      * @param moveVector initial moveVector
@@ -29,37 +31,52 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public CarrierMoveBehaviour(Vector3f moveVector, Carrier carrier) {
         this.moveVector = moveVector;
-        this.immobalized = 0;
+        this.immobalised = 0;
         this.carrier = carrier;
         this.catchUp = false;
     }
 
+    /**
+     * When a collision has taken place.
+     */
     @Override
     public void collided() {
-        immobalized = 120;
+        immobalised = NUMBER_FRAMES;
         catchUp = true;
     }
 
+    /**
+     * Return the move vector.
+     */
     @Override
     public Vector3f getMoveVector() {
         updateMoveVector();
-        if (immobalized > 0) {
+
+        //when immobalized, don't move forward
+        if (immobalised > 0) {
             return new Vector3f(0, 0, 0);
         }
+
+        //when catching up, move twice as fast
         if (catchUp) {
             return moveVector.mult(2.0f);
         }
         return moveVector;
     }
 
+    /**
+     * Update the move vector.
+     */
     @Override
     public void updateMoveVector() {
+        //corner location under the platform.
         Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
 
-
-        if (immobalized > 0) {
-            immobalized -= 1;
+        //become one frame closer to not being immobilised.
+        if (immobalised > 0) {
+            immobalised -= 1;
         }
+        //when the carrier overshoots, put him in the right location.
         else if (carrier.getModel().getLocalTranslation().x < destination.x) {
             catchUp = false;
             carrier.getModel().setLocalTranslation(destination);

@@ -124,7 +124,8 @@ public class MainEnvironment extends Environment {
             }
         }
 
-        //if a collision takes place, remove the colliding object and slow down
+        //check whether a collision has taken place.
+        //only one object can collide each update, two prevent two object from taking damage.
         Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
@@ -134,6 +135,8 @@ public class MainEnvironment extends Environment {
                 ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
             }
         }
+
+        //reset all CollisionResults.
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             entry.setValue(new CollisionResults());
         }
@@ -187,8 +190,6 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
-//        results.put(platform, new CollisionResults());
-//        results.put(platform, new CollisionResults());
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
@@ -315,11 +316,6 @@ public class MainEnvironment extends Environment {
             removeDisplayable(levelPiece);
         }
 
-        //update the damagedealers
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            addDisplayable(damageDealer);
-        }
-
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
@@ -329,6 +325,10 @@ public class MainEnvironment extends Environment {
             removeDisplayable(path);
         }
 
+        //update the damagedealers
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            addDisplayable(damageDealer);
+        }
     }
 
     /**

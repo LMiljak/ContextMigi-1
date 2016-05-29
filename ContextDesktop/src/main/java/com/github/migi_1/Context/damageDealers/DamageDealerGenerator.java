@@ -47,7 +47,7 @@ public class DamageDealerGenerator {
         while (damageDealerList.size() < NUMBER_OBSTACLES) {
             DamageDealer obs = damageDealerFactory.produce();
             obs.scale(0.3f);
-            location = location.add(new Vector3f(-50.f, 0, 0.0f));
+            location = location.add(new Vector3f(-20.f, 0, 0.0f));
 
 
             obs.move(location);

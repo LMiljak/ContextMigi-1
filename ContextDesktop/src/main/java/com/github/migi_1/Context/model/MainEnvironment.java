@@ -11,7 +11,6 @@ import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
@@ -131,11 +130,7 @@ public class MainEnvironment extends Environment {
                 collided = true;
                 getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
                 entry.setValue(new CollisionResults());
-                ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
-                ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
-                for (int i = 0; i < carriers.length; i++) {
-                    ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
-                }
+                entry.getKey().getMoveBehaviour().collided();
             }
         }
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {

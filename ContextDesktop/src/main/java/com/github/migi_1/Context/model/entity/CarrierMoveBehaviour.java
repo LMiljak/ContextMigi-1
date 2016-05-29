@@ -37,6 +37,7 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
         if (catchUp) {
             return moveVector.mult(4.0f);
         }
+//        System.out.println(moveVector);
         return moveVector;
     }
 

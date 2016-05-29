@@ -2,7 +2,7 @@ package com.github.migi_1.Context.model.entity;
 
 import com.jme3.math.Vector3f;
 
-public class CarrierMoveBehaviour extends MoveBehaviour {
+public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     private Vector3f moveVector;
 
@@ -23,6 +23,7 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
         this.catchUp = false;
     }
 
+    @Override
     public void collided() {
         immobalized = 120;
         catchUp = true;

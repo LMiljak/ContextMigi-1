@@ -12,6 +12,7 @@ import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -125,13 +126,12 @@ public class MainEnvironment extends Environment {
 
         //if a collision takes place, remove the colliding object and slow down
         Boolean collided  = false;
-        System.out.println(results.get(carriers[0]).size());
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
                 getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
                 entry.setValue(new CollisionResults());
-                entry.getKey().getMoveBehaviour().collided();
+                ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
             }
         }
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {

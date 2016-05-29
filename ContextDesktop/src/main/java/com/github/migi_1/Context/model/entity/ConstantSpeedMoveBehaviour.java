@@ -6,7 +6,7 @@ import com.jme3.math.Vector3f;
  * @author Damian
  *
  */
-public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
+public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
 
 	private Vector3f moveVector;
 
@@ -36,6 +36,7 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
     /**
      * Collision has taken place.
      */
+    @Override
     public void collided() {
 
         decay = 0.0f;

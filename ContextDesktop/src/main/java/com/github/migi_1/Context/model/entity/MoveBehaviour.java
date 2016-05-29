@@ -25,6 +25,4 @@ public abstract class MoveBehaviour {
     public void updateMoveVector() {
     }
 
-    public abstract void collided();
-
 }

@@ -1,5 +1,8 @@
 package com.github.migi_1.Context.model;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.damageDealers.DamageDealer;
@@ -9,6 +12,7 @@ import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
+import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -63,7 +67,7 @@ public class MainEnvironment extends Environment {
     private LevelGenerator levelGenerator;
 
 
-    private CollisionResults results;
+    private HashMap<Entity, CollisionResults> results;
 
     private DamageDealerGenerator damageDealerGenerator;
 
@@ -85,7 +89,7 @@ public class MainEnvironment extends Environment {
 
 
 
-        results = new CollisionResults();
+        results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
         initLights();
@@ -115,19 +119,25 @@ public class MainEnvironment extends Environment {
 
         //add collision check for all obstacles
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+            for (CollisionResults collisionResults: results.values()) {
+                damageDealer.collideWith(platform.getModel().getWorldBound(), collisionResults);
+            }
         }
 
         //if a collision takes place, remove the colliding object and slow down
-        if (results.size() > 0) {
-            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
-            results = new CollisionResults();
-            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
-            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
-            for (int i = 0; i < carriers.length; i++) {
-                ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            if (entry.getValue().size() > 0) {
+                getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
+                entry.setValue(new CollisionResults());
+                ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
+                ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+                for (int i = 0; i < carriers.length; i++) {
+                    ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+                }
             }
         }
+
     }
 
     /**
@@ -177,14 +187,15 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
-
+        results.put(platform, new CollisionResults());
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
 
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+            for (CollisionResults collisionResults : results.values())
+            damageDealer.collideWith(platform.getModel().getWorldBound(), collisionResults);
             addDisplayable(damageDealer);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {

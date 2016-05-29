@@ -56,10 +56,10 @@ public class MainGame extends Activity {
 
             butt.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Log.d("buttonpress", str);
-            }
+                @Override
+                public void onClick(View v) {
+                    Log.d("attack_FR", str);
+                }
             });
         }
         

@@ -47,6 +47,8 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private static final int NUMBER_OF_CARRIERS = 4;
+
     private Platform platform;
     private Commander commander;
     private Carrier[] carriers;
@@ -173,23 +175,7 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-        carriers = new Carrier[4];
-        for (int i = 0; i < carriers.length; i++) {
-            float x = RELATIVE_CARRIER_LOCATION.x;
-            float z = RELATIVE_CARRIER_LOCATION.z;
-            float y = RELATIVE_CARRIER_LOCATION.y;
-            if ((i + 1) % 2 == 0) {
-                z =  -z;
-            }
-            if (i > 1) {
-                x = -x;
-            }
-            Vector3f relativeLocation = new Vector3f(x, y, z);
-            carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation), i);
-            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setCommander(commander);
-            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
-        }
-
+        carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
 
         //attach all objects to the root pane
@@ -210,6 +196,35 @@ public class MainEnvironment extends Environment {
         for (int i = 0; i < carriers.length; i++) {
             addEntity(carriers[i]);
         }
+    }
+
+    /**
+     * Create the carriers.
+     * @return Array with carriers
+     */
+    private Carrier[] createCarriers() {
+        carriers = new Carrier[NUMBER_OF_CARRIERS];
+        float x, y, z;
+        y = RELATIVE_CARRIER_LOCATION.y;
+        for (int i = 0; i < carriers.length; i++) {
+            x = RELATIVE_CARRIER_LOCATION.x;
+            z = RELATIVE_CARRIER_LOCATION.z;
+
+            //put two carriers on the right side.
+            if ((i == 1) || (i == 3)) {
+                z =  -z;
+            }
+
+            //put two carriers on the back side.
+            if ((i == 2) || (i == 3)) {
+                x = -x;
+            }
+            Vector3f relativeLocation = new Vector3f(x, y, z);
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation), i);
+            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setCommander(commander);
+            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
+        }
+        return carriers;
     }
 
     /**

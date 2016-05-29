@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -20,20 +22,21 @@ public class Carrier extends Entity implements Collidable, IKillable {
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
     private int health;
-    private int id; //Represents the location of the carrier under the platform.
+    private PlatformPosition position;
 
     /**
      * constructor of the carrier.
      * @param startLocation location where the carrier will be initialized
-     * @param id to keep the 4 carriers apart
+     * @param position position of the carrier under the platform.
      */
-    public Carrier(Vector3f startLocation, int id) {
+    public Carrier(Vector3f startLocation, PlatformPosition position) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
-        health = 3;
-        this.id = id;
+        
+        health = 3;      
+        this.position = position;
     }
 
 
@@ -59,20 +62,13 @@ public class Carrier extends Entity implements Collidable, IKillable {
     }
 
     /**
-     * Gets the id that represents the location of the Carrier under the platform.
-     *
+     * Gets the position of this Carrier under the Platform.
+     * 
      * @return
-     * 		the id
+     * 		The position of this Carrier under the Platform.
      */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
+    public PlatformPosition getPosition() {
+        return position;
     }
 
     @Override

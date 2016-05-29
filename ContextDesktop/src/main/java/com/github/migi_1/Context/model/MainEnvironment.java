@@ -1,14 +1,18 @@
 package com.github.migi_1.Context.model;
 
+
 import jmevr.app.VRApplication;
 
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.damageDealers.DamageDealer;
 import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -74,7 +78,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -97,6 +101,8 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
+        
+        new CarrierAssigner(platform, ((Main) app).getServer());
     }
 
     @Override

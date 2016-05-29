@@ -25,4 +25,6 @@ public abstract class MoveBehaviour {
     public void updateMoveVector() {
     }
 
+    public abstract void setMoveVector(Vector3f moveVector);
+
 }

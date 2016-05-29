@@ -73,4 +73,10 @@ public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
     public void setDecay(float decay) {
         this.decay = decay;
     }
+
+    @Override
+    public void setMoveVector(Vector3f moveVector) {
+        this.moveVector = moveVector;
+
+    }
 }

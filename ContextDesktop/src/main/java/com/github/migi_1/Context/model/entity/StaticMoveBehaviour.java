@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
 
+
 /**
  * Move behaviour of a static (non-moving) object.
  *
@@ -8,6 +9,12 @@ package com.github.migi_1.Context.model.entity;
  *
  */
 public class StaticMoveBehaviour extends MoveBehaviour {
+
+    /**
+     * Update the moveVector. In this case, nothing happens.
+     */
+    @Override
+    public void updateMoveVector() { }
 
 
 }

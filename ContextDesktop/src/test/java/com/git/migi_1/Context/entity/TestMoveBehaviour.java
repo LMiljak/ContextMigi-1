@@ -20,7 +20,7 @@ public abstract class TestMoveBehaviour {
     public abstract void setUp();
 
     @Test
-    public void testGetMoveVector() {
+    public void testGetAndSetMoveVector() {
 
         moveBehaviour.setMoveVector(moveVector);
         assertEquals(moveVector, moveBehaviour.getClass());
@@ -33,4 +33,6 @@ public abstract class TestMoveBehaviour {
     public void setMoveVector(Vector3f moveVector) {
         this.moveVector = moveVector;
     }
+
+
 }

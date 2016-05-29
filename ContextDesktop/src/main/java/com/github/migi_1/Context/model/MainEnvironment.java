@@ -125,9 +125,10 @@ public class MainEnvironment extends Environment {
         }
 
         //if a collision takes place, remove the colliding object and slow down
-
+        Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
-            if (entry.getValue().size() > 0) {
+            if (entry.getValue().size() > 0 && !collided) {
+                collided = true;
                 getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
                 entry.setValue(new CollisionResults());
                 ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
@@ -136,6 +137,9 @@ public class MainEnvironment extends Environment {
                     ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
                 }
             }
+        }
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            entry.setValue(new CollisionResults());
         }
 
     }
@@ -188,6 +192,7 @@ public class MainEnvironment extends Environment {
         carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
         results.put(platform, new CollisionResults());
+        results.put(platform, new CollisionResults());
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
@@ -234,6 +239,7 @@ public class MainEnvironment extends Environment {
             carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation), i);
             ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setCommander(commander);
             ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
+            results.put(carriers[i], new CollisionResults());
         }
         return carriers;
     }

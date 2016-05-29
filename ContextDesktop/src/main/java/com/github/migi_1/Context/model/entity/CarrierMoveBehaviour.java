@@ -95,7 +95,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     /**
      * Set the relative location to the commander.
-     * @param relativeLocation
+     * @param relativeLocation location relative to commander
      */
     public void setRelativeLocation(Vector3f relativeLocation) {
         this.relativeLocation = relativeLocation;

@@ -24,7 +24,7 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
     }
 
     public void collided() {
-        immobalized = 60;
+        immobalized = 120;
         catchUp = true;
     }
 
@@ -35,20 +35,20 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
             return new Vector3f(0, 0, 0);
         }
         if (catchUp) {
-            return moveVector.mult(4.0f);
+            return moveVector.mult(2.0f);
         }
-//        System.out.println(moveVector);
         return moveVector;
     }
 
     @Override
     public void updateMoveVector() {
+        Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
+
+
         if (immobalized > 0) {
             immobalized -= 1;
         }
-        Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
-
-        if (carrier.getModel().getLocalTranslation().x < destination.x) {
+        else if (carrier.getModel().getLocalTranslation().x < destination.x) {
             catchUp = false;
             carrier.getModel().setLocalTranslation(destination);
         }

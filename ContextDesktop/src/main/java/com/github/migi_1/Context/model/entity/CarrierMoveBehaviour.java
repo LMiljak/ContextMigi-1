@@ -45,13 +45,11 @@ public class CarrierMoveBehaviour extends MoveBehaviour {
         if (immobalized > 0) {
             immobalized -= 1;
         }
-        if (catchUp) {
-            Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
+        Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
 
-            if (carrier.getModel().getLocalTranslation().x < destination.x) {
-                catchUp = false;
-                carrier.getModel().setLocalTranslation(destination);
-            }
+        if (carrier.getModel().getLocalTranslation().x < destination.x) {
+            catchUp = false;
+            carrier.getModel().setLocalTranslation(destination);
         }
 
     }

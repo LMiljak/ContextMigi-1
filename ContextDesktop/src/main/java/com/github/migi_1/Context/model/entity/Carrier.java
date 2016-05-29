@@ -48,6 +48,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
         health = h;
     }
 
+
     /**
      * Gets the id that represents the location of the Carrier under the platform.
      *

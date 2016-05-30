@@ -6,9 +6,8 @@ import com.jme3.math.Vector3f;
  * @author Damian
  *
  */
-public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
+public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
 
-	private Vector3f moveVector;
 
 	private float decay;
 
@@ -19,23 +18,14 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
 	 * 		The direction and speed of this behaviour.
 	 */
 	public ConstantSpeedMoveBehaviour(Vector3f moveVector) {
-		this.moveVector = moveVector;
+		setMoveVector(moveVector);
 		this.decay = 1.0f;
 	}
-
-	/**
-	 * Returns the move vector.
-	 * @return the moveVector.
-	 */
-    @Override
-    public Vector3f getMoveVector() {
-        updateMoveVector();
-        return moveVector.mult(decay);
-    }
 
     /**
      * Collision has taken place.
      */
+    @Override
     public void collided() {
 
         decay = 0.0f;
@@ -50,6 +40,9 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
         // regain speed
         if (decay < 1.0f) {
             decay = decay + 0.01f;
+        }
+        else {
+            decay = 1.0f;
         }
 
     }
@@ -69,4 +62,5 @@ public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
     public void setDecay(float decay) {
         this.decay = decay;
     }
+
 }

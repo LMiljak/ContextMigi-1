@@ -34,7 +34,7 @@ public class ObstacleSpawner {
         while (staticObstacleList.size() < NUMBER_OBSTACLES) {
             StaticObstacle obs = staticObstacleFactory.produce();
             obs.scale(0.3f);
-            location = location.add(new Vector3f(-50.f, 0, 0.0f));
+            location = location.add(new Vector3f(-30.f, 0, 0.0f));
 
 
             obs.move(location);

@@ -1,5 +1,8 @@
 package com.github.migi_1.Context.model;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.damageDealers.DamageDealer;
@@ -7,8 +10,10 @@ import com.github.migi_1.Context.damageDealers.ObstacleSpawner;
 import com.github.migi_1.Context.damageDealers.StaticObstacle;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
+import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -63,7 +68,7 @@ public class MainEnvironment extends Environment {
     private LevelGenerator levelGenerator;
 
 
-    private CollisionResults results;
+    private HashMap<Entity, CollisionResults> results;
 
     private ObstacleSpawner obstacleSpawner;
 
@@ -85,7 +90,7 @@ public class MainEnvironment extends Environment {
 
 
 
-        results = new CollisionResults();
+        results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
         initLights();
@@ -114,20 +119,31 @@ public class MainEnvironment extends Environment {
     private void checkCollision() {
 
         //add collision check for all obstacles
-        for (StaticObstacle damageDealer : obstacleSpawner.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
-        }
 
-        //if a collision takes place, remove the colliding object and slow down
-        if (results.size() > 0) {
-            getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
-            results = new CollisionResults();
-            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
-            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
-            for (int i = 0; i < carriers.length; i++) {
-                ((ConstantSpeedMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+        for (StaticObstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+                staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
         }
+
+        //check whether a collision has taken place.
+        //only one object can collide each update, two prevent two object from taking damage.
+        Boolean collided  = false;
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            if (entry.getValue().size() > 0 && !collided) {
+                collided = true;
+                getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
+                entry.setValue(new CollisionResults());
+                ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
+
+            }
+        }
+
+        //reset all CollisionResults.
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            entry.setValue(new CollisionResults());
+        }
+
     }
 
     /**
@@ -182,10 +198,8 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-
-        for (StaticObstacle damageDealer : obstacleSpawner.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
-            addDisplayable(damageDealer);
+        for (StaticObstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            addDisplayable(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
@@ -219,10 +233,30 @@ public class MainEnvironment extends Environment {
             if ((i == 2) || (i == 3)) {
                 x = -x;
             }
-            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), i);
+            Vector3f relativeLocation = new Vector3f(x, y, z);
+            carriers[i] = new Carrier(relativeLocation, i, this);
+            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
+            results.put(carriers[i], new CollisionResults());
         }
         return carriers;
     }
+
+    /**
+     * Get the Commander.
+     * @return commander
+     */
+    public Commander getCommander() {
+        return commander;
+    }
+
+    /**
+     * Get the carriers.
+     * @return carriers
+     */
+    public Carrier[] getCarriers() {
+        return carriers;
+    }
+
 
     /**
      * Initializes the cameras and sets its location and rotation.
@@ -298,10 +332,6 @@ public class MainEnvironment extends Environment {
             removeDisplayable(levelPiece);
         }
 
-        //update the damagedealers
-        for (DamageDealer damageDealer : obstacleSpawner.getObstacles()) {
-            addDisplayable(damageDealer);
-        }
 
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
@@ -312,6 +342,10 @@ public class MainEnvironment extends Environment {
             removeDisplayable(path);
         }
 
+        //update the damagedealers
+        for (StaticObstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            addDisplayable(staticObstacle);
+        }
     }
 
     /**

@@ -27,16 +27,16 @@ public class MainActivity extends AndroidHarness {
          * Configure the game instance that is launched and start the logger.
          */
         public MainActivity() {
-        // Set the application class to run
-        appClass = "com.github.migi_1.ContextApp.Main";
-        
-        //Create the accelerometer sensor.
-        as = new AccelerometerSensor(this);
-        
-        // Start the log manager
-        LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
-        
-    }
+            // Set the application class to run
+            appClass = "com.github.migi_1.ContextApp.Main";
+
+            //Create the accelerometer sensor.
+            as = new AccelerometerSensor(this);
+
+            // Start the log manager
+            LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
+
+        }
     
         /**
          * Instanciate the game instance.

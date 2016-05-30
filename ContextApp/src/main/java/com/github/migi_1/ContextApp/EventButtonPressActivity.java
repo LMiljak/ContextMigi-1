@@ -14,7 +14,7 @@ import android.widget.Button;
  * @author Nils
  */
 public class EventButtonPressActivity extends Activity {
-         @Override
+        @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.android_event_button);

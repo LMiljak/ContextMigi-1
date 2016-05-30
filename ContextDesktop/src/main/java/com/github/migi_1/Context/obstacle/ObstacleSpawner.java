@@ -73,5 +73,14 @@ public class ObstacleSpawner {
         return closest;
     }
     
+    /**
+     * @param obstacleFactory the obstacleFactory to set
+     */
+    public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
+        this.obstacleFactory = obstacleFactory;
+    }
+    
+    
+    
     
 }

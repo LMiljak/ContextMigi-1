@@ -12,7 +12,7 @@ public class StaticObstacleFactory extends AbstractObstacleFactory {
      * Generate a StaticObstacle object.
      */
     @Override
-    public Obstacle produce() {
+    public StaticObstacle produce() {
         return new StaticObstacle();
     }
 

@@ -74,9 +74,9 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     @Override
     @Test
     public void collidedTest() {
-        assertEquals(testMoveBehaviour.getImmobalised(), 0);
+        assertEquals(testMoveBehaviour.getImmobilized(), 0);
         testMoveBehaviour.collided();
-        assertEquals(testMoveBehaviour.getImmobalised(), 120);
+        assertEquals(testMoveBehaviour.getImmobilized(), 120);
 
 
     }

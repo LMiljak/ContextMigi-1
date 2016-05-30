@@ -11,7 +11,7 @@ import com.jme3.math.Vector3f;
  */
 public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
-    private int immobalised;
+    private int immobilized;
 
     private Commander commander;
 
@@ -33,7 +33,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public CarrierMoveBehaviour(Carrier carrier, Vector3f moveVector, MainEnvironment environment) {
 
-        this.immobalised = 0;
+        this.immobilized = 0;
         this.environment = environment;
         this.commander = environment.getCommander();
         this.carrier =  carrier;
@@ -49,7 +49,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     @Override
     public void collided() {
-        immobalised = NUMBER_FRAMES;
+        immobilized = NUMBER_FRAMES;
         catchUp = true;
     }
 
@@ -63,8 +63,8 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
         }
         updateMoveVector();
 
-        //when immobalised, don't move forward
-        if (immobalised > 0) {
+        //when immobilized, don't move forward
+        if (immobilized > 0) {
             return new Vector3f(0, 0, 0);
         }
 
@@ -83,8 +83,8 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
         //corner location under the platform.
         Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
         //become one frame closer to not being immobilised.
-        if (immobalised > 0) {
-            immobalised -= 1;
+        if (immobilized > 0) {
+            immobilized -= 1;
         }
         //when the carrier overshoots, put him in the right location.
         else if (carrier.getModel().getLocalTranslation().x < destination.x) {
@@ -112,19 +112,19 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     }
 
     /**
-     * Get the immobalised attribute.
+     * Get the immobilized attribute.
      * @return attribute
      */
-    public int getImmobalised() {
-        return immobalised;
+    public int getImmobilized() {
+        return immobilized;
     }
 
     /**
-     * Set the immobalised attribute.
-     * @param immobalised attribute
+     * Set the immobilized attribute.
+     * @param immobilized attribute
      */
-    public void setImmobalised(int immobalised) {
-        this.immobalised = immobalised;
+    public void setImmobilized(int immobilized) {
+        this.immobilized = immobilized;
     }
 
     /**

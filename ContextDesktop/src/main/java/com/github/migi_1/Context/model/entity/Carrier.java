@@ -22,18 +22,23 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     private int health;
     private int id; //Represents the location of the carrier under the platform.
-
+    private Vector3f relativeLocation;
     /**
      * constructor of the carrier.
-     * @param startLocation location where the carrier will be initialised
+     * @param relative location relative to the commander
      * @param id to keep the 4 carriers apart
      * @param environment The environment to follow
      */
-    public Carrier(Vector3f startLocation, int id, MainEnvironment environment) {
+    public Carrier(Vector3f relativeLocation, int id, MainEnvironment environment) {
         super();
         setModel(getDefaultModel());
-        getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new CarrierMoveBehaviour(MOVE_VECTOR, environment));
+        getModel().setLocalTranslation(environment.getCommander().getModel()
+                .getLocalTranslation().add(relativeLocation));
+        this.relativeLocation = relativeLocation;
+        CarrierMoveBehaviour moveBehaviour = new CarrierMoveBehaviour(this, MOVE_VECTOR, environment);
+        moveBehaviour.setRelativeLocation(relativeLocation);
+        setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
+
         health = 2;
         this.id = id;
     }
@@ -76,6 +81,15 @@ public class Carrier extends Entity implements Collidable, IKillable {
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+    }
+
+
+    /**
+     * Get relativeLocation attribute.
+     * @return relativeLocation attribute
+     */
+    public Vector3f getRelativeLocation() {
+        return relativeLocation;
     }
 
 }

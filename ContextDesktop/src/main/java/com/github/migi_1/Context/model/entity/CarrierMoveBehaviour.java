@@ -27,18 +27,22 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     /**
      * Constructor.
+     * @param carrier Carrier to follow
      * @param moveVector initial moveVector
      * @param environment The environment to follow
      */
-    public CarrierMoveBehaviour(Vector3f moveVector, MainEnvironment environment) {
-        setMoveVector(moveVector);
+    public CarrierMoveBehaviour(Carrier carrier, Vector3f moveVector, MainEnvironment environment) {
+
         this.immobalised = 0;
         this.environment = environment;
         this.commander = environment.getCommander();
-        this.carrier = environment.getCarriers()[0];
-        this.relativeLocation = new Vector3f(0, 0, 0);
+        this.carrier =  carrier;
+        this.relativeLocation = carrier.getRelativeLocation();
         this.catchUp = false;
+        setMoveVector(moveVector);
     }
+
+
 
     /**
      * When a collision has taken place.
@@ -54,9 +58,12 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     @Override
     public Vector3f getMoveVector() {
+        if (carrier == null) {
+            carrier = environment.getCarriers()[0];
+        }
         updateMoveVector();
 
-        //when immobalized, don't move forward
+        //when immobalised, don't move forward
         if (immobalised > 0) {
             return new Vector3f(0, 0, 0);
         }

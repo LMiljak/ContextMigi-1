@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
 
-/**
+/**TODO: UPDATE THIS JAVADOC WHEN DYNAMIC OBSTACLE SPAWNING IS IMPLEMENTED
  * Handles everything that has to do with the spawning of an obstacle.
- * An ObstacleSpawner has an obstaclefactory, which makes it able to switch
+ * An ObstacleSpawner has an staticObstaclefactory and a dynamicObstacleFactory, which makes it able to switch
  * between dynamic obstacle spawning and static obstacle spawning when the difficulty increases.
  * @author Marcel/Damian
  *

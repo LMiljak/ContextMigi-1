@@ -9,7 +9,7 @@ import com.jme3.collision.Collidable;
  * @author Marcel
  *
  */
-public interface DamageDealer extends Collidable, IMovable, IKillable {
+public interface DamageDealer extends IMovable, IKillable {
 
 
 }

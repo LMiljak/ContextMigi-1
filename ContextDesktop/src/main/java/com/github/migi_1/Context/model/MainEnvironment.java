@@ -4,6 +4,7 @@ import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.damageDealers.DamageDealer;
 import com.github.migi_1.Context.damageDealers.ObstacleSpawner;
+import com.github.migi_1.Context.damageDealers.StaticObstacle;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
@@ -101,10 +102,10 @@ public class MainEnvironment extends Environment {
 
     @Override
     public void update(float tpf) {
-    	super.update(tpf);
+        super.update(tpf);
 
         checkCollision();
-    	updateTestWorld();
+        updateTestWorld();
     }
 
     /**
@@ -113,7 +114,7 @@ public class MainEnvironment extends Environment {
     private void checkCollision() {
 
         //add collision check for all obstacles
-        for (DamageDealer damageDealer : obstacleSpawner.getObstacles()) {
+        for (StaticObstacle damageDealer : obstacleSpawner.getObstacles()) {
             damageDealer.collideWith(platform.getModel().getWorldBound(), results);
         }
 
@@ -182,7 +183,7 @@ public class MainEnvironment extends Environment {
             addDisplayable(levelPiece);
         }
 
-        for (DamageDealer damageDealer : obstacleSpawner.getObstacles()) {
+        for (StaticObstacle damageDealer : obstacleSpawner.getObstacles()) {
             damageDealer.collideWith(platform.getModel().getWorldBound(), results);
             addDisplayable(damageDealer);
         }

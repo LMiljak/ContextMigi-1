@@ -4,6 +4,7 @@ import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.model.entity.StaticMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -12,7 +13,7 @@ import com.jme3.scene.Spatial;
  * @author Marcel
  *
  */
-public class StaticObstacle extends Entity implements DamageDealer, IKillable {
+public class StaticObstacle extends Entity implements DamageDealer, Collidable {
 
     /** File location of model. **/
     private static final String PATHNAME = "Models/testCube2.j3o";

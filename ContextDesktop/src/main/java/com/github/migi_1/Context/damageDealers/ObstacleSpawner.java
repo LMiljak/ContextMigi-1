@@ -13,34 +13,34 @@ public class ObstacleSpawner {
     private Vector3f location;
 
     /** Abstract factory. **/
-    private DamageDealerFactory damageDealerFactory;
+    private StaticObstacleFactory staticObstacleFactory;
 
     /** ArrayList of all geometry pieces. **/
-    private ArrayList<DamageDealer> damageDealerList;
+    private ArrayList<StaticObstacle> staticObstacleList;
 
     private Commander commander;
     
     public ObstacleSpawner(Commander commander) {
         this.location = commander.getModel().getLocalTranslation();
         this.commander = commander;
-        this.damageDealerList = new ArrayList<DamageDealer>();
-        this.damageDealerFactory = new StaticObstacleFactory();
+        this.staticObstacleList = new ArrayList<StaticObstacle>();
+        this.staticObstacleFactory = new StaticObstacleFactory();
     }
     /**
      * Create list of damage dealers that are to be spawned in the environment.
      * @return Map with all DamageDealer objects, with as key value their Geometry in the environment.
      */
-    public ArrayList<DamageDealer> getObstacles() {
-        while (damageDealerList.size() < NUMBER_OBSTACLES) {
-            DamageDealer obs = damageDealerFactory.produce();
+    public ArrayList<StaticObstacle> getObstacles() {
+        while (staticObstacleList.size() < NUMBER_OBSTACLES) {
+            StaticObstacle obs = staticObstacleFactory.produce();
             obs.scale(0.3f);
             location = location.add(new Vector3f(-50.f, 0, 0.0f));
 
 
             obs.move(location);
-            damageDealerList.add(obs);
+            staticObstacleList.add(obs);
         }
-        return damageDealerList;
+        return staticObstacleList;
 
     }
 
@@ -48,10 +48,10 @@ public class ObstacleSpawner {
      * Remove a damageDealer after collision.
      * @return DamageDealer that is deleted
      */
-    public DamageDealer removeDamageDealer() {
+    public StaticObstacle removeDamageDealer() {
         float distance = Float.MAX_VALUE;
-        DamageDealer closest = damageDealerList.get(0);
-        for (DamageDealer damageDealer : damageDealerList) {
+        StaticObstacle closest = staticObstacleList.get(0);
+        for (StaticObstacle damageDealer : staticObstacleList) {
             Vector3f checkLocation = damageDealer.getModel().getLocalTranslation();
             float check = checkLocation.distance(commander.getModel().getLocalTranslation());
             if (check < distance) {
@@ -59,7 +59,7 @@ public class ObstacleSpawner {
                 closest = damageDealer;
             }
         }
-        damageDealerList.remove(closest);
+        staticObstacleList.remove(closest);
         return closest;
     }
 }

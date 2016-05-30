@@ -20,7 +20,11 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-
+/**
+ * Test class for CarrierMoveBehaviour.
+ * @author Marcel
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
@@ -33,6 +37,9 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     private Commander commander;
     private MainEnvironment environment;
 
+    /**
+     * Initialises all mock objects, static class responses and initialise the tested object.
+     */
     @Override
     @Before
     public void setUp() {
@@ -62,6 +69,9 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
 
     }
 
+    /**
+     * Test the collided method.
+     */
     @Override
     @Test
     public void collidedTest() {

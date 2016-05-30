@@ -25,8 +25,9 @@ public class Carrier extends Entity implements Collidable, IKillable {
 
     /**
      * constructor of the carrier.
-     * @param startLocation location where the carrier will be initialized
+     * @param startLocation location where the carrier will be initialised
      * @param id to keep the 4 carriers apart
+     * @param environment The environment to follow
      */
     public Carrier(Vector3f startLocation, int id, MainEnvironment environment) {
         super();

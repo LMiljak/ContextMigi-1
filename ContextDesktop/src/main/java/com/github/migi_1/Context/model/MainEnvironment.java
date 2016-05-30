@@ -241,10 +241,18 @@ public class MainEnvironment extends Environment {
         return carriers;
     }
 
+    /**
+     * Get the Commander.
+     * @return commander
+     */
     public Commander getCommander() {
         return commander;
     }
 
+    /**
+     * Get the carriers.
+     * @return carriers
+     */
     public Carrier[] getCarriers() {
         return carriers;
     }

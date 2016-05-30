@@ -28,13 +28,13 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     /**
      * Constructor.
      * @param moveVector initial moveVector
-     * @param carrier designated carrier
+     * @param environment The environment to follow
      */
     public CarrierMoveBehaviour(Vector3f moveVector, MainEnvironment environment) {
         setMoveVector(moveVector);
         this.immobalised = 0;
         this.environment = environment;
-        this.commander =environment.getCommander();
+        this.commander = environment.getCommander();
         this.carrier = environment.getCarriers()[0];
         this.relativeLocation = new Vector3f(0, 0, 0);
         this.catchUp = false;
@@ -87,6 +87,10 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     }
 
+    /**
+     * Set the carrier, by id.
+     * @param id The id of the carrier
+     */
     public void carrierId(int id) {
         carrier = environment.getCarriers()[id];
     }
@@ -100,34 +104,66 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     }
 
+    /**
+     * Get the immobalised attribute.
+     * @return attribute
+     */
     public int getImmobalised() {
         return immobalised;
     }
 
+    /**
+     * Set the immobalised attribute.
+     * @param immobalised attribute
+     */
     public void setImmobalised(int immobalised) {
         this.immobalised = immobalised;
     }
 
+    /**
+     * Get the catchUp boolean.
+     * @return attribute
+     */
     public Boolean getCatchUp() {
         return catchUp;
     }
 
+    /**
+     * Set the cathUp boolean.
+     * @param catchUp attribute
+     */
     public void setCatchUp(Boolean catchUp) {
         this.catchUp = catchUp;
     }
 
+    /**
+     * Get the corresponding carrier.
+     * @return the carrier
+     */
     public Carrier getCarrier() {
         return carrier;
     }
 
+    /**
+     * Set the carrier.
+     * @param carrier Carrier to set
+     */
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
     }
 
+    /**
+     * Get the relative location.
+     * @return relativeLocation
+     */
     public Vector3f getRelativeLocation() {
         return relativeLocation;
     }
 
+    /**
+     * Get the NUMBER_FRAMES attribute.
+     * @return NUMBER_FRAMES
+     */
     public static int getNumberFrames() {
         return NUMBER_FRAMES;
     }

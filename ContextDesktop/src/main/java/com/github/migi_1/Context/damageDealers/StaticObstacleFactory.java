@@ -6,13 +6,13 @@ package com.github.migi_1.Context.damageDealers;
  * @author Marcel
  *
  */
-public class StaticObstacleFactory extends AbstractDamageDealerFactory {
+public class StaticObstacleFactory extends AbstractObstacleFactory {
 
     /**
      * Generate a StaticObstacle object.
      */
     @Override
-    public StaticObstacle produce() {
+    public Obstacle produce() {
         return new StaticObstacle();
     }
 

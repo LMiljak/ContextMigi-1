@@ -6,12 +6,12 @@ package com.github.migi_1.Context.damageDealers;
  * @author Marcel
  *
  */
-public abstract class AbstractDamageDealerFactory {
+public abstract class AbstractObstacleFactory {
 
     /**
      * Generate a DamageDealer object.
      * @return generated DamageDealer object
      */
-    public abstract DamageDealer produce();
+    public abstract Obstacle produce();
 
 }

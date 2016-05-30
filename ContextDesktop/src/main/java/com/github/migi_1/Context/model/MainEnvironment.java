@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
-import com.github.migi_1.Context.damageDealers.DamageDealer;
+import com.github.migi_1.Context.damageDealers.Obstacle;
 import com.github.migi_1.Context.damageDealers.ObstacleSpawner;
 import com.github.migi_1.Context.damageDealers.StaticObstacle;
 import com.github.migi_1.Context.model.entity.Camera;
@@ -120,7 +120,7 @@ public class MainEnvironment extends Environment {
 
         //add collision check for all obstacles
 
-        for (StaticObstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
                 staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
@@ -198,7 +198,7 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-        for (StaticObstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
@@ -342,8 +342,8 @@ public class MainEnvironment extends Environment {
             removeDisplayable(path);
         }
 
-        //update the damagedealers
-        for (StaticObstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        //update the Obstacles
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);
         }
     }

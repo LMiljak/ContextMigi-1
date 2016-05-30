@@ -25,7 +25,7 @@ public class Carrier extends Entity implements Collidable, IKillable {
     private Vector3f relativeLocation;
     /**
      * constructor of the carrier.
-     * @param relative location relative to the commander
+     * @param relativeLocation location relative to the commander
      * @param id to keep the 4 carriers apart
      * @param environment The environment to follow
      */

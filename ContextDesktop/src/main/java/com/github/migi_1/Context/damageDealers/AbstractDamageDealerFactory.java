@@ -6,7 +6,7 @@ package com.github.migi_1.Context.damageDealers;
  * @author Marcel
  *
  */
-public abstract class DamageDealerFactory {
+public abstract class AbstractDamageDealerFactory {
 
     /**
      * Generate a DamageDealer object.

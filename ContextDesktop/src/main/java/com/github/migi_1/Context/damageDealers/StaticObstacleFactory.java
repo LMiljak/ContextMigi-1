@@ -6,7 +6,7 @@ package com.github.migi_1.Context.damageDealers;
  * @author Marcel
  *
  */
-public class StaticObstacleFactory extends DamageDealerFactory {
+public class StaticObstacleFactory extends AbstractDamageDealerFactory {
 
     /**
      * Generate a StaticObstacle object.

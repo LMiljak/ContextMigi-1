@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public abstract class TestDamageDealerFactory {
 
-    private DamageDealerFactory testDamageDealerFactory;
+    private AbstractDamageDealerFactory testDamageDealerFactory;
     private DamageDealer damageDealer;
 
     /**
@@ -34,7 +34,7 @@ public abstract class TestDamageDealerFactory {
      * Get the damageDealerFactory attribute.
      * @return damageDealerFactory
      */
-    public DamageDealerFactory getTestDamageDealerFactory() {
+    public AbstractDamageDealerFactory getTestDamageDealerFactory() {
         return testDamageDealerFactory;
     }
 
@@ -43,7 +43,7 @@ public abstract class TestDamageDealerFactory {
      * @param testDamageDealerFactory The damageDealerFactory to set
      */
     public void setTestDamageDealerFactory(
-            DamageDealerFactory testDamageDealerFactory) {
+            AbstractDamageDealerFactory testDamageDealerFactory) {
         this.testDamageDealerFactory = testDamageDealerFactory;
     }
 

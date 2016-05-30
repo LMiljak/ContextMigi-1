@@ -54,6 +54,7 @@ public class MainEnvironment extends Environment {
 
     private static final int NUMBER_OF_CARRIERS = 4;
 
+    private Main main;
     private Platform platform;
     private Commander commander;
     private ArrayList<Carrier> carriers;
@@ -81,6 +82,7 @@ public class MainEnvironment extends Environment {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         
+        main = (Main) app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -104,7 +106,7 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
         
-        new CarrierAssigner(platform, ((Main) app).getServer());
+        new CarrierAssigner(platform, main.getServer(), main);
     }
 
     @Override
@@ -223,7 +225,7 @@ public class MainEnvironment extends Environment {
             //put two carriers on the back side.
             x = x * p.getxFactor();
             
-            carriers.add(new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), p));
+            carriers.add(new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), p, main));
         }
         return carriers;
     }

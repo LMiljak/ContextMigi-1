@@ -1,8 +1,10 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.github.migi_1.Context.server.DamageMessenger;
 import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -16,11 +18,14 @@ import com.jme3.scene.Spatial;
  *
  */
 public class Carrier extends Entity implements Collidable, IKillable {
-
+ 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
+    private Main main;
+    private DamageMessenger dm;
+    
     private int health;
     private PlatformPosition position;
 
@@ -29,11 +34,14 @@ public class Carrier extends Entity implements Collidable, IKillable {
      * @param startLocation location where the carrier will be initialized
      * @param position position of the carrier under the platform.
      */
-    public Carrier(Vector3f startLocation, PlatformPosition position) {
-        super();
+    public Carrier(Vector3f startLocation, PlatformPosition position, Main main) {
+        super();   
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
+        
+        this.main = main;
+        dm = new DamageMessenger(main);
         
         health = 3;      
         this.position = position;
@@ -85,6 +93,6 @@ public class Carrier extends Entity implements Collidable, IKillable {
      * This function sends the health value to the right android app.
      */
     public void sendHealth() {
-        // TODO
+        
     }
 }

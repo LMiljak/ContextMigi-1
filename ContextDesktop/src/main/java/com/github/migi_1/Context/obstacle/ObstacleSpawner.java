@@ -36,7 +36,6 @@ public class ObstacleSpawner {
             obs.scale(0.3f);
             location = location.add(new Vector3f(-30.f, 0, 0.0f));
 
-
             obs.move(location);
             obstacleList.add(obs);
         }

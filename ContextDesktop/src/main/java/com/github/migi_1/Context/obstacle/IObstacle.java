@@ -2,7 +2,6 @@ package com.github.migi_1.Context.obstacle;
 
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.model.entity.IMovable;
-import com.jme3.collision.Collidable;
 
 /**
  * This interface provides some methods that all DamageDealers must declare.

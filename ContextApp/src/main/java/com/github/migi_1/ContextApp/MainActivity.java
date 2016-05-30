@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -23,6 +24,9 @@ public class MainActivity extends AndroidHarness {
         private Main application;
         private SensorManager mSensorManager;
         private AccelerometerSensor as;
+        private PositionHolder posHolder;
+        
+        Button leftButton, middleButton, rightButton, trigger;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -33,6 +37,7 @@ public class MainActivity extends AndroidHarness {
         
         //Create the accelerometer sensor.
         as = new AccelerometerSensor(this);
+        posHolder = PositionHolder.getInstance();
         
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
@@ -47,7 +52,7 @@ public class MainActivity extends AndroidHarness {
         @Override  
         public void onCreate(Bundle savedInstanceState) {  
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.android_ingame_fr);
+            setContentView(R.layout.android_searching);
 
             //instantiate the application
             application = (Main) getJmeApplication();
@@ -60,12 +65,13 @@ public class MainActivity extends AndroidHarness {
             // start the autoconnector
             AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
                     ClientWrapper.getInstance());
-
-            // Retrieve buttons
-            Button leftButton = (Button) findViewById(R.id.FR_button_left);
-            Button middleButton = (Button) findViewById(R.id.FR_button_middle);
-            Button rightButton = (Button) findViewById(R.id.FR_button_right);
-            Button trigger = (Button) findViewById(R.id.FR_button_trigger);
+            
+            // wait until position is received
+            while (posHolder.getPosition() == null){
+                // do nothing
+            }
+            
+            setButtonsAndScreen();
             
             // add logging functionality
             setButtons(leftButton, "left");
@@ -74,6 +80,60 @@ public class MainActivity extends AndroidHarness {
             setButtons(trigger, "trigger");
         }
 
+        
+        public void setButtonsAndScreen() {
+            switch (posHolder.getPosition()) {
+                    case FRONTRIGHT:
+                        makeFRbuttons();
+                        setContentView(R.layout.android_ingame_fr);
+                        break;
+                    case FRONTLEFT:
+                        makeFLbuttons();
+                        setContentView(R.layout.android_ingame_fl);
+                        break;
+                    case BACKRIGHT:
+                        makeBRbuttons();
+                        setContentView(R.layout.android_ingame_br);
+                        break;
+                    case BACKLEFT:
+                        makeBLbuttons();
+                        setContentView(R.layout.android_ingame_bl);
+                        break;
+            }
+        }
+        
+        public void makeFRbuttons() {
+            // Retrieve buttons
+            leftButton = (Button) findViewById(R.id.FR_button_left);
+            middleButton = (Button) findViewById(R.id.FR_button_middle);
+            rightButton = (Button) findViewById(R.id.FR_button_right);
+            trigger = (Button) findViewById(R.id.FR_button_trigger);
+        }
+        
+        public void makeFLbuttons() {
+            // Retrieve buttons
+            leftButton = (Button) findViewById(R.id.FL_button_left);
+            middleButton = (Button) findViewById(R.id.FL_button_middle);
+            rightButton = (Button) findViewById(R.id.FL_button_right);
+            trigger = (Button) findViewById(R.id.FR_button_trigger);
+        }
+        
+        public void makeBRbuttons() {
+            // Retrieve buttons
+            leftButton = (Button) findViewById(R.id.BR_button_left);
+            middleButton = (Button) findViewById(R.id.BR_button_middle);
+            rightButton = (Button) findViewById(R.id.BR_button_right);
+            trigger = (Button) findViewById(R.id.FR_button_trigger);
+        }
+        
+        public void makeBLbuttons() {
+            // Retrieve buttons
+            leftButton = (Button) findViewById(R.id.BL_button_left);
+            middleButton = (Button) findViewById(R.id.BL_button_middle);
+            rightButton = (Button) findViewById(R.id.BL_button_right);
+            trigger = (Button) findViewById(R.id.FR_button_trigger);
+        }
+        
         /**
          * Makes sure buttonpresses are logged.
          * @param butt = the button to which a clicklistener is set

@@ -196,10 +196,7 @@ public class MainEnvironment extends Environment {
         }
 
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            for (Entry<Entity, CollisionResults> entry : results.entrySet()) {
-                damageDealer.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
-                addDisplayable(damageDealer);
-            }
+            addDisplayable(damageDealer);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);

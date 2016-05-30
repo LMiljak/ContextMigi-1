@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
 
+/**
+ * Handles everything that has to do with the spawning of an obstacle.
+ * An ObstacleSpawner has an obstaclefactory, which makes it able to switch
+ * between dynamic obstacle spawning and static obstacle spawning when the difficulty increases.
+ * @author Marcel/Damian
+ *
+ */
 public class ObstacleSpawner {    
 
     private static final int NUMBER_OBSTACLES = 10;
@@ -20,6 +27,10 @@ public class ObstacleSpawner {
 
     private Commander commander;
     
+    /**
+     * Constructor for the obstacle spawner object.
+     * @param commander needed for knowing where to spawn the obstacles.
+     */
     public ObstacleSpawner(Commander commander) {
         this.location = commander.getModel().getLocalTranslation();
         this.commander = commander;
@@ -27,8 +38,8 @@ public class ObstacleSpawner {
         this.obstacleFactory = new StaticObstacleFactory();
     }
     /**
-     * Create list of damage dealers that are to be spawned in the environment.
-     * @return Map with all DamageDealer objects, with as key value their Geometry in the environment.
+     * Create list of obstacles that are to be spawned in the environment.
+     * @return Map with all obstacles, with as key value their Geometry in the environment.
      */
     public ArrayList<Obstacle> getObstacles() {
         while (obstacleList.size() < NUMBER_OBSTACLES) {
@@ -44,8 +55,8 @@ public class ObstacleSpawner {
     }
 
     /**
-     * Remove a damageDealer after collision.
-     * @return DamageDealer that is deleted
+     * Remove a obstacle after collision.
+     * @return obstacles that is deleted
      */
     public Obstacle removeDamageDealer() {
         float distance = Float.MAX_VALUE;

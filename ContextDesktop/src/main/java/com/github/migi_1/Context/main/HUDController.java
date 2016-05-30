@@ -30,17 +30,6 @@ public class HUDController {
         hudText.setText("0");             // the text
         settings = ((Main) app).getSettings();
         hudText.setLocalTranslation(settings.getWidth() - hudText.getLineWidth(), settings.getHeight(), 0); // position
-
-
-//        Material mat = new Material(ProjectAssetManager.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-//        mat.setColor("Color", new ColorRGBA(1, 0, 0, 0.5f)); // 0.5f is the alpha value
-
-
-        // Create rectangle of size 10x10
-//        Geometry rect = new Geometry("Rect", new Quad(hudText.getLineWidth(), hudText.getLineHeight()));
-//        rect.setLocalTranslation(settings.getWidth() - hudText.getLineWidth(), settings.getHeight() - hudText.getLineHeight(), 0);
-//        rect.setMaterial(mat);
-//        guiNode.attachChild(rect);
         guiNode.attachChild(hudText);
     }
 

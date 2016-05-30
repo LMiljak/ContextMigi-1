@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
+import com.git.migi_1.Context.entity.TestEntityMoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**
@@ -14,21 +15,19 @@ import com.jme3.math.Vector3f;
  * @author Marcel
  *
  */
-public class TestConstantSpeedMoveBehaviour {
+public class TestConstantSpeedMoveBehaviour extends TestEntityMoveBehaviour {
 
-    /**
-     * Instance of tested class.
-     */
     private ConstantSpeedMoveBehaviour testMoveBehaviour;
-
-    private Vector3f moveVector = new Vector3f(1, 2, 3);
 
     /**
      * Initialises the tested object.
      */
+    @Override
     @Before
     public void setUp() {
-        testMoveBehaviour = new ConstantSpeedMoveBehaviour(moveVector);
+        setMoveVector(new Vector3f(1, 2, 3));
+        testMoveBehaviour = new ConstantSpeedMoveBehaviour(getMoveVector());
+        setMoveBehaviour(testMoveBehaviour);
     }
 
     /**
@@ -36,12 +35,13 @@ public class TestConstantSpeedMoveBehaviour {
      */
     @Test
     public void testGetMoveBehaviour() {
-        assertEquals(moveVector, testMoveBehaviour.getMoveVector());
+        assertEquals(getMoveVector(), getMoveBehaviour().getMoveVector());
     }
 
     /**
      * Test the collided method.
      */
+    @Override
     @Test
     public void collidedTest() {
         assertTrue(Math.abs(testMoveBehaviour.getDecay() - 1.0f) < 0.01);
@@ -59,5 +59,6 @@ public class TestConstantSpeedMoveBehaviour {
         testMoveBehaviour.updateMoveVector();
         assertTrue(Math.abs(testMoveBehaviour.getDecay() - 0.41f) < 0.01);
     }
+
 
 }

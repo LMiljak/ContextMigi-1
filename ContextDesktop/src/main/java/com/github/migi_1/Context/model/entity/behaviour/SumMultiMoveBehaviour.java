@@ -18,5 +18,10 @@ public class SumMultiMoveBehaviour extends MultiMoveBehaviour {
 		
 		return result;
 	}
+        
+        @Override
+        public void updateMoveVector(){
+            // NOTHING
+        }
 
 }

@@ -8,6 +8,7 @@ import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.network.ConnectionListener;
 import com.jme3.network.HostedConnection;
 import com.jme3.network.Server;
@@ -20,7 +21,7 @@ public class CarrierAssigner implements ConnectionListener {
 
 	private Platform platform;
 	private HashMap<String, Carrier> addressCarrierMap = new HashMap<>(4);
-        private Main main;
+        private MainEnvironment env;
 	
 	/**
 	 * Constructor for CarrierAssigner.
@@ -30,9 +31,9 @@ public class CarrierAssigner implements ConnectionListener {
 	 * @param server
 	 * 		The server to which the clients can connect.
 	 */
-	public CarrierAssigner(Platform platform, ServerWrapper server, Main main) {
+	public CarrierAssigner(Platform platform, ServerWrapper server, MainEnvironment env) {
 		this.platform = platform;
-                this.main = main;
+                this.env = env;
 		server.getServer().addConnectionListener(this);
 		System.out.println("hi");
 	}
@@ -48,7 +49,7 @@ public class CarrierAssigner implements ConnectionListener {
 		System.out.println("hi");
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
-				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, main);
+				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, env);
 				
 				addressCarrierMap.put(conn.getAddress(), carrier);
 				platform.addCarrier(carrier);

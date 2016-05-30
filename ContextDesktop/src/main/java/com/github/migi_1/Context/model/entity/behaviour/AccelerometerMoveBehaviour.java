@@ -39,5 +39,10 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 			this.moveVector = new Vector3f(0, 0, zSpeed);
 		}
 	}
+        
+        @Override
+        public void updateMoveVector(){
+            // NOTHING
+        }
 
 }

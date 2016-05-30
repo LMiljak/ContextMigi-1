@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.model;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
@@ -9,8 +11,11 @@ import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
+import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
+import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
@@ -54,10 +59,11 @@ public class MainEnvironment extends Environment {
 
     private static final int NUMBER_OF_CARRIERS = 4;
 
-    private Main main;
+    private MainEnvironment env;
     private Platform platform;
     private Commander commander;
     private ArrayList<Carrier> carriers;
+    private Application app;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -69,7 +75,7 @@ public class MainEnvironment extends Environment {
     private LevelGenerator levelGenerator;
 
 
-    private CollisionResults results;
+    private HashMap<Entity, CollisionResults> results;
 
     private DamageDealerGenerator damageDealerGenerator;
 
@@ -82,7 +88,7 @@ public class MainEnvironment extends Environment {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         
-        main = (Main) app;
+        this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -92,7 +98,7 @@ public class MainEnvironment extends Environment {
 
 
 
-        results = new CollisionResults();
+        results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
         initLights();
@@ -106,7 +112,7 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
         
-        new CarrierAssigner(platform, main.getServer(), main);
+        new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
     @Override
@@ -124,19 +130,28 @@ public class MainEnvironment extends Environment {
 
         //add collision check for all obstacles
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
-        }
-
-        //if a collision takes place, remove the colliding object and slow down
-        if (results.size() > 0) {
-            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
-            results = new CollisionResults();
-            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
-            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
-            for (int i = 0; i < carriers.size(); i++) {
-                ((ConstantSpeedMoveBehaviour) carriers.get(i).getMoveBehaviour()).collided();
+            for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+                damageDealer.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
         }
+
+        //check whether a collision has taken place.
+        //only one object can collide each update, two prevent two object from taking damage.
+        Boolean collided  = false;
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            if (entry.getValue().size() > 0 && !collided) {
+                collided = true;
+                getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
+                entry.setValue(new CollisionResults());
+                ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
+            }
+        }
+
+        //reset all CollisionResults.
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            entry.setValue(new CollisionResults());
+        }
+
     }
 
     /**
@@ -186,14 +201,12 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         damageDealerGenerator = new DamageDealerGenerator(commander);
-
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
 
         for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
             addDisplayable(damageDealer);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
@@ -225,10 +238,31 @@ public class MainEnvironment extends Environment {
             //put two carriers on the back side.
             x = x * p.getxFactor();
             
-            carriers.add(new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), p, main));
+            Vector3f relativeLocation = new Vector3f(x, y, z);
+            Carrier newCarrier = new Carrier(relativeLocation, p, this);
+            ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
+            results.put(newCarrier, new CollisionResults());
+            carriers.add(newCarrier);
         }
         return carriers;
     }
+
+    /**
+     * Get the Commander.
+     * @return commander
+     */
+    public Commander getCommander() {
+        return commander;
+    }
+
+    /**
+     * Get the carriers.
+     * @return carriers
+     */
+    public ArrayList<Carrier> getCarriers() {
+        return carriers;
+    }
+
 
     /**
      * Initializes the cameras and sets its location and rotation.
@@ -304,11 +338,6 @@ public class MainEnvironment extends Environment {
             removeDisplayable(levelPiece);
         }
 
-        //update the damagedealers
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            addDisplayable(damageDealer);
-        }
-
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
@@ -318,6 +347,10 @@ public class MainEnvironment extends Environment {
             removeDisplayable(path);
         }
 
+        //update the damagedealers
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            addDisplayable(damageDealer);
+        }
     }
 
     /**
@@ -350,5 +383,9 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+    
+    public Main getMain() {
+        return ((Main) app);
     }
 }

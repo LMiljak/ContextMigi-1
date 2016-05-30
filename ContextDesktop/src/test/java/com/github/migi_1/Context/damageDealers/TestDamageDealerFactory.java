@@ -15,7 +15,7 @@ import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
 public abstract class TestDamageDealerFactory {
 
     private AbstractObstacleFactory testDamageDealerFactory;
-    private DamageDealer damageDealer;
+    private Object damageDealer;
 
     /**
      * Initialise attributes.
@@ -54,7 +54,7 @@ public abstract class TestDamageDealerFactory {
      * Get the damageDealer attribute.
      * @return damageDealer attribute
      */
-    public DamageDealer getDamageDealer() {
+    public Object getDamageDealer() {
         return damageDealer;
     }
 
@@ -62,7 +62,7 @@ public abstract class TestDamageDealerFactory {
      * Set the damageDealer attribute.
      * @param damageDealer The damageDealer to set
      */
-    public void setDamageDealer(DamageDealer damageDealer) {
+    public void setDamageDealer(Object damageDealer) {
         this.damageDealer = damageDealer;
     }
 

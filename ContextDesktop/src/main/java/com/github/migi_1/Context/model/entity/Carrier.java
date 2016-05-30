@@ -57,13 +57,13 @@ public class Carrier extends Entity implements Collidable, IKillable {
     @Override
     public void setHealth(int h) {
         health = h;
-        sendHealth();
+        dm.sendHealth(getHealth(), getPosition());
     }
     
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
-        sendHealth();
+        dm.sendHealth(getHealth(), getPosition());
     	if (getHealth() <= 0) {
     		onKilled();
     	}
@@ -87,12 +87,5 @@ public class Carrier extends Entity implements Collidable, IKillable {
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
-    }
-
-    /**
-     * This function sends the health value to the right android app.
-     */
-    public void sendHealth() {
-        
     }
 }

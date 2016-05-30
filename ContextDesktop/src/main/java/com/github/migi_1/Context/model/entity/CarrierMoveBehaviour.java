@@ -69,7 +69,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     public void updateMoveVector() {
         //corner location under the platform.
         Vector3f destination = commander.getModel().getLocalTranslation().add(relativeLocation);
-
         //become one frame closer to not being immobilised.
         if (immobalised > 0) {
             immobalised -= 1;
@@ -99,5 +98,39 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
         this.relativeLocation = relativeLocation;
 
     }
+
+    public int getImmobalised() {
+        return immobalised;
+    }
+
+    public void setImmobalised(int immobalised) {
+        this.immobalised = immobalised;
+    }
+
+    public Boolean getCatchUp() {
+        return catchUp;
+    }
+
+    public void setCatchUp(Boolean catchUp) {
+        this.catchUp = catchUp;
+    }
+
+    public Carrier getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(Carrier carrier) {
+        this.carrier = carrier;
+    }
+
+    public Vector3f getRelativeLocation() {
+        return relativeLocation;
+    }
+
+    public static int getNumberFrames() {
+        return NUMBER_FRAMES;
+    }
+
+
 
 }

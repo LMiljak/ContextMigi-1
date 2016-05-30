@@ -13,6 +13,9 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 
 /**
@@ -22,6 +25,7 @@ import com.jme3.scene.Node;
 public class Environment extends AbstractAppState {
 
 	private Node rootNode;
+	private Node guiNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
 
@@ -30,10 +34,19 @@ public class Environment extends AbstractAppState {
 		super.initialize(stateManager, app);
 
 		this.rootNode = ((Main) app).getRootNode();
+		this.guiNode = ((Main) app).getGuiNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
+
+		BitmapFont guiFont = assetManager.loadFont("Interface/Fonts/Console.fnt");
+		BitmapText hudText = new BitmapText(guiFont, false);
+		hudText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
+		hudText.setColor(ColorRGBA.Blue);                             // font color
+		hudText.setText("You can write any string here");             // the text
+		hudText.setLocalTranslation(300, hudText.getLineHeight(), 0); // position
+		guiNode.attachChild(hudText);
 	}
 
 	@Override

@@ -234,13 +234,21 @@ public class MainEnvironment extends Environment {
                 x = -x;
             }
             Vector3f relativeLocation = new Vector3f(x, y, z);
-            carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation), i);
-            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setCommander(commander);
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(relativeLocation), i, this);
             ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
             results.put(carriers[i], new CollisionResults());
         }
         return carriers;
     }
+
+    public Commander getCommander() {
+        return commander;
+    }
+
+    public Carrier[] getCarriers() {
+        return carriers;
+    }
+
 
     /**
      * Initializes the cameras and sets its location and rotation.

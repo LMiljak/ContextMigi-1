@@ -11,6 +11,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -33,6 +34,7 @@ public class TestCarrier extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
+    private MainEnvironment environment;
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
@@ -44,13 +46,20 @@ public class TestCarrier extends TestEntity {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
+        Carrier[] carriers = new Carrier[4];
+        for (int i = 0; i < carriers.length; i++) {
+            carriers[i] = Mockito.mock(Carrier.class);
+            Mockito.when(carriers[i].getId()).thenReturn(i);
+            Mockito.when(carriers[i].getModel()).thenReturn(model);
+        }
         moveBehaviour = Mockito.mock(MoveBehaviour.class);
+        environment = Mockito.mock(MainEnvironment.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-
-        testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
+        Mockito.when(environment.getCarriers()).thenReturn(carriers);
+        testCarrier = new Carrier(new Vector3f(0, 0, 0), 0, environment);
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCarrier);

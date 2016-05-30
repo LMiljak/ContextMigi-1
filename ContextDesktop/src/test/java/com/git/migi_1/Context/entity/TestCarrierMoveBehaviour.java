@@ -11,6 +11,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
@@ -30,27 +31,33 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     private AssetManager assetManager;
     private Spatial model;
     private Commander commander;
-
+    private MainEnvironment environment;
 
     @Override
     @Before
     public void setUp() {
-        commander = Mockito.mock(Commander.class);
-        carrier = Mockito.mock(Carrier.class);
         model =  Mockito.mock(Spatial.class);
+        Carrier[] carriers = new Carrier[4];
+        for (int i = 0; i < carriers.length; i++) {
+            carriers[i] = Mockito.mock(Carrier.class);
+            Mockito.when(carriers[i].getId()).thenReturn(i);
+            Mockito.when(carriers[i].getModel()).thenReturn(model);
+        }
+        commander = Mockito.mock(Commander.class);
+        Mockito.when(commander.getModel()).thenReturn(model);
+        environment = Mockito.mock(MainEnvironment.class);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         setMoveVector(new Vector3f(1, 2, 3));
-        testMoveBehaviour = new CarrierMoveBehaviour(getMoveVector(), carrier);
-        testMoveBehaviour.setCommander(commander);
-        setMoveBehaviour(testMoveBehaviour);
+        Mockito.when(environment.getCarriers()).thenReturn(carriers);
+        Mockito.when(environment.getCommander()).thenReturn(commander);
+        testMoveBehaviour = new CarrierMoveBehaviour(getMoveVector(), environment);
         testMoveBehaviour.setRelativeLocation(new Vector3f(0, 0, 0));
+        setMoveBehaviour(testMoveBehaviour);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-        Mockito.when(commander.getModel()).thenReturn(model);
-        Mockito.when(carrier.getModel()).thenReturn(model);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
 
     }

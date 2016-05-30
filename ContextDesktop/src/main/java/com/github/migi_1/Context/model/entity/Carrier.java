@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
@@ -27,11 +28,11 @@ public class Carrier extends Entity implements Collidable, IKillable {
      * @param startLocation location where the carrier will be initialized
      * @param id to keep the 4 carriers apart
      */
-    public Carrier(Vector3f startLocation, int id) {
+    public Carrier(Vector3f startLocation, int id, MainEnvironment environment) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new CarrierMoveBehaviour(MOVE_VECTOR, this));
+        setMoveBehaviour(new CarrierMoveBehaviour(MOVE_VECTOR, environment));
         health = 2;
         this.id = id;
     }

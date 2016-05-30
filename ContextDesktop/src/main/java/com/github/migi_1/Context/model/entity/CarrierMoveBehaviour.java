@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.math.Vector3f;
 
 /**
@@ -20,6 +21,8 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     private Vector3f relativeLocation;
 
+    private MainEnvironment environment;
+
     private static final int NUMBER_FRAMES = 120;
 
     /**
@@ -27,10 +30,13 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param moveVector initial moveVector
      * @param carrier designated carrier
      */
-    public CarrierMoveBehaviour(Vector3f moveVector, Carrier carrier) {
+    public CarrierMoveBehaviour(Vector3f moveVector, MainEnvironment environment) {
         setMoveVector(moveVector);
         this.immobalised = 0;
-        this.carrier = carrier;
+        this.environment = environment;
+        this.commander =environment.getCommander();
+        this.carrier = environment.getCarriers()[0];
+        this.relativeLocation = new Vector3f(0, 0, 0);
         this.catchUp = false;
     }
 
@@ -81,13 +87,8 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     }
 
-    /**
-     * Set the commander.
-     *
-     * @param commander Commander object
-     */
-    public void setCommander(Commander commander) {
-        this.commander = commander;
+    public void carrierId(int id) {
+        carrier = environment.getCarriers()[id];
     }
 
     /**

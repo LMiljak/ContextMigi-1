@@ -21,6 +21,15 @@
         android:textColor="#ffffff" />
 
     <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/FR_button_trigger"
+        android:text="Trigger"
+        android:background="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+    
+    <Button
         android:layout_width="160dp"
         android:layout_height="100dp"
         android:id="@+id/FR_button_left"
@@ -28,7 +37,7 @@
         android:background="#4643d3"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true" />
-
+    
     <Button
         android:layout_width="160dp"
         android:layout_height="100dp"

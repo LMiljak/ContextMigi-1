@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
+
 /**
  * Test class for the DamageDealerFactory class.
  * @author Marcel

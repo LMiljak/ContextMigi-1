@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.damageDealers;
+package com.github.migi_1.Context.obstacle;
 
 import com.github.migi_1.Context.model.entity.StaticMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;

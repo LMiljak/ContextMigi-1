@@ -5,9 +5,6 @@ import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
-import com.github.migi_1.Context.damageDealers.Obstacle;
-import com.github.migi_1.Context.damageDealers.ObstacleSpawner;
-import com.github.migi_1.Context.damageDealers.StaticObstacle;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
@@ -15,6 +12,9 @@ import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.obstacle.Obstacle;
+import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.obstacle.StaticObstacle;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;

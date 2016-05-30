@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.damageDealers;
+package com.github.migi_1.Context.obstacle;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;

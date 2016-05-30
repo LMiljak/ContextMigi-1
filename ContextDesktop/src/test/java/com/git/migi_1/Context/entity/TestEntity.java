@@ -27,11 +27,11 @@ public abstract class TestEntity {
     /**
      * Test the getMoveBehaviour method.
      */
-    @Test
+    /*@Test
     public void testGetMoveBehaviour() {
         testEntity.setMoveBehaviour(moveBehaviour);
         assertEquals(moveBehaviour, testEntity.getMoveBehaviour());
-    };
+    };*/
 
     /**
      * Sets the moveBehaviour attribute.

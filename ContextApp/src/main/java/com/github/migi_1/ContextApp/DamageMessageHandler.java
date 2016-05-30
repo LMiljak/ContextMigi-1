@@ -9,15 +9,15 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
  */
 public class DamageMessageHandler extends MessageListener<DamageMessage> {
     
-    private MainGame mg;
+    private MainActivity main;
     
     /**
      * Creates and registers a new DamageMessageHandler.
      * @param main
      * 		The instance of the application.
      */
-    public DamageMessageHandler(MainGame mg) {
-        this.mg = mg;
+    public DamageMessageHandler(MainActivity main) {
+        this.main = main;
     }
     
     @Override
@@ -25,7 +25,7 @@ public class DamageMessageHandler extends MessageListener<DamageMessage> {
         PlatformPosition position = message.getPos();
         //TODO: Identification
         
-        mg.setHealth(message.getHealth());
+        main.setHealth(message.getHealth());
     }
     
     @Override

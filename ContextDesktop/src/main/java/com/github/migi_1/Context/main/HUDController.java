@@ -9,15 +9,17 @@ import com.jme3.scene.Node;
 
 public class HUDController {
 
-    private int count = 0;
+    private Application app;
+
+    private float count = 0;
 
     private BitmapText hudText;
 
     public HUDController(Node guiNode, Application app) {
-
-        BitmapFont guiFont = ProjectAssetManager.getInstance().getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+        this.app = app;
+        BitmapFont guiFont = ProjectAssetManager.getInstance().getAssetManager().loadFont("Interface/Fonts/RockwellExtraBold.fnt");
         hudText = new BitmapText(guiFont, false);
-        hudText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
+        hudText.setSize(guiFont.getCharSet().getRenderedSize() * 5);      // font size
         hudText.setColor(ColorRGBA.Red);                             // font color
         hudText.setText("You can write any string here");             // the text
 
@@ -27,8 +29,10 @@ public class HUDController {
     }
 
     public void updateHUD() {
-        count++;
-        hudText.setText(Integer.toString(count));
+        count = count + 0.1f;
+        hudText.setText(Integer.toString(Math.round(count)));
+        hudText.setLocalTranslation(((Main) app).getSettings().getWidth() - hudText.getLineWidth(), ((Main) app).getSettings().getHeight(), 0); // position
+
 
     }
 

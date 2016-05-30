@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import com.github.migi_1.Context.ServerWrapper;
 
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -47,7 +46,7 @@ public class TestServerWrapper {
 			e.printStackTrace();
 		}
 		
-		wrapper = ServerWrapper.getInstance();
+		wrapper = new ServerWrapper();
 	}
 	
 	/**

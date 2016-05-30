@@ -5,9 +5,8 @@ import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
+
 import com.github.migi_1.Context.main.Main;
-import com.github.migi_1.Context.damageDealers.DamageDealer;
-import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
@@ -18,6 +17,8 @@ import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.github.migi_1.Context.obstacle.Obstacle;
+import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -77,7 +78,7 @@ public class MainEnvironment extends Environment {
 
     private HashMap<Entity, CollisionResults> results;
 
-    private DamageDealerGenerator damageDealerGenerator;
+    private ObstacleSpawner obstacleSpawner;
 
 
     /**
@@ -117,10 +118,10 @@ public class MainEnvironment extends Environment {
 
     @Override
     public void update(float tpf) {
-    	super.update(tpf);
+        super.update(tpf);
 
         checkCollision();
-    	updateTestWorld();
+        updateTestWorld();
     }
 
     /**
@@ -129,9 +130,10 @@ public class MainEnvironment extends Environment {
     private void checkCollision() {
 
         //add collision check for all obstacles
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
-                damageDealer.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
+                staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
         }
 
@@ -141,9 +143,10 @@ public class MainEnvironment extends Environment {
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
-                getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
+                getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
                 entry.setValue(new CollisionResults());
                 ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
+
             }
         }
 
@@ -200,14 +203,14 @@ public class MainEnvironment extends Environment {
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
-        damageDealerGenerator = new DamageDealerGenerator(commander);
+        obstacleSpawner = new ObstacleSpawner(commander);
+
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            addDisplayable(damageDealer);
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            addDisplayable(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
@@ -328,28 +331,45 @@ public class MainEnvironment extends Environment {
      */
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
-
+        addDisplayables(loc);
+        removeDisplayables(loc);        
+    }
+    
+    /**
+     * Responsible for adding everything that needs displaying to the rootnode.
+     * @param loc
+     */
+    private void addDisplayables(Vector3f loc) {
+        
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
             addDisplayable(levelPiece);
         }
+        
+        for (Path path : levelGenerator.getPathPieces(loc)) {
+            addDisplayable(path);
+        }
+        
+        //update the Obstacles
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            addDisplayable(staticObstacle);
+        }
+        
+    }
+    
+    /**
+     * Responsible for calling remove method on all entities that need removing from the rootnode.
+     * @param loc
+     */
+    private void removeDisplayables(Vector3f loc) {
 
         //delete level piece when it is too far back
         for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
             removeDisplayable(levelPiece);
         }
-
-        for (Path path : levelGenerator.getPathPieces(loc)) {
-            addDisplayable(path);
-        }
-
+        
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
-        }
-
-        //update the damagedealers
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            addDisplayable(damageDealer);
         }
     }
 

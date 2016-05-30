@@ -19,8 +19,8 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Carrier extends Entity implements Collidable, IKillable {
- 
+public class Carrier extends Entity implements IKillable {
+
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);

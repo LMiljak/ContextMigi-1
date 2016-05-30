@@ -1,8 +1,12 @@
 package com.github.migi_1.ContextApp;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -13,17 +17,16 @@ import java.util.logging.LogManager;
  * 
  * @author Marcel
  */
-public class HelloActivity extends AndroidHarness {
+public class MainActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
         private AccelerometerSensor as;
-        private MainGame mg;
         
         /**
          * Configure the game instance that is launched and start the logger.
          */
-        public HelloActivity() {
+        public MainActivity() {
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
         
@@ -34,29 +37,6 @@ public class HelloActivity extends AndroidHarness {
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
         
     }
-
-       /**
-        * This method runs the app is resumed.
-        */
-        @Override  
-        protected void onResume() {  
-            super.onResume();
-
-            // register the lister for the accelerometer
-            mSensorManager.registerListener(as, 
-                    mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                    SensorManager.SENSOR_DELAY_FASTEST);
-        }
-         
-        /**
-         * Closes the app.
-         */
-        @Override
-        protected void onStop() {  
-            // unregister the sensor listener
-            mSensorManager.unregisterListener(as);  
-            super.onStop();  
-        } 
     
         /**
          * Instanciate the game instance.
@@ -66,23 +46,53 @@ public class HelloActivity extends AndroidHarness {
         @Override  
         public void onCreate(Bundle savedInstanceState) {  
             super.onCreate(savedInstanceState);
+            setContentView(R.layout.android_ingame_fr);
 
-            // instantiate the application
+            //instantiate the application
             application = (Main) getJmeApplication();
+            application.setDisplayFps(false);
+            application.setDisplayStatView(false);
 
-            // start the sensor manager
+            //start the sensor manager
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-            
-            // show the user the app is looking for a server
-            setContentView(R.layout.android_searching);
             
             // start the autoconnector
             AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
                     ClientWrapper.getInstance());
 
-            mg = new MainGame(this);
+            // Retrieve buttons
+            Button leftButton = (Button) findViewById(R.id.FR_button_left);
+            Button middleButton = (Button) findViewById(R.id.FR_button_middle);
+            Button rightButton = (Button) findViewById(R.id.FR_button_right);
+            Button trigger = (Button) findViewById(R.id.FR_button_trigger);
+            
+            // add logging functionality
+            setButtons(leftButton, "left");
+            setButtons(middleButton, "middle");
+            setButtons(rightButton, "right");
+            setButtons(trigger, "trigger");
         }
 
+        /**
+         * Makes sure buttonpresses are logged.
+         * @param butt = the button to which a clicklistener is set
+         * @param str = message to be logged
+         */
+        public void setButtons(Button butt, final String str) {
+
+            butt.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("buttonpress", str);
+                if(str.equals("trigger")) {
+                    Intent nextScreen = new Intent(getApplicationContext(), EventButtonPressActivity.class);
+                    startActivity(nextScreen);
+                }
+            }
+            });
+        }
+        
         /**
          * Gets the instance of this Application.
          * 

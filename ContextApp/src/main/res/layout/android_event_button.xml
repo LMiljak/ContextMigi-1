@@ -11,8 +11,8 @@
     android:background="#424242">
     
     <Button
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/event1_button"
         android:text="PRESS"
         android:background="#ffffff"

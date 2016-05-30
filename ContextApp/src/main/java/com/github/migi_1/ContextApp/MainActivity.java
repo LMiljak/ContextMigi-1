@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;

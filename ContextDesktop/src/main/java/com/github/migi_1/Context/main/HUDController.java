@@ -9,17 +9,11 @@ import com.jme3.scene.Node;
 
 public class HUDController {
 
-    private Application app;
-
-    private Node guiNode;
-
     private int count = 0;
 
     private BitmapText hudText;
 
     public HUDController(Node guiNode, Application app) {
-        this.app = app;
-        this.guiNode = guiNode;
 
         BitmapFont guiFont = ProjectAssetManager.getInstance().getAssetManager().loadFont("Interface/Fonts/Console.fnt");
         hudText = new BitmapText(guiFont, false);

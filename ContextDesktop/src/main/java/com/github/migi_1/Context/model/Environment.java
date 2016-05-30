@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.migi_1.Context.main.HUDConfigurer;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
@@ -13,9 +14,6 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
-import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 
 /**
@@ -39,21 +37,14 @@ public class Environment extends AbstractAppState {
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
+		HUDConfigurer.initializeHUD(guiNode, app);
 
-		BitmapFont guiFont = assetManager.loadFont("Interface/Fonts/Console.fnt");
-		BitmapText hudText = new BitmapText(guiFont, false);
-		hudText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
-		hudText.setColor(ColorRGBA.Red);                             // font color
-		hudText.setText("You can write any string here");             // the text
 
-		hudText.setLocalTranslation(((Main) app).getSettings().getWidth() - hudText.getLineWidth(), ((Main) app).getSettings().getHeight() - hudText.getLineHeight(), 0); // position
-		guiNode.attachChild(hudText);
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-
 		moveMovables();
 	}
 

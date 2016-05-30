@@ -7,10 +7,19 @@ import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 
-public final class HUDConfigurer {
+public class HUDController {
 
-    public static final void initializeHUD(Node guiNode, Application app) {
-        BitmapText hudText;
+    private Application app;
+
+    private Node guiNode;
+
+    private int count = 0;
+
+    private BitmapText hudText;
+
+    public HUDController(Node guiNode, Application app) {
+        this.app = app;
+        this.guiNode = guiNode;
 
         BitmapFont guiFont = ProjectAssetManager.getInstance().getAssetManager().loadFont("Interface/Fonts/Console.fnt");
         hudText = new BitmapText(guiFont, false);
@@ -20,6 +29,12 @@ public final class HUDConfigurer {
 
         hudText.setLocalTranslation(((Main) app).getSettings().getWidth() - hudText.getLineWidth(), ((Main) app).getSettings().getHeight() - hudText.getLineHeight(), 0); // position
         guiNode.attachChild(hudText);
+
+    }
+
+    public void updateHUD() {
+        count++;
+        hudText.setText(Integer.toString(count));
 
     }
 

@@ -43,9 +43,10 @@ public class Environment extends AbstractAppState {
 		BitmapFont guiFont = assetManager.loadFont("Interface/Fonts/Console.fnt");
 		BitmapText hudText = new BitmapText(guiFont, false);
 		hudText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
-		hudText.setColor(ColorRGBA.Blue);                             // font color
+		hudText.setColor(ColorRGBA.Red);                             // font color
 		hudText.setText("You can write any string here");             // the text
-		hudText.setLocalTranslation(300, hudText.getLineHeight(), 0); // position
+
+		hudText.setLocalTranslation(((Main) app).getSettings().getWidth() - hudText.getLineWidth(), ((Main) app).getSettings().getHeight() - hudText.getLineHeight(), 0); // position
 		guiNode.attachChild(hudText);
 	}
 

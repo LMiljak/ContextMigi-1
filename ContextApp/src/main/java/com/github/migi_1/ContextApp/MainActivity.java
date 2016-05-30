@@ -86,7 +86,7 @@ public class MainActivity extends AndroidHarness {
             public void onClick(View v) {
                 Log.d("buttonpress", str);
                 if(str.equals("trigger")) {
-                    Intent nextScreen = new Intent(getApplicationContext(), EventButtonPressActivity.class);
+                    Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
                     startActivity(nextScreen);
                 }
             }

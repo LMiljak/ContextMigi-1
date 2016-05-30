@@ -3,7 +3,7 @@ package com.github.migi_1.Context.model;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.damageDealers.DamageDealer;
-import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
+import com.github.migi_1.Context.damageDealers.ObstacleSpawner;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
@@ -64,7 +64,7 @@ public class MainEnvironment extends Environment {
 
     private CollisionResults results;
 
-    private DamageDealerGenerator damageDealerGenerator;
+    private ObstacleSpawner obstacleSpawner;
 
 
     /**
@@ -113,13 +113,13 @@ public class MainEnvironment extends Environment {
     private void checkCollision() {
 
         //add collision check for all obstacles
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+        for (DamageDealer damageDealer : obstacleSpawner.getObstacles()) {
             damageDealer.collideWith(platform.getModel().getWorldBound(), results);
         }
 
         //if a collision takes place, remove the colliding object and slow down
         if (results.size() > 0) {
-            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
+            getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
             results = new CollisionResults();
             ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
             ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
@@ -175,14 +175,14 @@ public class MainEnvironment extends Environment {
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
-        damageDealerGenerator = new DamageDealerGenerator(commander);
+        obstacleSpawner = new ObstacleSpawner(commander);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
 
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+        for (DamageDealer damageDealer : obstacleSpawner.getObstacles()) {
             damageDealer.collideWith(platform.getModel().getWorldBound(), results);
             addDisplayable(damageDealer);
         }
@@ -298,7 +298,7 @@ public class MainEnvironment extends Environment {
         }
 
         //update the damagedealers
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+        for (DamageDealer damageDealer : obstacleSpawner.getObstacles()) {
             addDisplayable(damageDealer);
         }
 

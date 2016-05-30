@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.damageDealers;
+package com.github.migi_1.Context.obstacle;
 
 
 /**
@@ -6,7 +6,7 @@ package com.github.migi_1.Context.damageDealers;
  * @author Marcel
  *
  */
-public class StaticObstacleFactory extends DamageDealerFactory {
+public class StaticObstacleFactory extends AbstractObstacleFactory {
 
     /**
      * Generate a StaticObstacle object.

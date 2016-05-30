@@ -2,7 +2,6 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -14,7 +13,7 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Carrier extends Entity implements Collidable, IKillable {
+public class Carrier extends Entity implements IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";

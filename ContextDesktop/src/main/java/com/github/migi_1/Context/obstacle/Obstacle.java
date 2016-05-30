@@ -1,10 +1,14 @@
 package com.github.migi_1.Context.obstacle;
 
 import com.github.migi_1.Context.model.entity.Entity;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
-import com.jme3.scene.Spatial;
+import com.github.migi_1.Context.model.entity.IKillable;
 
-public abstract class Obstacle extends Entity implements IObstacle {
+/**
+ * 
+ * @author Damian
+ *
+ */
+public abstract class Obstacle extends Entity implements IKillable {
 
 
 }

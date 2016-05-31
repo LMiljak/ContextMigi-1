@@ -13,9 +13,13 @@ public class DamageMessage extends AbstractMessage {
     private int health;
     private PlatformPosition pos;
     
+    /**
+     * The constructor of DamageMessage without arguments.
+     * Produces an DamageMessage with the default values.
+     */
     public DamageMessage() {
         this.health = 3;
-        this.pos = PlatformPosition.FRONTLEFT;
+        this.pos = PlatformPosition.FRONTRIGHT;
     }
     
     /**
@@ -23,6 +27,8 @@ public class DamageMessage extends AbstractMessage {
      * @param health
      *              the health value that is used for updating the hearts
      *              in the android app.
+     * @param pos
+     *              the position of the player the message is intended for.
      */
     public DamageMessage(int health, PlatformPosition pos) {
         this.health = health;

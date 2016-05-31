@@ -46,9 +46,8 @@ public class Environment extends AbstractAppState {
 	public void update(float tpf) {
 		super.update(tpf);
 		if (!paused) {
-	        hudController.updateHUD();
-	        moveMovables();
-
+		    hudController.updateHUD();
+		    moveMovables();
 		}
 		else {
 		    hudController.gameOver();

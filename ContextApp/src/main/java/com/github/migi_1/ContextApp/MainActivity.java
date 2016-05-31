@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ public class MainActivity extends AndroidHarness {
         private AttackMessenger atkMessenger;
         private HeartsUpdateFunctions huFunctions;
         private MakeButtonFunctions mbFunctions;
+        private PlatformPosition position;
         
         private Button leftButton, middleButton, rightButton, trigger;
         
@@ -69,11 +71,13 @@ public class MainActivity extends AndroidHarness {
                 ClientWrapper.getInstance());
 
         // wait until position is received
-        while (true) {
+        /*while (true) {
             if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
             	break;
        	    }
-        }
+        */
+        position = PlatformPosition.FRONTRIGHT;
 
         atkMessenger = new AttackMessenger(this);
 
@@ -90,7 +94,7 @@ public class MainActivity extends AndroidHarness {
      * Checks the position to set the buttons and content view.
      */
     public void setButtonsAndScreen() {
-        switch (posHolder.getPosition()) {
+        switch (position) {
             case FRONTRIGHT:
                 mbFunctions.makeFRbuttons();
                 setContentView(R.layout.android_ingame_fr);

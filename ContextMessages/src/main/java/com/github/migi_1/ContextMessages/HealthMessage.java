@@ -17,10 +17,7 @@ public class HealthMessage extends AbstractMessage {
      * The constructor of HealthMessage without arguments.
      * Produces an HealthMessage with the default values.
      */
-    public HealthMessage() {
-        this.health = 3;
-        this.pos = PlatformPosition.FRONTRIGHT;
-    }
+    public HealthMessage() { }
     
     /**
      * Creates a HealthMessage and sets the health value.

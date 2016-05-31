@@ -14,13 +14,10 @@ public class AttackMessage extends AbstractMessage {
     private String direction;
     
     /**
-     * The constructor of AttackMessage without arguments.
-     * Produces an AttackMessage with the default values.
-     */
-    public AttackMessage() {
-        this.position = PlatformPosition.FRONTRIGHT;
-        this.direction = "left";
-    }
+	 * Public empty constructor used by the JME3 networking
+	 * library.
+	 */
+    public AttackMessage() { }
     
     /**
      * Creates an AttackMessage with a position and direction of attack.

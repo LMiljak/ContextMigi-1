@@ -8,12 +8,17 @@ import android.widget.Button;
  */
 public class MakeButtonFunctions {
     
-    MainActivity act;
-    Button leftButton;
-    Button middleButton;
-    Button rightButton;
-    Button trigger;
+    private MainActivity act;
+    private Button leftButton;
+    private Button middleButton;
+    private Button rightButton;
+    private Button trigger;
     
+    /**
+     * This creates an instance of the MakeButtonFunctions.
+     * @param act
+     * 			The instance of the application that calls this function
+     */
     public MakeButtonFunctions(MainActivity act) {
         this.act = act;
     }

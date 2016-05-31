@@ -3,8 +3,6 @@ package com.github.migi_1.Context.model;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
@@ -26,6 +24,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -52,6 +52,8 @@ public class MainEnvironment extends Environment {
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private static final int NUMBER_OF_CARRIERS = 4;
+
+    private static final int CHECKPOINT_DISTANCE = 200;
 
     private Platform platform;
     private Commander commander;
@@ -110,6 +112,7 @@ public class MainEnvironment extends Environment {
 
         checkCollision();
         updateTestWorld();
+        checkForCheckpoint();
     }
 
     /**
@@ -322,30 +325,30 @@ public class MainEnvironment extends Environment {
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
-        removeDisplayables(loc);        
+        removeDisplayables(loc);
     }
-    
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
      */
     private void addDisplayables(Vector3f loc) {
-        
+
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
             addDisplayable(levelPiece);
         }
-        
+
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-        
+
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);
         }
-        
+
     }
-    
+
     /**
      * Responsible for calling remove method on all entities that need removing from the rootnode.
      * @param loc
@@ -356,7 +359,7 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
             removeDisplayable(levelPiece);
         }
-        
+
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
@@ -369,6 +372,19 @@ public class MainEnvironment extends Environment {
      */
     public void steer(float orientation) {
         steering = orientation;
+    }
+
+    private void checkForCheckpoint() {
+        System.out.println("Checking for checkpoint");
+        System.out.println(commander.getModel().getLocalTranslation().x);
+        System.out.println(CHECKPOINT_DISTANCE);
+        System.out.println(commander.getModel().getLocalTranslation().x % CHECKPOINT_DISTANCE);
+
+        //Done this way since the distance will never be exactly zero.
+        if(commander.getModel().getLocalTranslation().x % CHECKPOINT_DISTANCE > -1 &&
+                commander.getModel().getLocalTranslation().x < 0) {
+            System.out.println("CHECKPOINT HAS BEEN REACHED!");
+        }
     }
 
     /**

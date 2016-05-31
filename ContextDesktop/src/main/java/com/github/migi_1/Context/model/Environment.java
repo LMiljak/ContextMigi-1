@@ -124,10 +124,18 @@ public class Environment extends AbstractAppState {
 		}
 	}
 
+	/**
+	 * Check whether game is paused.
+	 * @return paused or not paused
+	 */
     public boolean isPaused() {
         return paused;
     }
 
+    /**
+     * Pause or unpause the game.
+     * @param paused pause or unpause
+     */
     public void setPaused(boolean paused) {
         this.paused = paused;
     }

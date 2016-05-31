@@ -54,6 +54,7 @@ public class TestMainEnvironment {
 
     /**
      * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
      */
     @Before
     public void setUp() throws Exception {

@@ -42,7 +42,7 @@ public class TestEnvironment {
 
 	/**
 	 * Initialises the environment field for testing.
-	 * @throws Exception
+	 * @throws Exception exception that is thrown.
 	 */
 	@Before
 	public void setUp() throws Exception {

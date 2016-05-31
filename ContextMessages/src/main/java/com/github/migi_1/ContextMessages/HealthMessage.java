@@ -8,29 +8,29 @@ import com.jme3.network.serializing.Serializable;
  * android device players.
  */
 @Serializable
-public class DamageMessage extends AbstractMessage {
+public class HealthMessage extends AbstractMessage {
     
     private int health;
     private PlatformPosition pos;
     
     /**
-     * The constructor of DamageMessage without arguments.
-     * Produces an DamageMessage with the default values.
+     * The constructor of HealthMessage without arguments.
+     * Produces an HealthMessage with the default values.
      */
-    public DamageMessage() {
+    public HealthMessage() {
         this.health = 3;
         this.pos = PlatformPosition.FRONTRIGHT;
     }
     
     /**
-     * Creates a DamageMessage and sets the health value.
+     * Creates a HealthMessage and sets the health value.
      * @param health
      *              the health value that is used for updating the hearts
      *              in the android app.
      * @param pos
      *              the position of the player the message is intended for.
      */
-    public DamageMessage(int health, PlatformPosition pos) {
+    public HealthMessage(int health, PlatformPosition pos) {
         this.health = health;
         this.pos = pos;
     }

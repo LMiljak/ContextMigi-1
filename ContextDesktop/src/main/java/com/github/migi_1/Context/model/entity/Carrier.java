@@ -5,7 +5,7 @@ import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehavio
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-import com.github.migi_1.Context.server.DamageMessenger;
+import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
@@ -26,7 +26,7 @@ public class Carrier extends Entity implements IKillable {
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
     private Main main;
-    private DamageMessenger dm;
+    private HealthMessenger dm;
     
     private int health;
     private Vector3f relativeLocation;
@@ -50,7 +50,7 @@ public class Carrier extends Entity implements IKillable {
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
         
         this.main = environment.getMain();
-        dm = new DamageMessenger(main);
+        dm = new HealthMessenger(main);
         
         health = 3;      
         this.position = position;

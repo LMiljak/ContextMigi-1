@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
-import com.github.migi_1.ContextMessages.DamageMessage;
+import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
@@ -24,7 +24,7 @@ public class ServerWrapper {
 		= Arrays.asList(
 				AccelerometerMessage.class,
 				PositionMessage.class,
-                                DamageMessage.class
+                                HealthMessage.class
 				);
 
 	/** The port on which the server is running. */

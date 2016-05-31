@@ -6,8 +6,7 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.Server;
 
 /**
- *
- * @author Remi
+ * Creates a DamageMessage and broadcasts it to the android devices.
  */
 public class DamageMessenger {
     
@@ -23,7 +22,7 @@ public class DamageMessenger {
     }
     
     /**
-     * This function sends the health value to the right android app.
+     * This function sends the health value to the right android device.
      */
     public void sendHealth(int health, PlatformPosition pos) {
         DamageMessage message = new DamageMessage(health, pos);

@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
+import com.github.migi_1.Context.obstacle.Obstacle;
+
 /**
  * Test class for the DamageDealerFactory class.
  * @author Marcel
@@ -12,8 +15,8 @@ import org.junit.Test;
  */
 public abstract class TestDamageDealerFactory {
 
-    private DamageDealerFactory testDamageDealerFactory;
-    private DamageDealer damageDealer;
+    private AbstractObstacleFactory testDamageDealerFactory;
+    private Obstacle obstacle;
 
     /**
      * Initialise attributes.
@@ -27,14 +30,14 @@ public abstract class TestDamageDealerFactory {
      */
     @Test
     public void testProduce() {
-        assertTrue(testDamageDealerFactory.produce().equals(damageDealer));
+        assertTrue(testDamageDealerFactory.produce().equals(obstacle));
     }
 
     /**
      * Get the damageDealerFactory attribute.
      * @return damageDealerFactory
      */
-    public DamageDealerFactory getTestDamageDealerFactory() {
+    public AbstractObstacleFactory getTestDamageDealerFactory() {
         return testDamageDealerFactory;
     }
 
@@ -43,7 +46,7 @@ public abstract class TestDamageDealerFactory {
      * @param testDamageDealerFactory The damageDealerFactory to set
      */
     public void setTestDamageDealerFactory(
-            DamageDealerFactory testDamageDealerFactory) {
+            AbstractObstacleFactory testDamageDealerFactory) {
         this.testDamageDealerFactory = testDamageDealerFactory;
     }
 
@@ -52,16 +55,16 @@ public abstract class TestDamageDealerFactory {
      * Get the damageDealer attribute.
      * @return damageDealer attribute
      */
-    public DamageDealer getDamageDealer() {
-        return damageDealer;
+    public Obstacle getDamageDealer() {
+        return obstacle;
     }
 
     /**
      * Set the damageDealer attribute.
      * @param damageDealer The damageDealer to set
      */
-    public void setDamageDealer(DamageDealer damageDealer) {
-        this.damageDealer = damageDealer;
+    public void setDamageDealer(Obstacle damageDealer) {
+        this.obstacle = damageDealer;
     }
 
 

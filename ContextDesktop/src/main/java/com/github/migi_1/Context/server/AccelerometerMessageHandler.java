@@ -1,6 +1,6 @@
 package com.github.migi_1.Context.server;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 

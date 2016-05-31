@@ -1,18 +1,23 @@
 package com.github.migi_1.Context.model;
 
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
-import com.github.migi_1.Context.damageDealers.DamageDealer;
-import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.Enemy.Enemy;
 import com.github.migi_1.Context.model.Enemy.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
+import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.obstacle.Obstacle;
+import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -46,11 +51,15 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private static final int NUMBER_OF_CARRIERS = 4;
+
     private Platform platform;
     private Commander commander;
+    private Carrier[] carriers;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -65,9 +74,9 @@ public class MainEnvironment extends Environment {
     private LinkedList<Enemy> enemies;
 
 
-    private CollisionResults results;
+    private HashMap<Entity, CollisionResults> results;
 
-    private DamageDealerGenerator damageDealerGenerator;
+    private ObstacleSpawner obstacleSpawner;
 
 
     /**
@@ -87,7 +96,7 @@ public class MainEnvironment extends Environment {
 
 
 
-        results = new CollisionResults();
+        results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
         initLights();
@@ -104,27 +113,47 @@ public class MainEnvironment extends Environment {
 
     @Override
     public void update(float tpf) {
-    	super.update(tpf);
+        super.update(tpf);
 
         checkCollision();
-    	updateTestWorld();
-    	updateEnemies();
-    }    
 
+        updateTestWorld();
+        //updateEnemies();
+
+    }
+
+
+    /**
+     * Handle collision checking.
+     */
     private void checkCollision() {
 
         //add collision check for all obstacles
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+                staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
+            }
         }
 
-        //if a collision takes place, remove the colliding object and slow down
-        if (results.size() > 0) {
-            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
-            results = new CollisionResults();
-            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
-            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+        //check whether a collision has taken place.
+        //only one object can collide each update, two prevent two object from taking damage.
+        Boolean collided  = false;
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            if (entry.getValue().size() > 0 && !collided) {
+                collided = true;
+                getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
+                entry.setValue(new CollisionResults());
+                ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
+
+            }
         }
+
+        //reset all CollisionResults.
+        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
+            entry.setValue(new CollisionResults());
+        }
+
     }
 
     /**
@@ -168,29 +197,78 @@ public class MainEnvironment extends Environment {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        
+
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);        
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
-        enemyGenerator = new EnemyGenerator(commander);
+        carriers = createCarriers();
+        obstacleSpawner = new ObstacleSpawner(commander);
 
-
-        damageDealerGenerator = new DamageDealerGenerator(commander);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-
-        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
-            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
-            addDisplayable(damageDealer);
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            addDisplayable(staticObstacle);
+        }
+        for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
+            addDisplayable(path);
         }
 
         addEntity(platform);
         addEntity(commander);
+        for (int i = 0; i < carriers.length; i++) {
+            addEntity(carriers[i]);
+        }
     }
+
+    /**
+     * Create the carriers.
+     * @return Array with carriers
+     */
+    private Carrier[] createCarriers() {
+        carriers = new Carrier[NUMBER_OF_CARRIERS];
+        float x, y, z;
+        y = RELATIVE_CARRIER_LOCATION.y;
+        for (int i = 0; i < carriers.length; i++) {
+            x = RELATIVE_CARRIER_LOCATION.x;
+            z = RELATIVE_CARRIER_LOCATION.z;
+
+            //put two carriers on the right side.
+            if ((i == 1) || (i == 3)) {
+                z =  -z;
+            }
+
+            //put two carriers on the back side.
+            if ((i == 2) || (i == 3)) {
+                x = -x;
+            }
+            Vector3f relativeLocation = new Vector3f(x, y, z);
+            carriers[i] = new Carrier(relativeLocation, i, this);
+            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
+            results.put(carriers[i], new CollisionResults());
+        }
+        return carriers;
+    }
+
+    /**
+     * Get the Commander.
+     * @return commander
+     */
+    public Commander getCommander() {
+        return commander;
+    }
+
+    /**
+     * Get the carriers.
+     * @return carriers
+     */
+    public Carrier[] getCarriers() {
+        return carriers;
+    }
+
 
     /**
      * Initializes the cameras and sets its location and rotation.
@@ -255,22 +333,55 @@ public class MainEnvironment extends Environment {
      * Updates the test world.
      */
     private void updateTestWorld() {
+        Vector3f loc = commander.getModel().getLocalTranslation();
+        addDisplayables(loc);
+        removeDisplayables(loc);        
+    }
 
-        //delete level piece when it too far back
-        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(commander.getModel().getLocalTranslation())) {
-        	removeDisplayable(levelPiece);
+    /**
+     * Responsible for adding everything that needs displaying to the rootnode.
+     * @param loc
+     */
+    private void addDisplayables(Vector3f loc) {
+
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
+            addDisplayable(levelPiece);
         }
-        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
-        	addDisplayable(levelPiece);
+
+        for (Path path : levelGenerator.getPathPieces(loc)) {
+            addDisplayable(path);
+        }
+
+        //update the Obstacles
+        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+            addDisplayable(staticObstacle);
+        }
+
+    }
+
+    /**
+     * Responsible for calling remove method on all entities that need removing from the rootnode.
+     * @param loc
+     */
+    private void removeDisplayables(Vector3f loc) {
+
+        //delete level piece when it is too far back
+        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
+            removeDisplayable(levelPiece);
+        }
+
+        //delete path when it is too far back
+        for (Path path : levelGenerator.deletePathPieces(loc)) {
+            removeDisplayable(path);
         }
     }
-    
-    private void updateEnemies() {
-        for(Enemy enemy : enemyGenerator.generateEnemies()) {
-            addEntity(enemy);
-        }
-        
-    }
+
+//    private void updateEnemies() {
+//        for(Enemy enemy : enemyGenerator.generateEnemies()) {
+//            addEntity(enemy);
+//        }
+//
+//    }
 
     /**
      * Update the steering direction.

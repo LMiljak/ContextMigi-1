@@ -18,7 +18,7 @@ public class Enemy extends Entity implements IKillable {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        moveBehaviour = new EnemyMoveBehaviour(commander);
+        moveBehaviour = new EnemyMoveBehaviour(commander, this);
         health = 2;
     }
     
@@ -43,7 +43,7 @@ public class Enemy extends Entity implements IKillable {
     }
     
     public MoveBehaviour getMoveBehaviour() {
-        moveBehaviour.update(getModel().getLocalTranslation());
+        moveBehaviour.updateMoveVector();
         return moveBehaviour;
         
     }

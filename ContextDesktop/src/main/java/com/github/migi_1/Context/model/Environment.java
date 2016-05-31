@@ -3,7 +3,8 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.IMovable;
@@ -21,10 +22,10 @@ import com.jme3.scene.Node;
  */
 public class Environment extends AbstractAppState {
 
-
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
+	private HUDController hudController;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -35,12 +36,15 @@ public class Environment extends AbstractAppState {
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
+		hudController = new HUDController(app);
+
+
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-
+		hudController.updateHUD();
 		moveMovables();
 	}
 
@@ -106,7 +110,6 @@ public class Environment extends AbstractAppState {
 		removeDisplayable(entity);
 		movables.remove(entity);
 	}
-
 
 	/**
 	 * Moves all Movable objects in the world using the MoveBehaviours.

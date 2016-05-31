@@ -165,17 +165,12 @@ public class MainActivity extends AndroidHarness {
 
         butt.setOnClickListener(new View.OnClickListener() {
 
-        @Override
-        public void onClick(View v) {
-            Log.d("buttonpress", str);
-            if (str.equals("trigger")) {
-                Intent nextScreen = new Intent(getApplicationContext(), EventButtonPressActivity.class);
-                startActivity(nextScreen);
-            }
-            else {
+            @Override
+            public void onClick(View v) {
+                Log.d("buttonpress", str);
                 atkMessenger.sendAttack(posHolder.getPosition(), str);
             }
-        }
+            
         });
     }
 

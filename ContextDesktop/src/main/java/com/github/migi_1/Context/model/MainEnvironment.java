@@ -230,18 +230,18 @@ public class MainEnvironment extends Environment {
         carriers = new ArrayList<Carrier>();
         float x, y, z;
         y = RELATIVE_CARRIER_LOCATION.y;
-        for (PlatformPosition p : PlatformPosition.values()) {
+        for (PlatformPosition position : PlatformPosition.values()) {
             x = RELATIVE_CARRIER_LOCATION.x;
             z = RELATIVE_CARRIER_LOCATION.z;
 
             //put two carriers on the right side.
-            z = z * p.getzFactor();
+            z = z * position.getzFactor();
 
             //put two carriers on the back side.
-            x = x * p.getxFactor();
+            x = x * position.getxFactor();
             
             Vector3f relativeLocation = new Vector3f(x, y, z);
-            Carrier newCarrier = new Carrier(relativeLocation, p, this);
+            Carrier newCarrier = new Carrier(relativeLocation, position, this);
             ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
             results.put(newCarrier, new CollisionResults());
             carriers.add(newCarrier);

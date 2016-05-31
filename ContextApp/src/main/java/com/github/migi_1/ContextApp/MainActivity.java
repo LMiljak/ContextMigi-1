@@ -22,9 +22,9 @@ public class MainActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        private AccelerometerSensor as;
+        private AccelerometerSensor accSensor;
         private PositionHolder posHolder;
-        private AttackMessenger am;
+        private AttackMessenger atkMessenger;
         
         private Button leftButton, middleButton, rightButton, trigger;
         
@@ -36,7 +36,7 @@ public class MainActivity extends AndroidHarness {
         appClass = "com.github.migi_1.ContextApp.Main";
         
         //Create the accelerometer sensor.
-        as = new AccelerometerSensor(this);
+        accSensor = new AccelerometerSensor(this);
         posHolder = PositionHolder.getInstance();
         
         // Start the log manager
@@ -73,7 +73,7 @@ public class MainActivity extends AndroidHarness {
             	}
             }
             
-            am = new AttackMessenger(this);
+            atkMessenger = new AttackMessenger(this);
             
             setButtonsAndScreen();
             
@@ -171,7 +171,7 @@ public class MainActivity extends AndroidHarness {
                     startActivity(nextScreen);
                 }
                 else {
-                    am.sendAttack(posHolder.getPosition(), str);
+                    atkMessenger.sendAttack(posHolder.getPosition(), str);
                 }
             }
             });

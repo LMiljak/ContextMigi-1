@@ -50,6 +50,9 @@ public class Environment extends AbstractAppState {
 	        moveMovables();
 
 		}
+		else {
+		    hudController.gameOver();
+		}
 	}
 
 	/**

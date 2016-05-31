@@ -4,6 +4,8 @@
  */
 package com.github.migi_1.ContextApp;
 
+import android.widget.TextView;
+
 /**
  *
  * @author Nils

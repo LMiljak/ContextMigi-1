@@ -19,7 +19,7 @@ public class Carrier_BR extends CarrierPosition {
     
     private Carrier_BR() {}
     
-    public Carrier_BR getInstance() {
+    public static Carrier_BR getInstance() {
         return INSTANCE;
     }
     

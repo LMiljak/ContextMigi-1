@@ -11,6 +11,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.github.migi_1.ContextApp.Carrier_BL;
+import com.github.migi_1.ContextApp.Carrier_BR;
+import com.github.migi_1.ContextApp.Carrier_FL;
+import com.github.migi_1.ContextApp.Carrier_FR;
 import com.github.migi_1.ContextApp.R;
 import java.util.Random;
 
@@ -22,14 +26,23 @@ public class RotateBugSprayActivity extends Activity {
         private TextView spray_fr, spray_fl, spray_br, spray_bl;
         private Button bug_fr, bug_fl, bug_br, bug_bl;
         private float x1, x2, y1, y2, deltaHorizontal, deltaVertical;
+        private Carrier_FL carrier1;
+        private Carrier_FR carrier2;
+        private Carrier_BR carrier3;
+        private Carrier_BL carrier4;
     
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.android_event_bugs_fr);
             
-            initBug(new Random().nextInt(4));
-            initSpray(new Random().nextInt(4));
+//            initBug(new Random().nextInt(4));
+//            initSpray(new Random().nextInt(4));
+//            
+//            carrier1 = Carrier_FL.getInstance();
+//            carrier2 = Carrier_FR.getInstance();
+//            carrier3 = Carrier_BR.getInstance();
+//            carrier4 = Carrier_BL.getInstance();
             
             spray_fr = (TextView) findViewById(R.id.eventBug_spray_fr);
 //            spray_fl = (TextView) findViewById(R.id.eventBug_spray_fl);
@@ -44,10 +57,6 @@ public class RotateBugSprayActivity extends Activity {
 //            bug_fl = (Button) findViewById(R.id.eventBug_bug_fl);
 //            bug_br = (Button) findViewById(R.id.eventBug_bug_br);
 //            bug_bl = (Button) findViewById(R.id.eventBug_bug_bl);
-//            bug_fr.setVisibility(View.GONE);
-//            bug_fl.setVisibility(View.GONE);
-//            bug_br.setVisibility(View.GONE);
-//            bug_bl.setVisibility(View.GONE);
             
             bug_fr.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,6 +168,7 @@ public class RotateBugSprayActivity extends Activity {
          * This will be changed in a further PR.
          */
         private void initBug(int bugLoc) {
+            bug_fr.setVisibility(View.VISIBLE);
 //            if(bugLoc == 0) {
 //                spray_fl.setVisibility(View.VISIBLE);
 //                Log.d("rotate", "Location: Front-left");
@@ -181,6 +191,7 @@ public class RotateBugSprayActivity extends Activity {
         }
         
         private void initSpray(int sprayLoc) {
+            spray_fr.setVisibility(View.VISIBLE);
 //            if(sprayLoc == 0) {
 //                spray_fl.setVisibility(View.VISIBLE);
 //                Log.d("rotate", "Location: Front-left");

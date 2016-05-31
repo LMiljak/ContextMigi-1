@@ -45,7 +45,7 @@ public class RotateBugSprayActivity extends Activity {
 //            bug_br = (Button) findViewById(R.id.eventBug_bug_br);
 //            bug_bl = (Button) findViewById(R.id.eventBug_bug_bl);
             
-//            bug_fr.setVisibility(View.VISIBLE);
+            bug_fr.setVisibility(View.VISIBLE);
 //            bug_fl.setVisibility(View.GONE);
 //            bug_br.setVisibility(View.GONE);
 //            bug_bl.setVisibility(View.GONE);
@@ -189,6 +189,5 @@ public class RotateBugSprayActivity extends Activity {
         
         private void printNewSprayPosition() {
             Log.d("rotate", "New position: " + spray_position.toString());
-                    
         }
 }

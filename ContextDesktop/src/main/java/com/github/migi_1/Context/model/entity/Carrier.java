@@ -38,7 +38,7 @@ public class Carrier extends Entity implements IKillable {
         moveBehaviour.setRelativeLocation(relativeLocation);
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
 
-        health = 2;
+        health = 3;
         this.id = id;
     }
 

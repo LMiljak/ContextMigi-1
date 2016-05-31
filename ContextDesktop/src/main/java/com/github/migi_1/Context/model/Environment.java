@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
@@ -24,6 +25,7 @@ public class Environment extends AbstractAppState {
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
+	private HUDController hudController;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -34,12 +36,15 @@ public class Environment extends AbstractAppState {
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
+		hudController = new HUDController(app);
+
+
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-
+		hudController.updateHUD();
 		moveMovables();
 	}
 

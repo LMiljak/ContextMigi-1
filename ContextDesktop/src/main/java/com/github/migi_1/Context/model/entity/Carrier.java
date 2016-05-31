@@ -1,13 +1,10 @@
 package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.main.Main;
-import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.Context.server.HealthMessenger;
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
-import com.jme3.collision.Collidable;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -34,7 +31,7 @@ public class Carrier extends Entity implements IKillable {
 
     /**
      * constructor of the carrier.
-     * @param startLocation location where the carrier will be initialized
+     * @param relativeLocation location where the carrier will be initialized
      * @param position position of the carrier under the platform.
      * @param environment The environment to follow
      */

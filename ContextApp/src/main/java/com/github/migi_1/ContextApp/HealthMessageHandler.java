@@ -36,7 +36,7 @@ public class HealthMessageHandler extends MessageListener<HealthMessage> {
     }
     
     /**
-     * Returns the HealthMessage class
+     * Returns the HealthMessage class.
      * @return HealthMessage.class Class<HealthMessage>
      */
     @Override

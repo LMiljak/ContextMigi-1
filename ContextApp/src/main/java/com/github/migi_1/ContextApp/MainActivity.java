@@ -26,7 +26,7 @@ public class MainActivity extends AndroidHarness {
         private PositionHolder posHolder;
         private AttackMessenger am;
         
-        Button leftButton, middleButton, rightButton, trigger;
+        private Button leftButton, middleButton, rightButton, trigger;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -67,8 +67,10 @@ public class MainActivity extends AndroidHarness {
                     ClientWrapper.getInstance());
             
             // wait until position is received
-            while (posHolder.getPosition() == null){
-                // do nothing
+            while (true) {
+            	if (posHolder.getPosition() != null) {
+            		break;
+            	}
             }
             
             am = new AttackMessenger(this);
@@ -82,7 +84,9 @@ public class MainActivity extends AndroidHarness {
             setButtons(trigger, "trigger");
         }
 
-        
+        /**
+         * Checks the position to set the buttons and content view.
+         */
         public void setButtonsAndScreen() {
             switch (posHolder.getPosition()) {
                     case FRONTRIGHT:
@@ -101,9 +105,14 @@ public class MainActivity extends AndroidHarness {
                         makeBLbuttons();
                         setContentView(R.layout.android_ingame_bl);
                         break;
+                    default:
+                    	break;
             }
         }
         
+        /**
+         * Makes the buttons for the FRONTRIGHT position.
+         */
         public void makeFRbuttons() {
             // Retrieve buttons
             leftButton = (Button) findViewById(R.id.FR_button_left);
@@ -112,6 +121,9 @@ public class MainActivity extends AndroidHarness {
             trigger = (Button) findViewById(R.id.FR_button_trigger);
         }
         
+        /**
+         * Makes the buttons for the FRONTLEFT position.
+         */
         public void makeFLbuttons() {
             // Retrieve buttons
             leftButton = (Button) findViewById(R.id.FL_button_left);
@@ -120,6 +132,9 @@ public class MainActivity extends AndroidHarness {
             trigger = (Button) findViewById(R.id.FR_button_trigger);
         }
         
+        /**
+         * Makes the buttons for the BACKRIGHT position.
+         */
         public void makeBRbuttons() {
             // Retrieve buttons
             leftButton = (Button) findViewById(R.id.BR_button_left);
@@ -128,6 +143,9 @@ public class MainActivity extends AndroidHarness {
             trigger = (Button) findViewById(R.id.FR_button_trigger);
         }
         
+        /**
+         * Makes the buttons for the BACKLEFT position.
+         */
         public void makeBLbuttons() {
             // Retrieve buttons
             leftButton = (Button) findViewById(R.id.BL_button_left);
@@ -148,7 +166,7 @@ public class MainActivity extends AndroidHarness {
             @Override
             public void onClick(View v) {
                 Log.d("buttonpress", str);
-                if(str.equals("trigger")) {
+                if (str.equals("trigger")) {
                     Intent nextScreen = new Intent(getApplicationContext(), EventButtonPressActivity.class);
                     startActivity(nextScreen);
                 }
@@ -177,12 +195,14 @@ public class MainActivity extends AndroidHarness {
         public void setHealth(int health) {
             if (health > 0) {
                 makeRed(1);
-                if (health > 1){
+                if (health > 1) {
                     makeRed(2);
-                    if (health > 2)
+                    if (health > 2) {
                         makeRed(3);
-                    else
+                    }
+                    else {
                         makeGrey(3);
+                    }
                 }
                 else {
                     makeGrey(2);
@@ -197,7 +217,7 @@ public class MainActivity extends AndroidHarness {
         }
         
         /**
-         * Makes a heart red
+         * Makes a heart red.
          * @param heartid the id of the heart which has its sprite changed
          */
         public void makeRed(int heartid) {
@@ -215,7 +235,7 @@ public class MainActivity extends AndroidHarness {
         }
         
         /**
-         * Makes a heart grey
+         * Makes a heart grey.
          * @param heartid the id of the heart which has its sprite changed
          */
         public void makeGrey(int heartid) {
@@ -233,7 +253,7 @@ public class MainActivity extends AndroidHarness {
         }
         
         /**
-         * Returns the application's PositionHolder
+         * Returns the application's PositionHolder.
          * @return posHolder
          */
         public PositionHolder getPosHolder() {

@@ -4,9 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
-import org.mockito.BDDMockito;
+/*import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
+import org.powermock.api.mockito.PowerMockito;*/
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -14,8 +14,8 @@ import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.collision.CollisionResults;
-import com.jme3.math.Vector3f;
+/*import com.jme3.collision.CollisionResults;
+import com.jme3.math.Vector3f;*/
 import com.jme3.scene.Spatial;
 
 /**
@@ -69,6 +69,9 @@ public class TestCommander extends TestEntity {
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }*/
     
+    /**
+     * A temporary passing test.
+     */
     @Test
     public void passingTest1() {
         Assert.assertTrue(true);

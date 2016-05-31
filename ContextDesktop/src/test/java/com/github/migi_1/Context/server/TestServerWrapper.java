@@ -1,7 +1,7 @@
 package com.github.migi_1.Context.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+/*import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;*/
 
 import java.io.IOException;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.jme3.network.Network;
 import com.jme3.network.Server;
-import org.mockito.BDDMockito;
+// import org.mockito.BDDMockito;
 
 /**
  * Test suite for the ServerWrapper class.

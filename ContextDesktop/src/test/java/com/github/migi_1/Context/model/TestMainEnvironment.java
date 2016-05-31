@@ -1,24 +1,24 @@
 package com.github.migi_1.Context.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+/*import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;*/
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
+/*import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
+import org.powermock.api.mockito.PowerMockito;*/
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
+/*import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
-import com.github.migi_1.Context.server.ServerWrapper;
+import com.github.migi_1.Context.server.ServerWrapper;*/
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.app.state.AppStateManager;
+/*import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
 import com.jme3.bounding.BoundingBox;
@@ -29,7 +29,7 @@ import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial;*/
 
 /**
  * Test class that tests the MainEnvironment class.
@@ -39,7 +39,7 @@ import com.jme3.scene.Spatial;
 @PrepareForTest({ProjectAssetManager.class})
 public class TestMainEnvironment {
 
-    private MainEnvironment env;
+    /*private MainEnvironment env;
     private AppStateManager stateManager;
     private Main app;
     private ProjectAssetManager pAssetManager;
@@ -50,12 +50,12 @@ public class TestMainEnvironment {
     private MatParamTexture matParam;
     private Spatial model;
     private RenderManager renderManager;
-    private Camera cam;
+    private Camera cam;*/
 
     /**
      * This method starts every time a new test case starts.
      */
-    @SuppressWarnings("unchecked")
+    // @SuppressWarnings("unchecked")
 	@Before
     public void setUp() {
        /* env = PowerMockito.spy(new MainEnvironment());
@@ -190,6 +190,9 @@ public class TestMainEnvironment {
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
     }*/
     
+    /**
+     * A temporary passing test.
+     */
     @Test
     public void passingTest3() {
         assertTrue(true);

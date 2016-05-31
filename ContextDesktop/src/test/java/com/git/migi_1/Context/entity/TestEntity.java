@@ -1,9 +1,9 @@
 package com.git.migi_1.Context.entity;
 
-import static org.junit.Assert.assertEquals;
+// import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
-import org.junit.Test;
+// import org.junit.Test;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;

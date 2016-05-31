@@ -185,6 +185,13 @@ public class Main extends VRApplication {
     	return server;
     }
     
+    /**
+     * Executes an attack using a player's position and direction of attack.
+     * @param pos 
+     * 			the PlatformPosition of the attacking player
+     * @param dir
+     * 			the direction of the attack (String)
+     */
     public void handleAttack(PlatformPosition pos, String dir) {
         // TODO: EXECUTE ATTACKS
     }

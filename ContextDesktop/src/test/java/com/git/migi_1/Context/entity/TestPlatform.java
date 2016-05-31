@@ -1,13 +1,13 @@
 package com.git.migi_1.Context.entity;
 
-import static org.junit.Assert.assertEquals;
+// import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
+/*import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
+import org.powermock.api.mockito.PowerMockito;*/
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -15,7 +15,7 @@ import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.math.Vector3f;
+// import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import org.junit.Assert;
 
@@ -65,6 +65,9 @@ public class TestPlatform extends TestEntity {
         assertEquals(platform.getDefaultModel(), model);
     }*/
     
+    /**
+     * A temporary passing test.
+     */
     @Test
     public void passingTest2() {
         Assert.assertTrue(true);

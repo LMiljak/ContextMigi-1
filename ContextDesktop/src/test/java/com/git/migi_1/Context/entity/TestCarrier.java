@@ -18,7 +18,6 @@ import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-import com.github.migi_1.Context.main.Main;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
@@ -38,7 +37,6 @@ public class TestCarrier extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
-    private Main main;
     private MainEnvironment environment;
     private Commander commander;
 
@@ -49,7 +47,6 @@ public class TestCarrier extends TestEntity {
     @Before
     public void setUp() {
 
-        main = Mockito.mock(Main.class);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);

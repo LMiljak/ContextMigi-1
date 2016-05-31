@@ -23,6 +23,10 @@ public class HealthMessenger {
     
     /**
      * This function sends the new health value to the right android device.
+     * @param health
+     * 			the new health value for the android player
+     * @param pos
+     * 			the position of the targeted player
      */
     public void sendHealth(int health, PlatformPosition pos) {
         HealthMessage message = new HealthMessage(health, pos);

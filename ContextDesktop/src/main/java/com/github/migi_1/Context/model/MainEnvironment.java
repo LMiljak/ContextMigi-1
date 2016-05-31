@@ -10,7 +10,6 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
@@ -405,6 +404,10 @@ public class MainEnvironment extends Environment {
         return steering;
     }
     
+    /**
+     * Returns the main application.
+     * @return (Main) app.
+     */
     public Main getMain() {
         return ((Main) app);
     }

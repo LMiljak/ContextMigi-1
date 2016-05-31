@@ -12,6 +12,11 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
     
     private Main main;
     
+    /**
+     * Creates an AttackMessageHandler.
+     * @param main
+     * 			the main application by which this function is called
+     */
     public AttackMessageHandler(Main main) {
         this.main = main;
     }

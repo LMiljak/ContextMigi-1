@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.PositionMessage;
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.network.ConnectionListener;
 import com.jme3.network.HostedConnection;
@@ -30,6 +29,8 @@ public class CarrierAssigner implements ConnectionListener {
 	 * 		The platform to which the carriers should be assigned to.
 	 * @param server
 	 * 		The server to which the clients can connect.
+	 * @param env
+	 * 		The environment of the game.
 	 */
 	public CarrierAssigner(Platform platform, ServerWrapper server, MainEnvironment env) {
 		this.platform = platform;

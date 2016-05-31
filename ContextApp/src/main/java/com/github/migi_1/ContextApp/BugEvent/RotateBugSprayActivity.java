@@ -30,8 +30,6 @@ public class RotateBugSprayActivity extends Activity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.android_event_bugs_fr);
             
-            
-            
             spray_fr = (TextView) findViewById(R.id.eventBug_spray_fr);
 //            spray_fl = (TextView) findViewById(R.id.eventBug_spray_fl);
 //            spray_br = (TextView) findViewById(R.id.eventBug_spray_br);
@@ -47,13 +45,16 @@ public class RotateBugSprayActivity extends Activity {
 //            bug_br = (Button) findViewById(R.id.eventBug_bug_br);
 //            bug_bl = (Button) findViewById(R.id.eventBug_bug_bl);
             
-//            bug_fr.setVisibility(View.GONE);
+//            bug_fr.setVisibility(View.VISIBLE);
 //            bug_fl.setVisibility(View.GONE);
 //            bug_br.setVisibility(View.GONE);
 //            bug_bl.setVisibility(View.GONE);
             
             bug_position = initBug(new Random().nextInt(4));
             spray_position = initSpray(new Random().nextInt(4));
+            
+            Log.d("rotate", "BUG: " + bug_position.toString());
+            Log.d("rotate", "SPRAY LOCATION: " + spray_position.toString());
             
             bug_fr.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,28 +99,53 @@ public class RotateBugSprayActivity extends Activity {
                     //LEFT
                     if(deltaHorizontal < 0 && Math.abs(deltaHorizontal) > Math.abs(deltaVertical)) {
                         Log.d("rotate", "Swipe LEFT");
-                        spray_fr.setVisibility(View.VISIBLE);
+                        if(spray_position.equals(Position.BACK_RIGHT)) {
+                            spray_position = Position.BACK_LEFT;
+                        } else if (spray_position.equals(Position.FRONT_RIGHT)) {
+                            spray_position = Position.FRONT_LEFT;
+                        }
+                        printNewSprayPosition();
                     }
                     
                     //RIGHT
                     if(deltaHorizontal > 0 && Math.abs(deltaHorizontal) > Math.abs(deltaVertical)) {
                         Log.d("rotate", "Swipe RIGHT");
-                        spray_fr.setVisibility(View.GONE);
+                        if(spray_position.equals(Position.BACK_LEFT)) {
+                            spray_position = Position.BACK_RIGHT;
+                        } else if (spray_position.equals(Position.FRONT_LEFT)) {
+                            spray_position = Position.FRONT_RIGHT;
+                        }
+                        printNewSprayPosition();
                     }
                     
                     //UP
                     if(deltaVertical < 0 && Math.abs(deltaHorizontal) < Math.abs(deltaVertical)) {
                         Log.d("rotate", "Swipe UP");
-                        spray_fr.setVisibility(View.GONE);
+                        if(spray_position.equals(Position.BACK_LEFT)) {
+                            spray_position = Position.FRONT_LEFT;
+                        } else if (spray_position.equals(Position.BACK_RIGHT)) {
+                            spray_position = Position.FRONT_RIGHT;
+                        }
+                        printNewSprayPosition();
                     }
                     
                     //DOWN
                     if(deltaVertical > 0 && Math.abs(deltaHorizontal) < Math.abs(deltaVertical)) {
                         Log.d("rotate", "Swipe DOWN");
-                        spray_fr.setVisibility(View.GONE);
+                        if(spray_position.equals(Position.FRONT_LEFT)) {
+                            spray_position = Position.BACK_LEFT;
+                        } else if (spray_position.equals(Position.FRONT_RIGHT)) {
+                            spray_position = Position.BACK_RIGHT;
+                        }
+                        printNewSprayPosition();
                     }
                     
                     break;
+            }
+            if(spray_position.equals(Position.FRONT_RIGHT)) {
+                spray_fr.setVisibility(View.VISIBLE);
+            } else {
+                spray_fr.setVisibility(View.GONE);
             }
             return false;
         }
@@ -133,17 +159,18 @@ public class RotateBugSprayActivity extends Activity {
          * This will be changed in a further PR.
          */
         private Position initBug(int bugLoc) {
-            if(bugLoc == 0) {
-                return Position.FRONT_LEFT;
-            } else if(bugLoc == 1) {
-                return Position.FRONT_RIGHT;
-            } else if(bugLoc == 2) {
-                return Position.BACK_RIGHT;
-            } else if(bugLoc == 3) {
-                return Position.BACK_LEFT;
-            } else {
-                throw new IllegalStateException("Random value is changed!");
-            }
+//            if(bugLoc == 0) {
+//                return Position.FRONT_LEFT;
+//            } else if(bugLoc == 1) {
+//                return Position.FRONT_RIGHT;
+//            } else if(bugLoc == 2) {
+//                return Position.BACK_RIGHT;
+//            } else if(bugLoc == 3) {
+//                return Position.BACK_LEFT;
+//            } else {
+//                throw new IllegalStateException("Random value has been changed!");
+//            }
+            return Position.FRONT_RIGHT;
         }
         
         private Position initSpray(int sprayLoc) {
@@ -156,7 +183,12 @@ public class RotateBugSprayActivity extends Activity {
             } else if(sprayLoc == 3) {
                 return Position.BACK_LEFT;
             } else {
-                throw new IllegalStateException("Random value is changed!");
+                throw new IllegalStateException("Random value has been changed!");
             }
+        }
+        
+        private void printNewSprayPosition() {
+            Log.d("rotate", "New position: " + spray_position.toString());
+                    
         }
 }

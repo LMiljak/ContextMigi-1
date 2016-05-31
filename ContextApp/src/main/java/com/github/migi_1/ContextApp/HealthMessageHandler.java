@@ -31,7 +31,7 @@ public class HealthMessageHandler extends MessageListener<HealthMessage> {
     public void messageReceived(Object source, HealthMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
-            main.setHealth(message.getHealth());
+            main.getHUFunctions().setHealth(message.getHealth());
         }
     }
     

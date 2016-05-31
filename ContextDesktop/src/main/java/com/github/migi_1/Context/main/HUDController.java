@@ -53,9 +53,14 @@ public class HUDController {
 
     private void createGameOverScreen() {
         Material mat = new Material(ProjectAssetManager.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", new ColorRGBA(1, 0, 0, 0.5f)); // 0.5f is the alpha value
-        gameOver = new Geometry("Rect", new Quad(hudText.getLineWidth(), hudText.getLineHeight()));
-        gameOver.setLocalTranslation(settings.getWidth() - hudText.getLineWidth(), settings.getHeight() - hudText.getLineHeight(), 0);
+        mat.setColor("Color", new ColorRGBA(1, 0, 0, 0.5f));
+        float width = (float) (settings.getWidth() / 1.5);
+        float height = (float) (settings.getHeight() / 1.5);
+
+        gameOver = new Geometry("Rect", new Quad(width, height));
+        float leftBound = (settings.getWidth() - width)/ 2;
+        float upperBound = (settings.getHeight() - height)/ 2;
+        gameOver.setLocalTranslation(leftBound, upperBound, 0);
         gameOver.setMaterial(mat);
     }
 

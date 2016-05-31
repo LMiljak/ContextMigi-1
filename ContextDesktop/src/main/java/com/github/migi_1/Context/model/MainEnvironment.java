@@ -322,30 +322,30 @@ public class MainEnvironment extends Environment {
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
-        removeDisplayables(loc);        
+        removeDisplayables(loc);
     }
-    
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
      */
     private void addDisplayables(Vector3f loc) {
-        
+
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
             addDisplayable(levelPiece);
         }
-        
+
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-        
+
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);
         }
-        
+
     }
-    
+
     /**
      * Responsible for calling remove method on all entities that need removing from the rootnode.
      * @param loc
@@ -356,7 +356,7 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
             removeDisplayable(levelPiece);
         }
-        
+
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);

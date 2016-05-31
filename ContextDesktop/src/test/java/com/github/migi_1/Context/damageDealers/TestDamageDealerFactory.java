@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
+
 /**
  * Test class for the DamageDealerFactory class.
  * @author Marcel
@@ -12,8 +14,8 @@ import org.junit.Test;
  */
 public abstract class TestDamageDealerFactory {
 
-    private DamageDealerFactory testDamageDealerFactory;
-    private DamageDealer damageDealer;
+    private AbstractObstacleFactory testDamageDealerFactory;
+    private Object damageDealer;
 
     /**
      * Initialise attributes.
@@ -34,7 +36,7 @@ public abstract class TestDamageDealerFactory {
      * Get the damageDealerFactory attribute.
      * @return damageDealerFactory
      */
-    public DamageDealerFactory getTestDamageDealerFactory() {
+    public AbstractObstacleFactory getTestDamageDealerFactory() {
         return testDamageDealerFactory;
     }
 
@@ -43,7 +45,7 @@ public abstract class TestDamageDealerFactory {
      * @param testDamageDealerFactory The damageDealerFactory to set
      */
     public void setTestDamageDealerFactory(
-            DamageDealerFactory testDamageDealerFactory) {
+            AbstractObstacleFactory testDamageDealerFactory) {
         this.testDamageDealerFactory = testDamageDealerFactory;
     }
 
@@ -52,7 +54,7 @@ public abstract class TestDamageDealerFactory {
      * Get the damageDealer attribute.
      * @return damageDealer attribute
      */
-    public DamageDealer getDamageDealer() {
+    public Object getDamageDealer() {
         return damageDealer;
     }
 
@@ -60,7 +62,7 @@ public abstract class TestDamageDealerFactory {
      * Set the damageDealer attribute.
      * @param damageDealer The damageDealer to set
      */
-    public void setDamageDealer(DamageDealer damageDealer) {
+    public void setDamageDealer(Object damageDealer) {
         this.damageDealer = damageDealer;
     }
 

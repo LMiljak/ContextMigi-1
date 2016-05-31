@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -25,6 +24,7 @@ public class MainActivity extends AndroidHarness {
         private SensorManager mSensorManager;
         private AccelerometerSensor as;
         private PositionHolder posHolder;
+        private AttackMessenger am;
         
         Button leftButton, middleButton, rightButton, trigger;
         
@@ -70,6 +70,8 @@ public class MainActivity extends AndroidHarness {
             while (posHolder.getPosition() == null){
                 // do nothing
             }
+            
+            am = new AttackMessenger(this);
             
             setButtonsAndScreen();
             
@@ -135,7 +137,7 @@ public class MainActivity extends AndroidHarness {
         }
         
         /**
-         * Makes sure buttonpresses are logged.
+         * Makes sure buttonpresses are logged and processed.
          * @param butt = the button to which a clicklistener is set
          * @param str = message to be logged
          */
@@ -149,6 +151,9 @@ public class MainActivity extends AndroidHarness {
                 if(str.equals("trigger")) {
                     Intent nextScreen = new Intent(getApplicationContext(), EventButtonPressActivity.class);
                     startActivity(nextScreen);
+                }
+                else {
+                    am.sendAttack(posHolder.getPosition(), str);
                 }
             }
             });

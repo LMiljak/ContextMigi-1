@@ -56,7 +56,7 @@ public class TestMainEnvironment {
      * This method starts every time a new test case starts.
      */
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         env = PowerMockito.spy(new MainEnvironment());
 
         hudController = Mockito.mock(HUDController.class);

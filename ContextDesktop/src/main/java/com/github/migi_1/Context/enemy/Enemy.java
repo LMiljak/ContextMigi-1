@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model.Enemy;
+package com.github.migi_1.Context.enemy;
 
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;

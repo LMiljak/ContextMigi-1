@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
-import com.github.migi_1.Context.model.Enemy.Enemy;
-import com.github.migi_1.Context.model.Enemy.EnemyGenerator;
+import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemyGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;

@@ -23,7 +23,6 @@ import com.jme3.scene.Node;
 public class Environment extends AbstractAppState {
 
 	private Node rootNode;
-	private Node guiNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
 	private HUDController hudController;
@@ -33,12 +32,11 @@ public class Environment extends AbstractAppState {
 		super.initialize(stateManager, app);
 
 		this.rootNode = ((Main) app).getRootNode();
-		this.guiNode = ((Main) app).getGuiNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
-		hudController = new HUDController(guiNode, app);
+		hudController = new HUDController(app);
 
 
 	}

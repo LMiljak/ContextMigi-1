@@ -48,11 +48,11 @@ public class TestEnvironment {
 	public void setUp() throws Exception {
 		this.environment = new Environment();
 
-        hudController = Mockito.mock(HUDController.class);
+		hudController = Mockito.mock(HUDController.class);
 		AppStateManager manager = mock(AppStateManager.class);
 		ProjectAssetManager projectAssetManager = mock(ProjectAssetManager.class);
 		PowerMockito.mockStatic(ProjectAssetManager.class);
-        PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
+		PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
 		when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
 		this.assetManager = Mockito.mock(AssetManager.class);
 		when(projectAssetManager.getAssetManager()).thenReturn(assetManager);

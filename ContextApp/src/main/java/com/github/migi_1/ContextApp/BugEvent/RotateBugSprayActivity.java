@@ -23,6 +23,7 @@ public class RotateBugSprayActivity extends Activity {
         private Button bug_fr, bug_fl, bug_br, bug_bl;
         private float x1, x2, y1, y2, deltaHorizontal, deltaVertical;
         private Position spray_position;
+        private Position bug_position;
     
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class RotateBugSprayActivity extends Activity {
 //            bug_br.setVisibility(View.GONE);
 //            bug_bl.setVisibility(View.GONE);
             
-            initBug(new Random().nextInt(4));
+            bug_position = initBug(new Random().nextInt(4));
             spray_position = initSpray(new Random().nextInt(4));
             
             bug_fr.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +95,6 @@ public class RotateBugSprayActivity extends Activity {
                     
                     deltaHorizontal = x2 - x1;
                     deltaVertical = y2 - y1;
-                    Log.d("rotate", "HORIZONTAL: " + deltaHorizontal);
-                    Log.d("rotate", "VERTICAL: " + deltaVertical);
                     //LEFT
                     if(deltaHorizontal < 0 && Math.abs(deltaHorizontal) > Math.abs(deltaVertical)) {
                         Log.d("rotate", "Swipe LEFT");
@@ -134,52 +133,30 @@ public class RotateBugSprayActivity extends Activity {
          * This will be changed in a further PR.
          */
         private Position initBug(int bugLoc) {
-            return Position.FRONT_RIGHT;
-//            Log.d("rotate", Integer.toString(bugLoc));
-//            bug_fr.setVisibility(View.VISIBLE);
-//            if(bugLoc == 0) {
-//                spray_fl.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Front-left");
-//            }
-//            
-//            if(bugLoc == 1) {
-//                spray_fr.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Front-right");
-//            }
-//            
-//            if(bugLoc == 2) {
-//                spray_bl.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Back-left");
-//            }
-//            
-//            if(bugLoc == 3) {
-//                spray_br.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Back-right");
-//            }
+            if(bugLoc == 0) {
+                return Position.FRONT_LEFT;
+            } else if(bugLoc == 1) {
+                return Position.FRONT_RIGHT;
+            } else if(bugLoc == 2) {
+                return Position.BACK_RIGHT;
+            } else if(bugLoc == 3) {
+                return Position.BACK_LEFT;
+            } else {
+                throw new IllegalStateException("Random value is changed!");
+            }
         }
         
         private Position initSpray(int sprayLoc) {
-            return Position.FRONT_RIGHT;
-//            Log.d("rotate", Integer.toString(sprayLoc));
-//            spray_fr.setVisibility(View.VISIBLE);
-//            if(sprayLoc == 0) {
-//                spray_fl.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Front-left");
-//            }
-//            
-//            if(sprayLoc == 1) {
-//                spray_fr.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Front-right");
-//            }
-//            
-//            if(sprayLoc == 2) {
-//                spray_bl.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Back-left");
-//            }
-//            
-//            if(sprayLoc == 3) {
-//                spray_br.setVisibility(View.VISIBLE);
-//                Log.d("rotate", "Location: Back-right");
-//            }
+            if(sprayLoc == 0) {
+                return Position.FRONT_LEFT;
+            } else if(sprayLoc == 1) {
+                return Position.FRONT_RIGHT;
+            } else if(sprayLoc == 2) {
+                return Position.BACK_RIGHT;
+            } else if(sprayLoc == 3) {
+                return Position.BACK_LEFT;
+            } else {
+                throw new IllegalStateException("Random value is changed!");
+            }
         }
 }

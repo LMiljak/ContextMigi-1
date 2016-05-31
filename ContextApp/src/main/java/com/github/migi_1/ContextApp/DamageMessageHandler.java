@@ -23,9 +23,9 @@ public class DamageMessageHandler extends MessageListener<DamageMessage> {
     @Override
     public void messageReceived(Object source, DamageMessage message) {
         PlatformPosition position = message.getPos();
-        //TODO: Identification
-        
-        main.setHealth(message.getHealth());
+        if (position == main.getPosHolder().getPosition()) {
+            main.setHealth(message.getHealth());
+        }
     }
     
     @Override

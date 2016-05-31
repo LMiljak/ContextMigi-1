@@ -226,4 +226,12 @@ public class MainActivity extends AndroidHarness {
             }
             img.setImageResource(R.drawable.heart_grey);
         }
+        
+        /**
+         * Returns the application's PositionHolder
+         * @return posHolder
+         */
+        public PositionHolder getPosHolder() {
+            return posHolder;
+        }
 }

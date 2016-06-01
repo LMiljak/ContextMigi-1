@@ -29,7 +29,7 @@ public class LevelGenerator {
     public LevelGenerator(Vector3f locationNextPiece) {
        levelPieces = new LinkedList<LevelPiece>();
        pathPieces = new LinkedList<Path>();
-       this.locationNextPiece = locationNextPiece;
+       this.locationNextPiece = locationNextPiece.clone();
        this.locationNextPath = locationNextPiece.clone();
     }
 

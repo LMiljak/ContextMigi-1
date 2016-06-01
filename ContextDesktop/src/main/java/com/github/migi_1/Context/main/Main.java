@@ -197,7 +197,7 @@ public class Main extends VRApplication {
 //        this.getStateManager().detach(environmentState);
 //        this.getViewPort().detachScene(rootNode);
 //        this.getViewPort().detachScene(guiNode);
-      environmentState = new MainEnvironment();
+//      environmentState = new MainEnvironment();
       environmentState.initialize(getStateManager(), this);
 //      this.getStateManager().attach(environmentState);
     }

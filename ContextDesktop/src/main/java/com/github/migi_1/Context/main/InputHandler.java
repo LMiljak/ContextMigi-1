@@ -15,10 +15,10 @@ import com.jme3.math.Vector3f;
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
-                                "up", "down", "steer_left", "steer_right", "pause"};
+                                "up", "down", "steer_left", "steer_right", "pause", "menu"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
                                KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
-                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_P};
+                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_P, KeyInput.KEY_E};
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
     private ActionListener actionListener;

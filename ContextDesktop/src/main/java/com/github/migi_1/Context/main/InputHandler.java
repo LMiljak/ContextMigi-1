@@ -66,6 +66,12 @@ public final class InputHandler {
                         main.getEnv().setPaused(false);
 
                     }
+                } else if (name.equals("restart") && keyPressed) {
+//                    main.getStateManager().detach(main.getEnv());
+                    main.getEnv().cleanup();
+//                    main.restartGame();
+//                    main.getStateManager().attach(main.getEnv());
+
                 }
 
                 //Controls that only work with flycam.

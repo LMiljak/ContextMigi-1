@@ -27,10 +27,12 @@ public class Environment extends AbstractAppState {
 	private Collection<IMovable> movables;
 	private HUDController hudController;
 	private boolean paused;
+	private Application app;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
+		this.app = app;
 		this.paused = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
@@ -137,6 +139,14 @@ public class Environment extends AbstractAppState {
      */
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    @Override
+    public void cleanup() {
+        super.cleanup();
+        this.movables = new ArrayList<>();
+        ((Main) this.app).getGuiNode().detachAllChildren();
+        this.rootNode.detachAllChildren();
     }
 
 

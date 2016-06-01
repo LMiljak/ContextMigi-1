@@ -192,4 +192,9 @@ public class Main extends VRApplication {
     public ServerWrapper getServer() {
     	return server;
     }
+
+    public void restartGame() {
+        environmentState.initialize(getStateManager(), this);
+//        environmentState = new MainEnvironment();
+    }
 }

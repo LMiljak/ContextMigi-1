@@ -375,9 +375,7 @@ public class MainEnvironment extends Environment {
      */
     @Override
     public void cleanup() {
-
-        levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        obstacleSpawner.removeAll();
+        viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
         super.cleanup();

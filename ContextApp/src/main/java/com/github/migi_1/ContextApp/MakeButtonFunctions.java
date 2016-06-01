@@ -31,9 +31,7 @@ public class MakeButtonFunctions {
         leftButton = (Button) act.findViewById(R.id.FR_button_left);
         middleButton = (Button) act.findViewById(R.id.FR_button_middle);
         rightButton = (Button) act.findViewById(R.id.FR_button_right);
-        act.setButtons(leftButton, middleButton, rightButton);
         trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-        act.setTrigger(trigger);
     }
         
     /**
@@ -44,9 +42,7 @@ public class MakeButtonFunctions {
         leftButton = (Button) act.findViewById(R.id.FL_button_left);
         middleButton = (Button) act.findViewById(R.id.FL_button_middle);
         rightButton = (Button) act.findViewById(R.id.FL_button_right);
-        act.setButtons(leftButton, middleButton, rightButton);
         trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-        act.setTrigger(trigger);
     }
         
     /**
@@ -57,9 +53,7 @@ public class MakeButtonFunctions {
         leftButton = (Button) act.findViewById(R.id.BR_button_left);
         middleButton = (Button) act.findViewById(R.id.BR_button_middle);
         rightButton = (Button) act.findViewById(R.id.BR_button_right);
-        act.setButtons(leftButton, middleButton, rightButton);
         trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-        act.setTrigger(trigger);
     }
         
     /**
@@ -70,9 +64,20 @@ public class MakeButtonFunctions {
         leftButton = (Button) act.findViewById(R.id.BL_button_left);
         middleButton = (Button) act.findViewById(R.id.BL_button_middle);
         rightButton = (Button) act.findViewById(R.id.BL_button_right);
-        act.setButtons(leftButton, middleButton, rightButton);
         trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-        act.setTrigger(trigger);
+    }
+    
+    public Button getLeftButton() {
+        return leftButton;
+    }
+    public Button getMiddleButton() {
+        return middleButton;
+    }
+    public Button getRightButton() {
+        return rightButton;
+    }
+    public Button getTrigger() {
+        return trigger;
     }
     
 }

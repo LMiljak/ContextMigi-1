@@ -28,8 +28,6 @@ public class MainActivity extends AndroidHarness {
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         
-        private Button leftButton, middleButton, rightButton, trigger;
-        
         /**
          * Configure the game instance that is launched and start the logger.
          */
@@ -77,69 +75,65 @@ public class MainActivity extends AndroidHarness {
             	break;
        	    }
         */
-        position = PlatformPosition.FRONTRIGHT;
-
-        atkMessenger = new AttackMessenger(this);
-
-        setButtonsAndScreen();
-
-        // add logging functionality
-        setButtons(leftButton, "left");
-        setButtons(middleButton, "middle");
-        setButtons(rightButton, "right");
-        setButtons(trigger, "trigger");
-    }
-
-    /**
-     * Checks the position to set the buttons and content view.
-     */
-    public void setButtonsAndScreen() {
-        switch (position) {
-            case FRONTRIGHT:
-                mbFunctions.makeFRbuttons();
-                setContentView(R.layout.android_ingame_fr);
-                break;
-            case FRONTLEFT:
-                mbFunctions.makeFLbuttons();
-                setContentView(R.layout.android_ingame_fl);
-                break;
-            case BACKRIGHT:
-                mbFunctions.makeBRbuttons();
-                setContentView(R.layout.android_ingame_br);
-                break;
-            case BACKLEFT:
-                mbFunctions.makeBLbuttons();
-                setContentView(R.layout.android_ingame_bl);
-                break;
-            default:
-              	break;
+        position = PlatformPosition.BACKRIGHT;
+        
+        if (position == PlatformPosition.FRONTLEFT) {
+            setFrontLeft();
         }
+        else if (position == PlatformPosition.BACKRIGHT) {
+            setBackRight();
+        }
+        else if (position == PlatformPosition.BACKLEFT) {
+            setBackLeft();
+        }
+        else {
+            setFrontRight();
+        }       
+
     }
     
-    /**
-     * Sets the attack buttons.
-     * @param leftButton
-     *              The left attack button
-     * @param middleButton
-     *              The middle attack button
-     * @param rightButton 
-     *              The right attack button
-     */
-    public void setButtons(Button leftButton, Button middleButton, 
-            Button rightButton) {
-        this.leftButton = leftButton;
-        this.middleButton = middleButton;
-        this.rightButton = rightButton;
+    public void setFrontRight() {
+        
+        setContentView(R.layout.android_ingame_fr);
+        atkMessenger = new AttackMessenger(this);
+        setButtonClick((Button) findViewById(R.id.FR_button_left), "left");
+        setButtonClick((Button) findViewById(R.id.FR_button_middle), "middle");
+        setButtonClick((Button) findViewById(R.id.FR_button_right), "right");
+        setButtonClick((Button) findViewById(R.id.FR_button_trigger), "trigger");
+        
     }
     
-    /**
-     * Sets the trigger button.
-     * @param trigger
-     *              This button triggers random events.
-     *              Is used for testing purposes.
-     */
-    public void setTrigger(Button trigger) {
-        this.trigger = trigger;
+    public void setFrontLeft() {
+        
+        setContentView(R.layout.android_ingame_fl);
+        atkMessenger = new AttackMessenger(this);
+        setButtonClick((Button) findViewById(R.id.FL_button_left), "left");
+        setButtonClick((Button) findViewById(R.id.FL_button_middle), "middle");
+        setButtonClick((Button) findViewById(R.id.FL_button_right), "right");
+        setButtonClick((Button) findViewById(R.id.FL_button_trigger), "trigger");
+        
+    }
+    
+    public void setBackLeft() {
+        
+        setContentView(R.layout.android_ingame_bl);
+        atkMessenger = new AttackMessenger(this);
+        setButtonClick((Button) findViewById(R.id.BL_button_left), "left");
+        setButtonClick((Button) findViewById(R.id.BL_button_middle), "middle");
+        setButtonClick((Button) findViewById(R.id.BL_button_right), "right");
+        setButtonClick((Button) findViewById(R.id.BL_button_trigger), "trigger");
+        
+    }
+    
+    public void setBackRight() {
+        
+        setContentView(R.layout.android_ingame_br);
+        atkMessenger = new AttackMessenger(this);
+        setButtonClick((Button) findViewById(R.id.BR_button_left), "left");
+        setButtonClick((Button) findViewById(R.id.BR_button_middle), "middle");
+        setButtonClick((Button) findViewById(R.id.BR_button_right), "right");
+        setButtonClick((Button) findViewById(R.id.BR_button_trigger), "trigger");
+        
     }
         
     /**
@@ -147,14 +141,16 @@ public class MainActivity extends AndroidHarness {
      * @param butt = the button to which a clicklistener is set
      * @param str = message to be logged
      */
-    public void setButtons(Button butt, final String str) {
+    public void setButtonClick(Button butt, final String str) {
 
         butt.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Log.d("buttonpress", str);
-                atkMessenger.sendAttack(posHolder.getPosition(), str);
+                if (!str.equals("trigger")) {
+                    atkMessenger.sendAttack(posHolder.getPosition(), str);
+                }
             }
             
         });

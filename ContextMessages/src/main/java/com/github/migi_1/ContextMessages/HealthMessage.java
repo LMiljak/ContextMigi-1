@@ -14,9 +14,9 @@ public class HealthMessage extends AbstractMessage {
     private PlatformPosition pos;
     
     /**
-     * The constructor of HealthMessage without arguments.
-     * Produces an HealthMessage with the default values.
-     */
+	 * Public empty constructor used by the JME3 networking
+	 * library.
+	 */
     public HealthMessage() { }
     
     /**

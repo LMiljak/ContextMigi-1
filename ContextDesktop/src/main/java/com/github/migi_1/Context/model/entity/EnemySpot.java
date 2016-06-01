@@ -15,7 +15,7 @@ public class EnemySpot {
     };
     
     public EnemySpot(Vector3f location, Carrier carrier, Direction direction) {
-        this.location = location.add(carrier.getModel().getLocalTranslation());
+        this.location = location;
         this.direction = direction;
         this.carrierId = carrier.getId();
         this.carrier = carrier;
@@ -40,7 +40,7 @@ public class EnemySpot {
      * @return the location
      */
     public Vector3f getLocation() {
-        return location.add(carrier.getModel().getLocalTranslation());
+        return carrier.getModel().getLocalTranslation().add(new Vector3f(location.x, 0, location.z));
     }
 
     /**

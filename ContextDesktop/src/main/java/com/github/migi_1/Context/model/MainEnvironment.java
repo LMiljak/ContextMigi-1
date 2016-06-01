@@ -273,7 +273,7 @@ public class MainEnvironment extends Environment {
      */
     private void initCameras() {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         commander.makeObserver();
@@ -333,6 +333,7 @@ public class MainEnvironment extends Environment {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
         removeDisplayables(loc);        
+        flyObs.move(new Vector3f(-0.2f, 0,0));
     }
 
     /**

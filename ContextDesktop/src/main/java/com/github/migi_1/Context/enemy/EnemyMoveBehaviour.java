@@ -10,17 +10,15 @@ import com.jme3.math.Vector3f;
 
 public class EnemyMoveBehaviour extends MoveBehaviour {
 
-    private Commander commander;
     private Vector3f moveVector;
     private float speed = 0.001f;
     private Vector3f localTranslation;
     private Carrier[] carriers;
     private EnemySpot targetSpot;
 
-    public EnemyMoveBehaviour(Commander commander, Enemy enemy, Carrier[] carriers) {
+    public EnemyMoveBehaviour(Enemy enemy, Carrier[] carriers) {
         super();
         this.moveVector = new Vector3f(0,0,0);
-        this.commander = commander;
         this.carriers = carriers;
         this.localTranslation = enemy.getModel().getLocalTranslation();
         targetSpot = getTargetSpot();
@@ -49,14 +47,19 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     @Override
     public void updateMoveVector() {
-        if (targetSpot.getLocation().distance(localTranslation) < 40) {
-            if (targetSpot.getLocation().x - localTranslation.getX() < 30) {
-                if (targetSpot.getLocation().x > localTranslation.getX()) {
-                    moveVector.setX(speed);
-                } else {
-                    moveVector.setX(-speed);
+        if (targetSpot.getLocation().distance(localTranslation) < 50) {
+            if (targetSpot.getLocation().x > localTranslation.getX()) {
+                moveVector.setX(speed);
+            } else {
+                moveVector.setX(-speed);
+            }
+           // System.out.println("target: " + targetSpot.getCarrierId() + " " + targetSpot.getLocation().x);
+            for(Carrier carrier : carriers) {
+                if (targetSpot.getCarrierId() == carrier.getId()) {
+                   // System.out.println("carrier location" + carrier.getId() + carrier.getModel().getLocalTranslation());
                 }
             }
+            
 
             //            if (Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) < 30 &&
             //                    Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) > 3) {
@@ -68,16 +71,15 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
             //            } else {
             //                moveVector.setZ(0);
             //            }
-            //            if (targetSpot.distance(localTranslation) < 30 &&
-            //                   targetSpot.distance(localTranslation) > 5) {
-            //                if (targetSpot.z > localTranslation.getZ()) {
-            //                    moveVector.setZ(speed);
-            //                } else {
-            //                    moveVector.setZ(-speed);
-            //                }
-            //            } else {
-            //                moveVector.setZ(0);
-            //            }
+            //if (targetSpot.getLocation().distance(localTranslation) < 30) {
+                if (targetSpot.getLocation().z > localTranslation.getZ()) {
+                    moveVector.setZ(speed);
+                } else {
+                    moveVector.setZ(-speed);
+                }
+//            } else {
+//                moveVector.setZ(0);
+//            }
 
         }
     }

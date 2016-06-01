@@ -42,22 +42,25 @@ public class Carrier extends Entity implements IKillable {
         CarrierMoveBehaviour moveBehaviour = new CarrierMoveBehaviour(this, MOVE_VECTOR, environment);
         moveBehaviour.setRelativeLocation(relativeLocation);
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
+        this.id = id;
         createEnemyLocations();
         health = 2;
-        this.id = id;
+        
     }
 
 
 
     private void createEnemyLocations() {
-        enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this,  Direction.NORTH));
+        enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this,  Direction.NORTH));
         if (id % 2 == 0) {
-            enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this, Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, Direction.EAST));
+            System.out.println("right");
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this, Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, Direction.WEST));
+            System.out.println("left");
         }
-        enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this, Direction.SOUTH));
+        enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, Direction.SOUTH));
 
     }
 

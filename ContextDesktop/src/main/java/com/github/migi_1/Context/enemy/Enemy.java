@@ -15,11 +15,11 @@ public class Enemy extends Entity implements IKillable {
     private EnemyMoveBehaviour moveBehaviour;
     private int health;
     
-    public Enemy (Vector3f startLocation, Commander commander, Carrier[] carriers) {
+    public Enemy (Vector3f startLocation, Carrier[] carriers) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        moveBehaviour = new EnemyMoveBehaviour(commander, this, carriers);
+        moveBehaviour = new EnemyMoveBehaviour(this, carriers);
         health = 2;
     }
     

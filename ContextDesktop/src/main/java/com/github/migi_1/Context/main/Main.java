@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.main;
 
+import com.github.migi_1.Context.model.Environment;
+import com.github.migi_1.Context.model.LobbyEnvironment;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
@@ -21,11 +23,12 @@ import com.jme3.system.AppSettings;
  */
 
 public class Main extends VRApplication {
-    //the main menu state
-    private MainMenu mainMenuState;
 
     //the game state
     private MainEnvironment environmentState;
+    
+    //the game's lobby
+    private LobbyEnvironment lobbyState;
 
     //the main application
     private static Main main;
@@ -84,10 +87,10 @@ public class Main extends VRApplication {
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
 
-        mainMenuState = new MainMenu();
+        lobbyState = new LobbyEnvironment();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-        this.getStateManager().attach(mainMenuState);
+        this.getStateManager().attach(lobbyState);
 
         launchServer();
     }
@@ -135,11 +138,11 @@ public class Main extends VRApplication {
     }
 
     /**
-     * Returns the main menu state.
-     * @return the mainMenu
+     * Returns the lobby state.
+     * @return the lobby
      */
-    public MainMenu getMainMenu() {
-        return mainMenuState;
+    public LobbyEnvironment getLobby() {
+        return lobbyState;
     }
 
     /**
@@ -149,7 +152,7 @@ public class Main extends VRApplication {
     public MainEnvironment getEnv() {
         return environmentState;
     }
-
+    
     /**
      * @return
      * 		The root node.

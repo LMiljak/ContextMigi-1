@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model;
 
+import com.github.migi_1.Context.main.HUDController;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -53,6 +54,7 @@ public class MainEnvironment extends Environment {
 
     private static final int NUMBER_OF_CARRIERS = 4;
 
+    private HUDController hudController;
     private Platform platform;
     private Commander commander;
     private Carrier[] carriers;
@@ -80,11 +82,12 @@ public class MainEnvironment extends Environment {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
 
+        hudController = new HUDController(app);
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
         flyCamActive = false;
-
+        
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
 
@@ -108,6 +111,7 @@ public class MainEnvironment extends Environment {
     public void update(float tpf) {
         super.update(tpf);
 
+        hudController.updateHUD();
         checkCollision();
         updateTestWorld();
     }

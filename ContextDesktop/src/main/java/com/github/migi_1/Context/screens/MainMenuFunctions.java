@@ -75,7 +75,7 @@ public class MainMenuFunctions implements ScreenController {
      * Detaches the menu and attaches the environment to the app.
      */
     public void startGame() {
-        main.getStateManager().detach(main.getMainMenu());
+       // main.getStateManager().detach(main.getMainMenu());
         main.getStateManager().attach(main.getEnv());
     }
 

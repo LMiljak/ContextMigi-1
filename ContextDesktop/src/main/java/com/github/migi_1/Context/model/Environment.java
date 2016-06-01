@@ -20,12 +20,11 @@ import com.jme3.scene.Node;
  * An Environment represents a world that can contain all kinds
  * of objects that can be added/removed.
  */
-public class Environment extends AbstractAppState {
+public abstract class Environment extends AbstractAppState {
 
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
-	private HUDController hudController;
 	private boolean paused;
 
 	@Override
@@ -37,7 +36,7 @@ public class Environment extends AbstractAppState {
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
-		hudController = new HUDController(app);
+		
 
 
 	}
@@ -46,7 +45,6 @@ public class Environment extends AbstractAppState {
 	public void update(float tpf) {
 		super.update(tpf);
 		if (!paused) {
-		    hudController.updateHUD();
 		    moveMovables();
 		}
 	}

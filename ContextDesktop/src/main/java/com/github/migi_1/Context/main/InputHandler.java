@@ -70,7 +70,7 @@ public final class InputHandler {
                 } else if (name.equals("menu") && keyPressed) {
                     main.getStateManager().attach(main.getMainMenu());
                     main.getStateManager().detach(main.getEnv());
-                } else if (name.equals("restart") && keyPressed) {
+                } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
                     main.getEnv().cleanup();
                     main.getEnv().initialize(main.getStateManager(), main);
                 }

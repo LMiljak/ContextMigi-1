@@ -56,7 +56,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     @Override
     public Vector3f getMoveVector() {
-        System.out.println(super.getMoveVector());
         if (carrier == null) {
             carrier = environment.getCarriers()[0];
         }

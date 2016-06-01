@@ -117,7 +117,6 @@ public class MainEnvironment extends Environment {
      * Handle collision checking.
      */
     private void checkCollision() {
-
         //add collision check for all obstacles
 
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {

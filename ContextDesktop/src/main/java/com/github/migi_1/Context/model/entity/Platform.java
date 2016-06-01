@@ -18,9 +18,7 @@ public class Platform extends Entity {
 
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
-
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
-    
     /**
      * constructor of the platform.
      * @param startLocation location where the carrier will be initialized
@@ -78,6 +76,7 @@ public class Platform extends Entity {
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
+
 
 
 }

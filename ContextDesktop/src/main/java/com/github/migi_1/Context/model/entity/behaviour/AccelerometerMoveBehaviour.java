@@ -1,6 +1,6 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.jme3.math.Vector3f;
 import com.jme3.network.Message;
@@ -39,5 +39,8 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 			this.moveVector = new Vector3f(0, 0, zSpeed);
 		}
 	}
+
+	@Override
+	public void updateMoveVector() { }
 
 }

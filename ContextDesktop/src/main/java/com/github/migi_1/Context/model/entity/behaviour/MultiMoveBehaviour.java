@@ -12,5 +12,7 @@ public abstract class MultiMoveBehaviour extends MoveBehaviour {
 			behaviours.add(behaviour);
 		}
 	}
-		
+	
+	@Override
+	public void updateMoveVector() { }
 }

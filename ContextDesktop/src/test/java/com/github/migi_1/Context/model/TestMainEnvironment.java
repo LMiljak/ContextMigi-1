@@ -14,8 +14,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
@@ -36,7 +38,7 @@ import com.jme3.scene.Spatial;
  * @author Nils
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class})
+@PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
 public class TestMainEnvironment {
 
     private MainEnvironment env;
@@ -51,15 +53,28 @@ public class TestMainEnvironment {
     private Spatial model;
     private RenderManager renderManager;
     private Camera cam;
+    private HUDController hudController;
 
     /**
      * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
      */
     @SuppressWarnings("unchecked")
 	@Before
-    public void setUp() {
+    public void setUp() throws Exception {
+    	try {
+    		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
+    		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
+ 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+ 				.withNoArguments().thenReturn(amb);
+ 			
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		}
+    	
         env = PowerMockito.spy(new MainEnvironment());
 
+        hudController = Mockito.mock(HUDController.class);
         stateManager = Mockito.mock(AppStateManager.class);
         app = Mockito.mock(Main.class);
         viewPort = Mockito.mock(ViewPort.class);
@@ -73,6 +88,7 @@ public class TestMainEnvironment {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
+        PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);

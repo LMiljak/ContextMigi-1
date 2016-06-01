@@ -6,22 +6,65 @@ import com.jme3.math.Vector3f;
  * @author Damian
  *
  */
-public class ConstantSpeedMoveBehaviour extends MoveBehaviour {
+public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
 
-	private Vector3f moveVector;
-	
+
+	private float decay;
+
 	/**
 	 * Constructor for ConstantSpeedMoveBehaviour.
+<<<<<<< HEAD:ContextDesktop/src/main/java/com/github/migi_1/Context/model/entity/behaviour/ConstantSpeedMoveBehaviour.java
 	 * 
+=======
+	 *
+>>>>>>> refs/remotes/origin/master:ContextDesktop/src/main/java/com/github/migi_1/Context/model/entity/ConstantSpeedMoveBehaviour.java
 	 * @param moveVector
 	 * 		The direction and speed of this behaviour.
 	 */
 	public ConstantSpeedMoveBehaviour(Vector3f moveVector) {
-		this.moveVector = moveVector;
+		setMoveVector(moveVector);
+		this.decay = 1.0f;
 	}
-	
+
+    /**
+     * Collision has taken place.
+     */
     @Override
-    public Vector3f getMoveVector() {
-        return moveVector;
+    public void collided() {
+
+        decay = 0.0f;
     }
+
+    /**
+     * MoveVector is updated.
+     */
+    @Override
+    public void updateMoveVector() {
+
+        // regain speed
+        if (decay < 1.0f) {
+            decay = decay + 0.01f;
+        }
+        else {
+            decay = 1.0f;
+        }
+
+    }
+
+    /**
+     * Return the decay term.
+     * @return decay
+     */
+    public float getDecay() {
+        return decay;
+    }
+
+    /**
+     * Set the decay term.
+     * @param decay Term to set
+     */
+    public void setDecay(float decay) {
+        this.decay = decay;
+    }
+
 }

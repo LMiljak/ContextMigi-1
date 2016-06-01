@@ -379,6 +379,8 @@ public class MainEnvironment extends Environment {
 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         obstacleSpawner.removeAll();
+        this.getRootNode().removeLight(sun);
+        this.getRootNode().removeLight(sun2);
         super.cleanup();
     }
 

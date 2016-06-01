@@ -194,7 +194,7 @@ public class Main extends VRApplication {
     }
 
     public void restartGame() {
-        environmentState.initialize(getStateManager(), this);
 //        environmentState = new MainEnvironment();
+      environmentState.initialize(getStateManager(), this);
     }
 }

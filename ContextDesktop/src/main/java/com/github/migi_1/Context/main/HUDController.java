@@ -6,6 +6,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
 
 /**
@@ -20,15 +21,24 @@ public class HUDController {
 
     private BitmapText hudText;
 
+    private BitmapText checkpointAlertText;
+
+    private static final int CHECKPOINT_DISTANCE = 200;
+    private int checkpointCounter = 0;
+    private boolean checkpointUpdated = false;
+
     private int threshold = 10;
 
     private AppSettings settings;
+
+    private Main main;
 
     /**
      * Constructor. Generates initial score and displays it.
      * @param app Application
      */
     public HUDController(Application app) {
+        this.main = (Main) app;
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
         BitmapFont guiFont = assetManager.loadFont("Interface/Fonts/RockwellExtraBold.fnt");
         hudText = new BitmapText(guiFont, false);
@@ -39,7 +49,14 @@ public class HUDController {
         float width = settings.getWidth() - hudText.getLineWidth();
         float height = settings.getHeight();
         hudText.setLocalTranslation(width, height, 0);
-        ((Main) app).getGuiNode().attachChild(hudText);
+
+        checkpointAlertText = new BitmapText(guiFont, false);
+        checkpointAlertText.setSize(guiFont.getCharSet().getRenderedSize() * 2);
+        checkpointAlertText.setColor(ColorRGBA.Red);
+        checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
+
+        checkpointAlertText.setLocalTranslation(0, height, 0);
+        main.getGuiNode().attachChild(hudText);
     }
 
     /**
@@ -53,6 +70,20 @@ public class HUDController {
             float width = settings.getWidth() - hudText.getLineWidth();
             float height = settings.getHeight();
             hudText.setLocalTranslation(width, height, 0);
+        }
+        Vector3f commanderLoc = main.getEnv().getCommander().getModel().getLocalTranslation();
+        if(commanderLoc.x % CHECKPOINT_DISTANCE > -10 && commanderLoc.x < 0) {
+            main.getGuiNode().attachChild(checkpointAlertText);
+            if(checkpointUpdated) {
+                checkpointUpdated = false;
+            }
+        } else {
+            if(!checkpointUpdated) {
+                checkpointCounter += 1;
+                checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
+                checkpointUpdated = true;
+            }
+            main.getGuiNode().detachChild(checkpointAlertText);
         }
     }
 

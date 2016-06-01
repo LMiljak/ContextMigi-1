@@ -53,8 +53,6 @@ public class MainEnvironment extends Environment {
 
     private static final int NUMBER_OF_CARRIERS = 4;
 
-    private static final int CHECKPOINT_DISTANCE = 200;
-
     private Platform platform;
     private Commander commander;
     private Carrier[] carriers;
@@ -112,7 +110,6 @@ public class MainEnvironment extends Environment {
 
         checkCollision();
         updateTestWorld();
-        checkForCheckpoint();
     }
 
     /**
@@ -372,19 +369,6 @@ public class MainEnvironment extends Environment {
      */
     public void steer(float orientation) {
         steering = orientation;
-    }
-
-    private void checkForCheckpoint() {
-        System.out.println("Checking for checkpoint");
-        System.out.println(commander.getModel().getLocalTranslation().x);
-        System.out.println(CHECKPOINT_DISTANCE);
-        System.out.println(commander.getModel().getLocalTranslation().x % CHECKPOINT_DISTANCE);
-
-        //Done this way since the distance will never be exactly zero.
-        if(commander.getModel().getLocalTranslation().x % CHECKPOINT_DISTANCE > -1 &&
-                commander.getModel().getLocalTranslation().x < 0) {
-            System.out.println("CHECKPOINT HAS BEEN REACHED!");
-        }
     }
 
     /**

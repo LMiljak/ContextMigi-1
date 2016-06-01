@@ -19,8 +19,8 @@ public class ClientWrapper {
         /** The amount of times the client should restart before sending an error.*/
         private static final int RESTART_ATTEMPTS = 10;
 	
-	/** The wrapped client Object. */
 	private Client client;
+        private ClientState state;
         
 	//Every message types is registered by the Serializer in this class initializer.
         static {
@@ -29,6 +29,9 @@ public class ClientWrapper {
 	
 	public ClientWrapper(String host) throws IOException {
             this.client = createClient(host, PORT, RESTART_ATTEMPTS);
+            
+            final ClientState initialState = new InactiveClientState(client);
+            this.state = initialState;
         }
         
         private Client createClient(String host, int port, int restartAttempts) throws IOException {
@@ -36,8 +39,8 @@ public class ClientWrapper {
             
             for (int attempt = 1; attempt <= restartAttempts; attempt++) {
                 try {
-                    Client client = Network.connectToServer(host, port);
-                    return client;
+                    Client result = Network.connectToServer(host, port);
+                    return result;
                 } catch (IOException e) {
                     exception = e;
                 }
@@ -47,6 +50,22 @@ public class ClientWrapper {
                     + ": " + exception.getMessage());
         }
 	
+        public void startClient() {
+            switchState(new ActiveClientState(client));
+        }
+        
+        public void closeClient() {
+            switchState(new InactiveClientState(client));
+        }
+        
+        private void switchState(ClientState newState) {
+            if (!newState.equals(state)) {
+                state.onDeactivate();
+                state = newState;
+                state.onActivate();
+            }
+        }
+        
 	/**
 	 * Gets the Client.
 	 * 

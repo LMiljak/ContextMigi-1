@@ -137,10 +137,12 @@ public class Environment extends AbstractAppState {
         this.paused = paused;
     }
 
+    /**
+     * Delete all visual elements.
+     */
     @Override
     public void cleanup() {
         super.cleanup();
-//        this.movables = new ArrayList<>();
         ((Main) this.app).getGuiNode().detachAllChildren();
         this.rootNode.detachAllChildren();
     }

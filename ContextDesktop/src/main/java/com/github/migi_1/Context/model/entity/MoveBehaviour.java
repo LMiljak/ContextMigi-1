@@ -9,6 +9,15 @@ import com.jme3.math.Vector3f;
  */
 public abstract class MoveBehaviour {
 
+    private Vector3f moveVector;
+
+    /**
+     * Constructor for abstract MoveBehaviour where the default moveVector is static.
+     */
+    public MoveBehaviour() {
+        moveVector = new Vector3f(0, 0, 0);
+    }
+
     /**
      * Gets the move vector of this behaviour.
      * This method is called every tick of the game and this move vector will be added
@@ -17,12 +26,23 @@ public abstract class MoveBehaviour {
      * @return Vector3f
      * 		The move vector of the behaviour.
      */
-    public abstract Vector3f getMoveVector();
+    public Vector3f getMoveVector() {
+        return moveVector;
+    }
 
     /**
      * Update the moveVector.
      */
-    public void updateMoveVector() {
+    public abstract void updateMoveVector();
+
+    /**
+     * Setter for the MoveVector attribute.
+     * @param moveVector attribute
+     */
+    public void setMoveVector(Vector3f moveVector) {
+        this.moveVector = moveVector;
     }
+
+
 
 }

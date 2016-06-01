@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
@@ -24,23 +25,30 @@ public class Environment extends AbstractAppState {
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
+	private HUDController hudController;
+	private boolean paused;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-
+		this.paused = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
+		hudController = new HUDController(app);
+
+
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-
-		moveMovables();
+		if (!paused) {
+		    hudController.updateHUD();
+		    moveMovables();
+		}
 	}
 
 	/**
@@ -114,5 +122,23 @@ public class Environment extends AbstractAppState {
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
+
+	/**
+	 * Check whether game is paused.
+	 * @return paused or not paused
+	 */
+    public boolean isPaused() {
+        return paused;
+    }
+
+    /**
+     * Pause or unpause the game.
+     * @param paused pause or unpause
+     */
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+
 
 }

@@ -18,6 +18,7 @@ import com.jme3.network.Client;
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
     private HelloActivity act;
+    private ClientWrapper client;
     
     /**
      * Constructor for AccelerometerSensor.
@@ -25,8 +26,9 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      * @param act
      *      The main activity from which is was created.
      */
-    public AccelerometerSensor(HelloActivity act) {
+    public AccelerometerSensor(HelloActivity act, ClientWrapper client) {
         this.act = act;
+        this.client = client;
     }
     
     /**
@@ -63,10 +65,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
     private void sendSensorInformation(float x_force, float y_force, float z_force) {
         AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
         
-        Client client = ClientWrapper.getInstance().getClient();
-        if (client != null) {
-            client.send(message);
-        }
+        client.getClient().send(message);
     }
     
     @Override

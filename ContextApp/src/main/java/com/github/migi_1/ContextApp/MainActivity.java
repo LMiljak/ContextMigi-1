@@ -32,6 +32,7 @@ public class MainActivity extends AndroidHarness {
          * Configure the game instance that is launched and start the logger.
          */
         public MainActivity() {
+            
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
         
@@ -53,6 +54,7 @@ public class MainActivity extends AndroidHarness {
      */
     @Override  
     public void onCreate(Bundle savedInstanceState) {  
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.android_searching);
 
@@ -77,6 +79,15 @@ public class MainActivity extends AndroidHarness {
         */
         position = PlatformPosition.BACKRIGHT;
         
+        chooseScreen();
+        
+    }
+    
+    /**
+     * Chooses which function to call to set view and buttons.
+     */
+    public void chooseScreen() {
+        
         if (position == PlatformPosition.FRONTLEFT) {
             setFrontLeft();
         }
@@ -88,8 +99,8 @@ public class MainActivity extends AndroidHarness {
         }
         else {
             setFrontRight();
-        }       
-
+        }    
+        
     }
     
     public void setFrontRight() {
@@ -163,7 +174,9 @@ public class MainActivity extends AndroidHarness {
      *      The instance of this Application.
      */
     public Main getMain() {
+        
         return application;
+        
     }
 
     /**
@@ -171,7 +184,9 @@ public class MainActivity extends AndroidHarness {
      * @return posHolder
      */
     public PositionHolder getPosHolder() {
+        
         return posHolder;
+        
     }
     
     /**
@@ -179,6 +194,9 @@ public class MainActivity extends AndroidHarness {
      * @return huFunctions HeartsUpdateFunctions
      */
     public HeartsUpdateFunctions getHUFunctions() {
+        
         return huFunctions;
+        
     }
+    
 }

@@ -66,6 +66,9 @@ public final class InputHandler {
                         main.getEnv().setPaused(false);
 
                     }
+                } else if (name.equals("menu") && keyPressed) {
+                    main.getStateManager().attach(main.getMainMenu());
+                    main.getStateManager().detach(main.getEnv());
                 }
 
                 //Controls that only work with flycam.

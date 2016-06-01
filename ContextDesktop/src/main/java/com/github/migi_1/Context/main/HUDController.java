@@ -23,6 +23,7 @@ public class HUDController {
 
     private BitmapText checkpointAlertText;
 
+    private BitmapFont guiFont;
     private static final int CHECKPOINT_DISTANCE = 200;
     private int checkpointCounter = 0;
     private boolean checkpointUpdated = false;
@@ -41,23 +42,32 @@ public class HUDController {
     public HUDController(Application app) {
         this.main = (Main) app;
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
-        BitmapFont guiFont = assetManager.loadFont("Interface/Fonts/RockwellExtraBold.fnt");
+        guiFont = assetManager.loadFont("Interface/Fonts/RockwellExtraBold.fnt");
+        settings = main.getSettings();
+
+        initScoreText();
+        initCheckPointText();
+
+        main.getGuiNode().attachChild(hudText);
+    }
+
+    private void initScoreText() {
         hudText = new BitmapText(guiFont, false);
         hudText.setSize(guiFont.getCharSet().getRenderedSize() * 4);
         hudText.setColor(ColorRGBA.White);
         hudText.setText("0");
-        settings = ((Main) app).getSettings();
         float width = settings.getWidth() - hudText.getLineWidth();
         float height = settings.getHeight();
         hudText.setLocalTranslation(width, height, 0);
+    }
 
+    private void initCheckPointText() {
         checkpointAlertText = new BitmapText(guiFont, false);
         checkpointAlertText.setSize(guiFont.getCharSet().getRenderedSize() * 2);
         checkpointAlertText.setColor(ColorRGBA.Red);
         checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
 
-        checkpointAlertText.setLocalTranslation(0, height, 0);
-        main.getGuiNode().attachChild(hudText);
+        checkpointAlertText.setLocalTranslation(0, settings.getHeight(), 0);
     }
 
     /**
@@ -73,7 +83,7 @@ public class HUDController {
             hudText.setLocalTranslation(width, height, 0);
         }
         Vector3f commanderLoc = main.getEnv().getCommander().getModel().getLocalTranslation();
-        if (commanderLoc.x % CHECKPOINT_DISTANCE > -10 && commanderLoc.x < 0) {
+        if (commanderLoc.x % CHECKPOINT_DISTANCE > -15 && commanderLoc.x < 0) {
             main.getGuiNode().attachChild(checkpointAlertText);
             if (checkpointUpdated) {
                 main.getEnv().setDifficulty(main.getEnv().getDifficulty() * DIFFICULTY_INCREASE);

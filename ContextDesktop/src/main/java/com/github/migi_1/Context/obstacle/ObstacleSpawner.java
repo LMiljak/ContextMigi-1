@@ -79,12 +79,5 @@ public class ObstacleSpawner {
     public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
         this.obstacleFactory = obstacleFactory;
     }
-    public void removeAll() {
-        this.obstacleList = new ArrayList<Obstacle>();
-
-    }
-
-
-
 
 }

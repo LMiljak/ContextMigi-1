@@ -67,10 +67,8 @@ public final class InputHandler {
 
                     }
                 } else if (name.equals("restart") && keyPressed) {
-//                    main.getStateManager().detach(main.getEnv());
                     main.getEnv().cleanup();
-                    main.restartGame();
-//                    main.getStateManager().attach(main.getEnv());
+                    main.getEnv().initialize(main.getStateManager(), main);
 
                 }
 

@@ -371,7 +371,7 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Handles everything that happens when the Envrironment state is detached from the main application.
+     * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
     public void cleanup() {

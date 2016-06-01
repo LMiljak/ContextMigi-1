@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.enemy;
 
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
@@ -14,11 +15,11 @@ public class Enemy extends Entity implements IKillable {
     private EnemyMoveBehaviour moveBehaviour;
     private int health;
     
-    public Enemy (Vector3f startLocation, Commander commander) {
+    public Enemy (Vector3f startLocation, Commander commander, Carrier[] carriers) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        moveBehaviour = new EnemyMoveBehaviour(commander, this);
+        moveBehaviour = new EnemyMoveBehaviour(commander, this, carriers);
         health = 2;
     }
     

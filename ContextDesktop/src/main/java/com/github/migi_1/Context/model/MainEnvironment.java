@@ -201,7 +201,7 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         obstacleSpawner = new ObstacleSpawner(commander);
-        enemySpawner = new EnemySpawner(commander);
+        enemySpawner = new EnemySpawner(commander, carriers);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {

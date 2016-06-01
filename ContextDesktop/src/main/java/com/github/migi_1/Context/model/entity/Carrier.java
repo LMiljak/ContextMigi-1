@@ -51,10 +51,10 @@ public class Carrier extends Entity implements IKillable {
     private void createEnemyLocations() {
         enemyLocations.add(new Vector3f(-5, 0, 0));
         if (id % 2 == 0) {
-            enemyLocations.add(new Vector3f(0, -5, 0));
+            enemyLocations.add(new Vector3f(0, 0, -5));
         }
         else {
-            enemyLocations.add(new Vector3f(0, 5, 0));
+            enemyLocations.add(new Vector3f(0, 0, 5));
         }
         enemyLocations.add(new Vector3f(5, 0, 0));
 

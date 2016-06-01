@@ -3,6 +3,7 @@ package com.github.migi_1.Context.enemy;
 import java.util.LinkedList;
 
 import com.github.migi_1.Context.model.LevelPiece;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
@@ -18,10 +19,12 @@ public class EnemySpawner {
     private double lastLevelPiece;
     private float levelPieceWidth;
     private Vector3f commanderLocation;
+    private Carrier[] carriers;
 
-    public EnemySpawner(Commander commander) {
+    public EnemySpawner(Commander commander, Carrier[] carriers) {
         enemies = new LinkedList<Enemy>();
         this.commander = commander;
+        this.carriers = carriers;
         commanderLocation = commander.getModel().getLocalTranslation(); 
         levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
         levelPieceLength = levelPieceBoundingBox.getXExtent();
@@ -36,11 +39,13 @@ public class EnemySpawner {
             lastLevelPiece = currentLevelPiece;
             
             Enemy enemy1 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength), ENEMYHEIGHT,
-                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander);            
+                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander, carriers);            
             Enemy enemy2 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander);
+                    + levelPieceLength * 1/2, ENEMYHEIGHT,
+                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)), commander, carriers);
             Enemy enemy3 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, ENEMYHEIGHT, levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)), commander);  
+                    + levelPieceLength * 1/2, ENEMYHEIGHT,
+                    levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)), commander, carriers);  
             
             enemy1.getModel().rotate(0, (float) Math.PI, 0);
             enemy2.getModel().rotate(0, (float) Math.PI, 0);

@@ -20,7 +20,7 @@ import com.jme3.scene.Node;
  * An Environment represents a world that can contain all kinds
  * of objects that can be added/removed.
  */
-public abstract class Environment extends AbstractAppState {
+public class Environment extends AbstractAppState {
 
 	private Node rootNode;
 	private AssetManager assetManager;

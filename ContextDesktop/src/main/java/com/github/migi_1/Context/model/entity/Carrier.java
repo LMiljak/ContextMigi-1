@@ -58,6 +58,7 @@ public class Carrier extends Entity implements IKillable {
         health = h;
     }
 
+
     /**
      * Gets the position of this Carrier under the Platform.
      * 

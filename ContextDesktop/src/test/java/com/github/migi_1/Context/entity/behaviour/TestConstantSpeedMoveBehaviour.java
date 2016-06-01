@@ -1,4 +1,4 @@
-package com.git.migi_1.Context.entity.behaviour;
+package com.github.migi_1.Context.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

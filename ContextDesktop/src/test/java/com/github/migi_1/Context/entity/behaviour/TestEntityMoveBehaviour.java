@@ -1,4 +1,4 @@
-package com.git.migi_1.Context.entity.behaviour;
+package com.github.migi_1.Context.entity.behaviour;
 
 import org.junit.Test;
 

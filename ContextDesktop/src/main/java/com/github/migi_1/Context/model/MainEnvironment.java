@@ -1,5 +1,10 @@
 package com.github.migi_1.Context.model;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 
@@ -61,7 +66,6 @@ public class MainEnvironment extends Environment {
     private Platform platform;
     private Commander commander;
     private ArrayList<Carrier> carriers;
-
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
@@ -329,7 +333,6 @@ public class MainEnvironment extends Environment {
         addDisplayables(loc);
         removeDisplayables(loc);
     }
-
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -343,7 +346,7 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-
+        
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);

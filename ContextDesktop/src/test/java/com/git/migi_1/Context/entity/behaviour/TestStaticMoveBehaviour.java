@@ -2,7 +2,6 @@ package com.git.migi_1.Context.entity.behaviour;
 
 import org.junit.Before;
 
-import com.git.migi_1.Context.entity.TestMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 
 /**

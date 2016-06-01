@@ -1,9 +1,9 @@
 package com.github.migi_1.Context.enemy;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.jme3.math.Vector3f;
@@ -25,19 +25,18 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     }
 
     private EnemySpot getTargetSpot() {
-        EnemySpot[] spots = new EnemySpot[12];
-        int i = 0;
+        LinkedList<EnemySpot> spots = new LinkedList<EnemySpot>();
         for (Carrier carrier : carriers) {
             for (EnemySpot location : carrier.getEnemySpots()) {
                 if (!location.isOccupied()) {
-                    spots[i] = location;
-                    i++;
+                    spots.add(location);
                 }
             }
         }
-        if (spots.length != 0) {
-            int random = new Random().nextInt(spots.length);
-            EnemySpot enemySpot = spots[random];
+        System.out.println(spots.size());
+        if (spots.size() != 0) {
+            int random = new Random().nextInt(spots.size());
+            EnemySpot enemySpot = spots.get(random);
             enemySpot.setOccupied(true);
             return enemySpot;
         } else return null;

@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 public class EnemySpawner {
 
     private LinkedList<Enemy> enemies;
+    private LinkedList<Enemy> deleteList;
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
     private double currentLevelPiece;
@@ -21,6 +22,7 @@ public class EnemySpawner {
 
     public EnemySpawner(Commander commander, Carrier[] carriers) {
         enemies = new LinkedList<Enemy>();
+        deleteList = new LinkedList<Enemy>();
         this.carriers = carriers;
         commanderLocation = commander.getModel().getLocalTranslation(); 
         levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
@@ -64,5 +66,13 @@ public class EnemySpawner {
             }            
         }
         return enemies;        
+    }
+
+    public LinkedList<Enemy> deleteEnemies() {
+        for (Enemy enemy : enemies) {
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 4)
+            deleteList.add(enemy);
+        }
+        return deleteList;
     }
 }

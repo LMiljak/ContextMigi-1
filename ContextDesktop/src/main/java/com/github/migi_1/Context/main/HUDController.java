@@ -20,6 +20,7 @@ public class HUDController {
 
     private static final int CHECKPOINT_DISTANCE = 200;
     private static final float DIFFICULTY_INCREASE = 1.1f;
+    private static final float DISPLAY_DISTANCE = 20f;
 
     private float gameScore;
     private BitmapText hudText;
@@ -74,6 +75,14 @@ public class HUDController {
      * Update the score. If the score becomes a digit longer, move it left.
      */
     public void updateHUD() {
+        updateScoreElementHUD();
+        updateCheckpointElementHUD();
+    }
+
+    /**
+     * Update the score element in the HUD.
+     */
+    private void updateScoreElementHUD() {
         gameScore = gameScore + 0.1f;
         hudText.setText(Integer.toString(Math.round(gameScore)));
         if (Math.round(gameScore) >= threshold) {
@@ -82,14 +91,34 @@ public class HUDController {
             float height = settings.getHeight();
             hudText.setLocalTranslation(width, height, 0);
         }
+    }
+
+    /**
+     * Update the checkpoint element in the HUD.
+     */
+    private void updateCheckpointElementHUD() {
+        //Get the current location of the commander in the world.
         Vector3f commanderLoc = main.getEnv().getCommander().getModel().getLocalTranslation();
-        if (commanderLoc.x % CHECKPOINT_DISTANCE > -15 && commanderLoc.x < 0) {
+
+        /**
+         * Check if the commander location is at a checkpoint, so that the HUD has to be updated.
+         * Since the commander won't be exactly at the checkpoint,
+         * there is a buffer called DISPLAY_DISTANCE.
+         * When the commander is within this range, the checkpoint message will be displayed.
+         * This way the HUD will also show long enough to see the checkpoint you have reached.
+         *
+         * The second part of this condition is added since the commander starts at a positive x-coordinate
+         * and moves in a negative x direction. If this condition wasn't added,
+         * the player would see the checkpoint reached message at the start of the game.
+         */
+        if (Math.abs(commanderLoc.x) % CHECKPOINT_DISTANCE < DISPLAY_DISTANCE && commanderLoc.x < 0) {
             main.getGuiNode().attachChild(checkpointAlertText);
             if (checkpointUpdated) {
                 main.getEnv().setDifficulty(main.getEnv().getDifficulty() * DIFFICULTY_INCREASE);
                 checkpointUpdated = false;
             }
         } else {
+            //A boolean flag to force the counter being updated only once.
             if (!checkpointUpdated) {
                 checkpointCounter += 1;
                 checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");

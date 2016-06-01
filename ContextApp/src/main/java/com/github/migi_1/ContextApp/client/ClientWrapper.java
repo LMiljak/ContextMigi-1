@@ -9,8 +9,6 @@ import com.jme3.network.serializing.Serializer;
 
 /**
  * A wrapper class for a com.jme3.network.client object.
- * 
- * SINGLETON class.
  */
 public class ClientWrapper {
     
@@ -27,6 +25,15 @@ public class ClientWrapper {
             Serializer.registerClass(AccelerometerMessage.class);
         }
 	
+        /**
+         * Constructor for ClientWrapper.
+         * Creates a client that starts at the inactive state.
+         * 
+         * @param host
+         *      The address of the host to which the client should connect.
+         * @throws IOException 
+         *      If the client failed to get created after a certain amount of attempts.
+         */
 	public ClientWrapper(String host) throws IOException {
             this.client = createClient(host, PORT, RESTART_ATTEMPTS);
             
@@ -34,6 +41,21 @@ public class ClientWrapper {
             this.state = initialState;
         }
         
+        /**
+         * Creates a client and connects it to the server.
+         * 
+         * @param host
+         *      The address of the host.
+         * @param port
+         *      The port of the host.
+         * @param restartAttempts
+         *      The amount of times the client should attempt to get created 
+         *      before throwing an exception.
+         * @return
+         *      The created client.
+         * @throws IOException 
+         *      If the client failes to get created after a certain amount of attempts.
+         */
         private Client createClient(String host, int port, int restartAttempts) throws IOException {
             IOException exception = null;
             
@@ -50,14 +72,26 @@ public class ClientWrapper {
                     + ": " + exception.getMessage());
         }
 	
+        /**
+         * Starts the client.
+         */
         public void startClient() {
             switchState(new ActiveClientState(client));
         }
         
+        /**
+         * Closes the client.
+         */
         public void closeClient() {
             switchState(new InactiveClientState(client));
         }
         
+        /**
+         * Switches the current state of the client to a new state.
+         * 
+         * @param newState
+         *      The new state of the client.
+         */
         private void switchState(ClientState newState) {
             if (!newState.equals(state)) {
                 state.onDeactivate();

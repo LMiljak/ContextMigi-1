@@ -27,12 +27,24 @@ public class ClientWrapper {
             Serializer.registerClass(AccelerometerMessage.class);
         }
 	
-	public ClientWrapper() {
-            this.client = createClient(PORT, RESTART_ATTEMPTS);
+	public ClientWrapper(String host) throws IOException {
+            this.client = createClient(host, PORT, RESTART_ATTEMPTS);
         }
         
-        private Client createClient(int port, int restartAttempts) {
-            return null;
+        private Client createClient(String host, int port, int restartAttempts) throws IOException {
+            IOException exception = null;
+            
+            for (int attempt = 1; attempt <= restartAttempts; attempt++) {
+                try {
+                    Client client = Network.connectToServer(host, port);
+                    return client;
+                } catch (IOException e) {
+                    exception = e;
+                }
+            }
+            
+            throw new IOException("Failed create client after " + restartAttempts + "attempts"
+                    + ": " + exception.getMessage());
         }
 	
 	/**

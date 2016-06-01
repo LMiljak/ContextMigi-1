@@ -17,6 +17,7 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetKey;
@@ -25,13 +26,14 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
- * Test class that tests the Environment class.
+ * Test class that tests the MainEnvironment class.
  * @author Nils
  */
 @RunWith(PowerMockRunner.class)
@@ -51,6 +53,7 @@ public class TestMainEnvironment {
     private RenderManager renderManager;
     private Camera cam;
     private HUDController hudController;
+
 
     /**
      * This method starts every time a new test case starts.
@@ -85,6 +88,11 @@ public class TestMainEnvironment {
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));
+    
+        ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
+        PowerMockito.mockStatic(ServerWrapper.class);
+        Mockito.when(app.getServer()).thenReturn(wrapper);
+        Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
     }
 
     /**
@@ -94,7 +102,7 @@ public class TestMainEnvironment {
     @Test
     public void intializeTest() {
         env.initialize(stateManager, app);
-        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
+        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
     }
 
     /**
@@ -104,7 +112,7 @@ public class TestMainEnvironment {
     public void updateTest() {
         env.initialize(stateManager, app);
         env.update(0.1f);
-        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.any());
+        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
 
     /**
@@ -124,7 +132,7 @@ public class TestMainEnvironment {
         env.initialize(stateManager, app);
         env.setFlyCam(cam);
         env.moveCam(new Vector3f(-1, 1, 1));
-        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.any());
+        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
 
     /**
@@ -183,8 +191,8 @@ public class TestMainEnvironment {
         env.initialize(stateManager, app);
         Whitebox.invokeMethod(env, "updateTestWorld");
         //Verify that everything is still in the right place.
-        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
-        Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
+        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
+        Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.<Spatial>any());
     }
 
 }

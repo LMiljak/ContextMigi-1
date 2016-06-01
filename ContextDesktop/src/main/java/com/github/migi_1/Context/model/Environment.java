@@ -13,7 +13,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.scene.Node;
 
 /**
@@ -37,8 +36,6 @@ public class Environment extends AbstractAppState {
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-
-		this.assetManager.registerLocator("assets", FileLocator.class);
 		hudController = new HUDController(app);
 
 	}

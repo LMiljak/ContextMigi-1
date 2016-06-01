@@ -375,14 +375,14 @@ public class MainEnvironment extends Environment {
     }
 
     private void updateEnemies() {
+
         for(Enemy enemy : enemySpawner.generateEnemies()) {
             addEntity(enemy);
         }
-        
-//        for(Enemy enemy : enemySpawner.deleteEnemies()) {
-//            removeEntity(enemy);
-//        }
 
+        for(Enemy enemy : enemySpawner.deleteEnemies()) {
+            removeEntity(enemy);
+        }
     }
 
     /**

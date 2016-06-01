@@ -34,25 +34,24 @@ public class EnemySpawner {
 
     public LinkedList<Enemy> generateEnemies() {
         currentLevelPiece = -Math.floor(commanderLocation.x/levelPieceLength);
+        LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
         if (currentLevelPiece != lastLevelPiece) {
-            lastLevelPiece = currentLevelPiece;            
-
-            
-           
+            lastLevelPiece = currentLevelPiece;              
 
             double random = Math.random();
             if(random > 0.25 && random < 0.6){
-                enemies.add(createEnemy3());
+                newEnemies.add(createEnemy3());
             } else if(random > 0.6 && random < 0.85) {
-                enemies.add(createEnemy1());
-                enemies.add(createEnemy3());
+                newEnemies.add(createEnemy1());
+                newEnemies.add(createEnemy3());
             } else {
-                enemies.add(createEnemy1());
-                enemies.add(createEnemy2());
-                enemies.add(createEnemy3());
+                newEnemies.add(createEnemy1());
+                newEnemies.add(createEnemy2());
+                newEnemies.add(createEnemy3());
             }            
         }
-        return enemies;        
+        enemies.addAll(newEnemies);
+        return newEnemies;        
     }
 
     private Enemy createEnemy1() {
@@ -82,7 +81,8 @@ public class EnemySpawner {
 
     public LinkedList<Enemy> deleteEnemies() {
         for (Enemy enemy : enemies) {
-            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 4)
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3 &&
+                    enemy.getModel().getLocalTranslation().x > commanderLocation.x)
             deleteList.add(enemy);
         }
         return deleteList;

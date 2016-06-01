@@ -11,7 +11,7 @@ import com.jme3.math.Vector3f;
 public class EnemyMoveBehaviour extends MoveBehaviour {
 
     private Vector3f moveVector;
-    private float speed = 0.001f;
+    private float speed = 0.3f;
     private Vector3f localTranslation;
     private Carrier[] carriers;
     private EnemySpot targetSpot;
@@ -33,7 +33,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 }
             }
         }
-        System.out.println(spots.size());
+        
         if (spots.size() != 0) {
             int random = new Random().nextInt(spots.size());
             EnemySpot enemySpot = spots.get(random);
@@ -49,7 +49,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     @Override
     public void updateMoveVector() {
-        if (targetSpot != null) {
+        if (targetSpot != null) {            
             if (targetSpot.getLocation().distance(localTranslation) < 50) {
                 if (targetSpot.getLocation().x > localTranslation.getX()) {
                     moveVector.setX(speed);

@@ -19,7 +19,6 @@ public class HUDController {
 
 
     private static final int CHECKPOINT_DISTANCE = 200;
-    private static final float DIFFICULTY_INCREASE = 1.1f;
     private static final float DISPLAY_DISTANCE = 20f;
 
     private float gameScore;
@@ -114,7 +113,6 @@ public class HUDController {
         if (Math.abs(commanderLoc.x) % CHECKPOINT_DISTANCE < DISPLAY_DISTANCE && commanderLoc.x < 0) {
             main.getGuiNode().attachChild(checkpointAlertText);
             if (checkpointUpdated) {
-                main.getEnv().setDifficulty(main.getEnv().getDifficulty() * DIFFICULTY_INCREASE);
                 checkpointUpdated = false;
             }
         } else {

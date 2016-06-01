@@ -27,7 +27,6 @@ public class Environment extends AbstractAppState {
 	private Collection<IMovable> movables;
 	private HUDController hudController;
 	private boolean paused;
-	private float difficultyFactor = 1.0f;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -118,7 +117,8 @@ public class Environment extends AbstractAppState {
 	 */
 	private void moveMovables() {
 		for (IMovable movable : movables) {
-			movable.move(movable.getMoveBehaviour().getMoveVector().mult(difficultyFactor));
+		    movable.getMoveBehaviour().updateMoveVector();
+			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
 
@@ -136,23 +136,5 @@ public class Environment extends AbstractAppState {
      */
     public void setPaused(boolean paused) {
         this.paused = paused;
-    }
-
-    /**
-     * Set the difficulty of the game.
-     * @param newDiff the new difficulty.
-     */
-    public void setDifficulty(float newDiff) {
-        System.out.println("Old difficulty: " + difficultyFactor);
-        difficultyFactor = newDiff;
-        System.out.println("New difficulty: " + difficultyFactor);
-    }
-
-    /**
-     * Returns the current difficulty.
-     * @return the difficulty of the game.
-     */
-    public float getDifficulty() {
-        return difficultyFactor;
     }
 }

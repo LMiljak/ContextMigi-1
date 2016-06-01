@@ -22,7 +22,7 @@ public class Platform extends Entity {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
+        setMoveBehaviour(new AcceleratingMoveBehaviour(MOVE_VECTOR));
     }
 
 

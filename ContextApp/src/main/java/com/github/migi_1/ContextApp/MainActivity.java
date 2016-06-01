@@ -78,7 +78,7 @@ public class MainActivity extends AndroidHarness {
        	    }
         */
         position = PlatformPosition.BACKRIGHT;
-        
+        atkMessenger = new AttackMessenger(this);
         chooseScreen();
         
     }
@@ -89,64 +89,20 @@ public class MainActivity extends AndroidHarness {
     public void chooseScreen() {
         
         if (position == PlatformPosition.FRONTLEFT) {
-            setFrontLeft();
+            mbFunctions.setFrontLeft();
         }
         else if (position == PlatformPosition.BACKRIGHT) {
-            setBackRight();
+            mbFunctions.setBackRight();
         }
         else if (position == PlatformPosition.BACKLEFT) {
-            setBackLeft();
+            mbFunctions.setBackLeft();
         }
         else {
-            setFrontRight();
+            mbFunctions.setFrontRight();
         }    
         
     }
     
-    public void setFrontRight() {
-        
-        setContentView(R.layout.android_ingame_fr);
-        atkMessenger = new AttackMessenger(this);
-        setButtonClick((Button) findViewById(R.id.FR_button_left), "left");
-        setButtonClick((Button) findViewById(R.id.FR_button_middle), "middle");
-        setButtonClick((Button) findViewById(R.id.FR_button_right), "right");
-        setButtonClick((Button) findViewById(R.id.FR_button_trigger), "trigger");
-        
-    }
-    
-    public void setFrontLeft() {
-        
-        setContentView(R.layout.android_ingame_fl);
-        atkMessenger = new AttackMessenger(this);
-        setButtonClick((Button) findViewById(R.id.FL_button_left), "left");
-        setButtonClick((Button) findViewById(R.id.FL_button_middle), "middle");
-        setButtonClick((Button) findViewById(R.id.FL_button_right), "right");
-        setButtonClick((Button) findViewById(R.id.FL_button_trigger), "trigger");
-        
-    }
-    
-    public void setBackLeft() {
-        
-        setContentView(R.layout.android_ingame_bl);
-        atkMessenger = new AttackMessenger(this);
-        setButtonClick((Button) findViewById(R.id.BL_button_left), "left");
-        setButtonClick((Button) findViewById(R.id.BL_button_middle), "middle");
-        setButtonClick((Button) findViewById(R.id.BL_button_right), "right");
-        setButtonClick((Button) findViewById(R.id.BL_button_trigger), "trigger");
-        
-    }
-    
-    public void setBackRight() {
-        
-        setContentView(R.layout.android_ingame_br);
-        atkMessenger = new AttackMessenger(this);
-        setButtonClick((Button) findViewById(R.id.BR_button_left), "left");
-        setButtonClick((Button) findViewById(R.id.BR_button_middle), "middle");
-        setButtonClick((Button) findViewById(R.id.BR_button_right), "right");
-        setButtonClick((Button) findViewById(R.id.BR_button_trigger), "trigger");
-        
-    }
-        
     /**
      * Makes sure buttonpresses are logged and processed.
      * @param butt = the button to which a clicklistener is set
@@ -158,9 +114,11 @@ public class MainActivity extends AndroidHarness {
 
             @Override
             public void onClick(View v) {
-                Log.d("buttonpress", str);
                 if (!str.equals("trigger")) {
                     atkMessenger.sendAttack(posHolder.getPosition(), str);
+                }
+                else {
+                    Log.d("buttonpress", str);
                 }
             }
             

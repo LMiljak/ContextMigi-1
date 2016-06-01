@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import android.app.Activity;
+import android.util.Log;
 import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.Client;
@@ -29,6 +30,7 @@ public class AttackMessenger extends Activity {
      * 			the direction in which the player is attacking (String).
      */
     public void sendAttack(PlatformPosition pos, String dir) {
+        Log.d("attack", dir);
         AttackMessage message = new AttackMessage(pos, dir);
         
         Client client = ClientWrapper.getInstance().getClient();

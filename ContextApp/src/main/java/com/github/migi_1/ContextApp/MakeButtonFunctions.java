@@ -9,10 +9,6 @@ import android.widget.Button;
 public class MakeButtonFunctions {
     
     private MainActivity act;
-    private Button leftButton;
-    private Button middleButton;
-    private Button rightButton;
-    private Button trigger;
     
     /**
      * This creates an instance of the MakeButtonFunctions.
@@ -23,61 +19,44 @@ public class MakeButtonFunctions {
         this.act = act;
     }
     
-    /**
-     * Makes the buttons for the FRONTRIGHT position.
-     */
-    public void makeFRbuttons() {
-        // Retrieve buttons
-        leftButton = (Button) act.findViewById(R.id.FR_button_left);
-        middleButton = (Button) act.findViewById(R.id.FR_button_middle);
-        rightButton = (Button) act.findViewById(R.id.FR_button_right);
-        trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-    }
+    public void setFrontRight() {
         
-    /**
-     * Makes the buttons for the FRONTLEFT position.
-     */
-    public void makeFLbuttons() {
-        // Retrieve buttons
-        leftButton = (Button) act.findViewById(R.id.FL_button_left);
-        middleButton = (Button) act.findViewById(R.id.FL_button_middle);
-        rightButton = (Button) act.findViewById(R.id.FL_button_right);
-        trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-    }
+        act.setContentView(R.layout.android_ingame_fr);
+        act.setButtonClick((Button) act.findViewById(R.id.FR_button_left), "left");
+        act.setButtonClick((Button) act.findViewById(R.id.FR_button_middle), "middle");
+        act.setButtonClick((Button) act.findViewById(R.id.FR_button_right), "right");
+        act.setButtonClick((Button) act.findViewById(R.id.FR_button_trigger), "trigger");
         
-    /**
-     * Makes the buttons for the BACKRIGHT position.
-     */
-    public void makeBRbuttons() {
-        // Retrieve buttons
-        leftButton = (Button) act.findViewById(R.id.BR_button_left);
-        middleButton = (Button) act.findViewById(R.id.BR_button_middle);
-        rightButton = (Button) act.findViewById(R.id.BR_button_right);
-        trigger = (Button) act.findViewById(R.id.FR_button_trigger);
-    }
-        
-    /**
-     * Makes the buttons for the BACKLEFT position.
-     */
-    public void makeBLbuttons() {
-        // Retrieve buttons
-        leftButton = (Button) act.findViewById(R.id.BL_button_left);
-        middleButton = (Button) act.findViewById(R.id.BL_button_middle);
-        rightButton = (Button) act.findViewById(R.id.BL_button_right);
-        trigger = (Button) act.findViewById(R.id.FR_button_trigger);
     }
     
-    public Button getLeftButton() {
-        return leftButton;
+    public void setFrontLeft() {
+        
+        act.setContentView(R.layout.android_ingame_fl);
+        act.setButtonClick((Button) act.findViewById(R.id.FL_button_left), "left");
+        act.setButtonClick((Button) act.findViewById(R.id.FL_button_middle), "middle");
+        act.setButtonClick((Button) act.findViewById(R.id.FL_button_right), "right");
+        act.setButtonClick((Button) act.findViewById(R.id.FL_button_trigger), "trigger");
+        
     }
-    public Button getMiddleButton() {
-        return middleButton;
+    
+    public void setBackLeft() {
+        
+        act.setContentView(R.layout.android_ingame_bl);
+        act.setButtonClick((Button) act.findViewById(R.id.BL_button_left), "left");
+        act.setButtonClick((Button) act.findViewById(R.id.BL_button_middle), "middle");
+        act.setButtonClick((Button) act.findViewById(R.id.BL_button_right), "right");
+        act.setButtonClick((Button) act.findViewById(R.id.BL_button_trigger), "trigger");
+        
     }
-    public Button getRightButton() {
-        return rightButton;
-    }
-    public Button getTrigger() {
-        return trigger;
+    
+    public void setBackRight() {
+        
+        act.setContentView(R.layout.android_ingame_br);
+        act.setButtonClick((Button) act.findViewById(R.id.BR_button_left), "left");
+        act.setButtonClick((Button) act.findViewById(R.id.BR_button_middle), "middle");
+        act.setButtonClick((Button) act.findViewById(R.id.BR_button_right), "right");
+        act.setButtonClick((Button) act.findViewById(R.id.BR_button_trigger), "trigger");
+        
     }
     
 }

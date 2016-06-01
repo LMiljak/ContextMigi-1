@@ -17,19 +17,19 @@ import com.jme3.system.AppSettings;
  */
 public class HUDController {
 
-    private float gameScore;
 
-    private BitmapText hudText;
-
-    private BitmapText checkpointAlertText;
-
-    private BitmapFont guiFont;
     private static final int CHECKPOINT_DISTANCE = 200;
-    private int checkpointCounter = 0;
-    private boolean checkpointUpdated = false;
     private static final float DIFFICULTY_INCREASE = 1.1f;
 
+    private float gameScore;
+    private BitmapText hudText;
+    private BitmapText checkpointAlertText;
     private int threshold = 10;
+
+    private BitmapFont guiFont;
+    private int checkpointCounter = 0;
+    private boolean checkpointUpdated = false;
+
 
     private AppSettings settings;
 

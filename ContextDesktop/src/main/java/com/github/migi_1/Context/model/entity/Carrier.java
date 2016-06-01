@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
+import java.util.ArrayList;
+
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
@@ -22,6 +24,7 @@ public class Carrier extends Entity implements IKillable {
     private int health;
     private int id; //Represents the location of the carrier under the platform.
     private Vector3f relativeLocation;
+    private ArrayList<Vector3f> enemyLocations;
     /**
      * constructor of the carrier.
      * @param relativeLocation location relative to the commander
@@ -30,6 +33,7 @@ public class Carrier extends Entity implements IKillable {
      */
     public Carrier(Vector3f relativeLocation, int id, MainEnvironment environment) {
         super();
+        enemyLocations = new ArrayList<Vector3f>();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
@@ -37,9 +41,23 @@ public class Carrier extends Entity implements IKillable {
         CarrierMoveBehaviour moveBehaviour = new CarrierMoveBehaviour(this, MOVE_VECTOR, environment);
         moveBehaviour.setRelativeLocation(relativeLocation);
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
-
+        createEnemyLocations();
         health = 2;
         this.id = id;
+    }
+
+
+
+    private void createEnemyLocations() {
+        enemyLocations.add(new Vector3f(-5, 0, 0));
+        if (id % 2 == 0) {
+            enemyLocations.add(new Vector3f(0, -5, 0));
+        }
+        else {
+            enemyLocations.add(new Vector3f(0, 5, 0));
+        }
+        enemyLocations.add(new Vector3f(5, 0, 0));
+
     }
 
 
@@ -90,5 +108,19 @@ public class Carrier extends Entity implements IKillable {
     public Vector3f getRelativeLocation() {
         return relativeLocation;
     }
+
+
+
+    public ArrayList<Vector3f> getEnemyLocations() {
+        return enemyLocations;
+    }
+
+
+
+    public void setEnemyLocations(ArrayList<Vector3f> enemyLocations) {
+        this.enemyLocations = enemyLocations;
+    }
+
+
 
 }

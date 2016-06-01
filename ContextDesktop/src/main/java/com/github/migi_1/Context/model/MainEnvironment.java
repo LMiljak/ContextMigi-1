@@ -1,10 +1,17 @@
 package com.github.migi_1.Context.model;
 
+import jmevr.app.VRApplication;
+
+import com.github.migi_1.Context.damageDealers.DamageDealer;
+import com.github.migi_1.Context.damageDealers.DamageDealerGenerator;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -14,8 +21,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -37,11 +42,15 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private static final int NUMBER_OF_CARRIERS = 4;
+
     private Platform platform;
     private Commander commander;
+    private Carrier[] carriers;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -51,6 +60,12 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+
+
+    private CollisionResults results;
+
+    private DamageDealerGenerator damageDealerGenerator;
+
 
     /**
      * First method that is called after the state has been created.
@@ -67,6 +82,10 @@ public class MainEnvironment extends Environment {
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
+
+
+        results = new CollisionResults();
+
         //creates the lights
         initLights();
 
@@ -79,12 +98,35 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
     }
-    
+
     @Override
     public void update(float tpf) {
     	super.update(tpf);
-    	
+
+        checkCollision();
     	updateTestWorld();
+    }
+
+    /**
+     * Handle collision checking.
+     */
+    private void checkCollision() {
+
+        //add collision check for all obstacles
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+        }
+
+        //if a collision takes place, remove the colliding object and slow down
+        if (results.size() > 0) {
+            getRootNode().detachChild(damageDealerGenerator.removeDamageDealer().getModel());
+            results = new CollisionResults();
+            ((ConstantSpeedMoveBehaviour) platform.getMoveBehaviour()).collided();
+            ((ConstantSpeedMoveBehaviour) commander.getMoveBehaviour()).collided();
+            for (int i = 0; i < carriers.length; i++) {
+                ((ConstantSpeedMoveBehaviour) carriers[i].getMoveBehaviour()).collided();
+            }
+        }
     }
 
     /**
@@ -132,14 +174,53 @@ public class MainEnvironment extends Environment {
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
+        carriers = createCarriers();
+        damageDealerGenerator = new DamageDealerGenerator(commander);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
 
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            damageDealer.collideWith(platform.getModel().getWorldBound(), results);
+            addDisplayable(damageDealer);
+        }
+        for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
+            addDisplayable(path);
+        }
+
         addEntity(platform);
         addEntity(commander);
+        for (int i = 0; i < carriers.length; i++) {
+            addEntity(carriers[i]);
+        }
+    }
+
+    /**
+     * Create the carriers.
+     * @return Array with carriers
+     */
+    private Carrier[] createCarriers() {
+        carriers = new Carrier[NUMBER_OF_CARRIERS];
+        float x, y, z;
+        y = RELATIVE_CARRIER_LOCATION.y;
+        for (int i = 0; i < carriers.length; i++) {
+            x = RELATIVE_CARRIER_LOCATION.x;
+            z = RELATIVE_CARRIER_LOCATION.z;
+
+            //put two carriers on the right side.
+            if ((i == 1) || (i == 3)) {
+                z =  -z;
+            }
+
+            //put two carriers on the back side.
+            if ((i == 2) || (i == 3)) {
+                x = -x;
+            }
+            carriers[i] = new Carrier(COMMANDER_LOCATION.add(new Vector3f(x, y, z)), i);
+        }
+        return carriers;
     }
 
     /**
@@ -205,14 +286,31 @@ public class MainEnvironment extends Environment {
      * Updates the test world.
      */
     private void updateTestWorld() {
+        Vector3f loc = commander.getModel().getLocalTranslation();
 
-        //delete level piece when it too far back
-        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(commander.getModel().getLocalTranslation())) {
-        	removeDisplayable(levelPiece);
+        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(loc)) {
+            addDisplayable(levelPiece);
         }
-        for (LevelPiece levelPiece : levelGenerator.getLevelPieces(commander.getModel().getLocalTranslation())) {
-        	addDisplayable(levelPiece);
+
+        //delete level piece when it is too far back
+        for (LevelPiece levelPiece : levelGenerator.deleteLevelPieces(loc)) {
+            removeDisplayable(levelPiece);
         }
+
+        //update the damagedealers
+        for (DamageDealer damageDealer : damageDealerGenerator.getObstacles()) {
+            addDisplayable(damageDealer);
+        }
+
+        for (Path path : levelGenerator.getPathPieces(loc)) {
+            addDisplayable(path);
+        }
+
+        //delete path when it is too far back
+        for (Path path : levelGenerator.deletePathPieces(loc)) {
+            removeDisplayable(path);
+        }
+
     }
 
     /**

@@ -4,6 +4,7 @@
  */
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextApp.client.ClientWrapper;
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

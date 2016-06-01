@@ -1,4 +1,4 @@
-package com.github.migi_1.ContextApp;
+package com.github.migi_1.ContextApp.client;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;

@@ -1,5 +1,7 @@
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextApp.client.AutoConnector;
+import com.github.migi_1.ContextApp.client.ClientWrapper;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.widget.Button;

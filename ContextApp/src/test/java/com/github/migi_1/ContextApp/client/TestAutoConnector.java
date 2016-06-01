@@ -1,5 +1,7 @@
-package com.github.migi_1.ContextApp;
+package com.github.migi_1.ContextApp.client;
 
+import com.github.migi_1.ContextApp.client.AutoConnector;
+import com.github.migi_1.ContextApp.client.ServerFinder;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

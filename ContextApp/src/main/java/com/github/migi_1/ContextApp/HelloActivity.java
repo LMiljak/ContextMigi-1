@@ -49,6 +49,8 @@ public class HelloActivity extends AndroidHarness {
             mSensorManager.registerListener(accelerometerSensor, 
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
+            
+            client.startClient();
         }
          
         /**
@@ -57,7 +59,10 @@ public class HelloActivity extends AndroidHarness {
         @Override
         protected void onStop() {  
             // unregister the sensor listener
-            mSensorManager.unregisterListener(accelerometerSensor);  
+            mSensorManager.unregisterListener(accelerometerSensor);
+            
+            client.closeClient();
+            
             super.onStop();  
         } 
     

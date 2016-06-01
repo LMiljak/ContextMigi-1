@@ -71,13 +71,12 @@ public class MainActivity extends AndroidHarness {
                 ClientWrapper.getInstance());
 
         // wait until position is received
-        /*while (true) {
+        while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
             	break;
        	    }
-        */
-        position = PlatformPosition.BACKRIGHT;
+        }
         atkMessenger = new AttackMessenger(this);
         chooseScreen();
         

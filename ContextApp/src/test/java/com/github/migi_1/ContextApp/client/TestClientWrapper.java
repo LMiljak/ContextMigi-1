@@ -25,6 +25,11 @@ public class TestClientWrapper {
     private ClientWrapper clientWrapper;
     private Client client;
     
+    /**
+     * Initialises the test object for this test suite.
+     * 
+     * @throws IOException  
+     */
     @Before
     public void setUp() throws IOException {
         client = Mockito.mock(Client.class);
@@ -39,16 +44,31 @@ public class TestClientWrapper {
         clientWrapper = new ClientWrapper("");
     }
     
+    /**
+     * Tests the getClient method.
+     */
     @Test
     public void testGetClient() {
         assertEquals(client, clientWrapper.getClient());
     }
     
+    /**
+     * Verifies that the client.start() and client.close() methods
+     * have been called a certain amount of times.
+     * 
+     * @param starts
+     *      The amount of times the start method should have been called.
+     * @param closes 
+     *      The amount of times the close method should have been called.
+     */
     private void verifyStartsAndCloses(int starts, int closes) {
         Mockito.verify(client, Mockito.times(starts)).start();
         Mockito.verify(client, Mockito.times(closes)).close();
     }
     
+    /**
+     * Asserts that the startServer method actually starts the server.
+     */
     @Test
     public void testStartClient() {
         clientWrapper.startClient();
@@ -56,6 +76,9 @@ public class TestClientWrapper {
         verifyStartsAndCloses(1, 0);
     }
     
+    /**
+     * Asserts that the closeServer method does nothing when it's already closed.
+     */
     @Test
     public void testCloseClosedClient() {
         clientWrapper.closeClient();
@@ -63,6 +86,9 @@ public class TestClientWrapper {
         verifyStartsAndCloses(0, 0);
     }
     
+    /**
+     * Asserts that Starting then Closing actually starts then closes the server.
+     */
     @Test
     public void testStartCloseClient() {
         clientWrapper.startClient();
@@ -71,6 +97,9 @@ public class TestClientWrapper {
         verifyStartsAndCloses(1, 1);
     }
     
+    /**
+     * Asserts that starting the client twice does nothing the second time.
+     */
     @Test
     public void testStartStartClient() {
         clientWrapper.startClient();
@@ -79,6 +108,10 @@ public class TestClientWrapper {
         verifyStartsAndCloses(1, 0);
     }
     
+    /**
+     * Asserts that starting, then closing, then starting, then closing
+     * actually starts the client twice and closes it twice.
+     */
     @Test
     public void testStartCloseStartCloseClient() {
         clientWrapper.startClient();

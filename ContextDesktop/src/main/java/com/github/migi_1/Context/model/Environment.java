@@ -41,7 +41,6 @@ public class Environment extends AbstractAppState {
 		this.assetManager.registerLocator("assets", FileLocator.class);
 		hudController = new HUDController(app);
 
-
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class Environment extends AbstractAppState {
     @Override
     public void cleanup() {
         super.cleanup();
-        this.movables = new ArrayList<>();
+//        this.movables = new ArrayList<>();
         ((Main) this.app).getGuiNode().detachAllChildren();
         this.rootNode.detachAllChildren();
     }

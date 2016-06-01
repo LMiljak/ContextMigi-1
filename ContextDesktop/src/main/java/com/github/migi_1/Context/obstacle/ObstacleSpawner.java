@@ -12,7 +12,7 @@ import com.jme3.math.Vector3f;
  * @author Marcel/Damian
  *
  */
-public class ObstacleSpawner {    
+public class ObstacleSpawner {
 
     private static final int NUMBER_OBSTACLES = 10;
 
@@ -26,7 +26,7 @@ public class ObstacleSpawner {
     private ArrayList<Obstacle> obstacleList;
 
     private Commander commander;
-    
+
     /**
      * Constructor for the obstacle spawner object.
      * @param commander needed for knowing where to spawn the obstacles.
@@ -72,15 +72,19 @@ public class ObstacleSpawner {
         obstacleList.remove(closest);
         return closest;
     }
-    
+
     /**
      * @param obstacleFactory the obstacleFactory to set
      */
     public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
         this.obstacleFactory = obstacleFactory;
     }
-    
-    
-    
-    
+    public void removeAll() {
+        this.obstacleList = new ArrayList<Obstacle>();
+
+    }
+
+
+
+
 }

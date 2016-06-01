@@ -376,6 +376,9 @@ public class MainEnvironment extends Environment {
      */
     @Override
     public void cleanup() {
+
+        levelGenerator = new LevelGenerator(WORLD_LOCATION);
+        obstacleSpawner.removeAll();
         super.cleanup();
     }
 

@@ -13,6 +13,10 @@ public final class AutoConnector {
     
     private static final AutoConnector INSTANCE = new AutoConnector();
     
+    private class ClientWrapperWrapper {
+        ClientWrapper wrapper;
+    }
+    
     /**
      * Gets the instance of this class.
      * 
@@ -32,13 +36,14 @@ public final class AutoConnector {
      * 
      * @param executorService
      *      On which executorService the server finder should be executed.
-     * @param client 
-     *      The client that should be started.
      */
-    public void autoStart(ExecutorService executorService, ClientWrapper client) {
+    public ClientWrapper autoStart(ExecutorService executorService) {
         ServerFinder serverFinder = ServerFinder.getInstance();
         
+        ClientWrapperWrapper client = new ClientWrapperWrapper();
         serverFinder.findServers(executorService, getConnector(client));
+        
+        return client.wrapper;
     }
     
     /**
@@ -48,12 +53,12 @@ public final class AutoConnector {
      *      A ServerDiscoveryHandler that connects the client to a server
      *      that has been discovered.
      */
-    private ServerDiscoveryHandler getConnector(final ClientWrapper client) {
+    private ServerDiscoveryHandler getConnector(final ClientWrapperWrapper client) {
         return new ServerDiscoveryHandler() {
             @Override
             public void onServerDiscovery(InetAddress server) {
                 try {
-                    client.startClient(server.getHostAddress());
+                    client.wrapper = new ClientWrapper(server.getHostAddress());
                     ServerFinder.getInstance().stop();
                 } catch (Exception e) {
                     e.printStackTrace();

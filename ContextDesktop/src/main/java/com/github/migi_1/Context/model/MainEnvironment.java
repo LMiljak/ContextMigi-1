@@ -91,6 +91,7 @@ public class MainEnvironment extends Environment {
 
         results = new HashMap<Entity, CollisionResults>();
 
+        System.out.println("hoi");
         //creates the lights
         initLights();
 

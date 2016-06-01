@@ -12,12 +12,12 @@ import com.jme3.network.serializing.Serializer;
  */
 public class ClientWrapper {
     
-	/** The default port on which servers are running. */
-	private static final int PORT = 4321;
+        /** The default port on which servers are running. */
+        private static final int PORT = 4321;
         /** The amount of times the client should restart before sending an error.*/
         private static final int RESTART_ATTEMPTS = 10;
 	
-	private Client client;
+        private Client client;
         private ClientState state;
         
 	//Every message types is registered by the Serializer in this class initializer.

@@ -1,6 +1,6 @@
 package com.github.migi_1.ContextApp;
 
-import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
+import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayHandler;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity_FR;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -82,16 +83,15 @@ public class MainActivity extends AndroidHarness {
         public void setButtons(Button butt, final String str) {
 
             butt.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Log.d("buttonpress", str);
-                if(str.equals("trigger")) {
-                    Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
-                    startActivity(nextScreen);
+                @Override
+                public void onClick(View v) {
+                    Log.d("buttonpress", str);
+                    if(str.equals("trigger")) {
+                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity_FR.class);
+                        startActivity(nextScreen);
+                    }
                 }
-            }
-            });
+                });
         }
         
         /**

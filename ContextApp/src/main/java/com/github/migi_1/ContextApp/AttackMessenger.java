@@ -9,7 +9,7 @@ import com.jme3.network.Client;
 /**
  * An activity that sends AttackMessages to the server.
  */
-public class AttackMessenger extends Activity {
+public class AttackMessenger {
     
     private MainActivity act;
     

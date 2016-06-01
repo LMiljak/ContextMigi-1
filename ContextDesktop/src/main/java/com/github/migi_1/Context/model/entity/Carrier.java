@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model.entity;
 import java.util.ArrayList;
 
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -24,7 +25,7 @@ public class Carrier extends Entity implements IKillable {
     private int health;
     private int id; //Represents the location of the carrier under the platform.
     private Vector3f relativeLocation;
-    private ArrayList<Vector3f> enemyLocations;
+    private ArrayList<EnemySpot> enemySpots;
     /**
      * constructor of the carrier.
      * @param relativeLocation location relative to the commander
@@ -33,7 +34,7 @@ public class Carrier extends Entity implements IKillable {
      */
     public Carrier(Vector3f relativeLocation, int id, MainEnvironment environment) {
         super();
-        enemyLocations = new ArrayList<Vector3f>();
+        enemySpots = new ArrayList<EnemySpot>();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
@@ -49,14 +50,14 @@ public class Carrier extends Entity implements IKillable {
 
 
     private void createEnemyLocations() {
-        enemyLocations.add(new Vector3f(-5, 0, 0));
+        enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this,  Direction.NORTH));
         if (id % 2 == 0) {
-            enemyLocations.add(new Vector3f(0, 0, -5));
+            enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this, Direction.EAST));
         }
         else {
-            enemyLocations.add(new Vector3f(0, 0, 5));
+            enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this, Direction.WEST));
         }
-        enemyLocations.add(new Vector3f(5, 0, 0));
+        enemySpots.add(new EnemySpot(new Vector3f(-5, 0, 0), this, Direction.SOUTH));
 
     }
 
@@ -111,15 +112,23 @@ public class Carrier extends Entity implements IKillable {
 
 
 
-    public ArrayList<Vector3f> getEnemyLocations() {
-        return enemyLocations;
+    /**
+     * @return the enemySpots
+     */
+    public ArrayList<EnemySpot> getEnemySpots() {
+        return enemySpots;
     }
 
 
 
-    public void setEnemyLocations(ArrayList<Vector3f> enemyLocations) {
-        this.enemyLocations = enemyLocations;
+    /**
+     * @param enemySpots the enemySpots to set
+     */
+    public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
+        this.enemySpots = enemySpots;
     }
+    
+    
 
 
 

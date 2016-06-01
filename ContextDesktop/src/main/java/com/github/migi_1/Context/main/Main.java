@@ -2,6 +2,8 @@ package com.github.migi_1.Context.main;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import jmevr.app.VRApplication;
 
@@ -59,7 +61,7 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
-
+        
         main.setSettings(settings);
         VRConfigurer.configureVR(main);
         main.setPauseOnLostFocus(true);
@@ -88,7 +90,8 @@ public class Main extends VRApplication {
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
-
+        
+        LogManager.getLogManager().getLogger("").setLevel(Level.SEVERE);
         launchServer();
     }
 

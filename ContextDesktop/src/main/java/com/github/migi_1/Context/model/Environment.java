@@ -38,8 +38,6 @@ public class Environment extends AbstractAppState {
 
 		this.assetManager.registerLocator("assets", FileLocator.class);
 		hudController = new HUDController(app);
-
-
 	}
 
 	@Override
@@ -119,6 +117,7 @@ public class Environment extends AbstractAppState {
 	 */
 	private void moveMovables() {
 		for (IMovable movable : movables) {
+		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
@@ -138,7 +137,4 @@ public class Environment extends AbstractAppState {
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
-
-
-
 }

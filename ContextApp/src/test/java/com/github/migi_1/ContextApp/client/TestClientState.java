@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract test suite for the ClienState class.
+ * Abstract test suite for the ClientState class.
  */
 public abstract class TestClientState {
     

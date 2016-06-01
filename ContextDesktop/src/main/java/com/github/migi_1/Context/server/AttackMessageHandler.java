@@ -30,6 +30,7 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
      */
     @Override
     public void messageReceived(Object source, AttackMessage message) {
+        System.out.println(message.getDirection());
         PlatformPosition pos = message.getPosition();
         String dir = message.getDirection();
         

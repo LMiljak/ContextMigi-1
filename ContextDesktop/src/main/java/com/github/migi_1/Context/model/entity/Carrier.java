@@ -63,7 +63,7 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public void setHealth(int h) {
         health = h;
-        dm.sendHealth(getHealth(), getPosition());
+        // dm.sendHealth(getHealth(), getPosition());
     }
     
     @Override

@@ -71,12 +71,13 @@ public class MainActivity extends AndroidHarness {
                 ClientWrapper.getInstance());
 
         // wait until position is received
-        while (true) {
+        /*while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
             	break;
        	    }
-        }
+        }*/
+        position = PlatformPosition.FRONTLEFT;
         atkMessenger = new AttackMessenger(this);
         chooseScreen();
         
@@ -118,6 +119,7 @@ public class MainActivity extends AndroidHarness {
                 }
                 else {
                     Log.d("buttonpress", str);
+                    huFunctions.setHealth(2);
                 }
             }
             

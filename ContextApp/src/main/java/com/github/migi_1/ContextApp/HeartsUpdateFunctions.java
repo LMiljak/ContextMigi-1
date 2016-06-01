@@ -55,15 +55,18 @@ public class HeartsUpdateFunctions {
     public void makeRed(int heartid) {
         ImageView img;
         if (heartid == 1) {
-            img = (ImageView) act.findViewById(R.id.FR_heart_1);
+            img = (ImageView) act.findViewById(R.id.FL_heart_1);
+            img.setImageResource(R.drawable.heart_red);
         }
         else if (heartid == 2) {
-            img = (ImageView) act.findViewById(R.id.FR_heart_2);
+            img = (ImageView) act.findViewById(R.id.FL_heart_2);
+            img.setImageResource(R.drawable.heart_red);
         }
         else {
-            img = (ImageView) act.findViewById(R.id.FR_heart_3);
+            img = (ImageView) act.findViewById(R.id.FL_heart_3);
+            img.setImageResource(R.drawable.heart_red);
         }
-        img.setImageResource(R.drawable.heart_red);
+        
     }
 
     /**
@@ -73,15 +76,17 @@ public class HeartsUpdateFunctions {
     public void makeGrey(int heartid) {
         ImageView img;
         if (heartid == 1) {
-            img = (ImageView) act.findViewById(R.id.FR_heart_1);
+            img = (ImageView) act.findViewById(R.id.FL_heart_1);
+            img.setImageResource(R.drawable.heart_grey);
         }
         else if (heartid == 2) {
-            img = (ImageView) act.findViewById(R.id.FR_heart_2);
+            img = (ImageView) act.findViewById(R.id.FL_heart_2);
+            img.setImageResource(R.drawable.heart_grey);
         }
         else {
-            img = (ImageView) act.findViewById(R.id.FR_heart_3);
+            img = (ImageView) act.findViewById(R.id.FL_heart_3);
+            img.setImageResource(R.drawable.heart_grey);
         }
-        img.setImageResource(R.drawable.heart_grey);
     }
 
 }

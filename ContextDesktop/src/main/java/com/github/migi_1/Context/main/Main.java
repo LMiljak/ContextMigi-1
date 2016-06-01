@@ -3,6 +3,8 @@ package com.github.migi_1.Context.main;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
 import com.github.migi_1.Context.server.ClientFinder;
@@ -12,8 +14,6 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-
-import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
@@ -161,6 +161,14 @@ public class Main extends VRApplication {
     }
 
     /**
+     * @return The GUI node.
+     */
+    @Override
+    public Node getGuiNode() {
+        return guiNode;
+    }
+
+    /**
      * Returns the only instance of main.
      * @return main.
      */
@@ -171,6 +179,7 @@ public class Main extends VRApplication {
     /**
      * Returns the settings of the main menu.
      * Used in testing.
+     * @return AppSettings
      */
     public AppSettings getSettings() {
         return settings;

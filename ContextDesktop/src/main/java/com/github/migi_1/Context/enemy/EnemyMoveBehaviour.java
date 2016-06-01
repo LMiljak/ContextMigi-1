@@ -35,9 +35,12 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 }
             }
         }
-
-        int random = new Random().nextInt(spots.length);
-        return spots[random];
+        if (spots.length != 0) {
+            int random = new Random().nextInt(spots.length);
+            EnemySpot enemySpot = spots[random];
+            enemySpot.setOccupied(true);
+            return enemySpot;
+        } else return null;
     }
 
     @Override
@@ -47,40 +50,20 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     @Override
     public void updateMoveVector() {
-        if (targetSpot.getLocation().distance(localTranslation) < 50) {
-            if (targetSpot.getLocation().x > localTranslation.getX()) {
-                moveVector.setX(speed);
-            } else {
-                moveVector.setX(-speed);
-            }
-           // System.out.println("target: " + targetSpot.getCarrierId() + " " + targetSpot.getLocation().x);
-            for(Carrier carrier : carriers) {
-                if (targetSpot.getCarrierId() == carrier.getId()) {
-                   // System.out.println("carrier location" + carrier.getId() + carrier.getModel().getLocalTranslation());
+        if (targetSpot != null) {
+            if (targetSpot.getLocation().distance(localTranslation) < 50) {
+                if (targetSpot.getLocation().x > localTranslation.getX()) {
+                    moveVector.setX(speed);
+                } else {
+                    moveVector.setX(-speed);
                 }
-            }
-            
-
-            //            if (Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) < 30 &&
-            //                    Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) > 3) {
-            //                if (commander.getModel().getLocalTranslation().getZ() > localTranslation.getZ()) {
-            //                    moveVector.setZ(speed);
-            //                } else {
-            //                    moveVector.setZ(-speed);
-            //                }
-            //            } else {
-            //                moveVector.setZ(0);
-            //            }
-            //if (targetSpot.getLocation().distance(localTranslation) < 30) {
                 if (targetSpot.getLocation().z > localTranslation.getZ()) {
                     moveVector.setZ(speed);
                 } else {
                     moveVector.setZ(-speed);
                 }
-//            } else {
-//                moveVector.setZ(0);
-//            }
 
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ public class HUDController {
     private static final int CHECKPOINT_DISTANCE = 200;
     private int checkpointCounter = 0;
     private boolean checkpointUpdated = false;
+    private static final float DIFFICULTY_INCREASE = 1.1f;
 
     private int threshold = 10;
 
@@ -72,13 +73,14 @@ public class HUDController {
             hudText.setLocalTranslation(width, height, 0);
         }
         Vector3f commanderLoc = main.getEnv().getCommander().getModel().getLocalTranslation();
-        if(commanderLoc.x % CHECKPOINT_DISTANCE > -10 && commanderLoc.x < 0) {
+        if (commanderLoc.x % CHECKPOINT_DISTANCE > -10 && commanderLoc.x < 0) {
             main.getGuiNode().attachChild(checkpointAlertText);
-            if(checkpointUpdated) {
+            if (checkpointUpdated) {
+                main.getEnv().setDifficulty(main.getEnv().getDifficulty() * DIFFICULTY_INCREASE);
                 checkpointUpdated = false;
             }
         } else {
-            if(!checkpointUpdated) {
+            if (!checkpointUpdated) {
                 checkpointCounter += 1;
                 checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
                 checkpointUpdated = true;

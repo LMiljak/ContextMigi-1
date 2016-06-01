@@ -14,6 +14,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.FileLocator;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
 /**
@@ -27,6 +28,7 @@ public class Environment extends AbstractAppState {
 	private Collection<IMovable> movables;
 	private HUDController hudController;
 	private boolean paused;
+	private float difficultyFactor = 1.0f;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -117,8 +119,18 @@ public class Environment extends AbstractAppState {
 	 */
 	private void moveMovables() {
 		for (IMovable movable : movables) {
-			movable.move(movable.getMoveBehaviour().getMoveVector());
+			movable.move(addDifficulty(movable.getMoveBehaviour().getMoveVector()));
 		}
+	}
+
+	/**
+	 * Add difficulty to the moveVector of the movables.
+	 * @param movableVector
+	 */
+	private Vector3f addDifficulty(Vector3f movableVector) {
+	    return new Vector3f(movableVector.x * difficultyFactor,
+	                        movableVector.y * difficultyFactor,
+	                        movableVector.z * difficultyFactor);
 	}
 
 	/**
@@ -135,5 +147,23 @@ public class Environment extends AbstractAppState {
      */
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    /**
+     * Set the difficulty of the game.
+     * @param newDiff the new difficulty.
+     */
+    public void setDifficulty(float newDiff) {
+        System.out.println("Old difficulty: " + difficultyFactor);
+        difficultyFactor = newDiff;
+        System.out.println("New difficulty: " + difficultyFactor);
+    }
+
+    /**
+     * Returns the current difficulty.
+     * @return the difficulty of the game.
+     */
+    public float getDifficulty() {
+        return difficultyFactor;
     }
 }

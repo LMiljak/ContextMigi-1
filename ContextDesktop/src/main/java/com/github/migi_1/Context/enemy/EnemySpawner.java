@@ -35,37 +35,49 @@ public class EnemySpawner {
     public LinkedList<Enemy> generateEnemies() {
         currentLevelPiece = -Math.floor(commanderLocation.x/levelPieceLength);
         if (currentLevelPiece != lastLevelPiece) {
-            lastLevelPiece = currentLevelPiece;
+            lastLevelPiece = currentLevelPiece;            
 
-            Enemy enemy1 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
-                    carriers[0].getModel().getLocalTranslation().y,
-                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                    carriers);            
-            Enemy enemy2 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, carriers[0].getModel().getLocalTranslation().y,
-                    levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                    carriers);
-            Enemy enemy3 = new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                    + levelPieceLength * 1/2, carriers[0].getModel().getLocalTranslation().y,
-                    levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
-                    carriers);  
-
-            enemy1.getModel().rotate(0, (float) Math.PI, 0);
-            enemy2.getModel().rotate(0, (float) Math.PI, 0);
+            
+           
 
             double random = Math.random();
             if(random > 0.25 && random < 0.6){
-                enemies.add(enemy3);
+                enemies.add(createEnemy3());
             } else if(random > 0.6 && random < 0.85) {
-                enemies.add(enemy1);
-                enemies.add(enemy3);
+                enemies.add(createEnemy1());
+                enemies.add(createEnemy3());
             } else {
-                enemies.add(enemy1);
-                enemies.add(enemy2);
-                enemies.add(enemy3);
+                enemies.add(createEnemy1());
+                enemies.add(createEnemy2());
+                enemies.add(createEnemy3());
             }            
         }
         return enemies;        
+    }
+
+    private Enemy createEnemy1() {
+        Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
+                carriers[0].getModel().getLocalTranslation().y,
+                levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
+                carriers); 
+        enemy.getModel().rotate(0, (float) Math.PI, 0);
+        return enemy;
+    }
+
+    private Enemy createEnemy2() {
+        Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                + levelPieceLength * 1/2, carriers[0].getModel().getLocalTranslation().y,
+                levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
+                carriers);        
+        enemy.getModel().rotate(0, (float) Math.PI, 0);
+        return enemy;
+    }
+
+    private Enemy createEnemy3() {
+        return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
+                + levelPieceLength * 1/2, carriers[0].getModel().getLocalTranslation().y,
+                levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
+                carriers);  
     }
 
     public LinkedList<Enemy> deleteEnemies() {

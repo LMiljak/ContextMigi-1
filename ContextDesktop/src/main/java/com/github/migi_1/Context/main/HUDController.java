@@ -51,6 +51,9 @@ public class HUDController {
         main.getGuiNode().attachChild(hudText);
     }
 
+    /**
+     * Initialise the score HUD element.
+     */
     private void initScoreText() {
         hudText = new BitmapText(guiFont, false);
         hudText.setSize(guiFont.getCharSet().getRenderedSize() * 4);
@@ -61,6 +64,9 @@ public class HUDController {
         hudText.setLocalTranslation(width, height, 0);
     }
 
+    /**
+     * Initialise the checkpoint HUD element.
+     */
     private void initCheckPointText() {
         checkpointAlertText = new BitmapText(guiFont, false);
         checkpointAlertText.setSize(guiFont.getCharSet().getRenderedSize() * 2);

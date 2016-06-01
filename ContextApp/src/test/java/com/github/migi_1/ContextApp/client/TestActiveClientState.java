@@ -3,6 +3,9 @@ package com.github.migi_1.ContextApp.client;
 import com.jme3.network.Client;
 import org.mockito.Mockito;
 
+/**
+ * Test suite for the ActiveClientState class.
+ */
 public class TestActiveClientState extends TestClientState {
 
     @Override

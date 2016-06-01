@@ -28,12 +28,7 @@ public class AttackMessage extends AbstractMessage {
      */
     public AttackMessage(PlatformPosition position, String direction) {
         this.position = position;
-        if(direction.equals("middle") || direction.equals("right")) {
-            this.direction = direction;
-        }
-        else {
-            this.direction = "left";
-        }
+        this.direction = direction;
     }
     
     /**

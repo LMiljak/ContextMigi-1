@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.enemy.Enemy;
-import com.github.migi_1.Context.enemy.EnemyGenerator;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
@@ -69,7 +69,7 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
-    private EnemyGenerator enemyGenerator;
+    private EnemySpawner enemySpawner;
 
     private LinkedList<Enemy> enemies;
 
@@ -93,9 +93,6 @@ public class MainEnvironment extends Environment {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
-
-
         results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
@@ -118,7 +115,7 @@ public class MainEnvironment extends Environment {
         checkCollision();
 
         updateTestWorld();
-        //updateEnemies();
+        updateEnemies();
 
     }
 
@@ -204,7 +201,7 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         obstacleSpawner = new ObstacleSpawner(commander);
-
+        enemySpawner = new EnemySpawner(commander);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -376,12 +373,12 @@ public class MainEnvironment extends Environment {
         }
     }
 
-//    private void updateEnemies() {
-//        for(Enemy enemy : enemyGenerator.generateEnemies()) {
-//            addEntity(enemy);
-//        }
-//
-//    }
+    private void updateEnemies() {
+        for(Enemy enemy : enemySpawner.generateEnemies()) {
+            addEntity(enemy);
+        }
+
+    }
 
     /**
      * Update the steering direction.

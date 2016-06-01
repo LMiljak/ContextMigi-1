@@ -25,7 +25,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     @Override
     public void updateMoveVector() {
-        if (commander.getModel().getWorldBound().distanceTo(localTranslation) < 20) {
+        if (commander.getModel().getWorldBound().distanceTo(localTranslation) < 40) {
             if (commander.getModel().getLocalTranslation().getX() - localTranslation.getX() < 30) {
                 if (commander.getModel().getLocalTranslation().getX() > localTranslation.getX()) {
                     moveVector.setX(speed);
@@ -34,7 +34,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 }
             }
 
-            if (Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) < 10 &&
+            if (Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) < 30 &&
                     Math.abs(Math.abs(commander.getModel().getWorldBound().getCenter().z) - Math.abs(localTranslation.getZ())) > 3) {
                 if (commander.getModel().getLocalTranslation().getZ() > localTranslation.getZ()) {
                     moveVector.setZ(speed);

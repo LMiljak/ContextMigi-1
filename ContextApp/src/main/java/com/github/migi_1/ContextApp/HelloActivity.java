@@ -21,16 +21,15 @@ public class HelloActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        private AccelerometerSensor as;
+        private AccelerometerSensor accelerometerSensor;
+        private ClientWrapper client;
+                
         /**
          * Configure the game instance that is launched and start the logger.
          */
         public HelloActivity() {
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
-        
-        //Create the accelerometer sensor.
-        as = new AccelerometerSensor(this);
         
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
@@ -45,7 +44,7 @@ public class HelloActivity extends AndroidHarness {
             super.onResume();
 
             // register the lister for the accelerometer
-            mSensorManager.registerListener(as, 
+            mSensorManager.registerListener(accelerometerSensor, 
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
@@ -56,7 +55,7 @@ public class HelloActivity extends AndroidHarness {
         @Override
         protected void onStop() {  
             // unregister the sensor listener
-            mSensorManager.unregisterListener(as);  
+            mSensorManager.unregisterListener(accelerometerSensor);  
             super.onStop();  
         } 
     
@@ -78,9 +77,11 @@ public class HelloActivity extends AndroidHarness {
             // show the user the app is looking for a server
             setContentView(R.layout.android_searching);
             
-            // start the autoconnector
-            AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
-                    ClientWrapper.getInstance());
+            // create the client
+            client = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+            
+            // create te accelerometerSensor
+            accelerometerSensor = new AccelerometerSensor(this, client);
             
             // set the ui to the ingame screen
             setContentView(R.layout.android_ingame_fr);

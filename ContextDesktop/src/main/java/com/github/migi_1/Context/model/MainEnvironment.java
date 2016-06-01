@@ -132,7 +132,7 @@ public class MainEnvironment extends Environment {
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
-                getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
+                removeDisplayable(obstacleSpawner.removeDamageDealer());
                 entry.setValue(new CollisionResults());
                 ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
 

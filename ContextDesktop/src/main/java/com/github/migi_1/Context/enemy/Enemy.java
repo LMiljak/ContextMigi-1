@@ -67,12 +67,12 @@ public class Enemy extends Entity implements IKillable {
     /**
      * Attack the carrier for 1 damage every 3 seconds. Can only attack if the 
      * enemy is at a spot next to a carrier.
-     * @param tpf
+     * @param tpf deltatime required for calulating when to attack again.
      */
     public void attack(float tpf) {
         if (moveBehaviour.isAtSpot()) {
             currentTime += tpf;
-            if(currentTime >= attackThreshHold) {
+            if (currentTime >= attackThreshHold) {
                 moveBehaviour.getTargetSpot().getCarrier().takeDamage(1);
                 currentTime -= attackThreshHold;
             }

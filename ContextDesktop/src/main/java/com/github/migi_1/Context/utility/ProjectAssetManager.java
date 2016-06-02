@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.utility;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.plugins.FileLocator;
 
 /**
  * This class makes the asset manager accessible from any class, after it has been initialized.
@@ -51,6 +52,7 @@ public final class ProjectAssetManager {
      */
     public void setAssetManager(AssetManager assetManager) {
         this.assetManager = assetManager;
+        this.assetManager.registerLocator("assets", FileLocator.class);
     }
 
 }

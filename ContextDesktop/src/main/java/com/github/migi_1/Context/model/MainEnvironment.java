@@ -3,9 +3,6 @@ package com.github.migi_1.Context.model;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import jmevr.app.VRApplication;
-
-
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -32,6 +29,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import java.util.ArrayList;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -127,7 +126,6 @@ public class MainEnvironment extends Environment {
      * Handle collision checking.
      */
     private void checkCollision() {
-
         //add collision check for all obstacles
 
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
@@ -142,7 +140,7 @@ public class MainEnvironment extends Environment {
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
-                getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
+                removeDisplayable(obstacleSpawner.removeDamageDealer());
                 entry.setValue(new CollisionResults());
                 ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
 
@@ -381,10 +379,13 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Handles everything that happens when the Envrironment state is detached from the main application.
+     * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
     public void cleanup() {
+        viewPort.clearProcessors();
+        this.getRootNode().removeLight(sun);
+        this.getRootNode().removeLight(sun2);
         super.cleanup();
     }
 

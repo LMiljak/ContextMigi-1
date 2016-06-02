@@ -29,7 +29,7 @@ public class Platform extends Entity {
         
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new AccelerometerMoveBehaviour());
+        setMoveBehaviour(new AcceleratingMoveBehaviour(MOVE_VECTOR));
     }
 
     /**

@@ -55,6 +55,7 @@ public class TestMainEnvironment {
     private HUDController hudController;*/
 
 
+
     /**
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
@@ -92,6 +93,7 @@ public class TestMainEnvironment {
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
+<<<<<<< HEAD
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));*/
     }
 
@@ -103,6 +105,7 @@ public class TestMainEnvironment {
     public void intializeTest() {
         env.initialize(stateManager, app);
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
+<<<<<<< HEAD
     }*/
 
     /**
@@ -113,6 +116,7 @@ public class TestMainEnvironment {
         env.initialize(stateManager, app);
         env.update(0.1f);
         Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
+<<<<<<< HEAD
     }*/
 
     /**
@@ -133,8 +137,9 @@ public class TestMainEnvironment {
         env.setFlyCam(cam);
         env.moveCam(new Vector3f(-1, 1, 1));
         Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
+<<<<<<< HEAD
     }*/
-
+    
     /**
      * Test for the rotateCam method.
      */
@@ -183,6 +188,7 @@ public class TestMainEnvironment {
     }*/
 
     /**
+
      * Test for the updateTestWorld method.
      * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
      */
@@ -198,6 +204,7 @@ public class TestMainEnvironment {
     @Test
     public void passingTest3() {
     	assertTrue(true);
+
     }
 
 }

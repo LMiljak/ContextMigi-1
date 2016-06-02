@@ -54,7 +54,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         if (targetSpot != null) { 
             if (targetSpot.getLocation().distance(localTranslation) < 50) {
                 if (targetSpot.getLocation().x > localTranslation.getX()) {
-                    if(targetSpot.getLocation().subtract(localTranslation).x < speed) {
+                    if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
                         moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
                     } else moveVector.setX(speed);
                 } else if (targetSpot.getLocation().x < localTranslation.getX()) {
@@ -67,13 +67,11 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 } else {
                     moveVector.setZ(-speed);
                 }
-
             }  
-        }       
-
-        if (targetSpot.getEnemy() == null) {
-            targetSpot.setEnemy(enemy);
-        }
+            if (targetSpot.getLocation().distance(localTranslation) < speed) {
+                targetSpot.setEnemy(enemy);
+            }
+        }  
     }
 }
 

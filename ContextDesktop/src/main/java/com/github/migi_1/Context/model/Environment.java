@@ -13,7 +13,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.scene.Node;
 
 /**
@@ -27,19 +26,17 @@ public class Environment extends AbstractAppState {
 	private Collection<IMovable> movables;
 	private HUDController hudController;
 	private boolean paused;
+	private Application app;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
+		this.app = app;
 		this.paused = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-
-		this.assetManager.registerLocator("assets", FileLocator.class);
 		hudController = new HUDController(app);
-
-
 	}
 
 	@Override
@@ -119,6 +116,7 @@ public class Environment extends AbstractAppState {
 	 */
 	private void moveMovables() {
 		for (IMovable movable : movables) {
+		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
@@ -139,6 +137,13 @@ public class Environment extends AbstractAppState {
         this.paused = paused;
     }
 
-
-
+    /**
+     * Delete all visual elements.
+     */
+    @Override
+    public void cleanup() {
+        super.cleanup();
+        ((Main) this.app).getGuiNode().detachAllChildren();
+        this.rootNode.detachAllChildren();
+    }
 }

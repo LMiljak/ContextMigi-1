@@ -9,7 +9,8 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 
 public class EnemySpawner {
-
+    
+    private EnemyFactory enemyFactory;
     private LinkedList<Enemy> enemies;
     private LinkedList<Enemy> deleteList;
     private BoundingBox levelPieceBoundingBox;
@@ -18,18 +19,17 @@ public class EnemySpawner {
     private double lastLevelPiece;
     private float levelPieceWidth;
     private Vector3f commanderLocation;
-    private Carrier[] carriers;
 
     public EnemySpawner(Commander commander, Carrier[] carriers) {
         enemies = new LinkedList<Enemy>();
-        deleteList = new LinkedList<Enemy>();
-        this.carriers = carriers;
+        deleteList = new LinkedList<Enemy>();        
         commanderLocation = commander.getModel().getLocalTranslation(); 
         levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
         levelPieceLength = levelPieceBoundingBox.getXExtent();
         levelPieceWidth =  levelPieceBoundingBox.getCenter().z;
         currentLevelPiece = 0;
         lastLevelPiece = -1;
+        enemyFactory = new EnemyFactory(levelPieceBoundingBox, levelPieceLength, levelPieceWidth, carriers);
     }
 
     public LinkedList<Enemy> generateEnemies() {
@@ -41,44 +41,19 @@ public class EnemySpawner {
 
                 double random = Math.random();
                 if (random > 0.25 && random < 0.6) {
-                    newEnemies.add(createEnemy3());
+                    newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
                 } else if (random > 0.6 && random < 0.85) {
-                    newEnemies.add(createEnemy1());
-                    newEnemies.add(createEnemy3());
+                    newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
+                    newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
                 } else {
-                    newEnemies.add(createEnemy1());
-                    newEnemies.add(createEnemy2());
-                    newEnemies.add(createEnemy3());
+                    newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
+                    newEnemies.add(enemyFactory.createEnemy2(currentLevelPiece));
+                    newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
                 }            
             }
         }
         enemies.addAll(newEnemies);
         return newEnemies;        
-    }
-
-    private Enemy createEnemy1() {
-        Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
-                carriers[0].getModel().getLocalTranslation().y,
-                levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers); 
-        enemy.getModel().rotate(0, (float) Math.PI, 0);
-        return enemy;
-    }
-
-    private Enemy createEnemy2() {
-        Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers[0].getModel().getLocalTranslation().y,
-                levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers);        
-        enemy.getModel().rotate(0, (float) Math.PI, 0);
-        return enemy;
-    }
-
-    private Enemy createEnemy3() {
-        return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers[0].getModel().getLocalTranslation().y,
-                levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers);  
     }
 
     public LinkedList<Enemy> deleteEnemies() {

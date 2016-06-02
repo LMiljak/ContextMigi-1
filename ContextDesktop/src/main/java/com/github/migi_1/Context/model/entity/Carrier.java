@@ -26,6 +26,7 @@ public class Carrier extends Entity implements IKillable {
     private int id; //Represents the location of the carrier under the platform.
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
+    private MainEnvironment environment;
     
     /**
      * constructor of the carrier.
@@ -44,20 +45,21 @@ public class Carrier extends Entity implements IKillable {
         moveBehaviour.setRelativeLocation(relativeLocation);
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
         this.id = id;
+        this.environment = environment;
         createEnemyLocations();
         health = 2;
         
     }
 
     private void createEnemyLocations() {
-        enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this,  Direction.NORTH));
+        enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
         if (id % 2 == 0) {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(),Direction.EAST));
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(),Direction.WEST));
         }
-        enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, Direction.SOUTH));
+        enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(),Direction.SOUTH));
 
     }
 
@@ -124,6 +126,8 @@ public class Carrier extends Entity implements IKillable {
     public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
         this.enemySpots = enemySpots;
     }
+    
+    
     
     
 

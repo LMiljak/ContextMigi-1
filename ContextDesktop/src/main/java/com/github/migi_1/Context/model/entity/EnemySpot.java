@@ -8,13 +8,15 @@ public class EnemySpot {
     private boolean occupied;
     private Vector3f location;
     private int carrierId;
-    private Entity carrier;
+    private Carrier carrier;
+    private Commander commander;
     
     public enum Direction {
         NORTH, SOUTH, EAST, WEST
     };
     
-    public EnemySpot(Vector3f location, Carrier carrier, Direction direction) {
+    public EnemySpot(Vector3f location, Carrier carrier, Commander commander, Direction direction) {
+        this.commander = commander;
         this.location = location;
         this.direction = direction;
         this.carrierId = carrier.getId();
@@ -40,8 +42,8 @@ public class EnemySpot {
      * @return the location
      */
     public Vector3f getLocation() {
-        System.out.println(location.x);
-        return carrier.getModel().getLocalTranslation().add(new Vector3f(location.x, 0, location.z));
+        System.out.println(commander.getMoveBehaviour().getMoveVector());
+        return commander.getModel().getLocalTranslation().add(location).add(carrier.getRelativeLocation());
     }
     /**
      * 

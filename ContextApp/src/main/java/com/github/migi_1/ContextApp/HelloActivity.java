@@ -49,6 +49,16 @@ public class HelloActivity extends AndroidHarness {
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
+        
+        /**
+         * Closes the app.
+         */
+        @Override
+        protected void onStop() {  
+            // unregister the sensor listener
+            mSensorManager.unregisterListener(as);  
+            super.onStop();  
+        } 
     
         /**
          * Instanciate the game instance.
@@ -58,31 +68,31 @@ public class HelloActivity extends AndroidHarness {
         @Override  
         public void onCreate(Bundle savedInstanceState) {  
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.android_ingame_fr);
+            //setContentView(R.layout.android_ingame_fr);
 
             //instantiate the application
             application = (Main) getJmeApplication();
-            application.setDisplayFps(false);
-            application.setDisplayStatView(false);
 
             //start the sensor manager
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
             
+            setContentView(R.layout.android_searching);
+            
             // start the autoconnector
             AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
                     ClientWrapper.getInstance());
+            
+            setContentView(R.layout.android_ingame_fr);
 
             // Retrieve buttons
             Button leftButton = (Button) findViewById(R.id.FR_button_left);
             Button middleButton = (Button) findViewById(R.id.FR_button_middle);
             Button rightButton = (Button) findViewById(R.id.FR_button_right);
-            Button trigger = (Button) findViewById(R.id.FR_button_trigger);
             
             // add logging functionality
             setButtons(leftButton, "left");
             setButtons(middleButton, "middle");
             setButtons(rightButton, "right");
-            setButtons(trigger, "trigger");
         }
 
         /**
@@ -104,16 +114,6 @@ public class HelloActivity extends AndroidHarness {
                 }
                 });
         }
-        
-        /**
-         * Closes the app.
-         */
-        @Override
-        protected void onStop() {  
-            // unregister the sensor listener
-            mSensorManager.unregisterListener(as);  
-            super.onStop();  
-        } 
         
         /**
          * Gets the instance of this Application.

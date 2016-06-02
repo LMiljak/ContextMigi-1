@@ -1,7 +1,6 @@
 package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
-import com.github.migi_1.ContextMessages.StopEventMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import java.io.IOException;
 import com.jme3.network.Client;

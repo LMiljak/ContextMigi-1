@@ -87,7 +87,7 @@ public class Main extends VRApplication {
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-        this.getStateManager().attach(environmentState);
+        this.getStateManager().attach(mainMenuState);
 
         launchServer();
     }

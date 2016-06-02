@@ -3,8 +3,6 @@ package com.github.migi_1.Context.model;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
@@ -26,6 +24,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.

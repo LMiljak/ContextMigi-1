@@ -31,7 +31,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     public EnemyMoveBehaviour(Enemy enemy, Carrier[] carriers) {
         super();
         this.enemy = enemy;
-        this.moveVector = new Vector3f(0,0,0);
+        this.moveVector = new Vector3f(0, 0, 0);
         this.carriers = carriers;
         this.localTranslation = enemy.getModel().getLocalTranslation();
         atSpot = false;
@@ -60,7 +60,9 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
             EnemySpot enemySpot = spots.get(random);
             enemySpot.setOccupied(true);
             return enemySpot;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -84,11 +86,15 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 if (targetSpot.getLocation().x > localTranslation.getX()) {
                     if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
                         moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
-                    } else moveVector.setX(speed);
+                    } else {
+                        moveVector.setX(speed);
+                    }
                 } else if (targetSpot.getLocation().x < localTranslation.getX()) {
                     if (targetSpot.getLocation().subtract(localTranslation).x < -speed) {
                         moveVector.setX(-targetSpot.getLocation().subtract(localTranslation).x);
-                    } else moveVector.setX(-speed);
+                    } else {
+                        moveVector.setX(-speed);
+                    }
                 }
                 if (targetSpot.getLocation().z > localTranslation.getZ()) {
                     moveVector.setZ(speed);
@@ -96,8 +102,8 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                     moveVector.setZ(-speed);
                 }
             }  
-            if (targetSpot.getLocation().distance(localTranslation) < speed &&
-                    atSpot == false) {
+            if (targetSpot.getLocation().distance(localTranslation) < speed 
+                    && !atSpot) {
                 targetSpot.setEnemy(enemy);
                 atSpot = true;
             }

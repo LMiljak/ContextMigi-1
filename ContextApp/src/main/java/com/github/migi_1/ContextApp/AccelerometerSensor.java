@@ -45,7 +45,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             float z_force = se.values[2];
             
             // log the sensor values
-            Log.d("rotate", x_force + " " + y_force + " " + z_force);
+            Log.d("main", x_force + " " + y_force + " " + z_force);
             //Sending the information to the Server.
             sendSensorInformation(x_force, y_force, z_force);
     }

@@ -1,5 +1,7 @@
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity_FR;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -88,11 +90,13 @@ public class HelloActivity extends AndroidHarness {
             Button leftButton = (Button) findViewById(R.id.FR_button_left);
             Button middleButton = (Button) findViewById(R.id.FR_button_middle);
             Button rightButton = (Button) findViewById(R.id.FR_button_right);
+            Button triggerButton = (Button) findViewById(R.id.FR_button_trigger);
             
             // add logging functionality
             setButtons(leftButton, "left");
             setButtons(middleButton, "middle");
             setButtons(rightButton, "right");
+            setButtons(triggerButton, "trigger");
         }
 
         /**
@@ -107,9 +111,8 @@ public class HelloActivity extends AndroidHarness {
                 public void onClick(View v) {
                     Log.d("rotate", str);
                     if(str.equals("trigger")) {
-//                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity_FR.class);
-//                        startActivity(nextScreen);
-                        Log.d("rotate", "DISABLED FOR NOW");
+                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity_FR.class);
+                        startActivity(nextScreen);
                     }
                 }
                 });

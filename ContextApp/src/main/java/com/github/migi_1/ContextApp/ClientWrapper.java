@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import java.io.IOException;
 import com.jme3.network.Client;
@@ -25,7 +26,7 @@ public class ClientWrapper {
 	//Every message types is registered by the Serializer in this class initializer.
         static {
             Serializer.registerClass(AccelerometerMessage.class);
-            //Serializer.registerClass(StopEventMessage.class);
+            Serializer.registerClass(ChangeSprayPositionMessage.class);
             Serializer.registerClass(PositionMessage.class);
         }
         

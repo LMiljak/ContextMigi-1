@@ -33,16 +33,16 @@ public class EnemySpawner {
     }
 
     public LinkedList<Enemy> generateEnemies() {
-        currentLevelPiece = -Math.floor(commanderLocation.x/levelPieceLength);
+        currentLevelPiece = -Math.floor(commanderLocation.x / levelPieceLength);
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
         if (enemies.size() < 12) {
             if (currentLevelPiece != lastLevelPiece) {
                 lastLevelPiece = currentLevelPiece;              
 
                 double random = Math.random();
-                if(random > 0.25 && random < 0.6){
+                if (random > 0.25 && random < 0.6) {
                     newEnemies.add(createEnemy3());
-                } else if(random > 0.6 && random < 0.85) {
+                } else if (random > 0.6 && random < 0.85) {
                     newEnemies.add(createEnemy1());
                     newEnemies.add(createEnemy3());
                 } else {
@@ -67,7 +67,7 @@ public class EnemySpawner {
 
     private Enemy createEnemy2() {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1/2, carriers[0].getModel().getLocalTranslation().y,
+                + levelPieceLength * 1 / 2, carriers[0].getModel().getLocalTranslation().y,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);        
         enemy.getModel().rotate(0, (float) Math.PI, 0);
@@ -76,7 +76,7 @@ public class EnemySpawner {
 
     private Enemy createEnemy3() {
         return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1/2, carriers[0].getModel().getLocalTranslation().y,
+                + levelPieceLength * 1 / 2, carriers[0].getModel().getLocalTranslation().y,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);  
     }
@@ -86,9 +86,10 @@ public class EnemySpawner {
             if (enemy.getHealth() <= 0) {
                 deleteList.add(enemy);
             }
-            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3 &&
-                    enemy.getModel().getLocalTranslation().x > commanderLocation.x)
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3 
+                    && enemy.getModel().getLocalTranslation().x > commanderLocation.x) {
                 deleteList.add(enemy);
+            }
         }
         return deleteList;
     }

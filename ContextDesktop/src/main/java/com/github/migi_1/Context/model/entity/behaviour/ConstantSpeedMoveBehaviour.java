@@ -13,11 +13,7 @@ public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
 
 	/**
 	 * Constructor for ConstantSpeedMoveBehaviour.
-<<<<<<< HEAD:ContextDesktop/src/main/java/com/github/migi_1/Context/model/entity/behaviour/ConstantSpeedMoveBehaviour.java
 	 * 
-=======
-	 *
->>>>>>> refs/remotes/origin/master:ContextDesktop/src/main/java/com/github/migi_1/Context/model/entity/ConstantSpeedMoveBehaviour.java
 	 * @param moveVector
 	 * 		The direction and speed of this behaviour.
 	 */

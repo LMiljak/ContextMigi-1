@@ -16,8 +16,8 @@ import com.jme3.network.MessageListener;
 public class AccelerometerMoveBehaviour extends MoveBehaviour implements MessageListener {
 
 	/** The factor for the accelerometer force for deciding the speed.*/
-	private static final float FACTOR = 0.1f;
-	private static final float MAX_SPEED = 1.25f;
+	private static final float FACTOR = -0.1f;
+	private static final float MAX_SPEED = 1.0f;
 	
 	private Vector3f moveVector = new Vector3f(0, 0, 0);
 	

@@ -26,7 +26,7 @@ public class ClientWrapper {
 	//Every message types is registered by the Serializer in this class initializer.
         static {
             Serializer.registerClass(AccelerometerMessage.class);
-            Serializer.registerClass(StopEventMessage.class);
+            //Serializer.registerClass(StopEventMessage.class);
             Serializer.registerClass(PositionMessage.class);
         }
         

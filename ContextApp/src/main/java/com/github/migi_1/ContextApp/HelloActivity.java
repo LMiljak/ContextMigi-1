@@ -1,14 +1,11 @@
 package com.github.migi_1.ContextApp;
 
-import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayHandler;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity_FR;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -19,7 +16,7 @@ import java.util.logging.LogManager;
  * 
  * @author Marcel
  */
-public class MainActivity extends AndroidHarness {
+public class HelloActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
@@ -28,7 +25,7 @@ public class MainActivity extends AndroidHarness {
         /**
          * Configure the game instance that is launched and start the logger.
          */
-        public MainActivity() {
+        public HelloActivity() {
             // Set the application class to run
             appClass = "com.github.migi_1.ContextApp.Main";
 
@@ -38,6 +35,19 @@ public class MainActivity extends AndroidHarness {
             // Start the log manager
             LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
 
+        }
+        
+        /**
+         * This method runs the app is resumed.
+         */
+        @Override  
+        protected void onResume() {  
+            super.onResume();
+
+            // register the lister for the accelerometer
+            mSensorManager.registerListener(as, 
+                    mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                    SensorManager.SENSOR_DELAY_FASTEST);
         }
     
         /**
@@ -85,14 +95,25 @@ public class MainActivity extends AndroidHarness {
             butt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("buttonpress", str);
+                    Log.d("rotate", str);
                     if(str.equals("trigger")) {
-                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity_FR.class);
-                        startActivity(nextScreen);
+//                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity_FR.class);
+//                        startActivity(nextScreen);
+                        Log.d("rotate", "DISABLED FOR NOW");
                     }
                 }
                 });
         }
+        
+        /**
+         * Closes the app.
+         */
+        @Override
+        protected void onStop() {  
+            // unregister the sensor listener
+            mSensorManager.unregisterListener(as);  
+            super.onStop();  
+        } 
         
         /**
          * Gets the instance of this Application.

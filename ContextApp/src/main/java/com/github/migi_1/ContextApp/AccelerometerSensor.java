@@ -17,7 +17,7 @@ import com.jme3.network.Client;
  */
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
-    private MainActivity act;
+    private HelloActivity act;
     
     /**
      * Constructor for AccelerometerSensor.
@@ -25,7 +25,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      * @param act
      *      The main activity from which it was created.
      */
-    public AccelerometerSensor(MainActivity act) {
+    public AccelerometerSensor(HelloActivity act) {
         this.act = act;
     }
     
@@ -45,7 +45,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             float z_force = se.values[2];
             
             // log the sensor values
-            Log.d("main", x_force + " " + y_force + " " + z_force);
+            Log.d("rotate", x_force + " " + y_force + " " + z_force);
             //Sending the information to the Server.
             sendSensorInformation(x_force, y_force, z_force);
     }

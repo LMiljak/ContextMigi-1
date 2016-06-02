@@ -54,8 +54,6 @@ public class ServerWrapper {
 
 		final ServerState initialState = new InactiveServerState(server);
 		this.state = initialState;
-
-		server.addMessageListener(new StopRandomEventMessageHandler());
 	}
 
 	/**

@@ -18,6 +18,7 @@ public class HealthMessageHandler extends MessageListener<HealthMessage> {
      */
     public HealthMessageHandler(MainActivity main) {
         this.main = main;
+        ClientWrapper.getInstance().getClient().addMessageListener(this);
     }
     
     /**

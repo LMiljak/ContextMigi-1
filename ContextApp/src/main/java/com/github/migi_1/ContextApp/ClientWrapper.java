@@ -1,6 +1,8 @@
 package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.github.migi_1.ContextMessages.AttackMessage;
+import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import java.io.IOException;
 import com.jme3.network.Client;
@@ -24,19 +26,21 @@ public class ClientWrapper {
         
 	//Every message types is registered by the Serializer in this class initializer.
         static {
-            Serializer.registerClass(AccelerometerMessage.class);
-            Serializer.registerClass(PositionMessage.class);
+                Serializer.registerClass(AccelerometerMessage.class);
+                Serializer.registerClass(PositionMessage.class);
+                Serializer.registerClass(HealthMessage.class);
+                Serializer.registerClass(AttackMessage.class);
         }
         
-	/**
-	 * Gets the instance of this shingleton class.
-	 * 
-	 * @return
-	 * 		The instance of this shingleton class.
-	 */
-	public static ClientWrapper getInstance() {
-		return INSTANCE;
-	}
+        /**
+         * Gets the instance of this shingleton class.
+         * 
+         * @return
+         * 		The instance of this shingleton class.
+         */
+        public static ClientWrapper getInstance() {
+                return INSTANCE;
+        }
 	
 	/** Private Constructor to prevent instantiation. */
 	private ClientWrapper() { }

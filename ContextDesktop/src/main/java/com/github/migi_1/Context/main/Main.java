@@ -7,6 +7,7 @@ import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -36,6 +37,8 @@ public class Main extends VRApplication {
     private static AppSettings settings;
 
     private ServerWrapper server;
+    
+    private AttackMessageHandler amh;
 
 
     /**
@@ -89,8 +92,11 @@ public class Main extends VRApplication {
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(mainMenuState);
-
+        
         launchServer();
+        
+        // Probably not the right spot, but I'll put this here for now.
+        amh = new AttackMessageHandler(this);
     }
 
     /**

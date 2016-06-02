@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import android.widget.ImageView;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
  * Contains functions which changes the hearts that represent the 
@@ -9,14 +10,16 @@ import android.widget.ImageView;
 public class HeartsUpdateFunctions {
 
     private MainActivity act;
+    private PlatformPosition position;
     
     /**
      * This creates an instance of the HeartsUpdateFunctions.
      * @param act
      * 			The instance of the application that calls this function
      */
-    public HeartsUpdateFunctions(MainActivity act) {
+    public HeartsUpdateFunctions(MainActivity act, PlatformPosition position) {
         this.act = act;
+        this.position = position;
     }
     
    /**
@@ -53,19 +56,9 @@ public class HeartsUpdateFunctions {
      * @param heartid the id of the heart which has its sprite changed
      */
     public void makeRed(int heartid) {
-        ImageView img;
-        if (heartid == 1) {
-            img = (ImageView) act.findViewById(R.id.FL_heart_1);
-            img.setImageResource(R.drawable.heart_red);
-        }
-        else if (heartid == 2) {
-            img = (ImageView) act.findViewById(R.id.FL_heart_2);
-            img.setImageResource(R.drawable.heart_red);
-        }
-        else {
-            img = (ImageView) act.findViewById(R.id.FL_heart_3);
-            img.setImageResource(R.drawable.heart_red);
-        }
+        
+        ImageView img = (ImageView) act.findViewById(getHeart(heartid));
+        img.setImageResource(R.drawable.heart_red);
         
     }
 
@@ -74,19 +67,64 @@ public class HeartsUpdateFunctions {
      * @param heartid the id of the heart which has its sprite changed
      */
     public void makeGrey(int heartid) {
-        ImageView img;
-        if (heartid == 1) {
-            img = (ImageView) act.findViewById(R.id.FL_heart_1);
-            img.setImageResource(R.drawable.heart_grey);
+        
+        ImageView img = (ImageView) act.findViewById(getHeart(heartid));
+        img.setImageResource(R.drawable.heart_grey);
+
+    }
+    
+    /**
+     * Returns the right heart to update based on heartid and position.
+     * @param heartid 
+     *              the number of the heart that needs to be updated.
+     * @return 
+     *              the id of the heart that needs to be updated.
+     */
+    public int getHeart(int heartid) {
+        switch (heartid) {
+            case 1:
+                switch(position) {
+                    case FRONTLEFT:
+                        return R.id.FL_heart_1;
+                    case BACKLEFT:
+                        return R.id.BL_heart_1;
+                    case BACKRIGHT:
+                        return R.id.BR_heart_1;
+                    default:
+                        return R.id.FR_heart_1;
+                }
+            case 2:
+                switch(position) {
+                    case FRONTLEFT:
+                        return R.id.FL_heart_2;
+                    case BACKLEFT:
+                        return R.id.BL_heart_2;
+                    case BACKRIGHT:
+                        return R.id.BR_heart_2;
+                    default:
+                        return R.id.FR_heart_2;
+                }
+            default:
+                switch(position) {
+                    case FRONTLEFT:
+                        return R.id.FL_heart_3;
+                    case BACKLEFT:
+                        return R.id.BL_heart_3;
+                    case BACKRIGHT:
+                        return R.id.BR_heart_3;
+                    default:
+                        return R.id.FR_heart_3;
+                }
         }
-        else if (heartid == 2) {
-            img = (ImageView) act.findViewById(R.id.FL_heart_2);
-            img.setImageResource(R.drawable.heart_grey);
-        }
-        else {
-            img = (ImageView) act.findViewById(R.id.FL_heart_3);
-            img.setImageResource(R.drawable.heart_grey);
-        }
+    }
+    
+    /**
+     * Sets the position of the HeartUpdateFunctions
+     * @param position 
+     *              The position of the player who's hearts are updated.
+     */
+    public void setPosition(PlatformPosition position) {
+        this.position = position;
     }
 
 }

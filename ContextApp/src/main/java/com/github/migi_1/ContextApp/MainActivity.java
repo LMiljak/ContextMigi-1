@@ -39,8 +39,6 @@ public class MainActivity extends AndroidHarness {
         //Create the accelerometer sensor.
         accSensor = new AccelerometerSensor(this);
         posHolder = PositionHolder.getInstance();
-        huFunctions = new HeartsUpdateFunctions(this);
-        mbFunctions = new MakeButtonFunctions(this);
         
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
@@ -56,7 +54,6 @@ public class MainActivity extends AndroidHarness {
     public void onCreate(Bundle savedInstanceState) {  
         
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.android_searching);
 
         //instantiate the application
         application = (Main) getJmeApplication();
@@ -65,19 +62,24 @@ public class MainActivity extends AndroidHarness {
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        
+        setContentView(R.layout.android_searching);
 
         // start the autoconnector
         AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
                 ClientWrapper.getInstance());
+        
+        
 
         // wait until position is received
-        /*while (true) {
+        while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
             	break;
        	    }
-        }*/
-        position = PlatformPosition.FRONTLEFT;
+        }
+        mbFunctions = new MakeButtonFunctions(this);
+        huFunctions = new HeartsUpdateFunctions(this, position);
         atkMessenger = new AttackMessenger(this);
         chooseScreen();
         
@@ -119,7 +121,6 @@ public class MainActivity extends AndroidHarness {
                 }
                 else {
                     Log.d("buttonpress", str);
-                    huFunctions.setHealth(2);
                 }
             }
             

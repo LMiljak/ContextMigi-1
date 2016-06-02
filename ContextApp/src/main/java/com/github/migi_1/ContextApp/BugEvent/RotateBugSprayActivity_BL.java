@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.github.migi_1.ContextApp.ClientWrapper;
 import com.github.migi_1.ContextApp.R;
+import com.github.migi_1.ContextMessages.StopEventMessage;
 import com.jme3.network.Client;
 
 /**

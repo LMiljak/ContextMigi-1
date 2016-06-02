@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.enemy.Enemy;
 import com.jme3.math.Vector3f;
 
 public class EnemySpot {
@@ -10,6 +11,7 @@ public class EnemySpot {
     private int carrierId;
     private Carrier carrier;
     private Commander commander;
+    private Enemy enemy;
     
     public enum Direction {
         NORTH, SOUTH, EAST, WEST
@@ -42,7 +44,6 @@ public class EnemySpot {
      * @return the location
      */
     public Vector3f getLocation() {
-        System.out.println(commander.getMoveBehaviour().getMoveVector());
         return commander.getModel().getLocalTranslation().add(location).add(carrier.getRelativeLocation());
     }
     /**
@@ -73,6 +74,22 @@ public class EnemySpot {
     public Entity getCarrier() {
         return carrier;
     }
+
+    /**
+     * @return the enemy
+     */
+    public Enemy getEnemy() {
+        return enemy;
+    }
+
+    /**
+     * @param enemy the enemy to set
+     */
+    public void setEnemy(Enemy enemy) {
+        this.enemy = enemy;
+    }
+    
+    
     
         
 }

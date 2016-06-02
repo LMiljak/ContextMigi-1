@@ -15,9 +15,11 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     private Vector3f localTranslation;
     private Carrier[] carriers;
     private EnemySpot targetSpot;
+    private Enemy enemy;
 
     public EnemyMoveBehaviour(Enemy enemy, Carrier[] carriers) {
         super();
+        this.enemy = enemy;
         this.moveVector = new Vector3f(0,0,0);
         this.carriers = carriers;
         this.localTranslation = enemy.getModel().getLocalTranslation();
@@ -67,6 +69,10 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 }
 
             }  
+        }       
+
+        if (targetSpot.getEnemy() == null) {
+            targetSpot.setEnemy(enemy);
         }
     }
 }

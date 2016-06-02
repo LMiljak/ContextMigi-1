@@ -15,8 +15,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
@@ -92,7 +92,7 @@ public class TestCarrier extends TestEntity {
     @Test
     public void takeDamageTest() {
         testCarrier.takeDamage(1);
-        assertEquals(testCarrier.getHealth(), 2);
+        assertEquals(1, testCarrier.getHealth());
     }
 
     /**

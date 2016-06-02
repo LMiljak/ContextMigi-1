@@ -20,7 +20,7 @@ public class Enemy extends Entity implements IKillable {
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         moveBehaviour = new EnemyMoveBehaviour(this, carriers);
-        health = 2;
+        health = 1;
     }
     
     @Override

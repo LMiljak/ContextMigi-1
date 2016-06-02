@@ -35,20 +35,22 @@ public class EnemySpawner {
     public LinkedList<Enemy> generateEnemies() {
         currentLevelPiece = -Math.floor(commanderLocation.x/levelPieceLength);
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
-        if (currentLevelPiece != lastLevelPiece) {
-            lastLevelPiece = currentLevelPiece;              
+        if (enemies.size() < 12) {
+            if (currentLevelPiece != lastLevelPiece) {
+                lastLevelPiece = currentLevelPiece;              
 
-            double random = Math.random();
-            if(random > 0.25 && random < 0.6){
-                newEnemies.add(createEnemy3());
-            } else if(random > 0.6 && random < 0.85) {
-                newEnemies.add(createEnemy1());
-                newEnemies.add(createEnemy3());
-            } else {
-                newEnemies.add(createEnemy1());
-                newEnemies.add(createEnemy2());
-                newEnemies.add(createEnemy3());
-            }            
+                double random = Math.random();
+                if(random > 0.25 && random < 0.6){
+                    newEnemies.add(createEnemy3());
+                } else if(random > 0.6 && random < 0.85) {
+                    newEnemies.add(createEnemy1());
+                    newEnemies.add(createEnemy3());
+                } else {
+                    newEnemies.add(createEnemy1());
+                    newEnemies.add(createEnemy2());
+                    newEnemies.add(createEnemy3());
+                }            
+            }
         }
         enemies.addAll(newEnemies);
         return newEnemies;        
@@ -81,9 +83,12 @@ public class EnemySpawner {
 
     public LinkedList<Enemy> deleteEnemies() {
         for (Enemy enemy : enemies) {
+            if (enemy.getHealth() <= 0) {
+                deleteList.add(enemy);
+            }
             if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3 &&
                     enemy.getModel().getLocalTranslation().x > commanderLocation.x)
-            deleteList.add(enemy);
+                deleteList.add(enemy);
         }
         return deleteList;
     }

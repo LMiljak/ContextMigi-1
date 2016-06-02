@@ -28,7 +28,7 @@ public class ServerWrapper {
 	private static final int PORT = 4321;
 	/** The amount of times the server should restart before sending an error.*/
 	private static final int RESTART_ATTEMPTS = 10;
-	
+
 	private Server server;
 	private ServerState state;
 
@@ -42,20 +42,20 @@ public class ServerWrapper {
 	/**
 	 * Constructor for ServerWrapper.
 	 * Creates a server that starts inactive.
-	 * 
+	 *
 	 * @throws IOException
 	 * 		If the Server failed to get created after a certain amount of attempts.
 	 */
 	public ServerWrapper() throws IOException {
 		this.server = createServer(PORT, RESTART_ATTEMPTS);
-		
+
 		final ServerState initialState = new InactiveServerState(server);
 		this.state = initialState;
 	}
-	
+
 	/**
 	 * Creates a server.
-	 * 
+	 *
 	 * @param port
 	 * 		The port on which the server should be running.
 	 * @param restartAttempts
@@ -66,7 +66,7 @@ public class ServerWrapper {
 	 */
 	private Server createServer(int port, int restartAttempts) throws IOException {
 		Logger logger = Logger.getGlobal();
-		
+
 		for (int attempt = 1; attempt <= restartAttempts; attempt++) {
 			try {
 				Server server = Network.createServer(port);
@@ -76,41 +76,41 @@ public class ServerWrapper {
 				logger.log(Level.WARNING, "Failed to create server: " + e.getMessage() + ". Retrying.");
 			}
 		}
-		
+
 		final String failMessage = "Failed to create server after " + restartAttempts + " attempts";
 		logger.log(Level.SEVERE, failMessage);
-		
+
 		throw new IOException(failMessage);
 	}
-	
+
 	/**
 	 * Gets the wrapped Server.
 	 * This server can be used to for example: send messages.
-	 * 
+	 *
 	 * @return
 	 * 		The wrapped Server.
 	 */
 	public Server getServer() {
 		return server;
 	}
-	
+
 	/**
 	 * Starts the server.
 	 */
 	public void startServer() {
 		switchState(new ActiveServerState(server));
 	}
-	
+
 	/**
 	 * Closes the server.
 	 */
 	public void closeServer() {
 		switchState(new InactiveServerState(server));
 	}
-	
+
 	/**
 	 * Switches the current state to a new state.
-	 * 
+	 *
 	 * @param newState
 	 * 		The new state of the server.
 	 */

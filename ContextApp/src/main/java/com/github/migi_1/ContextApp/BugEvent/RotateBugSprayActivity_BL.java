@@ -11,7 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.github.migi_1.ContextApp.ClientWrapper;
 import com.github.migi_1.ContextApp.R;
+import com.jme3.network.Client;
 
 /**
  *
@@ -39,6 +41,7 @@ public class RotateBugSprayActivity_BL extends Activity implements RotateBugSpra
                 @Override
                 public void onClick(View v) {
                     Log.d("rotate", "FRONT RIGHT");
+                    //Puzzle solved.
                     if(spray_bl.getVisibility() == View.VISIBLE && bug_bl.getVisibility() == View.VISIBLE) {
                         finish();
                     }

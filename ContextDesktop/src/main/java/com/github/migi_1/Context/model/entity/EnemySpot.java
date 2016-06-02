@@ -3,9 +3,14 @@ package com.github.migi_1.Context.model.entity;
 import com.github.migi_1.Context.enemy.Enemy;
 import com.jme3.math.Vector3f;
 
+/**
+ * Class for handling the spots where enemies can stand next to a carrier.
+ * @author TUDelft SID
+ *
+ */
 public class EnemySpot {
     
-    public Direction direction;
+    private Direction direction;
     private boolean occupied;
     private Vector3f location;
     private int carrierId;
@@ -13,10 +18,20 @@ public class EnemySpot {
     private Commander commander;
     private Enemy enemy;
     
+    /**
+     * Directions in which the enemy spots can face.
+     */
     public enum Direction {
         NORTH, SOUTH, EAST, WEST
     };
     
+    /**
+     * Constructor of the EnemySpot.
+     * @param location Location of the enemy spot relative to the carrier.
+     * @param carrier carrier of which this spot is.
+     * @param commander to find the relative location of the target spot
+     * @param direction in which the spot faces, looking from the carrier.
+     */
     public EnemySpot(Vector3f location, Carrier carrier, Commander commander, Direction direction) {
         this.commander = commander;
         this.location = location;
@@ -47,8 +62,8 @@ public class EnemySpot {
         return commander.getModel().getLocalTranslation().add(location).add(carrier.getRelativeLocation());
     }
     /**
-     * 
-     * @return
+     * Returns the offset from the of the enemy spot and the carrier.
+     * @return the location of that spot.
      */
     public Vector3f getOffset() {
         return location;

@@ -2,8 +2,9 @@ package com.github.migi_1.Context.model.entity;
 
 import java.util.HashMap;
 
+import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
@@ -28,7 +29,10 @@ public class Platform extends Entity {
         
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new AccelerometerMoveBehaviour());
+        setMoveBehaviour(new SumMultiMoveBehaviour(
+				new AccelerometerMoveBehaviour(), 
+				new AcceleratingMoveBehaviour(MOVE_VECTOR)
+			));
     }
 
     /**

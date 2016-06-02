@@ -44,8 +44,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
         setMoveVector(moveVector);
     }
 
-
-
     /**
      * When a collision has taken place.
      */
@@ -70,11 +68,13 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
             return new Vector3f(0, 0, 0);
         }
 
+        Vector3f moveVector = super.getMoveVector();
+        moveVector.setX(moveVector.getX() - getAcceleratingFactor());
         //when catching up, move twice as fast
         if (catchUp) {
-            return super.getMoveVector().mult(2.0f);
+            return moveVector.mult(2.0f);
         }
-        return super.getMoveVector();
+        return moveVector;
     }
 
     /**

@@ -2,8 +2,8 @@ package com.github.migi_1.Context.model.entity;
 
 import java.util.Arrays;
 
+import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.Collidable;
@@ -37,7 +37,7 @@ public class Commander extends Camera {
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new SumMultiMoveBehaviour(
         					new AccelerometerMoveBehaviour(), 
-        					new ConstantSpeedMoveBehaviour(MOVE_VECTOR)
+        					new AcceleratingMoveBehaviour(MOVE_VECTOR)
         				));
     }
 

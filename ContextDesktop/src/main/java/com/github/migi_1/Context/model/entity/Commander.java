@@ -33,7 +33,6 @@ public class Commander extends Camera {
     public Commander(Vector3f startLocation) {
         super();
         setModel(getDefaultModel());
-        Arrays.asList("a", "b");
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new AcceleratingMoveBehaviour(MOVE_VECTOR));
     }

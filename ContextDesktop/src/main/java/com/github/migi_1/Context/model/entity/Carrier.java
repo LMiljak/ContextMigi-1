@@ -23,7 +23,7 @@ public class Carrier extends Entity implements IKillable {
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
     private Main main;
-    private HealthMessenger dm;
+    private HealthMessenger healthMessenger;
     
     private int health;
     private Vector3f relativeLocation;
@@ -47,7 +47,7 @@ public class Carrier extends Entity implements IKillable {
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
         
         this.main = environment.getMain();
-        dm = new HealthMessenger(main);
+        healthMessenger = new HealthMessenger(main);
         
         health = 3;      
         this.position = position;
@@ -63,7 +63,7 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public void setHealth(int h) {
         health = h;
-        dm.sendHealth(getHealth(), getPosition());
+        healthMessenger.sendHealth(getHealth(), getPosition());
     }
     
     @Override

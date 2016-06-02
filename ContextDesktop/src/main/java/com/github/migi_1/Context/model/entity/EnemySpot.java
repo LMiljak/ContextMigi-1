@@ -40,7 +40,15 @@ public class EnemySpot {
      * @return the location
      */
     public Vector3f getLocation() {
+        System.out.println(location.x);
         return carrier.getModel().getLocalTranslation().add(new Vector3f(location.x, 0, location.z));
+    }
+    /**
+     * 
+     * @return
+     */
+    public Vector3f getOffset() {
+        return location;
     }
 
     /**
@@ -56,12 +64,13 @@ public class EnemySpot {
     public Direction getDirection() {
         return direction;
     }
+
+    /**
+     * @return the carrier
+     */
+    public Entity getCarrier() {
+        return carrier;
+    }
     
-    
-    
-    
-    
-    
-    
-    
+        
 }

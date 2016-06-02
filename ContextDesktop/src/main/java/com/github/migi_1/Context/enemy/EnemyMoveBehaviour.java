@@ -16,6 +16,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     private Carrier[] carriers;
     private EnemySpot targetSpot;
     private Enemy enemy;
+    private boolean atSpot;
 
     public EnemyMoveBehaviour(Enemy enemy, Carrier[] carriers) {
         super();
@@ -23,10 +24,11 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         this.moveVector = new Vector3f(0,0,0);
         this.carriers = carriers;
         this.localTranslation = enemy.getModel().getLocalTranslation();
-        targetSpot = getTargetSpot();
+        atSpot = false;
+        targetSpot = createTargetSpot();
     }
 
-    private EnemySpot getTargetSpot() {
+    private EnemySpot createTargetSpot() {
         LinkedList<EnemySpot> spots = new LinkedList<EnemySpot>();
         for (Carrier carrier : carriers) {
             for (EnemySpot location : carrier.getEnemySpots()) {
@@ -68,10 +70,32 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                     moveVector.setZ(-speed);
                 }
             }  
-            if (targetSpot.getLocation().distance(localTranslation) < speed) {
+            if (targetSpot.getLocation().distance(localTranslation) < speed &&
+                    atSpot == false) {
                 targetSpot.setEnemy(enemy);
+                atSpot = true;
             }
         }  
     }
+
+    /**
+     * @return the atSpot
+     */
+    public boolean isAtSpot() {
+        return atSpot;
+    }
+
+    /**
+     * @return the targetSpot
+     */
+    public EnemySpot getTargetSpot() {
+        return targetSpot;
+    }
+    
+    
+    
+    
+    
+    
 }
 

@@ -71,7 +71,7 @@ public class EnemySpot {
     /**
      * @return the carrier
      */
-    public Entity getCarrier() {
+    public Carrier getCarrier() {
         return carrier;
     }
 

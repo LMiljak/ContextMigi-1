@@ -115,7 +115,7 @@ public class MainEnvironment extends Environment {
         checkCollision();
 
         updateTestWorld();
-        updateEnemies();
+        updateEnemies(tpf);
 
     }
 
@@ -374,14 +374,20 @@ public class MainEnvironment extends Environment {
         }
     }
 
-    private void updateEnemies() {
+    private void updateEnemies(float tpf) {
 
         for(Enemy enemy : enemySpawner.generateEnemies()) {
             addEntity(enemy);
+            enemies.add(enemy);
         }
 
         for(Enemy enemy : enemySpawner.deleteEnemies()) {
             removeEntity(enemy);
+            enemies.remove(enemy);
+        }
+        
+        for(Enemy enemy : enemies) {
+            enemy.attack(tpf);
         }
     }
 

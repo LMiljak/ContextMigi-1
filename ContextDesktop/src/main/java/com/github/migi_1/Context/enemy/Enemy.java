@@ -14,6 +14,8 @@ public class Enemy extends Entity implements IKillable {
     private static final String PATH_NAME = "Models/ninja.j3o";
     private EnemyMoveBehaviour moveBehaviour;
     private int health;
+    private float currentTime = 0;
+    private float attackThreshHold = 3;
     
     public Enemy (Vector3f startLocation, Carrier[] carriers) {
         super();
@@ -47,6 +49,16 @@ public class Enemy extends Entity implements IKillable {
         moveBehaviour.updateMoveVector();
         return moveBehaviour;
         
+    }
+    
+    public void attack(float tpf) {
+        if (moveBehaviour.isAtSpot()) {
+            currentTime += tpf;
+            if(currentTime >= attackThreshHold) {
+                moveBehaviour.getTargetSpot().getCarrier().takeDamage(1);
+                currentTime -= attackThreshHold;
+            }
+        }
     }
     
 

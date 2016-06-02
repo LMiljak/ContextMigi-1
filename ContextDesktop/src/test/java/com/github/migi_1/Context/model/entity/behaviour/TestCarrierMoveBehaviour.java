@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.entity.behaviour;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,7 +16,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;

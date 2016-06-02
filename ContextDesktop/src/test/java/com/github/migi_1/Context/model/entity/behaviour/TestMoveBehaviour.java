@@ -1,11 +1,10 @@
-package com.github.migi_1.Context.entity.behaviour;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**

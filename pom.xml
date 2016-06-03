@@ -10,7 +10,7 @@
 	
     <modules>
 		<module>ContextDesktop</module>
-		
+		<module>ContextApp</module>
 		<module>ContextMessages</module>
 	</modules>
 

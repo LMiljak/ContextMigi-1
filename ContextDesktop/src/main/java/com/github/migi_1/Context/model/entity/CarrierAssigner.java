@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.PositionMessage;
@@ -19,6 +20,7 @@ import com.jme3.network.Server;
 public class CarrierAssigner implements ConnectionListener {
 
 	private Platform platform;
+	private MainEnvironment environment;
 	private HashMap<String, Carrier> addressCarrierMap = new HashMap<>(4);
         private MainEnvironment env;
 	
@@ -29,12 +31,13 @@ public class CarrierAssigner implements ConnectionListener {
 	 * 		The platform to which the carriers should be assigned to.
 	 * @param server
 	 * 		The server to which the clients can connect.
-	 * @param env
-	 * 		The environment of the game.
+
+	 * @param environment
+	 * 		The environment in which the carrier should be located.
 	 */
-	public CarrierAssigner(Platform platform, ServerWrapper server, MainEnvironment env) {
+	public CarrierAssigner(Platform platform, ServerWrapper server, MainEnvironment environment) {
 		this.platform = platform;
-                this.env = env;
+		this.environment = environment;
 		server.getServer().addConnectionListener(this);
 	}
 
@@ -48,7 +51,8 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
-				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, env);
+                            
+				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, environment);
 				
 				addressCarrierMap.put(conn.getAddress(), carrier);
 				platform.addCarrier(carrier);

@@ -1,7 +1,6 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.jme3.math.Vector3f;
-import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 /**
  * MoveBehaviour for moving at a constant speed at a certain direction.
  * @author Damian

@@ -11,6 +11,8 @@ import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
+import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextApp.client.AutoConnector;
 
 /**
  * This class contains the main activity that is started you run the project.
@@ -27,6 +29,7 @@ public class MainActivity extends AndroidHarness {
         private HeartsUpdateFunctions huFunctions;
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
+        private ClientWrapper client;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -36,8 +39,11 @@ public class MainActivity extends AndroidHarness {
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
         
+        // create the client
+        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+            
         //Create the accelerometer sensor.
-        accSensor = new AccelerometerSensor(this);
+        accSensor = new AccelerometerSensor(this, client);
         posHolder = PositionHolder.getInstance();
         
         // Start the log manager
@@ -63,13 +69,7 @@ public class MainActivity extends AndroidHarness {
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         
-        setContentView(R.layout.android_searching);
-
-        // start the autoconnector
-        AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), 
-                ClientWrapper.getInstance());
-        
-        
+        setContentView(R.layout.android_searching);  
 
         // wait until position is received
         while (true) {

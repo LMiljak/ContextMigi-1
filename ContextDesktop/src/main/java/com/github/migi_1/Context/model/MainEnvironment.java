@@ -5,16 +5,25 @@ import java.util.Map.Entry;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
+
+import java.util.ArrayList;
+
+import jmevr.app.VRApplication;
+
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
+
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
-import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
-import com.github.migi_1.ContextMessages.PlatformPosition;
+
+import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -29,8 +38,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import java.util.ArrayList;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -56,13 +63,10 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final int NUMBER_OF_CARRIERS = 4;
-
-    private MainEnvironment env;
+    private Application app;
     private Platform platform;
     private Commander commander;
     private ArrayList<Carrier> carriers;
-    private Application app;
 
     private DirectionalLight sun;
     private DirectionalLight sun2;
@@ -215,8 +219,9 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
-        for (int i = 0; i < carriers.size(); i++) {
-            addEntity(carriers.get(i));
+
+        for (Carrier carrier : carriers) {
+            addEntity(carrier);
         }
     }
 
@@ -331,7 +336,6 @@ public class MainEnvironment extends Environment {
         addDisplayables(loc);
         removeDisplayables(loc);
     }
-
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -345,7 +349,7 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-
+        
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);

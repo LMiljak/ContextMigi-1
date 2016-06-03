@@ -4,18 +4,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
-/*import org.mockito.BDDMockito;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;*/
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-/*import com.jme3.collision.CollisionResults;
-import com.jme3.math.Vector3f;*/
+import com.jme3.collision.CollisionResults;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
@@ -24,7 +25,7 @@ import com.jme3.scene.Spatial;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class, AssetManager.class})
+@PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
 public class TestCommander extends TestEntity {
 
     private Commander testCommander;
@@ -42,7 +43,15 @@ public class TestCommander extends TestEntity {
     @Before
     public void setUp() {
 
-        /*pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
+    	try {
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+                .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+ 			
+ 	} catch (Exception e) {
+            e.printStackTrace();
+ 	}
+    	
+        pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
         moveBehaviour = Mockito.mock(MoveBehaviour.class);
@@ -54,20 +63,20 @@ public class TestCommander extends TestEntity {
         testCommander = new Commander(new Vector3f(0, 0, 0));
 
         setMoveBehaviour(moveBehaviour);
-        setEntity(testCommander);*/
+        setEntity(testCommander);
 
     }
 
     /**
      * Tests the collideWith method.
      */
-    /*@Test
+    @Test
     public void collideWithTest() {
         Spatial collider = Mockito.mock(Spatial.class);
         CollisionResults results = Mockito.mock(CollisionResults.class);
         testCommander.collideWith(collider, results);
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
-    }*/
+    }
     
     /**
      * A temporary passing test.

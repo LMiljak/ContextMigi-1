@@ -1,4 +1,4 @@
-package com.git.migi_1.Context.entity.behaviour;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
-import com.git.migi_1.Context.entity.TestEntityMoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**

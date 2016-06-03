@@ -1,6 +1,8 @@
-package com.git.migi_1.Context.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +15,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -45,13 +46,12 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     @Before
     public void setUp() {
         model =  Mockito.mock(Spatial.class);
-        int i = 0;
-        ArrayList<Carrier> carriers = new ArrayList<Carrier>();
-        for (PlatformPosition p : PlatformPosition.values()) {
-            carriers.add(Mockito.mock(Carrier.class));
-            Mockito.when(carriers.get(i).getPosition()).thenReturn(p);
-            Mockito.when(carriers.get(i).getModel()).thenReturn(model);
-            i++;
+        
+        ArrayList<Carrier> carriers = new ArrayList<>(4);
+        for (int i = 0; i < 4; i++) {
+        	Carrier c = Mockito.mock(Carrier.class);
+            carriers.add(c);
+            Mockito.when(c.getModel()).thenReturn(model);
         }
         commander = Mockito.mock(Commander.class);
         Mockito.when(commander.getModel()).thenReturn(model);
@@ -81,8 +81,6 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         assertEquals(testMoveBehaviour.getImmobilized(), 0);
         testMoveBehaviour.collided();
         assertEquals(testMoveBehaviour.getImmobilized(), 120);
-
-
     }
 
 

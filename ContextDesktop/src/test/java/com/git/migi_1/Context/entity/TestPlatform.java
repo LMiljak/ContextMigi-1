@@ -5,17 +5,18 @@ package com.git.migi_1.Context.entity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-/*import org.mockito.BDDMockito;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;*/
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-// import com.jme3.math.Vector3f;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import org.junit.Assert;
 
@@ -25,7 +26,7 @@ import org.junit.Assert;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class, AssetManager.class})
+@PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
 public class TestPlatform extends TestEntity {
 
     private Platform platform;
@@ -41,7 +42,15 @@ public class TestPlatform extends TestEntity {
     @Before
     public void setUp() {
 
-        /*pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
+    	try {
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+                .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+ 			
+ 	} catch (Exception e) {
+            e.printStackTrace();
+ 	}
+    	
+        pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
         moveBehaviour = Mockito.mock(MoveBehaviour.class);
@@ -53,17 +62,17 @@ public class TestPlatform extends TestEntity {
         platform = new Platform(new Vector3f(0, 0, 0));
 
         setMoveBehaviour(moveBehaviour);
-        setEntity(platform);*/
+        setEntity(platform);
 
     }
 
     /**
      * Tests getDefaultModel method.
      */
-    /*@Test
+    @Test
     public void testGetDefaultModel() {
-        assertEquals(platform.getDefaultModel(), model);
-    }*/
+        Assert.assertEquals(platform.getDefaultModel(), model);
+    }
     
     /**
      * A temporary passing test.

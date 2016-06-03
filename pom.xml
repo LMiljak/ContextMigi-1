@@ -9,9 +9,9 @@
 	<name>ContextProject</name>
 	
     <modules>
-		<module>ContextDesktop</module>
-		<module>ContextApp</module>
 		<module>ContextMessages</module>
-	</modules>
+        <module>ContextApp</module>
+        <module>ContextDesktop</module>
+    </modules>
 
 </project>

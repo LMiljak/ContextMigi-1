@@ -1,6 +1,8 @@
-package com.github.migi_1.Context.model.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
 
 /**

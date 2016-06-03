@@ -1,5 +1,6 @@
 package com.git.migi_1.Context.entity;
 
+import com.github.migi_1.Context.main.Main;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
@@ -16,12 +17,17 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.scene.Spatial;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Test class for the Carrier class.
@@ -39,6 +45,8 @@ public class TestCarrier extends TestEntity {
     private Spatial model;
     private MainEnvironment environment;
     private Commander commander;
+    private Main main;
+    private ServerWrapper serverWrapper;
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
@@ -46,18 +54,18 @@ public class TestCarrier extends TestEntity {
     @Override
     @Before
     public void setUp() {
-
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
         commander = Mockito.mock(Commander.class);
-        int i = 0;
-        ArrayList<Carrier> carriers = new ArrayList<Carrier>();
-        for (PlatformPosition p : PlatformPosition.values()) {
-            carriers.add(Mockito.mock(Carrier.class));
-            Mockito.when(carriers.get(i).getPosition()).thenReturn(p);
-            Mockito.when(carriers.get(i).getModel()).thenReturn(model);
-            i++;
+        main = Mockito.mock(Main.class);
+        serverWrapper = Mockito.mock(ServerWrapper.class);
+
+        ArrayList<Carrier> carriers = new ArrayList<>(4);
+        for (int i = 0; i < 4; i++) {
+        	Carrier carrier = Mockito.mock(Carrier.class);
+        	carriers.add(carrier);
+        	Mockito.when(carrier.getModel()).thenReturn(model);
         }
         moveBehaviour = Mockito.mock(MoveBehaviour.class);
         environment = Mockito.mock(MainEnvironment.class);
@@ -68,6 +76,10 @@ public class TestCarrier extends TestEntity {
         Mockito.when(environment.getCarriers()).thenReturn(carriers);
         Mockito.when(environment.getCommander()).thenReturn(commander);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+        Mockito.when(environment.getMain()).thenReturn(main);
+        Mockito.when(main.getServer()).thenReturn(serverWrapper);
+        Mockito.when(serverWrapper.getServer()).thenReturn(null);
+
 
         Mockito.when(commander.getModel()).thenReturn(model);
         testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
@@ -91,11 +103,11 @@ public class TestCarrier extends TestEntity {
     /**
      * Tests the takeDamage method.
      */
-    /*@Test
+    @Test
     public void takeDamageTest() {
         testCarrier.takeDamage(1);
         assertEquals(testCarrier.getHealth(), 2);
-    }*/
+    }
 
     /**
      * Tests the onKilled method.
@@ -108,11 +120,11 @@ public class TestCarrier extends TestEntity {
     /**
      * Tests the setHealth method.
      */
-   /* @Test
+   @Test
     public void setHealthTest() {
         testCarrier.setHealth(42);
         assertEquals(testCarrier.getHealth(), 42);
-    }*/
+    }
 
     /**
      * Tests the getPosition method.
@@ -121,8 +133,5 @@ public class TestCarrier extends TestEntity {
     public void getPositionTest() {
         assertEquals(testCarrier.getPosition(), PlatformPosition.BACKLEFT);
     }
-
-
-
 
 }

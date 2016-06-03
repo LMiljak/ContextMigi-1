@@ -31,7 +31,8 @@ public class HealthMessenger {
     public void sendHealth(int health, PlatformPosition pos) {
         HealthMessage message = new HealthMessage(health, pos);
         
-        Server server = main.getServer().getServer();
+        ServerWrapper serverWrapper = main.getServer();
+        Server server = serverWrapper.getServer();
         if (server != null) {
             server.broadcast(message);
         } 

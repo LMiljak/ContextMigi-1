@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextApp.client.ClientWrapper;
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,6 +15,7 @@ import com.jme3.network.Client;
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
     private MainActivity act;
+    private ClientWrapper client;
     
     /**
      * Constructor for AccelerometerSensor.
@@ -21,8 +23,10 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      * @param act
      *      The main activity from which it was created.
      */
-    public AccelerometerSensor(MainActivity act) {
+
+    public AccelerometerSensor(MainActivity act, ClientWrapper client) {
         this.act = act;
+        this.client = client;
     }
     
     /**
@@ -59,10 +63,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
     private void sendSensorInformation(float x_force, float y_force, float z_force) {
         AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
         
-        Client client = ClientWrapper.getInstance().getClient();
-        if (client != null) {
-            client.send(message);
-        }
+        client.getClient().send(message);
     }
     
     @Override

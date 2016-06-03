@@ -1,9 +1,6 @@
-package com.git.migi_1.Context.entity.behaviour;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import org.junit.Before;
-
-import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.TestMoveBehaviour;
 
 /**
  * Test class for the StaticMoveBehaviour class.

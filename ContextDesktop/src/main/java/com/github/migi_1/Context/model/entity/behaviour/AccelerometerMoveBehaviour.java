@@ -9,14 +9,23 @@ import com.jme3.network.MessageListener;
 /**
  * A Movebehaviour that listens to AccelerometerMessages.
  */
+@SuppressWarnings("rawtypes")
+//The reason this is implements the networking listener rather than the MessageListener in
+//the Messages module, is because it's an abstract class (blame java 1.7), but this class
+//already extends MoveBehaviour.
 public class AccelerometerMoveBehaviour extends MoveBehaviour implements MessageListener {
 
 	/** The factor for the accelerometer force for deciding the speed.*/
-	private static final float FACTOR = 0.1f;
-	private static final float MAX_SPEED = 1.25f;
+	private static final float FACTOR = -0.1f;
+	private static final float MAX_SPEED = 1.0f;
 	
 	private Vector3f moveVector = new Vector3f(0, 0, 0);
 	
+	/**
+	 * Constructor for AccelerometerMoveBehaviour.
+	 * Also automatically registers this behaviour to the server.
+	 */
+	@SuppressWarnings("unchecked")
 	public AccelerometerMoveBehaviour() {
 		Main.getMain().getServer().getServer().addMessageListener(this);
 	}
@@ -26,9 +35,12 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 		return moveVector;
 	}
 
+	/**
+	 * Called when the server receives any message.
+	 */
 	@Override
 	public void messageReceived(Object source, Message m) {
-		if (m instanceof AccelerometerMessage) {
+		if (m instanceof AccelerometerMessage) { //Check that it's an AccelerometerMessage
 			AccelerometerMessage message = (AccelerometerMessage) m;
 			
 			float zSpeed = message.getY_force(); //Y on the gyroscope is Z on JMonkey

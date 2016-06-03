@@ -31,7 +31,9 @@ public abstract class MoveBehaviour {
     }
 
     /**
-     * Update the moveVector.
+     * Called each game update. 
+     * Updates the moveVector.
+     * Can be used to make some adjustments to the MoveVector.
      */
     public abstract void updateMoveVector();
 

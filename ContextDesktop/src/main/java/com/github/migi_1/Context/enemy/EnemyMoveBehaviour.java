@@ -84,6 +84,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     public void updateMoveVector() {
         if (targetSpot != null) { 
             if (targetSpot.getLocation().distance(localTranslation) < 50) {
+                
                 handleXmovement();
                 handleZmovement();
             } 
@@ -94,10 +95,12 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     private void handleXmovement() {
         if (targetSpot.getLocation().x > localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
+            if (targetSpot.getLocation().subtract(localTranslation).x < speed) {                
                 moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
+                
             } else {
                 moveVector.setX(speed);
+                System.out.println("asdasd");
             }
         } else if (targetSpot.getLocation().x < localTranslation.getX()) {
             if (targetSpot.getLocation().subtract(localTranslation).x < -speed) {
@@ -151,6 +154,24 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     public void setAtSpot(boolean atSpot) {
         this.atSpot = atSpot;
     }
+
+    /**
+     * @param moveVector the moveVector to set
+     */
+    public void setMoveVector(Vector3f moveVector) {
+        this.moveVector = moveVector;
+    }
+
+    /**
+     * @return the speed
+     */
+    public float getSpeed() {
+        return speed;
+    }
+    
+    
+    
+    
     
 }
 

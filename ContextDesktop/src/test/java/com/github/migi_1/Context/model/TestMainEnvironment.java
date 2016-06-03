@@ -17,6 +17,8 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetKey;
@@ -25,13 +27,14 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
- * Test class that tests the Environment class.
+ * Test class that tests the MainEnvironment class.
  * @author Nils
  */
 @RunWith(PowerMockRunner.class)
@@ -56,8 +59,19 @@ public class TestMainEnvironment {
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
      */
-    @Before
+    @SuppressWarnings("unchecked")
+	@Before
     public void setUp() throws Exception {
+    	try {
+    		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
+    		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
+ 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+ 				.withNoArguments().thenReturn(amb);
+ 			
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		}
+    	
         env = PowerMockito.spy(new MainEnvironment());
 
         hudController = Mockito.mock(HUDController.class);
@@ -85,6 +99,11 @@ public class TestMainEnvironment {
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));
+    
+        ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
+        PowerMockito.mockStatic(ServerWrapper.class);
+        Mockito.when(app.getServer()).thenReturn(wrapper);
+        Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
     }
 
     /**

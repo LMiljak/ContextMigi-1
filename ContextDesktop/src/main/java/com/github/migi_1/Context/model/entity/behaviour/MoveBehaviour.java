@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.jme3.math.Vector3f;
 
@@ -31,7 +31,9 @@ public abstract class MoveBehaviour {
     }
 
     /**
-     * Update the moveVector.
+     * Called each game update. 
+     * Updates the moveVector.
+     * Can be used to make some adjustments to the MoveVector.
      */
     public abstract void updateMoveVector();
 

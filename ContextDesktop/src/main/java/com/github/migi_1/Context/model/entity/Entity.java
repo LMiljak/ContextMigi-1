@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;

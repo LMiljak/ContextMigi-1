@@ -101,7 +101,6 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 
             } else {
                 moveVector.setX(speed);
-                System.out.println("asdasd");
             }
         } else if (targetSpot.getLocation().x < localTranslation.getX()) {
             if (targetSpot.getLocation().subtract(localTranslation).x < -speed) {

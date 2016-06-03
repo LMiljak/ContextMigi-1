@@ -20,17 +20,20 @@ import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
+/**
+ * Class for testing the enemy movement behaviour.
+ * @author Damian
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class})
 public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
     
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
-    private BoundingBox boundingBox;
     private Spatial model;
     private Carrier[] carriers;
     private Enemy enemy;
@@ -51,7 +54,6 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
         
         enemy = Mockito.mock(Enemy.class);
-        boundingBox = Mockito.mock(BoundingBox.class);
         enemySpots = new ArrayList<EnemySpot>();
         enemySpot = Mockito.mock(EnemySpot.class);
         enemySpots.add(enemySpot);
@@ -71,6 +73,9 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         enemyMoveBehaviour = new EnemyMoveBehaviour(enemy, carriers);
     }
     
+    /**
+     * Tests creating a enemy spot when not all are occupied yet.
+     */
     @Test
     public void testCreateTargetSpot1() {
         Mockito.when(enemySpots.get(0).isOccupied()).thenReturn(false);
@@ -78,6 +83,9 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         assertTrue(enemyMoveBehaviour.getTargetSpot() != null);
     }
     
+    /**
+     * Tests creating a enemy spot when all are occupied.
+     */
     @Test
     public void testCreateTargetSpot2() {
         Mockito.when(enemySpots.get(0).isOccupied()).thenReturn(true);
@@ -85,6 +93,9 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         assertTrue(enemyMoveBehaviour.getTargetSpot() == null);
     }
     
+    /**
+     * Tests updating the move vector when the enemy is behind its target spot.
+     */
     @Test
     public void testUpdateMoveVector1() {
         Mockito.when(enemySpots.get(0).isOccupied()).thenReturn(false);
@@ -96,23 +107,25 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
             Whitebox.invokeMethod(enemyMoveBehaviour, "handleXmovement");
             assertTrue(enemyMoveBehaviour.getMoveVector().x > previousX);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
     
+    /**
+     * Tests updating the move vector when the enemy is in front of its target spot.
+     */
     @Test
     public void testUpdateMoveVector2() {
         Mockito.when(enemySpots.get(0).isOccupied()).thenReturn(false);        
         enemyMoveBehaviour = new EnemyMoveBehaviour(enemy, carriers);
         float previousX = enemyMoveBehaviour.getMoveVector().x;
         try {
+            ((EnemyMoveBehaviour)enemyMoveBehaviour).updateMoveVector();
             Whitebox.invokeMethod(enemyMoveBehaviour, "handleXmovement");
             assertEquals(enemyMoveBehaviour.getMoveVector().x,
                     previousX + ((EnemyMoveBehaviour) enemyMoveBehaviour).getSpeed(),
                     0.001f);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

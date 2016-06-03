@@ -32,7 +32,7 @@ public class HeartsUpdateFunctions {
     public void setHealth(int health) {
         
         switch (health) {
-            case 0:
+            default:
                 makeGrey(1);
                 makeGrey(2);
                 makeGrey(3);
@@ -47,7 +47,7 @@ public class HeartsUpdateFunctions {
                 makeRed(2);
                 makeGrey(3);
                 break;
-            default:
+            case 3:
                 makeRed(1);
                 makeRed(2);
                 makeRed(3);

@@ -6,7 +6,7 @@
 
     <application android:label="@string/app_name" >
         <activity
-            android:name=".HelloActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" 
 			android:supportsRtl="true"
 			android:allowBackup="true"
@@ -17,15 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 
-        <activity 
-            android:name=".EventButtonPressActivity"
-            android:label="@string/app_name" 
-            android:supportsRtl="true"
-            android:allowBackup="true"
-            android:screenOrientation="landscape">
-        </activity>
-        -->
         <activity 
             android:name=".BugEvent.RotateBugSprayActivity_FR"
             android:label="@string/app_name" 

@@ -6,6 +6,8 @@ import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
 import com.github.migi_1.ContextMessages.EnableSprayMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
+import com.github.migi_1.ContextMessages.StopEventMessage;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
@@ -31,6 +33,8 @@ public class ClientWrapper {
             Serializer.registerClass(ChangeSprayPositionMessage.class);
             Serializer.registerClass(EnableSprayMessage.class);
             Serializer.registerClass(PositionMessage.class);
+            Serializer.registerClass(StartBugEventMessage.class);
+            Serializer.registerClass(StopEventMessage.class);
         }
 
 	/**
@@ -71,6 +75,7 @@ public class ClientWrapper {
         private void initMessageListeners() {
             client.addMessageListener(PositionHolder.getInstance());
             client.addMessageListener(EnableSprayMessageHandler.getInstance());
+            client.addMessageListener(StartBugEventMessageHandler.getInstance());
         }
 
 	/**

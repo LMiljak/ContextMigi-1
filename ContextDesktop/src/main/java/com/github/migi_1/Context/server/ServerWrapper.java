@@ -10,6 +10,8 @@ import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
 import com.github.migi_1.ContextMessages.EnableSprayMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
+import com.github.migi_1.ContextMessages.StopEventMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -26,7 +28,9 @@ public class ServerWrapper {
 				AccelerometerMessage.class,
 				ChangeSprayPositionMessage.class,
 				PositionMessage.class,
-				EnableSprayMessage.class
+				EnableSprayMessage.class,
+				StartBugEventMessage.class,
+				StopEventMessage.class
 				);
 
 	/** The port on which the server is running. */

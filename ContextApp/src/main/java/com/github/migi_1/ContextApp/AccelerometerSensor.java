@@ -17,7 +17,7 @@ import com.jme3.network.Client;
  */
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
-    private HelloActivity act;
+    private MainActivity act;
     
     /**
      * Constructor for AccelerometerSensor.
@@ -25,7 +25,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      * @param act
      *      The main activity from which it was created.
      */
-    public AccelerometerSensor(HelloActivity act) {
+    public AccelerometerSensor(MainActivity act) {
         this.act = act;
     }
     

@@ -12,7 +12,9 @@ public class EnableSprayMessageHandler extends MessageListener<EnableSprayMessag
 
     private PlatformPosition position;
 
-    private EnableSprayMessageHandler() { }
+    private EnableSprayMessageHandler() { 
+        ClientWrapper.getInstance().getClient().addMessageListener(this);
+    }
 
     public static EnableSprayMessageHandler getInstance() {
         return INSTANCE;

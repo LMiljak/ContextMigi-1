@@ -53,7 +53,7 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 	}
         
         @Override
-        public void updateMoveVector(){
+        public void updateMoveVector() {
             // NOTHING
         }
 

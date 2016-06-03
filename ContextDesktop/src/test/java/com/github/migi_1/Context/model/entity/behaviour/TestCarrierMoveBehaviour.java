@@ -2,8 +2,6 @@ package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +15,6 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -81,7 +78,5 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         testMoveBehaviour.collided();
         assertEquals(testMoveBehaviour.getImmobilized(), 120);
     }
-
-
 
 }

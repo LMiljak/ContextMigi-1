@@ -1,6 +1,5 @@
 package com.github.migi_1.ContextApp;
 
-import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
-import com.github.migi_1.ContextApp.client.AutoConnector;
 
 /**
  * This class contains the main activity that is started you run the project.
@@ -40,7 +38,8 @@ public class MainActivity extends AndroidHarness {
         appClass = "com.github.migi_1.ContextApp.Main";
         
         // create the client
-        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
+                .autoStart(Executors.newFixedThreadPool(10));
             
         //Create the accelerometer sensor.
         accSensor = new AccelerometerSensor(this, client);

@@ -197,11 +197,5 @@ public class TestMainEnvironment {
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.<Spatial>any());
     }
-    
-    @Test
-    public void passingTest3() {
-    	assertTrue(true);
-
-    }
 
 }

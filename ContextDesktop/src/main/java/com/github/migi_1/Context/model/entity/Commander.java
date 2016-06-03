@@ -1,7 +1,5 @@
 package com.github.migi_1.Context.model.entity;
 
-import java.util.Arrays;
-
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;

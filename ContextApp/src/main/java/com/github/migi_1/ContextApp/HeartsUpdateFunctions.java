@@ -16,6 +16,8 @@ public class HeartsUpdateFunctions {
      * This creates an instance of the HeartsUpdateFunctions.
      * @param act
      * 			The instance of the application that calls this function
+     * @param position 
+     *                  The position of the player whose hearts will be updated
      */
     public HeartsUpdateFunctions(MainActivity act, PlatformPosition position) {
         this.act = act;
@@ -83,7 +85,7 @@ public class HeartsUpdateFunctions {
     public int getHeart(int heartid) {
         switch (heartid) {
             case 1:
-                switch(position) {
+                switch (position) {
                     case FRONTLEFT:
                         return R.id.FL_heart_1;
                     case BACKLEFT:
@@ -94,7 +96,7 @@ public class HeartsUpdateFunctions {
                         return R.id.FR_heart_1;
                 }
             case 2:
-                switch(position) {
+                switch (position) {
                     case FRONTLEFT:
                         return R.id.FL_heart_2;
                     case BACKLEFT:
@@ -105,7 +107,7 @@ public class HeartsUpdateFunctions {
                         return R.id.FR_heart_2;
                 }
             default:
-                switch(position) {
+                switch (position) {
                     case FRONTLEFT:
                         return R.id.FL_heart_3;
                     case BACKLEFT:
@@ -119,7 +121,7 @@ public class HeartsUpdateFunctions {
     }
     
     /**
-     * Sets the position of the HeartUpdateFunctions
+     * Sets the position of the HeartUpdateFunctions.
      * @param position 
      *              The position of the player who's hearts are updated.
      */

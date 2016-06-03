@@ -36,7 +36,7 @@ public class HealthMessage extends AbstractMessage {
      * Returns the health value of the message.
      * @return health int
      */
-    public int getHealth(){
+    public int getHealth() {
         return health;
     }
     

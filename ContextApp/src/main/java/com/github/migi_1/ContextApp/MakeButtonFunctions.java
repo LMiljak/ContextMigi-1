@@ -19,6 +19,9 @@ public class MakeButtonFunctions {
         this.act = act;
     }
     
+    /**
+     * Sets the view and buttons of the front right player.
+     */
     public void setFrontRight() {
         
         act.setContentView(R.layout.android_ingame_fr);
@@ -29,6 +32,9 @@ public class MakeButtonFunctions {
         
     }
     
+    /**
+     * Sets the view and buttons of the front left player.
+     */
     public void setFrontLeft() {
         
         act.setContentView(R.layout.android_ingame_fl);
@@ -39,6 +45,9 @@ public class MakeButtonFunctions {
         
     }
     
+    /**
+     * Sets the view and buttons of the back left player.
+     */
     public void setBackLeft() {
         
         act.setContentView(R.layout.android_ingame_bl);
@@ -49,6 +58,9 @@ public class MakeButtonFunctions {
         
     }
     
+    /**
+     * Sets the view and buttons of the back right player.
+     */
     public void setBackRight() {
         
         act.setContentView(R.layout.android_ingame_br);

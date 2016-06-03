@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.PositionMessage;

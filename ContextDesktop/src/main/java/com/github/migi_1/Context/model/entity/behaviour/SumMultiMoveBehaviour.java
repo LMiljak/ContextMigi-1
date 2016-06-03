@@ -40,7 +40,7 @@ public class SumMultiMoveBehaviour extends MultiMoveBehaviour {
 	}
         
         @Override
-        public void updateMoveVector(){
+        public void updateMoveVector() {
             // NOTHING
         }
 

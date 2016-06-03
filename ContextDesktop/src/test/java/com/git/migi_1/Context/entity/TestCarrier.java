@@ -3,8 +3,6 @@ package com.git.migi_1.Context.entity;
 import com.github.migi_1.Context.main.Main;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +23,7 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
-import com.jme3.network.Server;
 import com.jme3.scene.Spatial;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Test class for the Carrier class.

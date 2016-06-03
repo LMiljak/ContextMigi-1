@@ -84,31 +84,44 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     public void updateMoveVector() {
         if (targetSpot != null) { 
             if (targetSpot.getLocation().distance(localTranslation) < 50) {
-                if (targetSpot.getLocation().x > localTranslation.getX()) {
-                    if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
-                        moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
-                    } else {
-                        moveVector.setX(speed);
-                    }
-                } else if (targetSpot.getLocation().x < localTranslation.getX()) {
-                    if (targetSpot.getLocation().subtract(localTranslation).x < -speed) {
-                        moveVector.setX(-targetSpot.getLocation().subtract(localTranslation).x);
-                    } else {
-                        moveVector.setX(-speed);
-                    }
-                }
-                if (targetSpot.getLocation().z > localTranslation.getZ()) {
-                    moveVector.setZ(speed);
-                } else {
-                    moveVector.setZ(-speed);
-                }
-            }  
-            if (targetSpot.getLocation().distance(localTranslation) < speed 
-                    && !atSpot) {
-                targetSpot.setEnemy(enemy);
-                atSpot = true;
-            }
+                handleXmovement();
+                handleZmovement();
+            } 
+            reachedSpot();
+            
         }  
+    }
+
+    private void handleXmovement() {
+        if (targetSpot.getLocation().x > localTranslation.getX()) {
+            if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
+                moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
+            } else {
+                moveVector.setX(speed);
+            }
+        } else if (targetSpot.getLocation().x < localTranslation.getX()) {
+            if (targetSpot.getLocation().subtract(localTranslation).x < -speed) {
+                moveVector.setX(-targetSpot.getLocation().subtract(localTranslation).x);
+            } else {
+                moveVector.setX(-speed);
+            }
+        }
+    }
+
+    private void handleZmovement() {
+        if (targetSpot.getLocation().z > localTranslation.getZ()) {
+            moveVector.setZ(speed);
+        } else {
+            moveVector.setZ(-speed);
+        }
+    }
+
+    private void reachedSpot() {
+        if (targetSpot.getLocation().distance(localTranslation) < speed 
+                && !atSpot) {
+            targetSpot.setEnemy(enemy);
+            atSpot = true;
+        }
     }
 
     /**

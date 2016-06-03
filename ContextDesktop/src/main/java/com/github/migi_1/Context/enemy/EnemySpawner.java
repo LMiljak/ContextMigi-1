@@ -18,6 +18,7 @@ import com.jme3.math.Vector3f;
  */
 public class EnemySpawner {
     
+    private static final int MAX_NUM_ENEMIES = 12;
     private EnemyFactory enemyFactory;
     private LinkedList<Enemy> enemies;
     private LinkedList<Enemy> deleteList;
@@ -56,14 +57,14 @@ public class EnemySpawner {
     public LinkedList<Enemy> generateEnemies() {
         currentLevelPiece = -Math.floor(commanderLocation.x / levelPieceLength);
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
-        if (enemies.size() < 12) {
+        if (enemies.size() < MAX_NUM_ENEMIES) {
             if (currentLevelPiece != lastLevelPiece) {
                 lastLevelPiece = currentLevelPiece;              
 
                 double random = Math.random();
-                if (random > 0.25 && random < 0.6) {
+                if (random > 0.35 && random < 0.6) {
                     newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
-                } else if (random > 0.6 && random < 0.85) {
+                } else if (random > 0.70 && random < 0.90) {
                     newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
                     newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
                 } else {

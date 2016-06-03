@@ -19,7 +19,7 @@ public class Enemy extends Entity implements IKillable {
     private static final String PATH_NAME = "Models/ninja.j3o";
     private int health;
     private float currentTime = 0;
-    private float attackThreshHold = 3;
+    private static final float ATTACK_THRESHOLD = 3;
 
     /**
      * Constructor of the Enemy.
@@ -62,9 +62,9 @@ public class Enemy extends Entity implements IKillable {
     public void attack(float tpf) {
         if (((EnemyMoveBehaviour) getMoveBehaviour()).isAtSpot()) {
             currentTime += tpf;
-            if (currentTime >= attackThreshHold) {
+            if (currentTime >= ATTACK_THRESHOLD) {
                 ((EnemyMoveBehaviour) getMoveBehaviour()).getTargetSpot().getCarrier().takeDamage(1);
-                currentTime -= attackThreshHold;
+                currentTime -= ATTACK_THRESHOLD;
             }
         }
     }

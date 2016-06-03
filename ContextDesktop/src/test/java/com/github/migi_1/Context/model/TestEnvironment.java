@@ -14,7 +14,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.model.entity.Entity;

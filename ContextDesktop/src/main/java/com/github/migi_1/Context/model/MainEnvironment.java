@@ -3,11 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
-import com.github.migi_1.Context.model.entity.CarrierAssigner;
-
-import java.util.ArrayList;
 
 import jmevr.app.VRApplication;
 

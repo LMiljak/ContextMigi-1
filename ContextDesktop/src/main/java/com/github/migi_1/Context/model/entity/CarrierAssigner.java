@@ -31,7 +31,6 @@ public class CarrierAssigner implements ConnectionListener {
 	 * 		The platform to which the carriers should be assigned to.
 	 * @param server
 	 * 		The server to which the clients can connect.
-
 	 * @param environment
 	 * 		The environment in which the carrier should be located.
 	 */
@@ -51,7 +50,7 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
-                            
+
 				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, environment);
 				
 				addressCarrierMap.put(conn.getAddress(), carrier);

@@ -159,4 +159,12 @@ public class MainActivity extends AndroidHarness {
         
     }
     
+    /**
+     * Getter of client.
+     * @return client ClientWrapper
+     */
+    public ClientWrapper getClient() {
+        return client;
+    }
+    
 }

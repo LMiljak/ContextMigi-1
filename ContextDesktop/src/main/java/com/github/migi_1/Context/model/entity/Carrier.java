@@ -41,7 +41,6 @@ public class Carrier extends Entity implements IKillable {
      */
     public Carrier(Vector3f relativeLocation, PlatformPosition position, 
             MainEnvironment environment) {
-
         super();
         
         setModel(getDefaultModel());

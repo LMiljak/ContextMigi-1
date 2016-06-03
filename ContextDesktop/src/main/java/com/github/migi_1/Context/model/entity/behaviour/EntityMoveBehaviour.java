@@ -1,7 +1,5 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
-
 /**
  * MoveBehaviour class for all Entity objects.
  * @author Marcel

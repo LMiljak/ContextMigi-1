@@ -32,7 +32,7 @@ public class AttackMessenger {
         Log.d("attack", dir);
         AttackMessage message = new AttackMessage(pos, dir);
         
-        Client client = ClientWrapper.getInstance().getClient();
+        Client client = act.getClient().getClient();
         if (client != null) {
             client.send(message);
         }

@@ -61,9 +61,8 @@ public class TestMainEnvironment {
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
      */
-
     @SuppressWarnings("unchecked")
-@Before
+    @Before
     public void setUp() throws Exception {
     	try {
     		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);

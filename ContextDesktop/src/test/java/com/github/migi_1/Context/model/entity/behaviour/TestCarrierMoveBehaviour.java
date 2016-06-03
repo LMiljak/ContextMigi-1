@@ -46,7 +46,6 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     @Before
     public void setUp() {
         model =  Mockito.mock(Spatial.class);
-        
         ArrayList<Carrier> carriers = new ArrayList<>(4);
         for (int i = 0; i < 4; i++) {
         	Carrier c = Mockito.mock(Carrier.class);

@@ -50,6 +50,7 @@ public class TestCommander extends TestEntity {
  	} catch (Exception e) {
             e.printStackTrace();
  	}
+
     	
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);

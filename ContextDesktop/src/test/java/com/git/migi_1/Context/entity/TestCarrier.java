@@ -3,6 +3,8 @@ package com.git.migi_1.Context.entity;
 import com.github.migi_1.Context.main.Main;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

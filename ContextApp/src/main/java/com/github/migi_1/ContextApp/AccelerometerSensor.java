@@ -23,7 +23,6 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      * @param act
      *      The main activity from which it was created.
      */
-
     public AccelerometerSensor(MainActivity act, ClientWrapper client) {
         this.act = act;
         this.client = client;

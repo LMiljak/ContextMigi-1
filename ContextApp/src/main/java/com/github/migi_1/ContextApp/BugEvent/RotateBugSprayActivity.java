@@ -5,7 +5,6 @@
 package com.github.migi_1.ContextApp.BugEvent;
 
 import com.github.migi_1.ContextApp.ClientWrapper;
-import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.Client;
 
 import android.app.Activity;
@@ -15,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.github.migi_1.ContextApp.R;
 
 /**
  *
@@ -31,7 +31,7 @@ public class RotateBugSprayActivity extends Activity {
 //            setContentView(R.layout.android_event_bugs_fr);
 //            spray_fr = (TextView) findViewById(R.id.eventBug_spray_fr);
             spray_fr.setVisibility(View.VISIBLE);
-//            bug_fr = (Button) findViewById(R.id.eventBug_bug_fr);
+            bug_fr = (Button) findViewById(R.id.eventBug_bug_fr);
             bug_fr.setVisibility(View.VISIBLE);
 
             bug_fr.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +39,7 @@ public class RotateBugSprayActivity extends Activity {
                 public void onClick(View v) {
                     Log.d("rotate", "FRONT RIGHT");
                     if(spray_fr.getVisibility() == View.VISIBLE && bug_fr.getVisibility() == View.VISIBLE) {
-                        
+
                         Client client = ClientWrapper.getInstance().getClient();
                         if(client != null) {
                             Log.d("rotate", "STOP MESSAGE");

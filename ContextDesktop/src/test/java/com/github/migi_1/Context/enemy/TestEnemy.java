@@ -21,7 +21,7 @@ import com.jme3.scene.Spatial;
 
 /**
  * This class tests everything inside the Enemy class.
- * @author TUDelft SID
+ * @author Damian
  *
  */
 @RunWith(PowerMockRunner.class)

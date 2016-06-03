@@ -139,12 +139,5 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         this.atSpot = atSpot;
     }
     
-    
-    
-    
-    
-    
-    
-    
 }
 

@@ -30,26 +30,28 @@ public class HeartsUpdateFunctions {
     *      and red hearts.
     */
     public void setHealth(int health) {
-        if (health > 0) {
-            makeRed(1);
-            if (health > 1) {
-                makeRed(2);
-                if (health > 2) {
-                    makeRed(3);
-                }
-                else {
-                    makeGrey(3);
-                }
-            }
-            else {
+        
+        switch (health) {
+            case 0:
+                makeGrey(1);
                 makeGrey(2);
                 makeGrey(3);
-            }
-        }
-        else {
-            makeGrey(1);
-            makeGrey(2);
-            makeGrey(3);
+                break;
+            case 1:
+                makeRed(1);
+                makeGrey(2);
+                makeGrey(3);
+                break;
+            case 2:
+                makeRed(1);
+                makeRed(2);
+                makeGrey(3);
+                break;
+            default:
+                makeRed(1);
+                makeRed(2);
+                makeRed(3);
+                break;
         }
     }
 
@@ -79,8 +81,10 @@ public class HeartsUpdateFunctions {
      * Returns the right heart to update based on heartid and position.
      * @param heartid 
      *              the number of the heart that needs to be updated.
+     *              represents the first, second, or third heart for a player
      * @return 
-     *              the id of the heart that needs to be updated.
+     *              the id of the heart that needs to be updated
+     *              the exact id of that heart from that player
      */
     public int getHeart(int heartid) {
         switch (heartid) {

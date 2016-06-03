@@ -4,13 +4,13 @@ import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
 
 @Serializable
-public class EnableSprayMessage extends AbstractMessage {
+public class EnableSprayToVRMessage extends AbstractMessage {
 
     private PlatformPosition newSprayPosition;
 
-    public EnableSprayMessage() { }
+    public EnableSprayToVRMessage() { }
 
-    public EnableSprayMessage(PlatformPosition newPos) {
+    public EnableSprayToVRMessage(PlatformPosition newPos) {
         this.newSprayPosition = newPos;
     }
 

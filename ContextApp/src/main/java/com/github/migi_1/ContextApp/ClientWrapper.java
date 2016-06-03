@@ -2,12 +2,16 @@ package com.github.migi_1.ContextApp;
 
 import java.io.IOException;
 
+import com.github.migi_1.ContextApp.BugEvent.EnableSprayToAppMessageListener;
+import com.github.migi_1.ContextApp.BugEvent.StartBugEventListener;
+import com.github.migi_1.ContextApp.BugEvent.StopAllEventsMessageListener;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
-import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
-import com.github.migi_1.ContextMessages.EnableSprayMessage;
+import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
+import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
-import com.github.migi_1.ContextMessages.StopEventMessage;
+import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
@@ -30,11 +34,12 @@ public class ClientWrapper {
 	//Every message types is registered by the Serializer in this class initializer.
         static {
             Serializer.registerClass(AccelerometerMessage.class);
-            Serializer.registerClass(ChangeSprayPositionMessage.class);
-            Serializer.registerClass(EnableSprayMessage.class);
+            Serializer.registerClass(EnableSprayToAppMessage.class);
+            Serializer.registerClass(EnableSprayToVRMessage.class);
             Serializer.registerClass(PositionMessage.class);
             Serializer.registerClass(StartBugEventMessage.class);
-            Serializer.registerClass(StopEventMessage.class);
+            Serializer.registerClass(StopEventToVRMessage.class);
+            Serializer.registerClass(StopAllEventsMessage.class);
         }
 
 	/**
@@ -74,8 +79,9 @@ public class ClientWrapper {
          */
         private void initMessageListeners() {
             client.addMessageListener(PositionHolder.getInstance());
-            client.addMessageListener(EnableSprayMessageHandler.getInstance());
-            client.addMessageListener(StartBugEventMessageHandler.getInstance());
+            client.addMessageListener(StartBugEventListener.getInstance());
+            client.addMessageListener(StopAllEventsMessageListener.getInstance());
+            client.addMessageListener(EnableSprayToAppMessageListener.getInstance());
         }
 
 	/**

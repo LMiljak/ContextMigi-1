@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name=".BugEvent.RotateBugSprayActivity_FR"
+            android:name=".BugEvent.RotateBugSprayActivity"
             android:label="@string/app_name" 
             android:supportsRtl="true"
             android:allowBackup="true"

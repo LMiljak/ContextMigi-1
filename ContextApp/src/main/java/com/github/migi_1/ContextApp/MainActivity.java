@@ -4,7 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
-import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity_FR;
+import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
 import com.jme3.app.AndroidHarness;
 
 import android.content.Intent;
@@ -113,7 +113,7 @@ public class MainActivity extends AndroidHarness {
                 public void onClick(View v) {
                     Log.d("rotate", str);
                     if(str.equals("trigger")) {
-                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity_FR.class);
+                        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
                         startActivity(nextScreen);
                     }
                 }

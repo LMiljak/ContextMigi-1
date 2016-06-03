@@ -10,8 +10,8 @@ import com.jme3.network.AbstractMessage;
  *
  * @author Nils
  */
-public class StopEventMessage extends AbstractMessage {
-    
-    public StopEventMessage() { }
-    
+public class StopAllEventsMessage extends AbstractMessage {
+
+    public StopAllEventsMessage() { }
+
 }

@@ -5,7 +5,6 @@
 package com.github.migi_1.ContextApp.BugEvent;
 
 import com.github.migi_1.ContextApp.ClientWrapper;
-import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.Client;
 
@@ -21,7 +20,7 @@ import android.widget.TextView;
  *
  * @author Nils
  */
-public class RotateBugSprayActivity_FR extends Activity {
+public class RotateBugSprayActivity extends Activity {
     private TextView spray_fr;
     private Button bug_fr;
     private float x1, x2, y1, y2, deltaHorizontal, deltaVertical;
@@ -44,10 +43,8 @@ public class RotateBugSprayActivity_FR extends Activity {
                         Client client = ClientWrapper.getInstance().getClient();
                         if(client != null) {
                             Log.d("rotate", "STOP MESSAGE");
-                            //Send stop message.
+                            //Send stop all activities message.
                         }
-                        //Finish this activity.
-                        finish();
                     }
                 }
             });
@@ -71,13 +68,6 @@ public class RotateBugSprayActivity_FR extends Activity {
                     if(deltaVertical > 0 && Math.abs(deltaHorizontal) < Math.abs(deltaVertical)) {
                         Log.d("rotate", "SWIPE DOWN");
                         disableSprayButton();
-                        ChangeSprayPositionMessage sprayMsg = new ChangeSprayPositionMessage(PlatformPosition.BACKRIGHT);
-                        Client client = ClientWrapper.getInstance().getClient();
-                        Log.d("rotate", "SENDING MESSAGE: " + (client != null));
-                        Log.d("rotate", sprayMsg.getNewPosition().toString());
-                        if(client != null) {
-                            client.send(sprayMsg);
-                        }
                     }
 
                     //Swipe left

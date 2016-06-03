@@ -1,6 +1,8 @@
-package com.github.migi_1.Context.model.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
 
 /**
@@ -57,7 +59,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     @Override
     public Vector3f getMoveVector() {
         if (carrier == null) {
-            carrier = environment.getCarriers()[0];
+            carrier = environment.getCarriers().get(0);
         }
         updateMoveVector();
 
@@ -99,7 +101,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param id The id of the carrier
      */
     public void carrierId(int id) {
-        carrier = environment.getCarriers()[id];
+        carrier = environment.getCarriers().get(id);
     }
 
     /**

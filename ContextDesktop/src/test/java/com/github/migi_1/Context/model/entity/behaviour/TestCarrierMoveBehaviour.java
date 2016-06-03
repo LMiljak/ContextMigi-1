@@ -1,6 +1,8 @@
-package com.git.migi_1.Context.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +15,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
@@ -43,11 +44,11 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     @Before
     public void setUp() {
         model =  Mockito.mock(Spatial.class);
-        Carrier[] carriers = new Carrier[4];
-        for (int i = 0; i < carriers.length; i++) {
-            carriers[i] = Mockito.mock(Carrier.class);
-            Mockito.when(carriers[i].getId()).thenReturn(i);
-            Mockito.when(carriers[i].getModel()).thenReturn(model);
+        ArrayList<Carrier> carriers = new ArrayList<>(4);
+        for (int i = 0; i < 4; i++) {
+        	Carrier c = Mockito.mock(Carrier.class);
+            carriers.add(c);
+            Mockito.when(c.getModel()).thenReturn(model);
         }
         commander = Mockito.mock(Commander.class);
         Mockito.when(commander.getModel()).thenReturn(model);
@@ -57,7 +58,7 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         setMoveVector(new Vector3f(1, 2, 3));
         Mockito.when(environment.getCarriers()).thenReturn(carriers);
         Mockito.when(environment.getCommander()).thenReturn(commander);
-        testMoveBehaviour = new CarrierMoveBehaviour(carriers[0], getMoveVector(), environment);
+        testMoveBehaviour = new CarrierMoveBehaviour(carriers.get(0), getMoveVector(), environment);
         testMoveBehaviour.setRelativeLocation(new Vector3f(0, 0, 0));
         setMoveBehaviour(testMoveBehaviour);
         PowerMockito.mockStatic(ProjectAssetManager.class);
@@ -77,8 +78,6 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         assertEquals(testMoveBehaviour.getImmobilized(), 0);
         testMoveBehaviour.collided();
         assertEquals(testMoveBehaviour.getImmobilized(), 120);
-
-
     }
 
 

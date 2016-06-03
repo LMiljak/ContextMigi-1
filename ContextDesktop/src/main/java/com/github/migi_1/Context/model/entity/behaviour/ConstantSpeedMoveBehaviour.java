@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.jme3.math.Vector3f;
 /**
@@ -13,7 +13,7 @@ public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
 
 	/**
 	 * Constructor for ConstantSpeedMoveBehaviour.
-	 *
+	 * 
 	 * @param moveVector
 	 * 		The direction and speed of this behaviour.
 	 */

@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.github.migi_1.ContextMessages.PositionMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -20,8 +21,8 @@ public class ServerWrapper {
 	/** The message the server should be able to handle. */
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
 		= Arrays.asList(
-				AccelerometerMessage.class
-				//, more message types here
+				AccelerometerMessage.class,
+				PositionMessage.class
 				);
 
 	/** The port on which the server is running. */

@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 
 

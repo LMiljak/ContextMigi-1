@@ -67,13 +67,7 @@ public class Platform extends Entity {
      * 		True iff the platform is carried by four carriers.
      */
     public boolean isFull() {
-    	for (PlatformPosition position : PlatformPosition.values()) {
-    		if (carriers.get(position) == null) {
-    			return false;
-    		}
-    	}
-    	
-    	return true;
+    	return carriers.size() == PlatformPosition.values().length;
     }
 
     @Override

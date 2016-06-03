@@ -4,13 +4,14 @@
  */
 package com.github.migi_1.ContextApp;
 
+import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextMessages.AccelerometerMessage;
+
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
-import com.github.migi_1.ContextMessages.AccelerometerMessage;
-import com.jme3.network.Client;
 
 /**
  * Sensor that receives information about the accelerometer of the Android device.
@@ -18,17 +19,19 @@ import com.jme3.network.Client;
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
     private MainActivity act;
-    
+    private ClientWrapper client;
+
     /**
      * Constructor for AccelerometerSensor.
-     * 
+     *
      * @param act
      *      The main activity from which it was created.
      */
-    public AccelerometerSensor(MainActivity act) {
+    public AccelerometerSensor(MainActivity act, ClientWrapper client) {
         this.act = act;
+        this.client = client;
     }
-    
+
     /**
      * Method called when the sensor reads a new input.
      * Logs the input values queues a new action, in this case the gyroscopechange method in the main class.
@@ -43,7 +46,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             float x_force = se.values[0];
             float y_force = se.values[1];
             float z_force = se.values[2];
-            
+
             // log the sensor values
             Log.d("main", x_force + " " + y_force + " " + z_force);
             //Sending the information to the Server.
@@ -52,7 +55,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
 
     /**
      * Sends information about the accelerometer to the Server.
-     * 
+     *
      * @param x_force
      *      Acceleration force along the x axis (including gravity).
      * @param y_force
@@ -62,15 +65,12 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      */
     private void sendSensorInformation(float x_force, float y_force, float z_force) {
         AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
-        
-        Client client = ClientWrapper.getInstance().getClient();
-        if (client != null) {
-            client.send(message);
-        }
+
+        client.getClient().send(message);
     }
-    
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
-    
+
 }

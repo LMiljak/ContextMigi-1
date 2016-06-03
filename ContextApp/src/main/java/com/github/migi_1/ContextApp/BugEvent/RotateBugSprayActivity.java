@@ -4,9 +4,6 @@
  */
 package com.github.migi_1.ContextApp.BugEvent;
 
-import com.github.migi_1.ContextApp.ClientWrapper;
-import com.jme3.network.Client;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.github.migi_1.ContextApp.R;
 
 /**
  *
@@ -27,27 +23,26 @@ public class RotateBugSprayActivity extends Activity {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+//            super.onCreate(savedInstanceState);
 //            setContentView(R.layout.android_event_bugs_fr);
 //            spray_fr = (TextView) findViewById(R.id.eventBug_spray_fr);
-            spray_fr.setVisibility(View.VISIBLE);
-            bug_fr = (Button) findViewById(R.id.eventBug_bug_fr);
-            bug_fr.setVisibility(View.VISIBLE);
-
-            bug_fr.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("rotate", "FRONT RIGHT");
-                    if(spray_fr.getVisibility() == View.VISIBLE && bug_fr.getVisibility() == View.VISIBLE) {
-
-                        Client client = ClientWrapper.getInstance().getClient();
-                        if(client != null) {
-                            Log.d("rotate", "STOP MESSAGE");
-                            //Send stop all activities message.
-                        }
-                    }
-                }
-            });
+//            spray_fr.setVisibility(View.VISIBLE);
+//            bug_fr = (Button) findViewById(R.id.eventBug_bug_fr);
+//            bug_fr.setVisibility(View.VISIBLE);
+//
+//            bug_fr.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Log.d("rotate", "FRONT RIGHT");
+//                    if(spray_fr.getVisibility() == View.VISIBLE && bug_fr.getVisibility() == View.VISIBLE) {
+//                        Client client = new ClientWrapper(host)
+//                        if(client != null) {
+//                            Log.d("rotate", "STOP MESSAGE");
+//                            //Send stop all activities message.
+//                        }
+//                    }
+//                }
+//            });
         }
 
         @Override

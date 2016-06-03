@@ -4,6 +4,11 @@
  */
 package com.github.migi_1.ContextApp.BugEvent;
 
+import com.github.migi_1.ContextApp.ClientWrapper;
+import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
+import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.jme3.network.Client;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.github.migi_1.ContextApp.ClientWrapper;
-import com.github.migi_1.ContextApp.PositionHolder;
 import com.github.migi_1.ContextApp.R;
-import com.github.migi_1.ContextMessages.ChangeSprayPositionMessage;
-import com.github.migi_1.ContextMessages.PlatformPosition;
-import com.jme3.network.Client;
 
 /**
  *
@@ -26,7 +26,7 @@ public class RotateBugSprayActivity_FR extends Activity {
     private TextView spray_fr;
     private Button bug_fr;
     private float x1, x2, y1, y2, deltaHorizontal, deltaVertical;
-    
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class RotateBugSprayActivity_FR extends Activity {
             spray_fr.setVisibility(View.VISIBLE);
             bug_fr = (Button) findViewById(R.id.eventBug_bug_fr);
             bug_fr.setVisibility(View.VISIBLE);
-            
+
             bug_fr.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -46,7 +46,7 @@ public class RotateBugSprayActivity_FR extends Activity {
                 }
             });
         }
-        
+
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             switch(event.getAction()) {
@@ -57,22 +57,23 @@ public class RotateBugSprayActivity_FR extends Activity {
                 case (MotionEvent.ACTION_UP) :
                     x2 = event.getX();
                     y2 = event.getY();
-                    
+
                     deltaHorizontal = x2 - x1;
                     deltaVertical = y2 - y1;
-                    
+
                     //Swipe down
                     if(deltaVertical > 0 && Math.abs(deltaHorizontal) < Math.abs(deltaVertical)) {
+                        Log.d("rotate", "SWIPE DOWN");
                         disableSprayButton();
-                        ChangeSprayPositionMessage sprayMsg = new ChangeSprayPositionMessage();
+                        ChangeSprayPositionMessage sprayMsg = new ChangeSprayPositionMessage(PlatformPosition.BACKRIGHT);
                         Client client = ClientWrapper.getInstance().getClient();
+                        Log.d("rotate", "SENDING MESSAGE: " + (client != null));
+                        Log.d("rotate", sprayMsg.getNewPosition().toString());
                         if(client != null) {
                             client.send(sprayMsg);
                         }
-                        
-                        Log.d("rotate", "SWIPE UP");
                     }
-                    
+
                     //Swipe left
                     if(deltaHorizontal < 0 && Math.abs(deltaHorizontal) > Math.abs(deltaVertical)) {
                         Log.d("rotate", "SWIPE LEFT");

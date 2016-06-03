@@ -16,8 +16,12 @@ public class ChangeSprayPositionMessage extends AbstractMessage {
 
     private PlatformPosition newSprayPosition;
 
-    public ChangeSprayPositionMessage() {
-        //this.newSprayPosition = newPos;
+    private ChangeSprayPositionMessage() {
+
+    }
+
+    public ChangeSprayPositionMessage(PlatformPosition newPos) {
+        this.newSprayPosition = newPos;
     }
 
     public PlatformPosition getNewPosition() {

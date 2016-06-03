@@ -21,10 +21,10 @@ public class CarrierAssigner implements ConnectionListener {
 	private Platform platform;
 	private MainEnvironment environment;
 	private HashMap<String, Carrier> addressCarrierMap = new HashMap<>(4);
-	
+
 	/**
 	 * Constructor for CarrierAssigner.
-	 * 
+	 *
 	 * @param platform
 	 * 		The platform to which the carriers should be assigned to.
 	 * @param server
@@ -40,7 +40,7 @@ public class CarrierAssigner implements ConnectionListener {
 
 	/**
 	 * Called when a connection has been established with the server.
-	 * 
+	 *
 	 * Assigns the client that connected a position under the platform
 	 * and also places a Carrier under the platform on the created position.
 	 */
@@ -49,14 +49,13 @@ public class CarrierAssigner implements ConnectionListener {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
 				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, environment);
-				
+
 				addressCarrierMap.put(conn.getAddress(), carrier);
 				platform.addCarrier(carrier);
-				
+
 				conn.send(new PositionMessage(position));
-				
+
 				Logger.getGlobal().log(Level.INFO, "Given position " + position + " to " + conn.getAddress());
-				
 				break;
 			}
 		}
@@ -66,5 +65,5 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionRemoved(Server server, HostedConnection conn) {
 		addressCarrierMap.remove(conn.getAddress());
 	}
-	
+
 }

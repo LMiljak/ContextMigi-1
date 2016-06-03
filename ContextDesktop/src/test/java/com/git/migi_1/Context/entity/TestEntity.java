@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.migi_1.Context.model.entity.Entity;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 
 /**
  * Test class for the Entity super class.

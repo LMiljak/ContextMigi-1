@@ -12,33 +12,45 @@ public class TestAccelerometerMessage {
 
 	private AccelerometerMessage message;
 
-	private final float x_force = 1.0F;
-	private final float y_force = 2.0F;
-	private final float z_force = 3.0F;
+	private final float xForce = 1.0F;
+	private final float yForce = 2.0F;
+	private final float zForce = 3.0F;
 
 	/**
 	 * Initialises the message field before every test suite.
 	 */
 	@Before
 	public void setUp() {
-		message = new AccelerometerMessage(x_force, y_force, z_force);
+		message = new AccelerometerMessage(xForce, yForce, zForce);
 	}
 
+	/**
+	 * Tests the getXForce method. 
+	 */
 	@Test
 	public void testGetX_Force() {
-		assertEquals(x_force, message.getX_force(), 0.0F);
+		assertEquals(xForce, message.getX_force(), 0.0F);
 	}
 
+	/**
+	 * Tests the getYForce method.
+	 */
 	@Test
 	public void testGetY_Force() {
-		assertEquals(y_force, message.getY_force(), 0.0F);
+		assertEquals(yForce, message.getY_force(), 0.0F);
 	}
 
+	/**
+	 * Tests the getZForce method.
+	 */
 	@Test
 	public void testGetZ_Force() {
-		assertEquals(z_force, message.getZ_force(), 0.0F);
+		assertEquals(zForce, message.getZ_force(), 0.0F);
 	}
 
+	/**
+	 * Tests the empty constructor (mainly here for the extra code coverage).
+	 */
 	@Test
 	public void testConstructor() {
 	    AccelerometerMessage acmsg = new AccelerometerMessage();

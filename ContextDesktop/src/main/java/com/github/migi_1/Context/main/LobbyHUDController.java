@@ -18,8 +18,6 @@ public class LobbyHUDController {
 
     private BitmapText title, player1, player2, player3, player4;
 
-    private int threshold = 10;
-
     private AppSettings settings;
 
     /**
@@ -28,16 +26,52 @@ public class LobbyHUDController {
      */
     public LobbyHUDController(Application app) {
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
-        BitmapFont guiFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
-        title = new BitmapText(guiFont, false);
-        title.setSize(guiFont.getCharSet().getRenderedSize());
+        BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
+        title = new BitmapText(titleFont, false);
+        title.setSize(titleFont.getCharSet().getRenderedSize());
         title.setColor(ColorRGBA.White);
         title.setText("CarriedfAway");
         settings = ((Main) app).getSettings();
-        float width = 0.5f * settings.getWidth() - 0.5f * title.getLineWidth();
-        float height = 0.8f * settings.getHeight();
-        title.setLocalTranslation(width, height, 0);
+        setTextPosition(title, 0.5f, 0.8f);
         ((Main) app).getGuiNode().attachChild(title);
+        
+        addPlayers(assetManager, app);
+    }
+    
+   private void addPlayers(AssetManager assetManager, Application app) {
+        BitmapFont menuFont = assetManager.loadFont("Interface/Fonts/myfont2.fnt");
+        
+        player1 = setPlayer(menuFont, player1);
+        setTextPosition(player1, 0.5f, 0.65f);
+        ((Main) app).getGuiNode().attachChild(player1);
+        
+        player2 = setPlayer(menuFont, player2);
+        setTextPosition(player2, 0.5f, 0.6f);
+        ((Main) app).getGuiNode().attachChild(player2);
+        
+        player3 = setPlayer(menuFont, player3);
+        setTextPosition(player3, 0.5f, 0.55f);
+        ((Main) app).getGuiNode().attachChild(player3);
+        
+        player4 = setPlayer(menuFont, player4);
+        setTextPosition(player4, 0.5f, 0.5f);
+        ((Main) app).getGuiNode().attachChild(player4);
+        
+    }
+    
+    private BitmapText setPlayer(BitmapFont font, BitmapText player) {
+        player = new BitmapText(font, false);
+        player.setSize(font.getCharSet().getRenderedSize());
+        player.setColor(ColorRGBA.White);
+        player.setText("|");
+        return player;
+    }
+    
+    private void setTextPosition(BitmapText text, float widthFactor, 
+            float heightFactor) {
+        float width = widthFactor * settings.getWidth() - 0.5f * text.getLineWidth();
+        float height = heightFactor * settings.getHeight();
+        text.setLocalTranslation(width, height, 0);
     }
 
     /**

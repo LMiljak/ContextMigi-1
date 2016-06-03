@@ -14,12 +14,12 @@ import com.jme3.scene.Spatial;
  *
  */
 public class Enemy extends Entity implements IKillable {
-    
+
     private static final String PATH_NAME = "Models/ninja.j3o";
     private int health;
     private float currentTime = 0;
     private float attackThreshHold = 3;
-    
+
     /**
      * Constructor of the Enemy.
      * @param startLocation Location where the enemy will spawn.
@@ -32,27 +32,27 @@ public class Enemy extends Entity implements IKillable {
         setMoveBehaviour(new EnemyMoveBehaviour(this, carriers));
         health = 1;
     }
-    
+
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME);
     }
-    
+
     @Override
     public int getHealth() {
         return health;
     }
-    
+
     @Override
     public void setHealth(int health) {
         this.health = health;        
     }
-    
+
     @Override
     public void onKilled() {
-        
+
     }
-    
+
     /**
      * Attack the carrier for 1 damage every 3 seconds. Can only attack if the 
      * enemy is at a spot next to a carrier.
@@ -67,6 +67,8 @@ public class Enemy extends Entity implements IKillable {
             }
         }
     }
-    
+
+
+
 
 }

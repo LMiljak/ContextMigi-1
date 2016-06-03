@@ -103,6 +103,15 @@ public class EnemySpot {
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
     }
+
+    /**
+     * @param carrier the carrier to set
+     */
+    public void setCarrier(Carrier carrier) {
+        this.carrier = carrier;
+    }
+    
+    
     
     
     

@@ -124,6 +124,22 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     public EnemySpot getTargetSpot() {
         return targetSpot;
     }
+
+    /**
+     * @param targetSpot the targetSpot to set
+     */
+    public void setTargetSpot(EnemySpot targetSpot) {
+        this.targetSpot = targetSpot;
+    }
+
+    /**
+     * @param atSpot the atSpot to set
+     */
+    public void setAtSpot(boolean atSpot) {
+        this.atSpot = atSpot;
+    }
+    
+    
     
     
     

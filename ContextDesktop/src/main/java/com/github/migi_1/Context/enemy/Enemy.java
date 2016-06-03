@@ -1,9 +1,10 @@
 package com.github.migi_1.Context.enemy;
 
+import java.util.ArrayList;
+
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -25,7 +26,7 @@ public class Enemy extends Entity implements IKillable {
      * @param startLocation Location where the enemy will spawn.
      * @param carriers will be used to determine the movebehaviour.
      */
-    public Enemy(Vector3f startLocation, Carrier[] carriers) {
+    public Enemy(Vector3f startLocation, ArrayList<Carrier> carriers) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);

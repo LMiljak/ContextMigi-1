@@ -15,9 +15,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import com.git.migi_1.Context.entity.TestMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.EnemySpot;
+import com.github.migi_1.Context.model.entity.behaviour.TestMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
@@ -35,7 +35,7 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
     private Spatial model;
-    private Carrier[] carriers;
+    private ArrayList<Carrier> carriers;
     private Enemy enemy;
     private EnemyMoveBehaviour enemyMoveBehaviour;
     private ArrayList<EnemySpot> enemySpots;
@@ -58,13 +58,13 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         enemySpot = Mockito.mock(EnemySpot.class);
         enemySpots.add(enemySpot);
         
-        carriers = new Carrier[4];
-        for (int i = 0; i < carriers.length; i++) {
-            carriers[i] = Mockito.mock(Carrier.class);
-            Mockito.when(carriers[i].getId()).thenReturn(i);
-            Mockito.when(carriers[i].getModel()).thenReturn(model);
+        carriers = new ArrayList<Carrier>();
+        for (int i = 0; i < 3; i++) {
+            carriers.add(Mockito.mock(Carrier.class));
+           // Mockito.when(carriers[i].getId()).thenReturn(i);
+            Mockito.when(carriers.get(i).getModel()).thenReturn(model);
             Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-            Mockito.when(carriers[i].getEnemySpots()).thenReturn(enemySpots);
+            Mockito.when(carriers.get(i).getEnemySpots()).thenReturn(enemySpots);
         }        
                 
         Mockito.when(enemy.getModel()).thenReturn(model);

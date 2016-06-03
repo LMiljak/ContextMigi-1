@@ -2,6 +2,8 @@ package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +36,7 @@ public class TestEnemy extends TestEntity {
     private Spatial model;
     private Enemy testEnemy;
     private EnemySpot targetSpot;
-    private Carrier[] carriers;
+    private ArrayList<Carrier> carriers;
     
     /**
      * Initialises all mock objects, static class responses and initialises the tested object.
@@ -46,15 +48,16 @@ public class TestEnemy extends TestEntity {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
-        carriers = new Carrier[4];
-        for (int i = 0; i < carriers.length; i++) {
-            carriers[i] = Mockito.mock(Carrier.class);
-            Mockito.when(carriers[i].getId()).thenReturn(i);
-            Mockito.when(carriers[i].getModel()).thenReturn(model);
-        }
+        carriers = new ArrayList<Carrier>();
+        for (int i = 0; i < 3; i++) {
+            carriers.add(Mockito.mock(Carrier.class));
+           // Mockito.when(carriers[i].getId()).thenReturn(i);
+            Mockito.when(carriers.get(i).getModel()).thenReturn(model);
+            Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+        }     
         
         targetSpot = Mockito.mock(EnemySpot.class);
-        Mockito.when(targetSpot.getCarrier()).thenReturn(carriers[0]);
+        Mockito.when(targetSpot.getCarrier()).thenReturn(carriers.get(0));
         
         moveBehaviour = Mockito.mock(EnemyMoveBehaviour.class);
         Mockito.when(moveBehaviour.getTargetSpot()).thenReturn(targetSpot);         
@@ -104,6 +107,6 @@ public class TestEnemy extends TestEntity {
     @Test
     public void testAttack() {
         testEnemy.attack(1000);
-        Mockito.verify(carriers[0], Mockito.times(1)).takeDamage(1);
+        Mockito.verify(carriers.get(0), Mockito.times(1)).takeDamage(1);
     }
 }

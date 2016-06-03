@@ -1,4 +1,4 @@
-package com.github.migi_1.ContextApp;
+package com.github.migi_1.ContextApp.client;
 
 import java.net.InetAddress;
 

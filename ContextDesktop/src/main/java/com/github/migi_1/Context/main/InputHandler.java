@@ -1,12 +1,12 @@
 package com.github.migi_1.Context.main;
 
+import jmevr.app.VRApplication;
+
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
-
-import jmevr.app.VRApplication;
 
 /**
  * Handles input from the Main class.
@@ -15,10 +15,10 @@ import jmevr.app.VRApplication;
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
-                                "up", "down", "steer_left", "steer_right"};
+                                "up", "down", "steer_left", "steer_right", "pause", "restart"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
                                KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
-                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT};
+                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_P, KeyInput.KEY_R};
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
     private ActionListener actionListener;
@@ -58,6 +58,18 @@ public final class InputHandler {
                     main.destroy();
                 } else if (name.equals("cam_switch") && keyPressed) {
                     main.getEnv().swapCamera();
+                } else if (name.equals("pause") && keyPressed) {
+                    if (!main.getEnv().isPaused()) {
+                        main.getEnv().setPaused(true);
+                    }
+                    else {
+                        main.getEnv().setPaused(false);
+
+                    }
+                } else if (name.equals("restart") && keyPressed) {
+                    main.getEnv().cleanup();
+                    main.getEnv().initialize(main.getStateManager(), main);
+
                 }
 
                 //Controls that only work with flycam.

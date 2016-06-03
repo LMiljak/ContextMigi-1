@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.enemy;
 
+import java.util.ArrayList;
+
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
@@ -14,7 +16,7 @@ public class EnemyFactory {
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
     private float levelPieceWidth;
-    private Carrier[] carriers;
+    private ArrayList<Carrier> carriers;
     
     /**
      * Constructor of the EnemyFactory.
@@ -24,7 +26,7 @@ public class EnemyFactory {
      * @param carriers the carriers on which the spawning will be based.
      */
     public EnemyFactory(BoundingBox levelPieceBoundingBox, float levelPieceLength,
-            float levelPieceWidth, Carrier[] carriers) {
+            float levelPieceWidth, ArrayList<Carrier> carriers) {
         this.levelPieceBoundingBox = levelPieceBoundingBox;
         this.levelPieceLength = levelPieceLength;
         this.levelPieceWidth =  levelPieceWidth;
@@ -38,7 +40,7 @@ public class EnemyFactory {
      */
     public Enemy createEnemy1(double currentLevelPiece) {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
-                carriers[0].getModel().getLocalTranslation().y,
+                carriers.get(0).getModel().getLocalTranslation().y,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers); 
         enemy.getModel().rotate(0, (float) Math.PI, 0);
@@ -52,7 +54,7 @@ public class EnemyFactory {
      */
     public Enemy createEnemy2(double currentLevelPiece) {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers[0].getModel().getLocalTranslation().y,
+                + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);        
         enemy.getModel().rotate(0, (float) Math.PI, 0);
@@ -66,7 +68,7 @@ public class EnemyFactory {
      */
     public Enemy createEnemy3(double currentLevelPiece) {
         return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers[0].getModel().getLocalTranslation().y,
+                + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers); 
     }

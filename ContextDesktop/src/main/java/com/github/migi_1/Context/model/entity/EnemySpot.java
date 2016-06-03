@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
 
 /**
@@ -13,7 +14,7 @@ public class EnemySpot {
     private Direction direction;
     private boolean occupied;
     private Vector3f location;
-    private int carrierId;
+    private PlatformPosition carrierId;
     private Carrier carrier;
     private Commander commander;
     private Enemy enemy;
@@ -36,7 +37,7 @@ public class EnemySpot {
         this.commander = commander;
         this.location = location;
         this.direction = direction;
-        this.carrierId = carrier.getId();
+        this.carrierId = carrier.getPosition();
         this.carrier = carrier;
         occupied = false;
     }
@@ -72,7 +73,7 @@ public class EnemySpot {
     /**
      * @return the carrierId
      */
-    public int getCarrierId() {
+    public PlatformPosition getCarrierId() {
         return carrierId;
     }
 

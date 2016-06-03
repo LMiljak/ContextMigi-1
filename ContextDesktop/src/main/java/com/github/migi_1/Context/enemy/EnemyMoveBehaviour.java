@@ -1,11 +1,12 @@
 package com.github.migi_1.Context.enemy;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.EnemySpot;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**
@@ -18,7 +19,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     private Vector3f moveVector;
     private float speed = 0.5f;
     private Vector3f localTranslation;
-    private Carrier[] carriers;
+    private ArrayList<Carrier> carriers;
     private EnemySpot targetSpot;
     private Enemy enemy;
     private boolean atSpot;
@@ -28,7 +29,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      * @param enemy The enemy to which the movebehaviour belongs.
      * @param carriers for finding the spot where the enemy will walk to.
      */
-    public EnemyMoveBehaviour(Enemy enemy, Carrier[] carriers) {
+    public EnemyMoveBehaviour(Enemy enemy, ArrayList<Carrier> carriers) {
         super();
         this.enemy = enemy;
         this.moveVector = new Vector3f(0, 0, 0);

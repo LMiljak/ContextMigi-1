@@ -13,7 +13,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.scene.Node;
 
 /**
@@ -26,26 +25,27 @@ public class Environment extends AbstractAppState {
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
 	private HUDController hudController;
+	private boolean paused;
+	private Application app;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-
+		this.app = app;
+		this.paused = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-
-		this.assetManager.registerLocator("assets", FileLocator.class);
 		hudController = new HUDController(app);
-
-
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		hudController.updateHUD();
-		moveMovables();
+		if (!paused) {
+		    hudController.updateHUD();
+		    moveMovables();
+		}
 	}
 
 	/**
@@ -116,8 +116,34 @@ public class Environment extends AbstractAppState {
 	 */
 	private void moveMovables() {
 		for (IMovable movable : movables) {
+		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
 
+	/**
+	 * Check whether game is paused.
+	 * @return paused or not paused
+	 */
+    public boolean isPaused() {
+        return paused;
+    }
+
+    /**
+     * Pause or unpause the game.
+     * @param paused pause or unpause
+     */
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    /**
+     * Delete all visual elements.
+     */
+    @Override
+    public void cleanup() {
+        super.cleanup();
+        ((Main) this.app).getGuiNode().detachAllChildren();
+        this.rootNode.detachAllChildren();
+    }
 }

@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -9,15 +10,18 @@ import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.CarrierMoveBehaviour;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
-import com.github.migi_1.Context.model.entity.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -55,12 +59,9 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final int NUMBER_OF_CARRIERS = 4;
-
     private Platform platform;
     private Commander commander;
-    private Carrier[] carriers;
-
+    private ArrayList<Carrier> carriers;
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
@@ -86,7 +87,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -106,6 +107,8 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
+        
+        new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
     @Override
@@ -124,7 +127,6 @@ public class MainEnvironment extends Environment {
      * Handle collision checking.
      */
     private void checkCollision() {
-
         //add collision check for all obstacles
 
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
@@ -139,7 +141,7 @@ public class MainEnvironment extends Environment {
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
-                getRootNode().detachChild(obstacleSpawner.removeDamageDealer().getModel());
+                removeDisplayable(obstacleSpawner.removeDamageDealer());
                 entry.setValue(new CollisionResults());
                 ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
 
@@ -216,8 +218,8 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
-        for (int i = 0; i < carriers.length; i++) {
-            addEntity(carriers[i]);
+        for (Carrier carrier : carriers) {
+            addEntity(carrier);
         }
     }
 
@@ -225,27 +227,25 @@ public class MainEnvironment extends Environment {
      * Create the carriers.
      * @return Array with carriers
      */
-    private Carrier[] createCarriers() {
-        carriers = new Carrier[NUMBER_OF_CARRIERS];
+    private ArrayList<Carrier> createCarriers() {
+        carriers = new ArrayList<Carrier>();
         float x, y, z;
         y = RELATIVE_CARRIER_LOCATION.y;
-        for (int i = 0; i < carriers.length; i++) {
+        for (PlatformPosition position : PlatformPosition.values()) {
             x = RELATIVE_CARRIER_LOCATION.x;
             z = RELATIVE_CARRIER_LOCATION.z;
 
             //put two carriers on the right side.
-            if ((i == 1) || (i == 3)) {
-                z =  -z;
-            }
+            z = z * position.getzFactor();
 
             //put two carriers on the back side.
-            if ((i == 2) || (i == 3)) {
-                x = -x;
-            }
+            x = x * position.getxFactor();
+            
             Vector3f relativeLocation = new Vector3f(x, y, z);
-            carriers[i] = new Carrier(relativeLocation, i, this);
-            ((CarrierMoveBehaviour) carriers[i].getMoveBehaviour()).setRelativeLocation(relativeLocation);
-            results.put(carriers[i], new CollisionResults());
+            Carrier newCarrier = new Carrier(relativeLocation, position, this);
+            ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
+            results.put(newCarrier, new CollisionResults());
+            carriers.add(newCarrier);
         }
         return carriers;
     }
@@ -262,7 +262,7 @@ public class MainEnvironment extends Environment {
      * Get the carriers.
      * @return carriers
      */
-    public Carrier[] getCarriers() {
+    public ArrayList<Carrier> getCarriers() {
         return carriers;
     }
 
@@ -400,10 +400,13 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Handles everything that happens when the Envrironment state is detached from the main application.
+     * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
     public void cleanup() {
+        viewPort.clearProcessors();
+        this.getRootNode().removeLight(sun);
+        this.getRootNode().removeLight(sun2);
         super.cleanup();
     }
 

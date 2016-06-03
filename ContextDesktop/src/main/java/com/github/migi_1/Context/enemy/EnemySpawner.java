@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.enemy;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.github.migi_1.Context.model.LevelPiece;
@@ -32,7 +33,7 @@ public class EnemySpawner {
      * @param commander to find the offset of the carriers and therefore the spots where to spawn the enemies.
      * @param carriers the carriers which have spots where the enemies will walk to.
      */
-    public EnemySpawner(Commander commander, Carrier[] carriers) {
+    public EnemySpawner(Commander commander, ArrayList<Carrier> carriers) {
         enemies = new LinkedList<Enemy>();
         deleteList = new LinkedList<Enemy>();        
         commanderLocation = commander.getModel().getLocalTranslation(); 

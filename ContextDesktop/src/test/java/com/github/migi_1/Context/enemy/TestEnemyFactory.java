@@ -2,6 +2,8 @@ package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +36,7 @@ public class TestEnemyFactory {
     private Spatial model;
     private EnemyFactory enemyFactory;
     private BoundingBox boundingBox;
-    private Carrier[] carriers;
+    private ArrayList<Carrier> carriers;
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
@@ -52,13 +54,13 @@ public class TestEnemyFactory {
         
         boundingBox = Mockito.mock(BoundingBox.class);
         
-        carriers = new Carrier[4];
-        for (int i = 0; i < carriers.length; i++) {
-            carriers[i] = Mockito.mock(Carrier.class);
-            Mockito.when(carriers[i].getId()).thenReturn(i);
-            Mockito.when(carriers[i].getModel()).thenReturn(model);
+        carriers = new ArrayList<Carrier>();
+        for (int i = 0; i < 3; i++) {
+            carriers.add(Mockito.mock(Carrier.class));
+           // Mockito.when(carriers[i].getId()).thenReturn(i);
+            Mockito.when(carriers.get(i).getModel()).thenReturn(model);
             Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-        }
+        }     
         Mockito.when(boundingBox.getZExtent()).thenReturn(0f);
         enemyFactory = new EnemyFactory(boundingBox, 0, 0, carriers);
         

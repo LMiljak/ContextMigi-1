@@ -2,6 +2,7 @@ package com.github.migi_1.Context;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import jmevr.app.VRApplication;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +19,6 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.input.InputManager;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-
-import jmevr.app.VRApplication;
 
 /**
  * Test suite for the InputHandler.
@@ -66,9 +65,9 @@ public class TestInputHandler {
     @Test
     public void initInputTest() {
         //Verify all keys are mapped correctly.
-        Mockito.verify(inputManager, Mockito.times(10)).addMapping(Mockito.anyString(), Mockito.any());
+        Mockito.verify(inputManager, Mockito.times(12)).addMapping(Mockito.anyString(), Mockito.any());
         //Verify all listeners are bound.
-        Mockito.verify(inputManager, Mockito.times(10)).addListener(Mockito.any(), Mockito.anyString());
+        Mockito.verify(inputManager, Mockito.times(12)).addListener(Mockito.any(), Mockito.anyString());
     }
 
     /**

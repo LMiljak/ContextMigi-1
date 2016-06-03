@@ -164,17 +164,6 @@ public class TestMainEnvironment {
     }
 
     /**
-     * Test for the cleanup method.
-     */
-    @Test
-    public void cleanupTest() {
-        env.cleanup();
-        Mockito.verifyNoMoreInteractions(app);
-        Mockito.verifyNoMoreInteractions(stateManager);
-        Mockito.verifyNoMoreInteractions(assetManager);
-    }
-
-    /**
      * Test for the updateTestWorld method.
      * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
      */

@@ -67,6 +67,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     @Override
     public Vector3f getMoveVector() {
+        updateMoveVector();
         return moveVector;
     }
     

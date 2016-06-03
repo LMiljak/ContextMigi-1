@@ -16,7 +16,6 @@ import com.jme3.scene.Spatial;
 public class Enemy extends Entity implements IKillable {
     
     private static final String PATH_NAME = "Models/ninja.j3o";
-    private EnemyMoveBehaviour moveBehaviour;
     private int health;
     private float currentTime = 0;
     private float attackThreshHold = 3;
@@ -30,7 +29,7 @@ public class Enemy extends Entity implements IKillable {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        moveBehaviour = new EnemyMoveBehaviour(this, carriers);
+        setMoveBehaviour(new EnemyMoveBehaviour(this, carriers));
         health = 1;
     }
     
@@ -55,25 +54,15 @@ public class Enemy extends Entity implements IKillable {
     }
     
     /**
-     * Returns the moveBehaviour of the enemy.
-     * @return the movebeahviour of the enemy.
-     */
-    public MoveBehaviour getMoveBehaviour() {
-        moveBehaviour.updateMoveVector();
-        return moveBehaviour;
-        
-    }
-    
-    /**
      * Attack the carrier for 1 damage every 3 seconds. Can only attack if the 
      * enemy is at a spot next to a carrier.
      * @param tpf deltatime required for calulating when to attack again.
      */
     public void attack(float tpf) {
-        if (moveBehaviour.isAtSpot()) {
+        if (((EnemyMoveBehaviour) getMoveBehaviour()).isAtSpot()) {
             currentTime += tpf;
             if (currentTime >= attackThreshHold) {
-                moveBehaviour.getTargetSpot().getCarrier().takeDamage(1);
+                ((EnemyMoveBehaviour) getMoveBehaviour()).getTargetSpot().getCarrier().takeDamage(1);
                 currentTime -= attackThreshHold;
             }
         }

@@ -333,7 +333,7 @@ public class MainEnvironment extends Environment {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
         removeDisplayables(loc);        
-        flyObs.move(new Vector3f(-0.2f, 0,0));
+        flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
 
     /**
@@ -376,17 +376,17 @@ public class MainEnvironment extends Environment {
 
     private void updateEnemies(float tpf) {
 
-        for(Enemy enemy : enemySpawner.generateEnemies()) {
+        for (Enemy enemy : enemySpawner.generateEnemies()) {
             addEntity(enemy);
             enemies.add(enemy);
         }
 
-        for(Enemy enemy : enemySpawner.deleteEnemies()) {
+        for (Enemy enemy : enemySpawner.deleteEnemies()) {
             removeEntity(enemy);
             enemies.remove(enemy);
         }
         
-        for(Enemy enemy : enemies) {
+        for (Enemy enemy : enemies) {
             enemy.attack(tpf);
         }
     }

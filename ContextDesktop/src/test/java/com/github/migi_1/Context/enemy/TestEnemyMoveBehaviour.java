@@ -103,7 +103,7 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         enemyMoveBehaviour = new EnemyMoveBehaviour(enemy, carriers);
         float previousX = enemyMoveBehaviour.getMoveVector().x;
         try {
-            ((EnemyMoveBehaviour)enemyMoveBehaviour).updateMoveVector();
+            ((EnemyMoveBehaviour) enemyMoveBehaviour).updateMoveVector();
             Whitebox.invokeMethod(enemyMoveBehaviour, "handleXmovement");
             assertTrue(enemyMoveBehaviour.getMoveVector().x > previousX);
         } catch (Exception e) {
@@ -120,7 +120,7 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         enemyMoveBehaviour = new EnemyMoveBehaviour(enemy, carriers);
         float previousX = enemyMoveBehaviour.getMoveVector().x;
         try {
-            ((EnemyMoveBehaviour)enemyMoveBehaviour).updateMoveVector();
+            ((EnemyMoveBehaviour) enemyMoveBehaviour).updateMoveVector();
             Whitebox.invokeMethod(enemyMoveBehaviour, "handleXmovement");
             assertEquals(enemyMoveBehaviour.getMoveVector().x,
                     previousX + ((EnemyMoveBehaviour) enemyMoveBehaviour).getSpeed(),

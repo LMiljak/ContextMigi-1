@@ -1,31 +1,24 @@
 package com.github.migi_1.Context.utility;
 
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.ArrayList;
 
-import com.jme3.export.JmeExporter;
-import com.jme3.export.OutputCapsule;
-import com.jme3.export.Savable;
+public class ScoreWriter {
 
-public class ScoreWriter implements JmeExporter{
+    public static void write(ArrayList<Score> scores, String infile) throws IOException {
 
-    @Override
-    public void save(Savable object, OutputStream f) throws IOException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void save(Savable object, File f) throws IOException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public OutputCapsule getCapsule(Savable object) {
-        // TODO Auto-generated method stub
-        return null;
+        BufferedWriter writer = new BufferedWriter(new FileWriter(infile));
+        writer.write("<scores>\n");
+        for (int i = 0; i < scores.size(); i++) {
+            writer.write("<score>");
+            writer.write("<name>\n" + scores.get(i).getName() + "\n</name>\n");
+            writer.write("<scoreValue>\n" + scores.get(i).getScore() + "\n</scoreValue>\n");
+            writer.write("</score>");
+        }
+        writer.write("</scores>");
+        writer.close();
     }
 
 }

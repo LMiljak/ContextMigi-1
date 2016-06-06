@@ -13,11 +13,14 @@ import org.w3c.dom.NodeList;
 
 public class ScoreReader {
 
-    public ArrayList<Score> read(String infile) {
-        ArrayList<Score> scores = new ArrayList();
+    public static ArrayList<Score> read(String infile) {
+        ArrayList<Score> scores = new ArrayList<Score>();
         try {
 
             File scoreFile = new File(infile);
+            if (!scoreFile.exists()) {
+                ScoreWriter.write(new ArrayList<Score>(), infile);
+            }
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(scoreFile);

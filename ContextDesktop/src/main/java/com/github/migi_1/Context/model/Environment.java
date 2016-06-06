@@ -37,7 +37,6 @@ public class Environment extends AbstractAppState {
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 		hudController = new HUDController(app);
-
 	}
 
 	@Override
@@ -120,6 +119,7 @@ public class Environment extends AbstractAppState {
 	 */
 	private void moveMovables() {
 		for (IMovable movable : movables) {
+		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
@@ -149,7 +149,4 @@ public class Environment extends AbstractAppState {
         ((Main) this.app).getGuiNode().detachAllChildren();
         this.rootNode.detachAllChildren();
     }
-
-
-
 }

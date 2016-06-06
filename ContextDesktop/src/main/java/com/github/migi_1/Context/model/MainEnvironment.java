@@ -53,7 +53,7 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -3.5f, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -113,14 +113,15 @@ public class MainEnvironment extends Environment {
     public void update(float tpf) {
         super.update(tpf);
 
-        checkCollision();
+        checkObstacleCollision();
+        checkPathCollision();
         updateTestWorld();
-    }
+    }    
 
     /**
      * Handle collision checking.
      */
-    private void checkCollision() {
+    private void checkObstacleCollision() {
         //add collision check for all obstacles
 
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
@@ -147,6 +148,19 @@ public class MainEnvironment extends Environment {
             entry.setValue(new CollisionResults());
         }
 
+    }
+    
+    private void checkPathCollision() {
+        for (Path pathPiece : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
+            for(Carrier carrier : carriers) {
+                if (pathPiece.getModel().getWorldBound().intersects(carrier.getModel().getWorldBound())) {
+                    System.out.println("asdas");
+                }
+                
+            }
+           
+        }
+        
     }
 
     /**

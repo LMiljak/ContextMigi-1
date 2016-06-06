@@ -15,7 +15,7 @@ public abstract class MoveBehaviour {
      * Constructor for abstract MoveBehaviour where the default moveVector is static.
      */
     public MoveBehaviour() {
-        moveVector = new Vector3f(0, 0, 0);
+        moveVector = new Vector3f(-0.2f, 0, 0);
     }
 
     /**

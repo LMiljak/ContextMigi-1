@@ -20,10 +20,10 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     private Vector3f moveVector;
     private static final float STARTING_SPEED = 0.5f;
     private Vector3f localTranslation;
-    private ArrayList<Carrier> carriers;
     private EnemySpot targetSpot;
     private Enemy enemy;
     private boolean atSpot;
+    private ArrayList<Carrier> carriers;
     
     /**
      * Constructor of the EnemyMoveBehaviour.
@@ -37,7 +37,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         this.carriers = carriers;
         this.localTranslation = enemy.getModel().getLocalTranslation();
         atSpot = false;
-        targetSpot = createTargetSpot();
+        targetSpot = createTargetSpot(carriers);
     }
     
     /**
@@ -47,7 +47,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      * walking to the same spot.
      * @return The enemySpot, the spot where the enemy will walk towards.
      */
-    private EnemySpot createTargetSpot() {
+    private EnemySpot createTargetSpot(ArrayList<Carrier> carriers) {
         LinkedList<EnemySpot> spots = new LinkedList<EnemySpot>();
         for (Carrier carrier : carriers) {
             for (EnemySpot location : carrier.getEnemySpots()) {

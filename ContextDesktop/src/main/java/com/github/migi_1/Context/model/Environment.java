@@ -143,7 +143,7 @@ public class Environment extends AbstractAppState {
     @Override
     public void cleanup() {
         super.cleanup();
-        ((Main) this.app).getGuiNode().detachAllChildren();
         this.rootNode.detachAllChildren();
+        ((Main) this.app).getGuiNode().detachAllChildren();
     }
 }

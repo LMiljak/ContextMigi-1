@@ -1,6 +1,8 @@
 package com.github.migi_1.ContextApp;
 
 import android.widget.Button;
+import android.widget.RemoteViews;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
  * This class contains the functions that retrieve the buttons to add 
@@ -10,64 +12,91 @@ public class MakeButtonFunctions {
     
     private MainActivity act;
     
+    public RemoteViews view;
+    public Button left;
+    public Button middle;
+    public Button right;
+    public Button trigger;
+    
     /**
      * This creates an instance of the MakeButtonFunctions.
      * @param act
      * 			The instance of the application that calls this function
      */
     public MakeButtonFunctions(MainActivity act) {
+
         this.act = act;
+
     }
     
-    /**
-     * Sets the view and buttons of the front right player.
-     */
-    public void setFrontRight() {
+    public void setButtons(PlatformPosition position) {
+        left = (Button) act.findViewById(R.id.Button_left);
+        middle = (Button) act.findViewById(R.id.Button_middle);
+        right = (Button) act.findViewById(R.id.Button_right);
+        trigger = (Button) act.findViewById(R.id.Button_trigger);
         
-        act.setContentView(R.layout.android_ingame_fr);
-        act.setButtonClick((Button) act.findViewById(R.id.FR_button_left), "left");
-        act.setButtonClick((Button) act.findViewById(R.id.FR_button_middle), "middle");
-        act.setButtonClick((Button) act.findViewById(R.id.FR_button_right), "right");
-        act.setButtonClick((Button) act.findViewById(R.id.FR_button_trigger), "trigger");
+        view = new RemoteViews(act.getPackageName(), R.layout.android_ingame);
         
+        setButtonText(position);
+        
+        act.setButtonClick(left, "left");
+        act.setButtonClick(middle, "middle");
+        act.setButtonClick(right, "right");
+        act.setButtonClick(trigger, "trigger");
     }
     
-    /**
-     * Sets the view and buttons of the front left player.
-     */
-    public void setFrontLeft() {
+    public void setButtonText(PlatformPosition position) {
         
-        act.setContentView(R.layout.android_ingame_fl);
-        act.setButtonClick((Button) act.findViewById(R.id.FL_button_left), "left");
-        act.setButtonClick((Button) act.findViewById(R.id.FL_button_middle), "middle");
-        act.setButtonClick((Button) act.findViewById(R.id.FL_button_right), "right");
-        act.setButtonClick((Button) act.findViewById(R.id.FL_button_trigger), "trigger");
-        
-    }
-    
-    /**
-     * Sets the view and buttons of the back left player.
-     */
-    public void setBackLeft() {
-        
-        act.setContentView(R.layout.android_ingame_bl);
-        act.setButtonClick((Button) act.findViewById(R.id.BL_button_left), "left");
-        act.setButtonClick((Button) act.findViewById(R.id.BL_button_middle), "middle");
-        act.setButtonClick((Button) act.findViewById(R.id.BL_button_right), "right");
-        act.setButtonClick((Button) act.findViewById(R.id.BL_button_trigger), "trigger");
+        switch (position) {
+            case FRONTLEFT :
+                setFLText();
+                break;
+            case BACKRIGHT :
+                setBRText();
+                break;
+            case BACKLEFT :
+                setBLText();
+                break;
+            default :
+                setFRText();
+                break;
+        }
         
     }
     
-    /**
-     * Sets the view and buttons of the back right player.
-     */
-    public void setBackRight() {
+    public void setFRText() {
         
-        act.setContentView(R.layout.android_ingame_br);
-        act.setButtonClick((Button) act.findViewById(R.id.BR_button_left), "left");
-        act.setButtonClick((Button) act.findViewById(R.id.BR_button_middle), "middle");
-        act.setButtonClick((Button) act.findViewById(R.id.BR_button_right), "right");
-        act.setButtonClick((Button) act.findViewById(R.id.BR_button_trigger), "trigger");
+        view.setTextViewText(R.id.Button_left, "HIT NW");
+        view.setTextViewText(R.id.Button_middle, "HIT NE");
+        view.setTextViewText(R.id.Button_right, "HIT SE");
+        view.setTextViewText(R.id.Button_trigger, "Trigger");
+        
+    }
+    
+    public void setFLText() {
+        
+        view.setTextViewText(R.id.Button_left, "HIT SW");
+        view.setTextViewText(R.id.Button_middle, "HIT NW");
+        view.setTextViewText(R.id.Button_right, "HIT NE");
+        view.setTextViewText(R.id.Button_trigger, "Trigger");
+        
+    }
+    
+    public void setBRText() {
+        
+        view.setTextViewText(R.id.Button_left, "HIT NE");
+        view.setTextViewText(R.id.Button_middle, "HIT SE");
+        view.setTextViewText(R.id.Button_right, "HIT SW");
+        view.setTextViewText(R.id.Button_trigger, "Trigger");
+        
+    }
+    
+    public void setBLText() {
+        
+        view.setTextViewText(R.id.Button_left, "HIT SE");
+        view.setTextViewText(R.id.Button_middle, "HIT SW");
+        view.setTextViewText(R.id.Button_right, "HIT NW");
+        view.setTextViewText(R.id.Button_trigger, "Trigger");
         
     }
     

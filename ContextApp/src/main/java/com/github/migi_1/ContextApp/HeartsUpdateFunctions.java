@@ -10,7 +10,6 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 public class HeartsUpdateFunctions {
 
     private MainActivity act;
-    private PlatformPosition position;
     
     /**
      * This creates an instance of the HeartsUpdateFunctions.
@@ -19,9 +18,8 @@ public class HeartsUpdateFunctions {
      * @param position 
      *                  The position of the player whose hearts will be updated
      */
-    public HeartsUpdateFunctions(MainActivity act, PlatformPosition position) {
+    public HeartsUpdateFunctions(MainActivity act) {
         this.act = act;
-        this.position = position;
     }
     
    /**
@@ -78,7 +76,7 @@ public class HeartsUpdateFunctions {
     }
     
     /**
-     * Returns the right heart to update based on heartid and position.
+     * Returns the right heart to update based on heartid.
      * @param heartid 
      *              the number of the heart that needs to be updated.
      *              represents the first, second, or third heart for a player
@@ -89,48 +87,12 @@ public class HeartsUpdateFunctions {
     public int getHeart(int heartid) {
         switch (heartid) {
             case 1:
-                switch (position) {
-                    case FRONTLEFT:
-                        return R.id.FL_heart_1;
-                    case BACKLEFT:
-                        return R.id.BL_heart_1;
-                    case BACKRIGHT:
-                        return R.id.BR_heart_1;
-                    default:
-                        return R.id.FR_heart_1;
-                }
+                return R.id.Heart_1;
             case 2:
-                switch (position) {
-                    case FRONTLEFT:
-                        return R.id.FL_heart_2;
-                    case BACKLEFT:
-                        return R.id.BL_heart_2;
-                    case BACKRIGHT:
-                        return R.id.BR_heart_2;
-                    default:
-                        return R.id.FR_heart_2;
-                }
+                return R.id.Heart_2;
             default:
-                switch (position) {
-                    case FRONTLEFT:
-                        return R.id.FL_heart_3;
-                    case BACKLEFT:
-                        return R.id.BL_heart_3;
-                    case BACKRIGHT:
-                        return R.id.BR_heart_3;
-                    default:
-                        return R.id.FR_heart_3;
-                }
+                return R.id.Heart_3;
         }
-    }
-    
-    /**
-     * Sets the position of the HeartUpdateFunctions.
-     * @param position 
-     *              The position of the player who's hearts are updated.
-     */
-    public void setPosition(PlatformPosition position) {
-        this.position = position;
     }
 
 }

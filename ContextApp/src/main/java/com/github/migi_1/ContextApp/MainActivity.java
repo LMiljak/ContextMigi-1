@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RemoteViews;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
@@ -77,31 +78,22 @@ public class MainActivity extends AndroidHarness {
             	break;
        	    }
         }
-        mbFunctions = new MakeButtonFunctions(this);
-        huFunctions = new HeartsUpdateFunctions(this, position);
-        atkMessenger = new AttackMessenger(this);
-        chooseScreen();
+        
+        setUI();
         
     }
     
-    /**
-     * Chooses which function to call to set view and buttons.
-     */
-    public void chooseScreen() {
+    public void setUI() {
+        atkMessenger = new AttackMessenger(this);
+        mbFunctions = new MakeButtonFunctions(this);
+        huFunctions = new HeartsUpdateFunctions(this);
         
-        if (position == PlatformPosition.FRONTLEFT) {
-            mbFunctions.setFrontLeft();
-        }
-        else if (position == PlatformPosition.BACKRIGHT) {
-            mbFunctions.setBackRight();
-        }
-        else if (position == PlatformPosition.BACKLEFT) {
-            mbFunctions.setBackLeft();
-        }
-        else {
-            mbFunctions.setFrontRight();
-        }    
+        setContentView(R.layout.android_ingame);
         
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.android_ingame);
+        remoteViews.setTextViewText(R.id.Location, position.getPosition());
+        
+        mbFunctions.setButtons(position);
     }
     
     /**

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RemoteViews;
+import android.widget.TextView;
 import com.github.migi_1.ContextApp.client.AutoConnector;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.AndroidHarness;
@@ -69,8 +69,8 @@ public class MainActivity extends AndroidHarness {
         
         setContentView(R.layout.android_searching);  
 
-        // create the client
-        client = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
+                .autoStart(Executors.newFixedThreadPool(10));
             
         // create te accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
@@ -125,8 +125,8 @@ public class MainActivity extends AndroidHarness {
         
         setContentView(R.layout.android_ingame);
         
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.android_ingame);
-        remoteViews.setTextViewText(R.id.Location, position.getPosition());
+        TextView textView = (TextView) findViewById(R.id.Location);
+        textView.setText(position.getPosition());
         
         mbFunctions.setButtons(position);
     }

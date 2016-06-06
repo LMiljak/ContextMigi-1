@@ -50,6 +50,7 @@ public final class AutoConnector {
         while (client.wrapper == null) {
             Log.d("CarrierAway", "Waiting for client to connect");
         }
+        Log.d("CarrierAway", "Connected succesfully");
         
         return client.wrapper;
     }

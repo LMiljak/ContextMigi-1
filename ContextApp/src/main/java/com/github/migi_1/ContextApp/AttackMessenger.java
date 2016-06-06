@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import android.util.Log;
+import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.Client;
@@ -32,9 +33,10 @@ public class AttackMessenger {
         Log.d("attack", dir);
         AttackMessage message = new AttackMessage(pos, dir);
         
-        Client client = act.getClient().getClient();
-        if (client != null) {
-            client.send(message);
+        ClientWrapper clientWrapper = act.getClient();
+        Client client = clientWrapper.getClient();
+        if (client.isStarted()) {
+            clientWrapper.getClient().send(message);
         }
     }
     

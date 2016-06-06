@@ -1,7 +1,6 @@
 package com.github.migi_1.ContextApp;
 
 import android.widget.Button;
-import android.widget.RemoteViews;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
@@ -12,7 +11,6 @@ public class MakeButtonFunctions {
     
     private MainActivity act;
     
-    public RemoteViews view;
     public Button left;
     public Button middle;
     public Button right;
@@ -40,10 +38,8 @@ public class MakeButtonFunctions {
         right = (Button) act.findViewById(R.id.Button_right);
         trigger = (Button) act.findViewById(R.id.Button_trigger);
         
-        view = new RemoteViews(act.getPackageName(), R.layout.android_ingame);
-        
         setButtonText(position);
-        view.setTextViewText(R.id.Button_trigger, "Trigger");
+        trigger.setText("Trigger");
         
         act.setButtonClick(left, "left");
         act.setButtonClick(middle, "middle");
@@ -81,9 +77,9 @@ public class MakeButtonFunctions {
      */
     public void setFRText() {
         
-        view.setTextViewText(R.id.Button_left, "HIT NW");
-        view.setTextViewText(R.id.Button_middle, "HIT NE");
-        view.setTextViewText(R.id.Button_right, "HIT SE");
+        left.setText("HIT NW");
+        middle.setText("HIT NE");
+        right.setText("HIT SE");
         
     }
     
@@ -92,9 +88,9 @@ public class MakeButtonFunctions {
      */
     public void setFLText() {
         
-        view.setTextViewText(R.id.Button_left, "HIT SW");
-        view.setTextViewText(R.id.Button_middle, "HIT NW");
-        view.setTextViewText(R.id.Button_right, "HIT NE");
+        left.setText("HIT SW");
+        middle.setText("HIT NW");
+        right.setText("HIT NE");
         
     }
     
@@ -103,9 +99,9 @@ public class MakeButtonFunctions {
      */
     public void setBRText() {
         
-        view.setTextViewText(R.id.Button_left, "HIT NE");
-        view.setTextViewText(R.id.Button_middle, "HIT SE");
-        view.setTextViewText(R.id.Button_right, "HIT SW");
+        left.setText("HIT NE");
+        middle.setText("HIT SE");
+        right.setText("HIT SW");
         
     }
     
@@ -114,9 +110,9 @@ public class MakeButtonFunctions {
      */
     public void setBLText() {
         
-        view.setTextViewText(R.id.Button_left, "HIT SE");
-        view.setTextViewText(R.id.Button_middle, "HIT SW");
-        view.setTextViewText(R.id.Button_right, "HIT NW");
+        left.setText("HIT SE");
+        middle.setText("HIT SW");
+        right.setText("HIT NW");
         
     }
     

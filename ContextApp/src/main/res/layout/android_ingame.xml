@@ -70,7 +70,7 @@
         android:id="@+id/Heart_1"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/BL_heart_2" />
+        android:layout_toLeftOf="@+id/Heart_2" />
 
     <ImageView
         android:layout_width="70dp"
@@ -78,6 +78,6 @@
         android:id="@+id/Heart_3"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/BL_heart_2" />
+        android:layout_toRightOf="@+id/Heart_2" />
 
 </RelativeLayout>

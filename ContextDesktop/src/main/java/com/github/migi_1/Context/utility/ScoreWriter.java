@@ -1,21 +1,21 @@
 package com.github.migi_1.Context.utility;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class ScoreWriter {
 
     public static void write(ArrayList<Score> scores, String infile) throws IOException {
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(infile));
+//        BufferedWriter writer = new BufferedWriter(new FileWriter(infile));
+        PrintWriter writer = new PrintWriter(infile, "UTF-8");
         writer.write("<scores>\n");
         for (int i = 0; i < scores.size(); i++) {
-            writer.write("<score>");
+            writer.write("<score>\n");
             writer.write("<name>\n" + scores.get(i).getName() + "\n</name>\n");
             writer.write("<scoreValue>\n" + scores.get(i).getScore() + "\n</scoreValue>\n");
-            writer.write("</score>");
+            writer.write("</score>\n");
         }
         writer.write("</scores>");
         writer.close();

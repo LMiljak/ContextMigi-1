@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.utility;
 
+import java.util.Scanner;
+
 public class Score {
 
     private String name;
@@ -25,6 +27,18 @@ public class Score {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public static Score read(Scanner scanner) {
+        scanner.nextLine();
+        scanner.nextLine();
+        String name = scanner.nextLine();
+        scanner.nextLine();
+        scanner.nextLine();
+        int score = Integer.parseInt(scanner.nextLine());
+        scanner.nextLine();
+        scanner.nextLine();
+        return new Score(name, score);
     }
 
 

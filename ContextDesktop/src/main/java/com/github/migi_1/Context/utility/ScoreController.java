@@ -1,27 +1,23 @@
 package com.github.migi_1.Context.utility;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import com.jme3.export.JmeExporter;
-import com.jme3.export.JmeImporter;
-import com.jme3.export.Savable;
-
-public class ScoreController implements Savable {
+public class ScoreController {
 
     private ArrayList<Score> scores;
 
-    @Override
-    public void write(JmeExporter ex) throws IOException {
+    private static final String SCORE_FILE = "/D:/Users/Marcel/scores.xml";
 
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void read(JmeImporter im) throws IOException {
-        // TODO Auto-generated method stub
-
+    public ScoreController() {
+        try {
+            scores = new ArrayList<Score>();
+            scores.add(new Score("hoi", 10));
+            ScoreWriter.write(scores, SCORE_FILE);
+            System.out.println(ScoreReader.read(SCORE_FILE));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 

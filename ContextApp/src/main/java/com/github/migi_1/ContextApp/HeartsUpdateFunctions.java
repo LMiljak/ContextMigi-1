@@ -1,7 +1,6 @@
 package com.github.migi_1.ContextApp;
 
 import android.widget.ImageView;
-import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
  * Contains functions which changes the hearts that represent the 

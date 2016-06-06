@@ -29,6 +29,11 @@ public class MakeButtonFunctions {
 
     }
     
+    /**
+     * Sets the buttons for the android UI.
+     * @param position 
+     *              The PlatformPosition of the player.
+     */
     public void setButtons(PlatformPosition position) {
         left = (Button) act.findViewById(R.id.Button_left);
         middle = (Button) act.findViewById(R.id.Button_middle);
@@ -38,6 +43,7 @@ public class MakeButtonFunctions {
         view = new RemoteViews(act.getPackageName(), R.layout.android_ingame);
         
         setButtonText(position);
+        view.setTextViewText(R.id.Button_trigger, "Trigger");
         
         act.setButtonClick(left, "left");
         act.setButtonClick(middle, "middle");
@@ -45,6 +51,12 @@ public class MakeButtonFunctions {
         act.setButtonClick(trigger, "trigger");
     }
     
+    /**
+     * Chooses which function to call to set the attack buttons' text,
+     * based on the position.
+     * @param position 
+     *              The PlatformPosition of the player.
+     */
     public void setButtonText(PlatformPosition position) {
         
         switch (position) {
@@ -64,39 +76,47 @@ public class MakeButtonFunctions {
         
     }
     
+    /**
+     * Sets the text of the attack buttons for the front right player.
+     */
     public void setFRText() {
         
         view.setTextViewText(R.id.Button_left, "HIT NW");
         view.setTextViewText(R.id.Button_middle, "HIT NE");
         view.setTextViewText(R.id.Button_right, "HIT SE");
-        view.setTextViewText(R.id.Button_trigger, "Trigger");
         
     }
     
+    /**
+     * Sets the text of the attack buttons for the front left player.
+     */
     public void setFLText() {
         
         view.setTextViewText(R.id.Button_left, "HIT SW");
         view.setTextViewText(R.id.Button_middle, "HIT NW");
         view.setTextViewText(R.id.Button_right, "HIT NE");
-        view.setTextViewText(R.id.Button_trigger, "Trigger");
         
     }
     
+    /**
+     * Sets the text of the attack buttons for the back right player.
+     */
     public void setBRText() {
         
         view.setTextViewText(R.id.Button_left, "HIT NE");
         view.setTextViewText(R.id.Button_middle, "HIT SE");
         view.setTextViewText(R.id.Button_right, "HIT SW");
-        view.setTextViewText(R.id.Button_trigger, "Trigger");
         
     }
     
+    /**
+     * Sets the text of the attack buttons for the back left player.
+     */
     public void setBLText() {
         
         view.setTextViewText(R.id.Button_left, "HIT SE");
         view.setTextViewText(R.id.Button_middle, "HIT SW");
         view.setTextViewText(R.id.Button_right, "HIT NW");
-        view.setTextViewText(R.id.Button_trigger, "Trigger");
         
     }
     

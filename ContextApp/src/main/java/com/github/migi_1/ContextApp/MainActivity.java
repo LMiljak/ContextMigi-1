@@ -83,6 +83,9 @@ public class MainActivity extends AndroidHarness {
         
     }
     
+    /**
+     * Sets the UI of the android app in-game, including buttons and images.
+     */
     public void setUI() {
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);

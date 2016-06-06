@@ -4,8 +4,9 @@ import java.util.HashMap;
 
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.Context.utility.SummingVectorAggregator;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -29,7 +30,8 @@ public class Platform extends Entity {
         
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new SumMultiMoveBehaviour(
+        setMoveBehaviour(new MultiMoveBehaviour(
+        		new SummingVectorAggregator(),
 				new AccelerometerMoveBehaviour(), 
 				new AcceleratingMoveBehaviour(MOVE_VECTOR)
 			));

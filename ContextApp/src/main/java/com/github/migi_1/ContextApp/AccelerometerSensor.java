@@ -6,6 +6,7 @@ package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.jme3.network.Client;
 
 import android.app.Activity;
 import android.hardware.Sensor;
@@ -66,7 +67,10 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
     private void sendSensorInformation(float x_force, float y_force, float z_force) {
         AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
 
-        client.getClient().send(message);
+        Client c = client.getClient();
+        if (c.isStarted()) {
+            client.getClient().send(message);
+        }
     }
 
     @Override

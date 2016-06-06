@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp.client;
 
+import android.util.Log;
 import com.github.migi_1.ContextApp.client.ServerDiscoveryHandler;
 import com.github.migi_1.ContextApp.client.ServerFinder;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
@@ -45,6 +46,10 @@ public final class AutoConnector {
         
         ClientWrapperWrapper client = new ClientWrapperWrapper();
         serverFinder.findServers(executorService, getConnector(client));
+        
+        while (client.wrapper == null) {
+            Log.d("CarrierAway", "Waiting for client to connect");
+        }
         
         return client.wrapper;
     }

@@ -144,4 +144,14 @@ public class LevelGenerator {
         this.levelPieces = levelPieces;
     }
 
+    /**
+     * Set path pieces linked list.
+     * Used in testing.
+     * @param pathPieces the new pathPieces linked list.
+     */
+    public void setPathPieces(LinkedList<Path> pathList) {
+        this.pathPieces = pathList;
+
+    }
+
 }

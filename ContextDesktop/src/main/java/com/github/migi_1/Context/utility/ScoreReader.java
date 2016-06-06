@@ -1,37 +1,42 @@
 package com.github.migi_1.Context.utility;
 
-import java.io.IOException;
+import java.io.File;
+import java.util.ArrayList;
 
-import com.jme3.asset.AssetInfo;
-import com.jme3.asset.AssetManager;
-import com.jme3.export.InputCapsule;
-import com.jme3.export.JmeImporter;
-import com.jme3.export.Savable;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-public class ScoreReader implements JmeImporter {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-    @Override
-    public Object load(AssetInfo assetInfo) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class ScoreReader {
 
-    @Override
-    public InputCapsule getCapsule(Savable id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public ArrayList<Score> read(String infile) {
+        ArrayList<Score> scores = new ArrayList();
+        try {
 
-    @Override
-    public AssetManager getAssetManager() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+            File scoreFile = new File(infile);
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(scoreFile);
+            NodeList scoreList = doc.getElementsByTagName("score");
+            for (int i = 0; i < scoreList.getLength(); i++) {
+                Node node = scoreList.item(i);
 
-    @Override
-    public int getFormatVersion() {
-        // TODO Auto-generated method stub
-        return 0;
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String name = element.getAttribute("name");
+                    int scoreValue = Integer.parseInt(element.getAttribute("scoreVale"));
+                    scores.add(new Score(name, scoreValue));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return scores;
     }
 
 }

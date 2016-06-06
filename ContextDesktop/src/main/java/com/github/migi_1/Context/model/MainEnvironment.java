@@ -1,17 +1,13 @@
 package com.github.migi_1.Context.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.github.migi_1.Context.model.entity.Camera;
-import com.github.migi_1.Context.model.entity.CarrierAssigner;
-
-import java.util.ArrayList;
-
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -32,6 +28,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -82,7 +80,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -105,7 +103,7 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
+
         new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
@@ -130,7 +128,7 @@ public class MainEnvironment extends Environment {
         }
 
         //check whether a collision has taken place.
-        //only one object can collide each update, two prevent two object from taking damage.
+        //only one object can collide each update, to prevent two objects from taking damage.
         Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
@@ -232,7 +230,7 @@ public class MainEnvironment extends Environment {
 
             //put two carriers on the back side.
             x = x * position.getxFactor();
-            
+
             Vector3f relativeLocation = new Vector3f(x, y, z);
             Carrier newCarrier = new Carrier(relativeLocation, position, this);
             ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
@@ -339,7 +337,7 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-        
+
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);
@@ -397,5 +395,14 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+
+    /**
+     * Sets the results hashmap.
+     * Used in testing ONLY.
+     * @param newResults the new results.
+     */
+    public void setResults(HashMap<Entity, CollisionResults> newResults) {
+        results = newResults;
     }
 }

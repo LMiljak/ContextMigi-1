@@ -26,8 +26,8 @@ public class EnemySpawner {
     private float levelPieceLength;
     private double currentLevelPiece;
     private double lastLevelPiece;
+    private float levelPieceWidth;
     private Vector3f commanderLocation;
-    private LevelPiece levelPiece;
     
     /**
      * Constructor of the EnemySpawner.
@@ -38,12 +38,12 @@ public class EnemySpawner {
         enemies = new LinkedList<Enemy>();
         deleteList = new LinkedList<Enemy>();        
         commanderLocation = commander.getModel().getLocalTranslation(); 
-        levelPiece = new LevelPiece();
-        levelPieceBoundingBox = (BoundingBox) (levelPiece).getModel().getWorldBound();
+        levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
         levelPieceLength = levelPieceBoundingBox.getXExtent();
+        levelPieceWidth =  levelPieceBoundingBox.getCenter().z;
         currentLevelPiece = 0;
         lastLevelPiece = -1;
-        enemyFactory = new EnemyFactory(levelPiece, carriers);
+        enemyFactory = new EnemyFactory(levelPieceBoundingBox, levelPieceLength, levelPieceWidth, carriers);
     }
     
     /**

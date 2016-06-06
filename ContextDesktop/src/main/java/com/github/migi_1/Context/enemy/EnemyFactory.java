@@ -2,7 +2,6 @@ package com.github.migi_1.Context.enemy;
 
 import java.util.ArrayList;
 
-import com.github.migi_1.Context.model.LevelPiece;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
@@ -21,13 +20,16 @@ public class EnemyFactory {
     
     /**
      * Constructor of the EnemyFactory.
-     * @param levelPiece to base the spawning on.
+     * @param levelPieceBoundingBox the boundingbox of the levelPiece.
+     * @param levelPieceLength Length of the levelPiece.
+     * @param levelPieceWidth Width of the levelPiece.
      * @param carriers the carriers on which the spawning will be based.
      */
-    public EnemyFactory(LevelPiece levelPiece, ArrayList<Carrier> carriers) {
-        this.levelPieceBoundingBox = (BoundingBox) (levelPiece).getModel().getWorldBound();
-        this.levelPieceLength = levelPieceBoundingBox.getXExtent();
-        this.levelPieceWidth =  levelPieceBoundingBox.getCenter().z;
+    public EnemyFactory(BoundingBox levelPieceBoundingBox, float levelPieceLength,
+            float levelPieceWidth, ArrayList<Carrier> carriers) {
+        this.levelPieceBoundingBox = levelPieceBoundingBox;
+        this.levelPieceLength = levelPieceLength;
+        this.levelPieceWidth =  levelPieceWidth;
         this.carriers = carriers;
     }
     

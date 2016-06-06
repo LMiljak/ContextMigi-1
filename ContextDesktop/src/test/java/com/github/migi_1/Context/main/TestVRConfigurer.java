@@ -1,4 +1,4 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.main;
 
 import org.junit.Before;
 import org.junit.Test;

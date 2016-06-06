@@ -1,11 +1,13 @@
 package com.github.migi_1.ContextApp;
 
+import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
+import com.github.migi_1.ContextApp.client.AutoConnector;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
@@ -22,7 +24,7 @@ public class MainActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        private AccelerometerSensor accSensor;
+        private AccelerometerSensor accelerometerSensor;
         private PositionHolder posHolder;
         private AttackMessenger atkMessenger;
         private HeartsUpdateFunctions huFunctions;
@@ -37,13 +39,9 @@ public class MainActivity extends AndroidHarness {
             
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
-        
-        // create the client
-        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
-                .autoStart(Executors.newFixedThreadPool(10));
             
         //Create the accelerometer sensor.
-        accSensor = new AccelerometerSensor(this, client);
+        accelerometerSensor = new AccelerometerSensor(this, client);
         posHolder = PositionHolder.getInstance();
         
         // Start the log manager
@@ -71,6 +69,12 @@ public class MainActivity extends AndroidHarness {
         
         setContentView(R.layout.android_searching);  
 
+        // create the client
+        client = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+            
+        // create te accelerometerSensor
+        accelerometerSensor = new AccelerometerSensor(this, client);
+        
         // wait until position is received
         while (true) {
             if (posHolder.getPosition() != null) {
@@ -82,6 +86,34 @@ public class MainActivity extends AndroidHarness {
         setUI();
         
     }
+    
+   /**
+    * This method runs the app is resumed.
+    */
+    @Override  
+    protected void onResume() {  
+        super.onResume();
+
+        client.startClient();
+        
+        // register the lister for the accelerometer
+        mSensorManager.registerListener(accelerometerSensor, 
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_FASTEST);
+    }
+    
+    /**
+     * Closes the app.
+     */
+    @Override
+    protected void onStop() {  
+        // unregister the sensor listener
+        mSensorManager.unregisterListener(accelerometerSensor);
+            
+        client.closeClient();
+            
+        super.onStop();  
+    } 
     
     /**
      * Sets the UI of the android app in-game, including buttons and images.

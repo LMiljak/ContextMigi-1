@@ -62,7 +62,10 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
     private void sendSensorInformation(float x_force, float y_force, float z_force) {
         AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
         
-        client.getClient().send(message);
+        Client c = client.getClient();
+        if (c.isStarted()) {
+            client.getClient().send(message);
+        }
     }
     
     @Override

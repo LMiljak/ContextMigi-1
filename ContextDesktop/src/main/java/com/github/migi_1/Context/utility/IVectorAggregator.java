@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.model.entity.behaviour;
+package com.github.migi_1.Context.utility;
 
 import java.util.Collection;
 

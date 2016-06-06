@@ -30,6 +30,7 @@ public class HUDController {
     private int threshold = 10;
 
     private BitmapFont scoreFont;
+    private BitmapFont gameOverFont;
     private int checkpointCounter = 0;
     private boolean checkpointUpdated = false;
 
@@ -54,6 +55,7 @@ public class HUDController {
         this.main = (Main) app;
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
         scoreFont = assetManager.loadFont("Interface/Fonts/ScoreFont.fnt");
+        gameOverFont = assetManager.loadFont("Interface/Fonts/GameOverFont.fnt");
         settings = main.getSettings();
 
         initScoreText();
@@ -88,14 +90,14 @@ public class HUDController {
         gameOver.setLocalTranslation(leftBound, upperBound, 0);
         gameOver.setMaterial(mat);
 
-        gameOverText =  new BitmapText(scoreFont, false);
-        gameOverText.setSize(scoreFont.getCharSet().getRenderedSize() * 4);
+        gameOverText =  new BitmapText(gameOverFont, false);
+        gameOverText.setSize(gameOverFont.getCharSet().getRenderedSize());
         gameOverText.setColor(ColorRGBA.White);
         gameOverText.setText("Game Over!");
         gameOverText.setLocalTranslation((settings.getWidth() - gameOverText.getLineWidth()) / 2, settings.getHeight() - upperBound, 1);
 
-        gameOverScore =  new BitmapText(scoreFont, false);
-        gameOverScore.setSize(scoreFont.getCharSet().getRenderedSize() * 4);
+        gameOverScore =  new BitmapText(gameOverFont, false);
+        gameOverScore.setSize(gameOverFont.getCharSet().getRenderedSize());
         gameOverScore.setColor(ColorRGBA.White);
         gameOverScore.setLocalTranslation(settings.getWidth() / 2, height, 1);
     }
@@ -105,7 +107,7 @@ public class HUDController {
      */
     private void initCheckPointText() {
         checkpointAlertText = new BitmapText(scoreFont, false);
-        checkpointAlertText.setSize(scoreFont.getCharSet().getRenderedSize() * 2);
+        checkpointAlertText.setSize(scoreFont.getCharSet().getRenderedSize());
         checkpointAlertText.setColor(ColorRGBA.Red);
         checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
 

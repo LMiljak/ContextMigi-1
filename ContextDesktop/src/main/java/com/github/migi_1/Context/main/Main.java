@@ -59,20 +59,9 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
-
-        main.setSettings(settings);
-        VRConfigurer.configureVR(main);
-        main.setPauseOnLostFocus(true);
-    }
-
-    /**
-     * Gets the instance of this Application.
-     *
-     * @return
-     * 		The instance of this Application.
-     */
-    public static Main getMain() {
-    	return main;
+        super.setSettings(settings);
+        VRConfigurer.configureVR(this);
+        super.setPauseOnLostFocus(true);
     }
 
     /**
@@ -209,4 +198,39 @@ public class Main extends VRApplication {
     	return server;
     }
 
+    /**
+     * Sets the current main.
+     * Used for testing ONLY.
+     * @param newMain the new main.
+     */
+    public static void setMain(Main newMain) {
+        main = newMain;
+    }
+
+    /**
+     * Sets the current inputHandler.
+     * Used for testing ONLY.
+     * @param newInputHandler the new inputHandler.
+     */
+    public void setInputHandler(InputHandler newInputHandler) {
+        inputHandler = newInputHandler;
+    }
+
+    /**
+     * Sets the current environment state.
+     * Used for testing ONLY.
+     * @param newEnvState the new environment state.
+     */
+    public void setEnvState(MainEnvironment newEnvState) {
+        environmentState = newEnvState;
+    }
+
+    /**
+     * Sets the current mainmenu state.
+     * Used for testing ONLY.
+     * @param newMainMenuState the new main menu state.
+     */
+    public void setMainMenuState(MainMenu newMainMenuState) {
+        mainMenuState = newMainMenuState;
+    }
 }

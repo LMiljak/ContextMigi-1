@@ -7,6 +7,7 @@ import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.system.AppSettings;
+import com.jme3.ui.Picture;
 
 /**
  * This class controls the score and displays it.
@@ -93,17 +94,31 @@ public class LobbyHUDController {
     }
     
     /**
-     * Adds the play button in the lobby.
+     * Adds the play button to the lobby.
      */
     public void addPlayButton() {
-        // TODO
+        Picture playButton = new Picture("play");
+        playButton.setImage(assetManager, "Interface/Buttons/play_button_inactive.png", true);
+        playButton.setHeight(settings.getHeight()/8);
+        float width = settings.getWidth()/8;
+        playButton.setWidth(width);
+        playButton.setPosition(0.7f * settings.getWidth() - 0.5f * width, 
+                0.2f * settings.getHeight());
+        ((Main) app).getGuiNode().attachChild(playButton);
     }
     
     /**
-     * Adds the exit button in the lobby.
+     * Adds the exit button to the lobby.
      */
     public void addExitButton() {
-        // TODO
+        Picture exitButton = new Picture("exit");
+        exitButton.setImage(assetManager, "Interface/Buttons/exit_button.png", true);
+        exitButton.setHeight(settings.getHeight()/8);
+        float width = settings.getWidth()/8;
+        exitButton.setWidth(width);
+        exitButton.setPosition(0.3f * settings.getWidth() - 0.5f * width, 
+                0.2f * settings.getHeight());
+        ((Main) app).getGuiNode().attachChild(exitButton);
     }
 
     /**

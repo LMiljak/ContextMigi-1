@@ -34,7 +34,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param environment The environment to follow
      */
     public CarrierMoveBehaviour(Carrier carrier, Vector3f moveVector, MainEnvironment environment) {
-
         this.immobilized = 0;
         this.environment = environment;
         this.commander = environment.getCommander();
@@ -93,7 +92,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
             catchUp = false;
             carrier.getModel().setLocalTranslation(destination);
         }
-
     }
 
     /**
@@ -159,7 +157,4 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     public static int getNumberFrames() {
         return NUMBER_FRAMES;
     }
-
-
-
 }

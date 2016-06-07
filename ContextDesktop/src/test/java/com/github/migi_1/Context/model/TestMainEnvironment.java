@@ -256,6 +256,9 @@ public class TestMainEnvironment {
         Mockito.verify(moveBehaviour).collided();
     }
 
+    /**
+     * Tests the cleanup method.
+     */
     @Test
     public void cleanupTest() {
         env.initialize(stateManager, app);

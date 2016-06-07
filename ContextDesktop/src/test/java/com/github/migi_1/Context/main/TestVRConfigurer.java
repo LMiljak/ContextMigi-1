@@ -4,13 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.github.migi_1.Context.main.Main;
-import com.github.migi_1.Context.main.VRConfigurer;
-
 
 /**
  * Tests VRConfigurer class.
- * @author Nils.
  *
  */
 public class TestVRConfigurer {

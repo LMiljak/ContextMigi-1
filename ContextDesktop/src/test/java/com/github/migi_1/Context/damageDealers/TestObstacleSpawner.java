@@ -22,6 +22,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.Server;
 import com.jme3.scene.Spatial;
 
+/**
+ * Test suite for the ObstacleSpawner class.
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AssetManager.class, Main.class})
 public class TestObstacleSpawner {
@@ -35,8 +38,11 @@ public class TestObstacleSpawner {
     private ServerWrapper serverWrapper;
     private Server server;
 
+    /**
+     * Setup for the tests.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
@@ -55,6 +61,9 @@ public class TestObstacleSpawner {
         obstacleSpawner = new ObstacleSpawner(new Commander(new Vector3f(0, 0, 0)));
     }
 
+    /**
+     * Tests the setter for the ObstacleFactory.
+     */
     @Test
     public void setObstacleFactoryTest() {
         AbstractObstacleFactory oldFactory = obstacleSpawner.getObstacleFactory();

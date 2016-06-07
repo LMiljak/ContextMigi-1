@@ -137,6 +137,9 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         assertEquals(testMoveBehaviour.getImmobilized(), CarrierMoveBehaviour.getNumberFrames() - 1);
     }
 
+    /**
+     * Tests the getter for the catch up attribute.
+     */
     @Test
     public void getCatchUpTest() {
         assertFalse(testMoveBehaviour.getCatchUp());
@@ -146,6 +149,9 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         assertFalse(testMoveBehaviour.getCatchUp());
     }
 
+    /**
+     * Tests the getter for the relativeLocation attribute.
+     */
     @Test
     public void getRelativeLocationTest() {
         assertEquals(new Vector3f(0, 0, 0), testMoveBehaviour.getRelativeLocation());

@@ -89,8 +89,7 @@ public class EnemySpawner {
             if (enemy.getHealth() <= 0) {
                 deleteList.add(enemy);
             }
-            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3 
-                    && enemy.getModel().getLocalTranslation().x > commanderLocation.x) {
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3) {
                 deleteList.add(enemy);
             }
         }

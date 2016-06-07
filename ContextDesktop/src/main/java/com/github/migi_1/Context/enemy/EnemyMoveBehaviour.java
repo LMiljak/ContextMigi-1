@@ -121,8 +121,8 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 moveVector.setZ(startingSpeed);
             }
         } else if (targetSpot.getLocation().z < localTranslation.getZ()) { 
-            if (targetSpot.getLocation().subtract(localTranslation).z < -startingSpeed) {
-                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);  
+            if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < startingSpeed) {
+                moveVector.setZ(-Math.abs(targetSpot.getLocation().subtract(localTranslation).z));  
             } else {
                 moveVector.setZ(-startingSpeed);
             }

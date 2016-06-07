@@ -48,71 +48,23 @@ public class MakeButtonFunctions {
     }
     
     /**
-     * Chooses which function to call to set the attack buttons' text,
-     * based on the position.
+     * Chooses which directions to write on the buttons, based on the position.
      * @param position 
      *              The PlatformPosition of the player.
      */
     public void setButtonText(PlatformPosition position) {
         
-        switch (position) {
-            case FRONTLEFT :
-                setFLText();
-                break;
-            case BACKRIGHT :
-                setBRText();
-                break;
-            case BACKLEFT :
-                setBLText();
-                break;
-            default :
-                setFRText();
-                break;
+        if (position.equals(PlatformPosition.FRONTRIGHT) || 
+                position.equals(PlatformPosition.BACKRIGHT)) {
+            left.setText("HIT NORTH");
+            middle.setText("HIT EAST");
+            right.setText("HIT SOUTH");
         }
-        
-    }
-    
-    /**
-     * Sets the text of the attack buttons for the front right player.
-     */
-    public void setFRText() {
-        
-        left.setText("HIT NW");
-        middle.setText("HIT NE");
-        right.setText("HIT SE");
-        
-    }
-    
-    /**
-     * Sets the text of the attack buttons for the front left player.
-     */
-    public void setFLText() {
-        
-        left.setText("HIT SW");
-        middle.setText("HIT NW");
-        right.setText("HIT NE");
-        
-    }
-    
-    /**
-     * Sets the text of the attack buttons for the back right player.
-     */
-    public void setBRText() {
-        
-        left.setText("HIT NE");
-        middle.setText("HIT SE");
-        right.setText("HIT SW");
-        
-    }
-    
-    /**
-     * Sets the text of the attack buttons for the back left player.
-     */
-    public void setBLText() {
-        
-        left.setText("HIT SE");
-        middle.setText("HIT SW");
-        right.setText("HIT NW");
+        else {
+            left.setText("HIT SOUTH");
+            middle.setText("HIT WEST");
+            right.setText("HIT NORTH");
+        }
         
     }
     

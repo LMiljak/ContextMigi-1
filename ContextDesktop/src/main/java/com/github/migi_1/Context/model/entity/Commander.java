@@ -20,7 +20,6 @@ public class Commander extends Camera {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
-    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
     /**
      * Constructor of the commander.

@@ -1,4 +1,4 @@
-package score;
+package com.github.migi_1.Context.score;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,8 +8,19 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that handles the writing of the score file.
+ * @author Marcel
+ *
+ */
 public class ScoreWriter {
 
+    /**
+     * Write a list of Score objects to a given file.
+     * @param scores Score objects to write
+     * @param infile File location
+     * @throws IOException Exception while reading file
+     */
     public void write(ArrayList<Score> scores, String infile) throws IOException {
         List<String> strings = new ArrayList<String>();
         strings.add("<scores>");

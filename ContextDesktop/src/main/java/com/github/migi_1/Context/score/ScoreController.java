@@ -1,7 +1,13 @@
-package score;
+package com.github.migi_1.Context.score;
 
 import java.util.ArrayList;
 
+/**
+ * This class handles the writing and reading of files.
+ *
+ * @author Marcel
+ *
+ */
 public class ScoreController {
 
     private ArrayList<Score> scores;
@@ -12,6 +18,9 @@ public class ScoreController {
 
     private ScoreWriter writer;
 
+    /**
+     * Constructor.
+     */
     public ScoreController() {
         reader = new ScoreReader();
         writer = new ScoreWriter();

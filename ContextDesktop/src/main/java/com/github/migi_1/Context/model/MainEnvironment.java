@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import score.ScoreController;
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.main.Main;
@@ -17,7 +18,6 @@ import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
-import com.github.migi_1.Context.utility.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;

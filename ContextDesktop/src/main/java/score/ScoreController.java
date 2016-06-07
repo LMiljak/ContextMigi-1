@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.utility;
+package score;
 
 import java.util.ArrayList;
 

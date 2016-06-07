@@ -1,4 +1,4 @@
-package com.github.migi_1.Context.utility;
+package score;
 
 import java.io.IOException;
 import java.nio.file.Files;

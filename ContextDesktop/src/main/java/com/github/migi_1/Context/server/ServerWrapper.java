@@ -7,12 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
-import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
-import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
-import com.github.migi_1.ContextMessages.StartBugEventMessage;
-import com.github.migi_1.ContextMessages.StopAllEventsMessage;
-import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -27,12 +22,12 @@ public class ServerWrapper {
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
 		= Arrays.asList(
 				AccelerometerMessage.class,
-				EnableSprayToAppMessage.class,
-				EnableSprayToVRMessage.class,
-                PositionMessage.class,
-				StartBugEventMessage.class,
-				StopEventToVRMessage.class,
-				StopAllEventsMessage.class
+//				EnableSprayToAppMessage.class,
+//				EnableSprayToVRMessage.class,
+                PositionMessage.class
+//				StartBugEventMessage.class,
+//				StopEventToVRMessage.class,
+//				StopAllEventsMessage.class
 				);
 
 	/** The port on which the server is running. */

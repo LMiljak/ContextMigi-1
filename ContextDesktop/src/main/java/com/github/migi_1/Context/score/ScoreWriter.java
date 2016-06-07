@@ -35,8 +35,9 @@ public class ScoreWriter {
             strings.add("</score>");
         }
         strings.add("</scores>");
-        if (!Files.exists(Paths.get(infile)))
+        if (!Files.exists(Paths.get(infile))) {
             Files.createFile(Paths.get(infile));
+        }
         Files.write(Paths.get(infile), strings, StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 

@@ -19,15 +19,16 @@ public class ScoreReader {
      * @return List of score objects
      * @throws IOException Exception while reading file
      */
-    public static ArrayList<Score> read(String infile) throws IOException {
+    public ArrayList<Score> read(String infile) throws IOException {
         ArrayList<Score> scores = new ArrayList<Score>();
         Iterator<String> lines = Files.readAllLines(Paths.get(infile)).iterator();
         if (lines.hasNext()) {
             lines.next();
-            String tag;
-            while ((tag = lines.next()).equals("<score>")) {
+            String tag = lines.next();
+            while (tag.equals("<score>")) {
                 System.out.println("hoi");
                 scores.add(Score.read(lines));
+                tag = lines.next();
             }
 
         }

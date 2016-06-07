@@ -29,7 +29,7 @@ public class ScoreController {
             scores = new ArrayList<Score>();
             scores.add(new Score("hoi", 10));
             writer.write(scores, SCORE_FILE);
-            System.out.println(ScoreReader.read(SCORE_FILE));
+            System.out.println(reader.read(SCORE_FILE));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

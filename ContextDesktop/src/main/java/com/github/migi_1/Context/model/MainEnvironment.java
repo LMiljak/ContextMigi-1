@@ -1,16 +1,24 @@
 package com.github.migi_1.Context.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+<<<<<<< HEAD
 import com.github.migi_1.Context.model.entity.Camera;
 
+=======
+>>>>>>> master
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -110,7 +118,7 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
+
         new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
@@ -238,7 +246,7 @@ public class MainEnvironment extends Environment {
 
             //put two carriers on the back side.
             x = x * position.getxFactor();
-            
+
             Vector3f relativeLocation = new Vector3f(x, y, z);
             Carrier newCarrier = new Carrier(relativeLocation, position, this);
             ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
@@ -345,7 +353,7 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-        
+
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);

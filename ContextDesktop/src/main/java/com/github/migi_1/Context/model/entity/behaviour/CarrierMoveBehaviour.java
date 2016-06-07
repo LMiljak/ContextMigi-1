@@ -97,20 +97,11 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     }
 
     /**
-     * Set the carrier, by id.
-     * @param id The id of the carrier
-     */
-    public void carrierId(int id) {
-        carrier = environment.getCarriers().get(id);
-    }
-
-    /**
      * Set the relative location to the commander.
      * @param relativeLocation location relative to commander
      */
     public void setRelativeLocation(Vector3f relativeLocation) {
         this.relativeLocation = relativeLocation;
-
     }
 
     /**
@@ -119,14 +110,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public int getImmobilized() {
         return immobilized;
-    }
-
-    /**
-     * Set the immobilized attribute.
-     * @param immobilized attribute
-     */
-    public void setImmobilized(int immobilized) {
-        this.immobilized = immobilized;
     }
 
     /**

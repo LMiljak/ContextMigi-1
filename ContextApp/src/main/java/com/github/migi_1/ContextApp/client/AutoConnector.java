@@ -1,9 +1,6 @@
 package com.github.migi_1.ContextApp.client;
 
 import android.util.Log;
-import com.github.migi_1.ContextApp.client.ServerDiscoveryHandler;
-import com.github.migi_1.ContextApp.client.ServerFinder;
-import com.github.migi_1.ContextApp.client.ClientWrapper;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
 
@@ -17,8 +14,11 @@ public final class AutoConnector {
     
     private static final AutoConnector INSTANCE = new AutoConnector();
     
+    /**
+     * A wrapper of the wrapper of the client C:.
+     */
     private class ClientWrapperWrapper {
-        ClientWrapper wrapper;
+        private ClientWrapper wrapper;
     }
     
     /**
@@ -40,6 +40,10 @@ public final class AutoConnector {
      * 
      * @param executorService
      *      On which executorService the server finder should be executed.
+     * 
+     * @return client.wrapper
+     *          CAN SOMEBODY EXPLAIN THIS? I DIDN'T MAKE THIS, BUT
+     *          I HAVE TO DO THIS TO SOLVE A CHECKSTYLE WARNING. - Remi
      */
     public ClientWrapper autoStart(ExecutorService executorService) {
         ServerFinder serverFinder = ServerFinder.getInstance();

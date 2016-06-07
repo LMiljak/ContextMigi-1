@@ -13,9 +13,7 @@ public class HeartsUpdateFunctions {
     /**
      * This creates an instance of the HeartsUpdateFunctions.
      * @param act
-     * 			The instance of the application that calls this function
-     * @param position 
-     *                  The position of the player whose hearts will be updated
+     * 		The instance of the application that calls this function
      */
     public HeartsUpdateFunctions(MainActivity act) {
         this.act = act;

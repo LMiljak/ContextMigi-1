@@ -40,11 +40,11 @@ public class SumMultiMoveBehaviour extends MultiMoveBehaviour {
         }
         
         if (collisionLeft) {
-            result.z = -0.01f;
+            result.z = -0.05f;
         } 
         
         if (collisionRight) {
-            result.z = 0.01f;
+            result.z = 0.05f;
         }
         
         collisionLeft = false;

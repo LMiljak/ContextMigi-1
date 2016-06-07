@@ -244,7 +244,7 @@ public class MainEnvironment extends Environment {
 
         boundingBoxWallRight = new BoundingBox(
                 new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
-                        - ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        - 1.5f * ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);
     }

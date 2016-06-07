@@ -76,12 +76,13 @@ public class MainActivity extends AndroidHarness {
         accelerometerSensor = new AccelerometerSensor(this, client);
         
         // wait until position is received
-        while (true) {
+        /*while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
             	break;
        	    }
-        }
+        }*/
+        position = PlatformPosition.FRONTLEFT;
         
         setUI();
         

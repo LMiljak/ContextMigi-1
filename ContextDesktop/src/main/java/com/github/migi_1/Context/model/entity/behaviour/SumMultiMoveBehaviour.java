@@ -8,7 +8,6 @@ import com.jme3.math.Vector3f;
  */
 public class SumMultiMoveBehaviour extends MultiMoveBehaviour {
 
-    private boolean collision;
     private boolean collisionRight;
     private boolean collisionLeft;
 

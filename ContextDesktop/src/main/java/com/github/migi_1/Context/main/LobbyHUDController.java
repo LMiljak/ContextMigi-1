@@ -6,8 +6,10 @@ import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
+
 
 /**
  * This class controls the score and displays it.
@@ -19,29 +21,38 @@ public class LobbyHUDController {
 
     private BitmapText title, player1, player2, player3, player4;
     
-    private Application app;
+    private Main main;
     private AssetManager assetManager;
     private AppSettings settings;
+    private ExitButtonListener exitButtonListener;
+    private Node exitNode;
+    private Node playNode;
 
     /**
      * Constructor. Generates initial score and displays it.
      * @param app Application
      */
     public LobbyHUDController(Application app) {
-        this.app = app;
+        this.main = (Main) app;
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
         title = new BitmapText(titleFont, false);
         title.setSize(titleFont.getCharSet().getRenderedSize());
         title.setColor(ColorRGBA.White);
         title.setText("CarriedfAway");
-        settings = ((Main) app).getSettings();
+        settings = main.getSettings();
         setTextPosition(title, 0.5f, 0.8f);
-        ((Main) app).getGuiNode().attachChild(title);
+        main.getGuiNode().attachChild(title);
         
         addPlayers();
-        addPlayButton();
-        addExitButton();
+        
+        playNode = new Node("play");
+        main.getGuiNode().attachChild(playNode);
+        playNode = addPlayButton(playNode);
+        
+        exitNode = new Node("exit");
+        main.getGuiNode().attachChild(exitNode);
+        exitNode = addExitButton(exitNode);
     }
     
     /**
@@ -52,19 +63,19 @@ public class LobbyHUDController {
         
         player1 = setPlayer(menuFont, player1);
         setTextPosition(player1, 0.5f, 0.65f);
-        ((Main) app).getGuiNode().attachChild(player1);
+        main.getGuiNode().attachChild(player1);
         
         player2 = setPlayer(menuFont, player2);
         setTextPosition(player2, 0.5f, 0.6f);
-        ((Main) app).getGuiNode().attachChild(player2);
+        main.getGuiNode().attachChild(player2);
         
         player3 = setPlayer(menuFont, player3);
         setTextPosition(player3, 0.5f, 0.55f);
-        ((Main) app).getGuiNode().attachChild(player3);
+        main.getGuiNode().attachChild(player3);
         
         player4 = setPlayer(menuFont, player4);
         setTextPosition(player4, 0.5f, 0.5f);
-        ((Main) app).getGuiNode().attachChild(player4);
+        main.getGuiNode().attachChild(player4);
         
     }
     
@@ -86,7 +97,7 @@ public class LobbyHUDController {
      * @param heightFactor 
      *              The height value at which the text field will be placed.
      */
-    public void setTextPosition(BitmapText text, float widthFactor, 
+    private void setTextPosition(BitmapText text, float widthFactor, 
             float heightFactor) {
         float width = widthFactor * settings.getWidth() - 0.5f * text.getLineWidth();
         float height = heightFactor * settings.getHeight();
@@ -96,7 +107,7 @@ public class LobbyHUDController {
     /**
      * Adds the play button to the lobby.
      */
-    public void addPlayButton() {
+    private Node addPlayButton(Node node) {
         Picture playButton = new Picture("play");
         playButton.setImage(assetManager, "Interface/Buttons/play_button_inactive.png", true);
         playButton.setHeight(settings.getHeight()/8);
@@ -104,13 +115,15 @@ public class LobbyHUDController {
         playButton.setWidth(width);
         playButton.setPosition(0.7f * settings.getWidth() - 0.5f * width, 
                 0.2f * settings.getHeight());
-        ((Main) app).getGuiNode().attachChild(playButton);
+        
+        node.attachChild(playButton);
+        return node;
     }
     
     /**
      * Adds the exit button to the lobby.
      */
-    public void addExitButton() {
+    private Node addExitButton(Node node) {
         Picture exitButton = new Picture("exit");
         exitButton.setImage(assetManager, "Interface/Buttons/exit_button.png", true);
         exitButton.setHeight(settings.getHeight()/8);
@@ -118,7 +131,9 @@ public class LobbyHUDController {
         exitButton.setWidth(width);
         exitButton.setPosition(0.3f * settings.getWidth() - 0.5f * width, 
                 0.2f * settings.getHeight());
-        ((Main) app).getGuiNode().attachChild(exitButton);
+        
+        node.attachChild(exitButton);
+        return node;
     }
 
     /**

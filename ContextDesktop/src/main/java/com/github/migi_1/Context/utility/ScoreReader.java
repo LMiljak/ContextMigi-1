@@ -12,7 +12,7 @@ public class ScoreReader {
 
             File scoreFile = new File(infile);
             if (!scoreFile.exists()) {
-                ScoreWriter.write(new ArrayList<Score>(), infile);
+                return scores;
             }
             Scanner scanner = new Scanner(scoreFile);
             if (scanner.hasNext()) {

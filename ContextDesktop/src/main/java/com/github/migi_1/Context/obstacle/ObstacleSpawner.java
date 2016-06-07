@@ -74,10 +74,19 @@ public class ObstacleSpawner {
     }
 
     /**
-     * @param obstacleFactory the obstacleFactory to set
+     * Sets the current obstacleFactory.
+     * @param obstacleFactory the obstacleFactory to set.
      */
     public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
         this.obstacleFactory = obstacleFactory;
+    }
+
+    /**
+     * Gets the current obstacleFactory.
+     * @return the obstacleFactory.
+     */
+    public AbstractObstacleFactory getObstacleFactory() {
+        return obstacleFactory;
     }
 
 }

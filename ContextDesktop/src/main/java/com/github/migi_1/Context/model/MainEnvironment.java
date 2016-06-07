@@ -22,6 +22,8 @@ import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bounding.BoundingBox;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -74,6 +76,10 @@ public class MainEnvironment extends Environment {
 
     private ObstacleSpawner obstacleSpawner;
 
+    private BoundingBox boundingBoxWallLeft;
+
+    private BoundingBox boundingBoxWallRight;
+
 
     /**
      * First method that is called after the state has been created.
@@ -82,7 +88,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -105,7 +111,7 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
+
         new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
@@ -149,18 +155,16 @@ public class MainEnvironment extends Environment {
         }
 
     }
-    
+
     private void checkPathCollision() {
-        for (Path pathPiece : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
-            for(Carrier carrier : carriers) {
-                if (pathPiece.getModel().getWorldBound().intersects(carrier.getModel().getWorldBound())) {
-                    System.out.println("asdas");
-                }
-                
+        for(Carrier carrier : carriers) {
+            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
+                System.out.println("left");
             }
-           
+            else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+                System.out.println("right");
+            }
         }
-        
     }
 
     /**
@@ -211,6 +215,7 @@ public class MainEnvironment extends Environment {
         carriers = createCarriers();
         obstacleSpawner = new ObstacleSpawner(commander);
 
+        createWallBoundingBoxes();
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
@@ -227,6 +232,21 @@ public class MainEnvironment extends Environment {
         for (Carrier carrier : carriers) {
             addEntity(carrier);
         }
+    }
+
+    private void createWallBoundingBoxes() {
+        Path path = new Path();
+        boundingBoxWallLeft = new BoundingBox(                
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
+                        + ((BoundingBox)path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
+
+        boundingBoxWallRight = new BoundingBox(                
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
+                        - ((BoundingBox)path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
     }
 
     /**
@@ -246,7 +266,7 @@ public class MainEnvironment extends Environment {
 
             //put two carriers on the back side.
             x = x * position.getxFactor();
-            
+
             Vector3f relativeLocation = new Vector3f(x, y, z);
             Carrier newCarrier = new Carrier(relativeLocation, position, this);
             ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
@@ -353,7 +373,7 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-        
+
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
             addDisplayable(staticObstacle);

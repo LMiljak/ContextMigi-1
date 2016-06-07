@@ -65,9 +65,9 @@ public class TestInputHandler {
     @Test
     public void initInputTest() {
         //Verify all keys are mapped correctly.
-        Mockito.verify(inputManager, Mockito.times(12)).addMapping(Mockito.anyString(), Mockito.any());
+        Mockito.verify(inputManager, Mockito.times(13)).addMapping(Mockito.anyString(), Mockito.any());
         //Verify all listeners are bound.
-        Mockito.verify(inputManager, Mockito.times(12)).addListener(Mockito.any(), Mockito.anyString());
+        Mockito.verify(inputManager, Mockito.times(13)).addListener(Mockito.any(), Mockito.anyString());
     }
 
     /**

@@ -87,7 +87,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -107,7 +107,7 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
+
         new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
@@ -240,7 +240,7 @@ public class MainEnvironment extends Environment {
 
             //put two carriers on the back side.
             x = x * position.getxFactor();
-            
+
             Vector3f relativeLocation = new Vector3f(x, y, z);
             Carrier newCarrier = new Carrier(relativeLocation, position, this);
             ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);

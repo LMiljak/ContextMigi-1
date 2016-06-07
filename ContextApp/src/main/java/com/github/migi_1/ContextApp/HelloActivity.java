@@ -44,13 +44,13 @@ public class HelloActivity extends AndroidHarness {
         @Override  
         protected void onResume() {  
             super.onResume();
-
+            
+            client.startClient();
+            
             // register the lister for the accelerometer
             mSensorManager.registerListener(accelerometerSensor, 
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
-            
-            client.startClient();
         }
          
         /**

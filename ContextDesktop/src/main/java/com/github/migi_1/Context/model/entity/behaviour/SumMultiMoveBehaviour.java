@@ -8,35 +8,58 @@ import com.jme3.math.Vector3f;
  */
 public class SumMultiMoveBehaviour extends MultiMoveBehaviour {
 
-	/**
-	 * Constructor for SumMultiMoveBehaviour.
-	 * Requires at least one MoveBehaviour.
-	 * 
-	 * @param behaviour1
-	 * 		One of the behaviour this MultiMoveBehaviour is composed of.
-	 * @param behaviour2
-	 * 		The rest of the behaviours this MultiMoveBehaviour is composed of.
-	 */
-	public SumMultiMoveBehaviour(MoveBehaviour behaviour1, MoveBehaviour... behaviour2) {
-		super(behaviour1, behaviour2);
-	}
+    private boolean collision;
+    private boolean collisionRight;
+    private boolean collisionLeft;
 
-	/**
-	 * Calculates the move vector of this behaviour. It's the sum
-	 * of all the move vectors of the sub behaviours.
-	 * 
-	 * @return
-	 * 		The move vector of this behaviour.
-	 */
-	@Override
-	public Vector3f getMoveVector() {
-		Vector3f result = Vector3f.ZERO;
-		
-		for (MoveBehaviour behaviour : super.behaviours) {
-			result = result.add(behaviour.getMoveVector());
-		}
-		
-		return result;
-	}
+    /**
+     * Constructor for SumMultiMoveBehaviour.
+     * Requires at least one MoveBehaviour.
+     * 
+     * @param behaviour1
+     * 		One of the behaviour this MultiMoveBehaviour is composed of.
+     * @param behaviour2
+     * 		The rest of the behaviours this MultiMoveBehaviour is composed of.
+     */
+    public SumMultiMoveBehaviour(MoveBehaviour behaviour1, MoveBehaviour... behaviour2) {
+        super(behaviour1, behaviour2);
+    }
+
+    /**
+     * Calculates the move vector of this behaviour. It's the sum
+     * of all the move vectors of the sub behaviours.
+     * 
+     * @return
+     * 		The move vector of this behaviour.
+     */
+    @Override
+    public Vector3f getMoveVector() {
+        Vector3f result = Vector3f.ZERO;
+
+        for (MoveBehaviour behaviour : super.behaviours) {
+            result = result.add(behaviour.getMoveVector());
+        }
+        
+        if (collisionLeft) {
+            result.z = -0.01f;
+        } 
+        
+        if (collisionRight) {
+            result.z = 0.01f;
+        }
+        
+        collisionLeft = false;
+        collisionRight = false;
+        return result;
+
+    }
+
+    public void collisionLeft() {
+        collisionLeft = true;
+    }
+    
+    public void collisionRight() {
+        collisionRight = true;
+    }
 
 }

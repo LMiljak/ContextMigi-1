@@ -1,29 +1,28 @@
 package com.github.migi_1.Context.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import com.github.migi_1.Context.model.entity.Camera;
-import com.github.migi_1.Context.model.entity.CarrierAssigner;
-
-import java.util.ArrayList;
 
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bounding.BoundingBox;
-import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -159,10 +158,12 @@ public class MainEnvironment extends Environment {
     private void checkPathCollision() {
         for(Carrier carrier : carriers) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
-                System.out.println("left");
+                ((SumMultiMoveBehaviour)platform.getMoveBehaviour()).collisionLeft();
+                ((SumMultiMoveBehaviour)commander.getMoveBehaviour()).collisionLeft();
             }
             else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-                System.out.println("right");
+                ((SumMultiMoveBehaviour)platform.getMoveBehaviour()).collisionRight();
+                ((SumMultiMoveBehaviour)commander.getMoveBehaviour()).collisionRight();
             }
         }
     }

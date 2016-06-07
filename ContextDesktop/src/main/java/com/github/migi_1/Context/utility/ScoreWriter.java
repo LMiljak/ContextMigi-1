@@ -15,12 +15,14 @@ public class ScoreWriter {
         System.out.println(Paths.get(infile).toAbsolutePath().toString());
 //        BufferedWriter writer = new BufferedWriter(new FileWriter(infile));
         List<String> strings = new ArrayList<String>();
-        strings.add("<scores>\n");
+        strings.add("<scores>");
         for (int i = 0; i < scores.size(); i++) {
-            strings.add("<score>\n");
-            strings.add("<name>\n" + scores.get(i).getName() + "\n</name>\n");
-            strings.add("<scoreValue>\n" + scores.get(i).getScore() + "\n</scoreValue>\n");
-            strings.add("</score>\n");
+            strings.add("<score>");
+            strings.add("<name>");
+            strings.add(scores.get(i).getName());
+            strings.add("</name>");
+            strings.add("<scoreValue>" + scores.get(i).getScore() + "</scoreValue>");
+            strings.add("</score>");
         }
         strings.add("</scores>");
         Files.write(Paths.get(infile), strings, StandardCharsets.UTF_8,

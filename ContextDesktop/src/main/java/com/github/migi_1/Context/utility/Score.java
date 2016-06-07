@@ -1,6 +1,6 @@
 package com.github.migi_1.Context.utility;
 
-import java.util.Scanner;
+import java.util.Iterator;
 
 public class Score {
 
@@ -29,15 +29,15 @@ public class Score {
         this.score = score;
     }
 
-    public static Score read(Scanner scanner) {
-        scanner.nextLine();
-        scanner.nextLine();
-        String name = scanner.nextLine();
-        scanner.nextLine();
-        scanner.nextLine();
-        int score = Integer.parseInt(scanner.nextLine());
-        scanner.nextLine();
-        scanner.nextLine();
+    public static Score read(Iterator<String> lines) {
+        lines.next();
+        lines.next();
+        String name = lines.next();
+        lines.next();
+        lines.next();
+        int score = Integer.parseInt(lines.next());
+        lines.next();
+        lines.next();
         return new Score(name, score);
     }
 

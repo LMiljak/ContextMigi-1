@@ -12,9 +12,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.github.migi_1.Context.main.InputHandler;
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -66,9 +65,9 @@ public class TestInputHandler {
     @Test
     public void initInputTest() {
         //Verify all keys are mapped correctly.
-        Mockito.verify(inputManager, Mockito.times(12)).addMapping(Mockito.anyString(), Mockito.any());
+        Mockito.verify(inputManager, Mockito.times(13)).addMapping(Mockito.anyString(), Mockito.any());
         //Verify all listeners are bound.
-        Mockito.verify(inputManager, Mockito.times(12)).addListener(Mockito.any(), Mockito.anyString());
+        Mockito.verify(inputManager, Mockito.times(13)).addListener(Mockito.any(), Mockito.anyString());
     }
 
     /**
@@ -230,6 +229,9 @@ public class TestInputHandler {
      */
     @Test
     public void testRestart() {
+        AppStateManager stateManager = Mockito.mock(AppStateManager.class);
+        Mockito.when(main.getStateManager()).thenReturn(stateManager);
+        Mockito.when(stateManager.hasState(envState)).thenReturn(true);
         inputHandler.getActionListener().onAction("restart", true, 0f);
         Mockito.verify(envState).cleanup();
         Mockito.verify(envState).initialize(Mockito.any(), Mockito.any());

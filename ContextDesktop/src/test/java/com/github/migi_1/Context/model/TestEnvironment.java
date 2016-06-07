@@ -181,13 +181,4 @@ public class TestEnvironment {
 	    environment.update(0);
 	    Mockito.verifyNoMoreInteractions(hudController);
 	}
-
-	/**
-	 * Tests if the cleanup method behaves the way it should.
-	 */
-	@Test
-	public void testCleanup() {
-	    environment.cleanup();
-	    Mockito.verify(root).detachAllChildren();
-	}
 }

@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.score;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -27,13 +28,24 @@ public class ScoreController {
 
         try {
             scores = reader.read(SCORE_FILE);
-            System.out.println(reader.read(SCORE_FILE));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Add a score.
+     * @param score Score object to add.
+     */
+    public void addScore(Score score) {
+        scores.add(score);
+        try {
+            writer.write(scores, SCORE_FILE);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 
 }

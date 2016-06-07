@@ -21,12 +21,18 @@ public class ScoreReader {
      */
     public ArrayList<Score> read(String infile) throws IOException {
         ArrayList<Score> scores = new ArrayList<Score>();
+
+        //if the file does not exist, return an empty list.
+        if (!Files.exists(Paths.get(infile))) {
+            return scores;
+        }
         Iterator<String> lines = Files.readAllLines(Paths.get(infile)).iterator();
+
+        //read all score objects
         if (lines.hasNext()) {
             lines.next();
             String tag = lines.next();
             while (tag.equals("<score>")) {
-                System.out.println("hoi");
                 scores.add(Score.read(lines));
                 tag = lines.next();
             }

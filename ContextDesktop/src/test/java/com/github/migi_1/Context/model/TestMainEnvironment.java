@@ -17,6 +17,7 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
@@ -59,8 +60,19 @@ public class TestMainEnvironment {
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
      */
-    @Before
+    @SuppressWarnings("unchecked")
+	@Before
     public void setUp() throws Exception {
+    	try {
+    		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
+    		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
+ 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+ 				.withNoArguments().thenReturn(amb);
+ 			
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		}
+    	
         env = PowerMockito.spy(new MainEnvironment());
 
         hudController = Mockito.mock(HUDController.class);
@@ -172,17 +184,6 @@ public class TestMainEnvironment {
     }
 
     /**
-     * Test for the cleanup method.
-     */
-    @Test
-    public void cleanupTest() {
-        env.cleanup();
-        Mockito.verifyNoMoreInteractions(app);
-        Mockito.verifyNoMoreInteractions(stateManager);
-        Mockito.verifyNoMoreInteractions(assetManager);
-    }
-
-    /**
      * Test for the updateTestWorld method.
      * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
      */
@@ -190,7 +191,7 @@ public class TestMainEnvironment {
     public void updateTestWorldTest() throws Exception {
         env.initialize(stateManager, app);
         Whitebox.invokeMethod(env, "updateTestWorld");
-        //Verify that everything is still in the right place.
+        // Verify that everything is still in the right place.
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.<Spatial>any());
     }

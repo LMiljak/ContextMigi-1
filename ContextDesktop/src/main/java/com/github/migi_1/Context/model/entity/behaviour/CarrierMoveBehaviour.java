@@ -1,6 +1,8 @@
-package com.github.migi_1.Context.model.entity;
+package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
 
 /**
@@ -42,8 +44,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
         setMoveVector(moveVector);
     }
 
-
-
     /**
      * When a collision has taken place.
      */
@@ -59,7 +59,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     @Override
     public Vector3f getMoveVector() {
         if (carrier == null) {
-            carrier = environment.getCarriers()[0];
+            carrier = environment.getCarriers().get(0);
         }
         updateMoveVector();
 
@@ -68,11 +68,13 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
             return new Vector3f(0, 0, 0);
         }
 
+        Vector3f moveVector = super.getMoveVector();
+        moveVector.setX(moveVector.getX() - getAcceleratingFactor());
         //when catching up, move twice as fast
         if (catchUp) {
-            return super.getMoveVector().mult(2.0f);
+            return moveVector.mult(2.0f);
         }
-        return super.getMoveVector();
+        return moveVector;
     }
 
     /**
@@ -99,7 +101,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param id The id of the carrier
      */
     public void carrierId(int id) {
-        carrier = environment.getCarriers()[id];
+        carrier = environment.getCarriers().get(id);
     }
 
     /**

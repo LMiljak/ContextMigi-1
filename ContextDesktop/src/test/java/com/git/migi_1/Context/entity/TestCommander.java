@@ -58,7 +58,7 @@ public class TestCommander extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCommander = new Commander(new Vector3f(0, 0, 0));
+        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(MoveBehaviour.class));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCommander);

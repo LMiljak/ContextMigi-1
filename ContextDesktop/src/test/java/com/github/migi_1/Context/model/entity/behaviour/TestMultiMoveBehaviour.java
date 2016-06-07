@@ -36,6 +36,6 @@ public class TestMultiMoveBehaviour {
 	public void testConstructor() {
 		assertTrue(behaviour.getBehaviours().contains(subBehaviour1));
 		assertTrue(behaviour.getBehaviours().contains(subBehaviour2));
-		assertEquals(3, behaviour.getBehaviours().size());
+		assertEquals(2, behaviour.getBehaviours().size());
 	}
 }

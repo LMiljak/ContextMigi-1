@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ public class CarrierAssigner implements ConnectionListener {
 
 	private Platform platform;
 	private MainEnvironment environment;
-	private HashMap<String, Carrier> addressCarrierMap = new HashMap<>(4);
+	private HashMap<PlatformPosition, String> addressCarrierMap = new HashMap<>(4);
 	
 	/**
 	 * Constructor for CarrierAssigner.
@@ -48,10 +49,11 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
-				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, environment);
+				Carrier carrier = new Carrier(platform.getModel().getWorldTranslation(), position, environment);
 				
-				addressCarrierMap.put(conn.getAddress(), carrier);
+				addressCarrierMap.put(position, conn.getAddress());
 				platform.addCarrier(carrier);
+				environment.addEntity(carrier);
 				
 				conn.send(new PositionMessage(position));
 				
@@ -65,6 +67,23 @@ public class CarrierAssigner implements ConnectionListener {
 	@Override
 	public void connectionRemoved(Server server, HostedConnection conn) {
 		addressCarrierMap.remove(conn.getAddress());
+	}
+	
+	/**
+	 * Gets the ip address of a carrier.
+	 * 
+	 * @param carrierPosition
+	 * 		The position of the carrier to get the ip address of.
+	 * @return
+	 * 		The found ip address. Empty String if there is no address on that position.
+	 */
+	public String getAddress(PlatformPosition carrierPosition) {
+		String res = addressCarrierMap.get(carrierPosition);
+		if (res == null) {
+			return "";
+		} else {
+			return res;
+		}
 	}
 	
 }

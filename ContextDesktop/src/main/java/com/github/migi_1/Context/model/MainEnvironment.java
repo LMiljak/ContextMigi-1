@@ -105,8 +105,6 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
-        new CarrierAssigner(platform, ((Main) app).getServer(), this);
     }
 
     @Override
@@ -192,9 +190,8 @@ public class MainEnvironment extends Environment {
     private void initSpatials() {
 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        platform = new Platform(PLATFORM_LOCATION);
-        commander = new Commander(COMMANDER_LOCATION);
-        carriers = createCarriers();
+        platform = new Platform(PLATFORM_LOCATION, this);
+        commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
         obstacleSpawner = new ObstacleSpawner(commander);
 
         //attach all objects to the root pane
@@ -210,9 +207,6 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
-        for (Carrier carrier : carriers) {
-            addEntity(carrier);
-        }
     }
 
     /**

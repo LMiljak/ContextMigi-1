@@ -1,10 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
-import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.github.migi_1.Context.utility.SummingVectorAggregator;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
@@ -27,17 +24,16 @@ public class Commander extends Camera {
 
     /**
      * Constructor of the commander.
-     * @param startLocation startLocation location where the Commander will be initialized
+     * @param startLocation 
+     * 		startLocation location where the Commander will be initialised
+     * @param platformBehaviour
+     * 		The behaviour of the platform on which this commander is standing.
      */
-    public Commander(Vector3f startLocation) {
+    public Commander(Vector3f startLocation, MoveBehaviour platformBehaviour) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new MultiMoveBehaviour(
-        					new SummingVectorAggregator(), 
-        					new AccelerometerMoveBehaviour(), 
-        					new AcceleratingMoveBehaviour(MOVE_VECTOR)
-        				));
+        setMoveBehaviour(platformBehaviour);
     }
 
 

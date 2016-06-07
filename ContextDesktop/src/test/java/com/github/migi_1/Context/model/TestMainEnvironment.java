@@ -17,7 +17,9 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
@@ -66,7 +68,7 @@ public class TestMainEnvironment {
     		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
     		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
  			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withNoArguments().thenReturn(amb);
+ 				.withAnyArguments().thenReturn(amb);
  			
  		} catch (Exception e) {
  			e.printStackTrace();
@@ -99,6 +101,10 @@ public class TestMainEnvironment {
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));
+        Platform platform = Mockito.mock(Platform.class);
+        PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
+        MoveBehaviour moveBehaviour = Mockito.mock(MoveBehaviour.class);
+        Mockito.when(platform.getMoveBehaviour()).thenReturn(moveBehaviour);
     
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);

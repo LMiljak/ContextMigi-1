@@ -1,7 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

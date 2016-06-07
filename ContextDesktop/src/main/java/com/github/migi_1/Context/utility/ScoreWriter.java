@@ -11,6 +11,7 @@ import java.util.List;
 public class ScoreWriter {
 
     public void write(ArrayList<Score> scores, String infile) throws IOException {
+        System.out.println(System.getProperty("user.dir"));
         System.out.println(Paths.get(infile).toAbsolutePath().toString());
 //        BufferedWriter writer = new BufferedWriter(new FileWriter(infile));
         List<String> strings = new ArrayList<String>();

@@ -27,7 +27,6 @@ public class Environment extends AbstractAppState {
 	private Collection<IMovable> movables;
 	private boolean paused;
 	private Application app;
-        private HUDController hudController;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -38,7 +37,6 @@ public class Environment extends AbstractAppState {
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 		this.assetManager.registerLocator("assets", FileLocator.class);
-		hudController = new HUDController(app);
 	}
 
 	@Override

@@ -87,12 +87,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-<<<<<<< HEAD
-
         hudController = new HUDController(app);
-=======
-        
->>>>>>> master
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;

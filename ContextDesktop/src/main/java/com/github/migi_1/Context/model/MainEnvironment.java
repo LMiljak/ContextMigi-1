@@ -155,14 +155,14 @@ public class MainEnvironment extends Environment {
     }
 
     private void checkPathCollision() {
-        for(Carrier carrier : carriers) {
+        for (Carrier carrier : carriers) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
-                ((SumMultiMoveBehaviour)platform.getMoveBehaviour()).collisionLeft();
-                ((SumMultiMoveBehaviour)commander.getMoveBehaviour()).collisionLeft();
+                ((SumMultiMoveBehaviour) platform.getMoveBehaviour()).collisionLeft();
+                ((SumMultiMoveBehaviour) commander.getMoveBehaviour()).collisionLeft();
             }
             else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-                ((SumMultiMoveBehaviour)platform.getMoveBehaviour()).collisionRight();
-                ((SumMultiMoveBehaviour)commander.getMoveBehaviour()).collisionRight();
+                ((SumMultiMoveBehaviour) platform.getMoveBehaviour()).collisionRight();
+                ((SumMultiMoveBehaviour) commander.getMoveBehaviour()).collisionRight();
             }
         }
     }
@@ -236,15 +236,15 @@ public class MainEnvironment extends Environment {
 
     private void createWallBoundingBoxes() {
         Path path = new Path();
-        boundingBoxWallLeft = new BoundingBox(                
+        boundingBoxWallLeft = new BoundingBox(
                 new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
-                        + ((BoundingBox)path.getModel().getWorldBound()).getZExtent()),
+                        + ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);
 
-        boundingBoxWallRight = new BoundingBox(                
+        boundingBoxWallRight = new BoundingBox(
                 new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
-                        - ((BoundingBox)path.getModel().getWorldBound()).getZExtent()),
+                        - ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);
     }

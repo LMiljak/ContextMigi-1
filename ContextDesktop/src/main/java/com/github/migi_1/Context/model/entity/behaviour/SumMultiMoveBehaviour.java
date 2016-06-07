@@ -52,11 +52,17 @@ public class SumMultiMoveBehaviour extends MultiMoveBehaviour {
         return result;
 
     }
-
+    
+    /**
+     * Sets the collisionLeft value to true when a collision on the left side of the path has taken place.
+     */
     public void collisionLeft() {
         collisionLeft = true;
     }
     
+    /**
+     * Sets the collisionRight value to true when a collision on the right side of the path has taken place.
+     */
     public void collisionRight() {
         collisionRight = true;
     }

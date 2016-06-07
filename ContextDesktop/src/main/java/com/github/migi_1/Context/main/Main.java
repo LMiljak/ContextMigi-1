@@ -59,9 +59,9 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
-        this.setSettings(settings);
+        super.setSettings(settings);
         VRConfigurer.configureVR(this);
-        this.setPauseOnLostFocus(true);
+        super.setPauseOnLostFocus(true);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.migi_1.Context.main;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,8 +29,7 @@ import com.jme3.system.AppSettings;
  * TestSuite for the Main class.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Main.class, AppSettings.class, InputHandler.class,
-                ProjectAssetManager.class})
+@PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
 @Serializable
 public class TestMain {
 
@@ -65,7 +65,12 @@ public class TestMain {
     @Test
     public void testSetUpMain() throws Exception {
         Whitebox.invokeMethod(main, "setUpMain");
-        Mockito.verify(main).setSettings(Mockito.any());
+        //Verify all settings are set correctly.
+        AppSettings settings = main.getSettings();
+        assertEquals("Carried Away", settings.getTitle());
+        assertEquals(1280, settings.getWidth());
+        assertEquals(720, settings.getHeight());
+        assertTrue(settings.isVSync());
     }
 
     /**

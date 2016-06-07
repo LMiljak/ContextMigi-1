@@ -20,4 +20,4 @@ nb-configuration.xml
 /nbproject/
 /ContextDesktop/target/
 # Ignore score file
-/ContextDesktop/assets/Scores
+/ContextDesktop/assets/Scores/scores.txt

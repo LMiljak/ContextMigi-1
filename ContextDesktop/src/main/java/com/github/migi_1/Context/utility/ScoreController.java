@@ -6,7 +6,7 @@ public class ScoreController {
 
     private ArrayList<Score> scores;
 
-    private static final String SCORE_FILE = System.getProperty("user.dir") + "/Assets/Scores/scores.txt";
+    private static final String SCORE_FILE = System.getProperty("user.dir") + "/assets/Scores/scores.txt";
 
     private ScoreReader reader;
 

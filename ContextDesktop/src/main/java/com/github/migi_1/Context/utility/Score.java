@@ -31,7 +31,6 @@ public class Score {
 
     public static Score read(Iterator<String> lines) {
         lines.next();
-        lines.next();
         String name = lines.next();
         lines.next();
         lines.next();

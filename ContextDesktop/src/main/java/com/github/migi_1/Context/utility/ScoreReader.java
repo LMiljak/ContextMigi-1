@@ -11,13 +11,11 @@ public class ScoreReader {
     public static ArrayList<Score> read(String infile) throws IOException {
         ArrayList<Score> scores = new ArrayList<Score>();
         Iterator<String> lines = Files.readAllLines(Paths.get(infile)).iterator();
-        while (lines.hasNext()) {
-            System.out.println(lines.next());
-        }
         if (lines.hasNext()) {
             lines.next();
             String tag;
-            while ((tag = lines.next()) == "<score>") {
+            while ((tag = lines.next()).equals("<score>")) {
+                System.out.println("hoi");
                 scores.add(Score.read(lines));
             }
 

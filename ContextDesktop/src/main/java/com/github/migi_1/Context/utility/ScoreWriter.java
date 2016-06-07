@@ -11,9 +11,6 @@ import java.util.List;
 public class ScoreWriter {
 
     public void write(ArrayList<Score> scores, String infile) throws IOException {
-        System.out.println(System.getProperty("user.dir"));
-        System.out.println(Paths.get(infile).toAbsolutePath().toString());
-//        BufferedWriter writer = new BufferedWriter(new FileWriter(infile));
         List<String> strings = new ArrayList<String>();
         strings.add("<scores>");
         for (int i = 0; i < scores.size(); i++) {
@@ -21,10 +18,14 @@ public class ScoreWriter {
             strings.add("<name>");
             strings.add(scores.get(i).getName());
             strings.add("</name>");
-            strings.add("<scoreValue>" + scores.get(i).getScore() + "</scoreValue>");
+            strings.add("<scoreValue>");
+            strings.add(String.valueOf(scores.get(i).getScore()));
+            strings.add("</scoreValue>");
             strings.add("</score>");
         }
         strings.add("</scores>");
+        if (!Files.exists(Paths.get(infile)))
+            Files.createFile(Paths.get(infile));
         Files.write(Paths.get(infile), strings, StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 

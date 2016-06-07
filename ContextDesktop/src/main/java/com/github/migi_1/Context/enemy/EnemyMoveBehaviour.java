@@ -18,13 +18,13 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     private static final float DISTANCE_THRESHOLD = 50;
     private Vector3f moveVector;
-    private static final float STARTING_SPEED = 0.5f;
+    private float starting_speed = 0.5f;
     private Vector3f localTranslation;
     private EnemySpot targetSpot;
     private Enemy enemy;
     private boolean atSpot;
     private ArrayList<Carrier> carriers;
-    
+
     /**
      * Constructor of the EnemyMoveBehaviour.
      * @param enemy The enemy to which the movebehaviour belongs.
@@ -39,7 +39,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         atSpot = false;
         targetSpot = createTargetSpot(carriers);
     }
-    
+
     /**
      * Finds the spot the enemy will walk to. 
      * The spot is randomly chosen from all spots of the carriers which are still unoccupied.
@@ -72,7 +72,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         updateMoveVector();
         return moveVector;
     }
-    
+
     /**
      * Updates the moveVector.
      * If the enemy has a moveVector (if not all spots are occupied already) and it is within range
@@ -90,46 +90,52 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 handleZmovement();
             } 
             reachedSpot();
-            
+
         }  
     }
 
     private void handleXmovement() {
         if (targetSpot.getLocation().x > localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < STARTING_SPEED) {                
+            if (targetSpot.getLocation().subtract(localTranslation).x < starting_speed) {                
                 moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);                
             } else {
-                moveVector.setX(STARTING_SPEED);
+                moveVector.setX(starting_speed);
             }
         } else if (targetSpot.getLocation().x < localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < -STARTING_SPEED) {
+            if (targetSpot.getLocation().subtract(localTranslation).x < -starting_speed) {
                 moveVector.setX(-targetSpot.getLocation().subtract(localTranslation).x);
             } else {
-                moveVector.setX(-STARTING_SPEED);
+                moveVector.setX(-starting_speed);
             }
         }
     }
 
     private void handleZmovement() {
-        if (targetSpot.getLocation().z > localTranslation.getZ()) {
-            if (targetSpot.getLocation().subtract(localTranslation).z < STARTING_SPEED) {                
-                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);                
+        if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < 0.05f) {   
+            moveVector.setZ(0);
+        }
+        else if (targetSpot.getLocation().z > localTranslation.getZ()) {
+            if(targetSpot.getLocation().subtract(localTranslation).z < starting_speed) {
+                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);  
             } else {
-                moveVector.setZ(STARTING_SPEED);
+                moveVector.setZ(starting_speed);
             }
-        } else if (targetSpot.getLocation().z < localTranslation.getZ()) {
-            if (targetSpot.getLocation().subtract(localTranslation).z < -STARTING_SPEED) {
-                moveVector.setZ(-targetSpot.getLocation().subtract(localTranslation).z);
+        } else if (targetSpot.getLocation().z < localTranslation.getZ()) { 
+            if(targetSpot.getLocation().subtract(localTranslation).z < -starting_speed) {
+                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);  
             } else {
-                moveVector.setZ(-STARTING_SPEED);
+                moveVector.setZ(-starting_speed);
             }
         }
+
     }
 
+
     private void reachedSpot() {
-        if (targetSpot.getLocation().distance(localTranslation) < STARTING_SPEED 
+        if (targetSpot.getLocation().distance(localTranslation) < starting_speed 
                 && !atSpot) {
             targetSpot.setEnemy(enemy);
+            starting_speed *= 3;
             atSpot = true;
         }
     }
@@ -137,48 +143,48 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     /**
      * @return the atSpot
      */
-    public boolean isAtSpot() {
-        return atSpot;
-    }
+     public boolean isAtSpot() {
+         return atSpot;
+     }
 
-    /**
-     * @return the targetSpot
-     */
-    public EnemySpot getTargetSpot() {
-        return targetSpot;
-    }
+     /**
+      * @return the targetSpot
+      */
+     public EnemySpot getTargetSpot() {
+         return targetSpot;
+     }
 
-    /**
-     * @param targetSpot the targetSpot to set
-     */
-    public void setTargetSpot(EnemySpot targetSpot) {
-        this.targetSpot = targetSpot;
-    }
+     /**
+      * @param targetSpot the targetSpot to set
+      */
+     public void setTargetSpot(EnemySpot targetSpot) {
+         this.targetSpot = targetSpot;
+     }
 
-    /**
-     * @param atSpot the atSpot to set
-     */
-    public void setAtSpot(boolean atSpot) {
-        this.atSpot = atSpot;
-    }
+     /**
+      * @param atSpot the atSpot to set
+      */
+     public void setAtSpot(boolean atSpot) {
+         this.atSpot = atSpot;
+     }
 
-    /**
-     * @param moveVector the moveVector to set
-     */
-    public void setMoveVector(Vector3f moveVector) {
-        this.moveVector = moveVector;
-    }
+     /**
+      * @param moveVector the moveVector to set
+      */
+     public void setMoveVector(Vector3f moveVector) {
+         this.moveVector = moveVector;
+     }
 
-    /**
-     * @return the STARTING_SPEED
-     */
-    public float getSpeed() {
-        return STARTING_SPEED;
-    }
-    
-    
-    
-    
-    
+     /**
+      * @return the STARTING_SPEED
+      */
+     public float getSpeed() {
+         return starting_speed;
+     }
+
+
+
+
+
 }
 

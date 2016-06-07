@@ -38,7 +38,7 @@ public class Main extends VRApplication {
 
     private ServerWrapper server;
     
-    private AttackMessageHandler amh;
+    private AttackMessageHandler attackMessageHandler;
 
 
     /**
@@ -96,7 +96,7 @@ public class Main extends VRApplication {
         launchServer();
         
         // Probably not the right spot, but I'll put this here for now.
-        amh = new AttackMessageHandler(this);
+        attackMessageHandler = new AttackMessageHandler(this);
     }
 
     /**

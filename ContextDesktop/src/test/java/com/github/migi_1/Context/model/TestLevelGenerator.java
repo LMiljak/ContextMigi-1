@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 
@@ -36,6 +38,7 @@ public class TestLevelGenerator {
     private BoundingBox boundingBox;
     private Vector3f localTranslation;
     private LevelPiece levelPiece;
+    private Path pathPiece;
     private LinkedList<LevelPiece> levelPieces;
 
     /**
@@ -49,6 +52,7 @@ public class TestLevelGenerator {
 
         levelPieces = new LinkedList<LevelPiece>();
         levelPiece = Mockito.mock(LevelPiece.class);
+        pathPiece = Mockito.mock(Path.class);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model = Mockito.mock(Spatial.class);
@@ -61,6 +65,7 @@ public class TestLevelGenerator {
         Mockito.when(model.getLocalTranslation()).thenReturn(vec);
         Mockito.when(boundingBox.getXExtent()).thenReturn(20.0f);
         Mockito.when(levelPiece.getModel()).thenReturn(model);
+        Mockito.when(pathPiece.getModel()).thenReturn(model);
 
 
         levelGenerator = new LevelGenerator(vec);
@@ -134,6 +139,33 @@ public class TestLevelGenerator {
         assertEquals(5, levelGenerator.deleteLevelPieces(localTranslation).size());
         //Make sure that the number of levelpieces gets back up to the regular amount.
         assertEquals(levelGenerator.getLevelPieces(vec).size(), levelGenerator.getNumberOfLevelPieces());
+    }
+
+    /**
+     * Verify the deletePathPieces method works when there are no path pieces.
+     */
+    @Test
+    public void deletePathPiecesNoPathPiecesTest() {
+        levelGenerator.setPathPieces(new LinkedList<Path>());
+        assertTrue(levelGenerator.deletePathPieces(vec).isEmpty());
+    }
+
+    /**
+     * Verify pieces get deleted when the commander is too far away.
+     */
+    @Test
+    public void deletePathPiecesDeletePiecesTest() {
+        //Vector that will set the commander very far away,
+        //So that level pieces get deleted.
+        Vector3f maxVec = new Vector3f(-1000f, -1000f, -1000f);
+        LinkedList<Path> pathPieces = new LinkedList<Path>();
+        pathPieces.add(pathPiece);
+        pathPieces.add(pathPiece);
+        pathPieces.add(pathPiece);
+        pathPieces.add(pathPiece);
+        pathPieces.add(pathPiece);
+        levelGenerator.setPathPieces(pathPieces);
+        assertFalse(levelGenerator.deletePathPieces(maxVec).isEmpty());
     }
 
 }

@@ -136,7 +136,7 @@ public class MainEnvironment extends Environment {
         }
 
         //check whether a collision has taken place.
-        //only one object can collide each update, two prevent two object from taking damage.
+        //only one object can collide each update, to prevent two objects from taking damage.
         Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
@@ -424,5 +424,14 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+
+    /**
+     * Sets the results hashmap.
+     * Used in testing ONLY.
+     * @param newResults the new results.
+     */
+    public void setResults(HashMap<Entity, CollisionResults> newResults) {
+        results = newResults;
     }
 }

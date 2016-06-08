@@ -148,14 +148,18 @@ public class MainActivity extends AndroidHarness {
          * @param string 
          *              message to be logged
          */
-        public void setButtonClick(Button button, final String string) {
+        public void setButtonClick(Button button, final String name) {
 
             button.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-
-                        atkMessenger.sendAttack(posHolder.getPosition(), string);
+                        Log.d("rotate", name);
+                        if(name.equals("trigger")) {
+                            Log.d("rotate", "TRIGGERED");
+                        } else {
+                            atkMessenger.sendAttack(posHolder.getPosition(), name);
+                        }
 
                 }
 

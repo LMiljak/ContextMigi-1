@@ -11,9 +11,8 @@ public class MakeButtonFunctions {
     
     private MainActivity act;
     
-    private Button left;
-    private Button middle;
-    private Button right;
+    private Button left, middle, right, trigger;
+    
     
     /**
      * This creates an instance of the MakeButtonFunctions.
@@ -35,12 +34,14 @@ public class MakeButtonFunctions {
         left = (Button) act.findViewById(R.id.Button_left);
         middle = (Button) act.findViewById(R.id.Button_middle);
         right = (Button) act.findViewById(R.id.Button_right);
+        trigger = (Button) act.findViewById(R.id.Button_trigger);
         
         setButtonText(position);
         
         act.setButtonClick(left, "left");
         act.setButtonClick(middle, "middle");
         act.setButtonClick(right, "right");
+        act.setButtonClick(trigger, "trigger");
     }
     
     /**

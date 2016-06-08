@@ -21,6 +21,15 @@
         android:textColor="#ffffff" />
 
     <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/Button_trigger"
+        android:text="Trigger"
+        android:background="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+    
+    <Button
         android:layout_width="160dp"
         android:layout_height="100dp"
         android:id="@+id/Button_left"

@@ -113,16 +113,6 @@ public class Main extends VRApplication {
     @Override
     public void simpleRender(RenderManager rm) { }
 
-    /**
-     * Steers the platform depending on the orientation of an accelerometer.
-     *
-     * @param orientation
-     * 		The acceleration force along the z axis (including gravity).
-     */
-    public void handleAccelerometerMessage(float orientation) {
-        environmentState.steer(orientation);
-    }
-
 //    public void handleEnableSprayMessage(PlatformPosition pos) {
 //        Server sendServer = server.getServer();
 //        EnableSprayToAppMessage enableSprayMsg = new EnableSprayToAppMessage(pos);

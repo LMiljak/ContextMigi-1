@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
@@ -23,7 +24,7 @@ public class ServerWrapper {
 		= Arrays.asList(
 				AccelerometerMessage.class,
 //				EnableSprayToAppMessage.class,
-//				EnableSprayToVRMessage.class,
+				EnableSprayToVRMessage.class,
                 PositionMessage.class
 //				StartBugEventMessage.class,
 //				StopEventToVRMessage.class,

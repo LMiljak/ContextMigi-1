@@ -24,14 +24,14 @@ public class AttackMessenger {
     
     /**
      * Creates an AttackMessage and sends it to the server.
-     * @param pos
+     * @param position
      * 			the PlatformPosition of the player who's attacking.
-     * @param dir
+     * @param direcion
      * 			the direction in which the player is attacking (String).
      */
-    public void sendAttack(PlatformPosition pos, String dir) {
-        Log.d("attack", dir);
-        AttackMessage message = new AttackMessage(pos, dir);
+    public void sendAttack(PlatformPosition position, String direction) {
+        Log.d("attack", direction);
+        AttackMessage message = new AttackMessage(position, direction);
         
         ClientWrapper clientWrapper = act.getClient();
         Client client = clientWrapper.getClient();

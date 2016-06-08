@@ -54,8 +54,8 @@ public class MakeButtonFunctions {
      */
     public void setButtonText(PlatformPosition position) {
         
-        if (position.equals(PlatformPosition.FRONTRIGHT) || 
-                position.equals(PlatformPosition.BACKRIGHT)) {
+        if (position.equals(PlatformPosition.FRONTRIGHT) 
+                || position.equals(PlatformPosition.BACKRIGHT)) {
             left.setText("HIT NORTH");
             middle.setText("HIT EAST");
             right.setText("HIT SOUTH");

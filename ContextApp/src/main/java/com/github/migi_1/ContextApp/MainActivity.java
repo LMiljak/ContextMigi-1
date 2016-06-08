@@ -46,16 +46,15 @@ public class MainActivity extends AndroidHarness {
          */
         @Override
         protected void onResume() {
+            Log.d("rotate", "RESUMING");
             super.onResume();
-
+            
             client.startClient();
 
             // register the lister for the accelerometer
             mSensorManager.registerListener(accelerometerSensor,
                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_FASTEST);
-
-            client.startClient();
         }
 
         /**
@@ -63,11 +62,9 @@ public class MainActivity extends AndroidHarness {
          */
         @Override
         protected void onStop() {
+            Log.d("rotate", "STOPPING");
             super.onStop();
             mSensorManager.unregisterListener(accelerometerSensor);
-
-            client.closeClient();
-
         }
         /**
          * Instanciate the game instance.
@@ -77,7 +74,6 @@ public class MainActivity extends AndroidHarness {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            //setContentView(R.layout.android_ingame_fr);
 
             //instantiate the application
             application = (Main) getJmeApplication();

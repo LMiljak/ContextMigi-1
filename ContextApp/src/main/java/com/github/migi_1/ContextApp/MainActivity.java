@@ -143,12 +143,9 @@ public class MainActivity extends AndroidHarness {
 
             @Override
             public void onClick(View v) {
-                if (!str.equals("trigger")) {
+                
                     atkMessenger.sendAttack(posHolder.getPosition(), str);
-                }
-                else {
-                    Log.d("buttonpress", str);
-                }
+                    
             }
             
         });

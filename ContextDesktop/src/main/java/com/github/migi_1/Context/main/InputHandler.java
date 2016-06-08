@@ -1,12 +1,12 @@
 package com.github.migi_1.Context.main;
 
+import jmevr.app.VRApplication;
+
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
-
-import jmevr.app.VRApplication;
 
 /**
  * Handles input from the Main class.
@@ -62,9 +62,11 @@ public final class InputHandler {
                 } else if (name.equals("pause") && keyPressed) {
                     if (!main.getEnv().isPaused()) {
                         main.getEnv().setPaused(true);
+                        main.getEnv().getAudioController().getBackgroundMusic().pause();
                     }
                     else {
                         main.getEnv().setPaused(false);
+                        main.getEnv().getAudioController().getBackgroundMusic().play();
 
                     }
                 } else if (name.equals("menu") && keyPressed) {

@@ -150,5 +150,16 @@ public class Environment extends AbstractAppState {
         this.assetManager.clearCache();
         this.rootNode.detachAllChildren();
         ((Main) this.app).getGuiNode().detachAllChildren();
+        audioController.getBackgroundMusic().pause();
     }
+
+    public AudioController getAudioController() {
+        return audioController;
+    }
+
+    public void setAudioController(AudioController audioController) {
+        this.audioController = audioController;
+    }
+
+
 }

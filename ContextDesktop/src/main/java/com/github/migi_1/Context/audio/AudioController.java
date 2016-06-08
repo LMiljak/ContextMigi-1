@@ -12,8 +12,6 @@ public class AudioController {
 
     private AudioNode backgroundMusic;
 
-
-
     public AudioController(Application app) {
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
         AudioData data = assetManager.loadAudio("Music/POL-mushroom-trail-short.wav");
@@ -21,10 +19,20 @@ public class AudioController {
         backgroundMusic = new AudioNode(data, key);
         backgroundMusic.setPositional(false);
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(2);
+        backgroundMusic.setVolume(1);
         ((Main) app).getRootNode().attachChild(backgroundMusic);
         backgroundMusic.play();
 
     }
+
+    public AudioNode getBackgroundMusic() {
+        return backgroundMusic;
+    }
+
+    public void setBackgroundMusic(AudioNode backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
+    }
+
+
 
 }

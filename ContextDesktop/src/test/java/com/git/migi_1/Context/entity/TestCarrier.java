@@ -16,7 +16,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -74,9 +76,11 @@ public class TestCarrier extends TestEntity {
         Mockito.when(environment.getMain()).thenReturn(main);
         Mockito.when(main.getServer()).thenReturn(serverWrapper);
         Mockito.when(serverWrapper.getServer()).thenReturn(null);
-
-
         Mockito.when(commander.getModel()).thenReturn(model);
+        Platform platform = Mockito.mock(Platform.class);
+        Mockito.when(environment.getPlatform()).thenReturn(platform);
+        Mockito.when(platform.getMoveBehaviour()).thenReturn(new StaticMoveBehaviour());
+        
         testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
 
         setMoveBehaviour(moveBehaviour);

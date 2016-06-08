@@ -1,9 +1,15 @@
 package com.github.migi_1.Context.model;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
+import jmevr.app.VRApplication;
+
+import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -28,8 +34,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -66,6 +70,9 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+    private EnemySpawner enemySpawner;
+
+    private LinkedList<Enemy> enemies;
 
 
     private HashMap<Entity, CollisionResults> results;
@@ -87,9 +94,6 @@ public class MainEnvironment extends Environment {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
-
-
         results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
@@ -112,8 +116,12 @@ public class MainEnvironment extends Environment {
         super.update(tpf);
 
         checkCollision();
+
         updateTestWorld();
+        updateEnemies(tpf);
+
     }
+
 
     /**
      * Handle collision checking.
@@ -189,11 +197,13 @@ public class MainEnvironment extends Environment {
      */
     private void initSpatials() {
 
-        levelGenerator = new LevelGenerator(WORLD_LOCATION);
+        enemies = new LinkedList<Enemy>();
+        levelGenerator = new LevelGenerator(WORLD_LOCATION);        
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);
         carriers = createCarriers();
         obstacleSpawner = new ObstacleSpawner(commander);
+        enemySpawner = new EnemySpawner(commander, carriers);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -263,7 +273,7 @@ public class MainEnvironment extends Environment {
      */
     private void initCameras() {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         commander.makeObserver();
@@ -322,8 +332,10 @@ public class MainEnvironment extends Environment {
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
-        removeDisplayables(loc);
+        removeDisplayables(loc);        
+        flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -359,6 +371,23 @@ public class MainEnvironment extends Environment {
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
+        }
+    }
+
+    private void updateEnemies(float tpf) {
+
+        for (Enemy enemy : enemySpawner.generateEnemies()) {
+            addEntity(enemy);
+            enemies.add(enemy);
+        }
+
+        for (Enemy enemy : enemySpawner.deleteEnemies()) {
+            removeEntity(enemy);
+            enemies.remove(enemy);
+        }
+        
+        for (Enemy enemy : enemies) {
+            enemy.attack(tpf);
         }
     }
 

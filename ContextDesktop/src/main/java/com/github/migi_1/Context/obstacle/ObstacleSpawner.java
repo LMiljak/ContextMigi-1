@@ -42,6 +42,18 @@ public class ObstacleSpawner {
      * @return Map with all obstacles, with as key value their Geometry in the environment.
      */
     public ArrayList<Obstacle> getObstacles() {
+
+        //call removeDamageDealer when an obstacle is too far away
+        boolean delete = false;
+        for (Obstacle obs : obstacleList) {
+            if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
+                delete = true;
+
+            }
+        }
+        if (delete) {
+            removeDamageDealer();
+        }
         while (obstacleList.size() < NUMBER_OBSTACLES) {
             Obstacle obs = obstacleFactory.produce();
             obs.scale(0.3f);

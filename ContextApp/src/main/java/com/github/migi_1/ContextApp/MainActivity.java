@@ -134,17 +134,19 @@ public class MainActivity extends AndroidHarness {
     
     /**
      * Makes sure buttonpresses are logged and processed.
-     * @param butt = the button to which a clicklistener is set
-     * @param str = message to be logged
+     * @param button
+     *              the button to which a clicklistener is set
+     * @param string 
+     *              message to be logged
      */
-    public void setButtonClick(Button butt, final String str) {
+    public void setButtonClick(Button button, final String string) {
 
-        butt.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 
-                    atkMessenger.sendAttack(posHolder.getPosition(), str);
+                    atkMessenger.sendAttack(posHolder.getPosition(), string);
                     
             }
             

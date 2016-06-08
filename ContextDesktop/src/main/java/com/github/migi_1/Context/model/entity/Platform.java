@@ -43,7 +43,7 @@ public class Platform extends Entity {
     public Platform(Vector3f startLocation, MainEnvironment environment) {
         super();
         
-        this.carrierAssigner = new CarrierAssigner(this, Main.getMain().getServer(), environment);
+        this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
         		
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);

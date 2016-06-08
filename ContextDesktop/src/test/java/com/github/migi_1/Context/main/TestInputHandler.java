@@ -1,8 +1,7 @@
-package com.github.migi_1.Context;
+package com.github.migi_1.Context.main;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import jmevr.app.VRApplication;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +12,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.github.migi_1.Context.main.InputHandler;
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+
+import jmevr.app.VRApplication;
 
 /**
  * Test suite for the InputHandler.
@@ -196,6 +196,45 @@ public class TestInputHandler {
         assertFalse(inputHandler.isDown());
         inputHandler.getActionListener().onAction("down", true, 0f);
         assertTrue(inputHandler.isDown());
+    }
+
+    /**
+     * Test if pausing works correctly.
+     */
+    @Test
+    public void testPauseNotPaused() {
+        //Verify the game is not paused.
+        assertFalse(envState.isPaused());
+        inputHandler.getActionListener().onAction("pause", true, 0f);
+        //Only verifying that in a real scenario, the game would be paused now.
+        Mockito.verify(envState).setPaused(true);
+    }
+
+    /**
+     * Test if unpausing works correctly.
+     */
+    @Test
+    public void testPausePaused() {
+        //To simulate the game is paused.
+        Mockito.when(envState.isPaused()).thenReturn(true);
+        //Trivial assert that the game is actually paused.
+        assertTrue(envState.isPaused());
+        inputHandler.getActionListener().onAction("pause", true, 0f);
+        //Only verifying that in a real scenario, the game would unpause now.
+        Mockito.verify(envState).setPaused(false);
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testRestart() {
+        AppStateManager stateManager = Mockito.mock(AppStateManager.class);
+        Mockito.when(main.getStateManager()).thenReturn(stateManager);
+        Mockito.when(stateManager.hasState(envState)).thenReturn(true);
+        inputHandler.getActionListener().onAction("restart", true, 0f);
+        Mockito.verify(envState).cleanup();
+        Mockito.verify(envState).initialize(Mockito.any(), Mockito.any());
     }
 
     /**

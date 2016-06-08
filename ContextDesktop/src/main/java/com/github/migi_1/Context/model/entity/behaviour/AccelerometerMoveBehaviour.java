@@ -22,7 +22,6 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 	private static final float MAX_SPEED = 1.0f;
 	
 	private Filter<String> ipFilter;
-	
 	/**
 	 * Constructor for AccelerometerMoveBehaviour.
 	 * Also automatically registers this behaviour to the server.
@@ -35,7 +34,7 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 	public AccelerometerMoveBehaviour(Filter<String> ipFilter) {
 		this.ipFilter = ipFilter;
 		
-		Main.getMain().getServer().getServer().addMessageListener(this);
+		Main.getInstance().getServer().getServer().addMessageListener(this);
 	}
 
 	/**

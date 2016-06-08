@@ -17,6 +17,7 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
@@ -49,13 +50,14 @@ public class TestMainEnvironment {
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
     private ViewPort viewPort;
-    private Node rootNode;
+    private Node rootNode, guiNode;
     private MaterialDef matDef;
     private MatParamTexture matParam;
     private Spatial model;
     private RenderManager renderManager;
     private Camera cam;
     private HUDController hudController;
+    private Entity entity;
 
     /**
      * This method starts every time a new test case starts.
@@ -69,18 +71,19 @@ public class TestMainEnvironment {
     		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
  			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
  				.withAnyArguments().thenReturn(amb);
- 			
  		} catch (Exception e) {
  			e.printStackTrace();
  		}
-    	
+
         env = PowerMockito.spy(new MainEnvironment());
 
+        entity = Mockito.mock(Entity.class);
         hudController = Mockito.mock(HUDController.class);
         stateManager = Mockito.mock(AppStateManager.class);
         app = Mockito.mock(Main.class);
         viewPort = Mockito.mock(ViewPort.class);
         rootNode = Mockito.mock(Node.class);
+        guiNode = Mockito.mock(Node.class);
         matDef = Mockito.mock(MaterialDef.class);
         matParam = Mockito.mock(MatParamTexture.class);
         model =  Mockito.mock(Spatial.class);
@@ -105,7 +108,9 @@ public class TestMainEnvironment {
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         MoveBehaviour moveBehaviour = Mockito.mock(MoveBehaviour.class);
         Mockito.when(platform.getMoveBehaviour()).thenReturn(moveBehaviour);
-    
+        Mockito.when(entity.getModel()).thenReturn(model);
+        Mockito.when(entity.getMoveBehaviour()).thenReturn(moveBehaviour);
+        Mockito.when(app.getGuiNode()).thenReturn(guiNode);
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
@@ -200,5 +205,36 @@ public class TestMainEnvironment {
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
     }
+
+    /**
+     * Test for the updateTestWorld method.
+     * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
+     */
+    @Test
+    public void updateTestWorldUpdateTwiceTest() throws Exception {
+        env.initialize(stateManager, app);
+        Whitebox.invokeMethod(env, "updateTestWorld");
+        //Verify that everything is still in the right place.
+        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
+        Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
+
+        Whitebox.invokeMethod(env, "updateTestWorld");
+        //Verify that everything is still in the right place.
+        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
+        Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
+    }
+
+    /**
+     * Tests the cleanup method.
+     */
+    @Test
+    public void cleanupTest() {
+        env.initialize(stateManager, app);
+        env.cleanup();
+        Mockito.verify(rootNode, Mockito.times(2)).removeLight(Mockito.any());
+        Mockito.verify(viewPort).clearProcessors();
+    }
+
+
 
 }

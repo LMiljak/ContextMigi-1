@@ -60,7 +60,7 @@ public class TestPlatform extends TestEntity {
         Main main = Mockito.mock(Main.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.mockStatic(Main.class);
-        Mockito.when(Main.getMain()).thenReturn(main);
+        Mockito.when(Main.getInstance()).thenReturn(main);
         Mockito.when(main.getServer()).thenReturn(Mockito.mock(ServerWrapper.class));
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(Mockito.mock(CarrierAssigner.class));
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);

@@ -32,7 +32,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param environment The environment to follow
      */
     public CarrierMoveBehaviour(Carrier carrier, Vector3f moveVector, MainEnvironment environment) {
-
         this.immobilized = 0;
         this.commander = environment.getCommander();
         this.carrier =  carrier;
@@ -85,7 +84,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
             catchUp = false;
             carrier.getModel().setLocalTranslation(destination);
         }
-
     }
 
     /**
@@ -94,7 +92,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public void setRelativeLocation(Vector3f relativeLocation) {
         this.relativeLocation = relativeLocation;
-
     }
 
     /**
@@ -103,14 +100,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public int getImmobilized() {
         return immobilized;
-    }
-
-    /**
-     * Set the immobilized attribute.
-     * @param immobilized attribute
-     */
-    public void setImmobilized(int immobilized) {
-        this.immobilized = immobilized;
     }
 
     /**
@@ -160,7 +149,4 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     public static int getNumberFrames() {
         return NUMBER_FRAMES;
     }
-
-
-
 }

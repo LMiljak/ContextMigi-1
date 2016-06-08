@@ -227,6 +227,7 @@ public class MainEnvironment extends Environment {
 		Vector3f relativeLocation = new Vector3f(x, y, z);
 		
 		Carrier newCarrier = new Carrier(relativeLocation, position, this);
+		((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
 		results.put(newCarrier, new CollisionResults());
 		
 		return newCarrier;

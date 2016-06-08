@@ -120,7 +120,6 @@ public class MainActivity extends AndroidHarness {
             // unregister the sensor listener
             mSensorManager.unregisterListener(accelerometerSensor);
 
-            client.closeClient();
 
             super.onStop();  
         } 
@@ -157,6 +156,8 @@ public class MainActivity extends AndroidHarness {
                         Log.d("rotate", name);
                         if(name.equals("trigger")) {
                             Log.d("rotate", "TRIGGERED");
+                            Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
+                            startActivity(nextScreen);
                         } else {
                             atkMessenger.sendAttack(posHolder.getPosition(), name);
                         }

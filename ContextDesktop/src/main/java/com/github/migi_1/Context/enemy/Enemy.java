@@ -64,7 +64,7 @@ public class Enemy extends Entity implements IKillable {
             currentTime += tpf;
             if (currentTime >= ATTACK_THRESHOLD) {
                 ((EnemyMoveBehaviour) getMoveBehaviour()).getTargetSpot().getCarrier().takeDamage(1);
-                currentTime -= ATTACK_THRESHOLD;
+                currentTime = 0;
             }
         }
     }

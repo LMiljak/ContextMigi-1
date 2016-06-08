@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +78,81 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     public void collidedTest() {
         assertEquals(testMoveBehaviour.getImmobilized(), 0);
         testMoveBehaviour.collided();
-        assertEquals(testMoveBehaviour.getImmobilized(), 120);
+        assertEquals(testMoveBehaviour.getImmobilized(), CarrierMoveBehaviour.getNumberFrames());
     }
 
+    /**
+     * Tests if the getMoveVector method works when the carrier is doing nothing special.
+     */
+    @Test
+    public void getMoveVectorRegularTest() {
+        assertEquals(getMoveVector(), testMoveBehaviour.getMoveVector());
+    }
+
+    /**
+     * Tests if the getMoveVector method works when the carrier is immobilized.
+     */
+    @Test
+    public void getMoveVectorImmobilizedTest() {
+        assertEquals(0, testMoveBehaviour.getImmobilized());
+        testMoveBehaviour.collided();
+        assertEquals(testMoveBehaviour.getImmobilized(), CarrierMoveBehaviour.getNumberFrames());
+        assertEquals(new Vector3f(0, 0, 0), testMoveBehaviour.getMoveVector());
+    }
+
+    /**
+     * Tests if the getMoveVector method works when the carrier is catching up.
+     */
+    @Test
+    public void getMoveVectorCatchUpTest() {
+        Vector3f oldMoveVector = getMoveVector();
+        assertEquals(oldMoveVector, testMoveBehaviour.getMoveVector());
+        testMoveBehaviour.setCatchUp(true);
+        oldMoveVector.setX(oldMoveVector.getX() - testMoveBehaviour.getAcceleratingFactor());
+        //Rounding errors, so therefore testing if the values differ practically nothing.
+        assertTrue(Math.abs(oldMoveVector.mult(2.0f).x - testMoveBehaviour.getMoveVector().x) < 0.01);
+        testMoveBehaviour.setCatchUp(false);
+        assertEquals(getMoveVector(), testMoveBehaviour.getMoveVector());
+    }
+
+    /**
+     * Tests if the getMoveVector method works when the carrier is null.
+     */
+    @Test
+    public void getMoveVectorCarrierNullTest() {
+        testMoveBehaviour.setCarrier(null);
+        assertEquals(getMoveVector(), testMoveBehaviour.getMoveVector());
+    }
+
+    /**
+     * Tests if the updateMoveVector method works when the carrier is immobilized.
+     */
+    @Test
+    public void updateMoveVectorImmobilizedTest() {
+        assertEquals(0, testMoveBehaviour.getImmobilized());
+        testMoveBehaviour.collided();
+        assertEquals(testMoveBehaviour.getImmobilized(), CarrierMoveBehaviour.getNumberFrames());
+        testMoveBehaviour.updateMoveVector();
+        assertEquals(testMoveBehaviour.getImmobilized(), CarrierMoveBehaviour.getNumberFrames() - 1);
+    }
+
+    /**
+     * Tests the getter for the catch up attribute.
+     */
+    @Test
+    public void getCatchUpTest() {
+        assertFalse(testMoveBehaviour.getCatchUp());
+        testMoveBehaviour.setCatchUp(true);
+        assertTrue(testMoveBehaviour.getCatchUp());
+        testMoveBehaviour.setCatchUp(false);
+        assertFalse(testMoveBehaviour.getCatchUp());
+    }
+
+    /**
+     * Tests the getter for the relativeLocation attribute.
+     */
+    @Test
+    public void getRelativeLocationTest() {
+        assertEquals(new Vector3f(0, 0, 0), testMoveBehaviour.getRelativeLocation());
+    }
 }

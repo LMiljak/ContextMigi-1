@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -32,6 +29,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -133,7 +132,7 @@ public class MainEnvironment extends Environment {
         }
 
         //check whether a collision has taken place.
-        //only one object can collide each update, two prevent two object from taking damage.
+        //only one object can collide each update, to prevent two objects from taking damage.
         Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
@@ -409,5 +408,13 @@ public class MainEnvironment extends Environment {
      */
     public Main getMain() {
         return ((Main) app);
+
+    /**
+     * Sets the results hashmap.
+     * Used in testing ONLY.
+     * @param newResults the new results.
+     */
+    public void setResults(HashMap<Entity, CollisionResults> newResults) {
+        results = newResults;
     }
 }

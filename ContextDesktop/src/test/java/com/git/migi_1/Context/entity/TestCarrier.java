@@ -13,10 +13,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
@@ -40,6 +42,8 @@ public class TestCarrier extends TestEntity {
     private Spatial model;
     private MainEnvironment environment;
     private Commander commander;
+    private Main main;
+    private ServerWrapper serverWrapper;
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
@@ -51,6 +55,9 @@ public class TestCarrier extends TestEntity {
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
         commander = Mockito.mock(Commander.class);
+        main = Mockito.mock(Main.class);
+        serverWrapper = Mockito.mock(ServerWrapper.class);
+
         ArrayList<Carrier> carriers = new ArrayList<>(4);
         for (int i = 0; i < 4; i++) {
         	Carrier carrier = Mockito.mock(Carrier.class);
@@ -66,6 +73,10 @@ public class TestCarrier extends TestEntity {
         Mockito.when(environment.getCarriers()).thenReturn(carriers);
         Mockito.when(environment.getCommander()).thenReturn(commander);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+        Mockito.when(environment.getMain()).thenReturn(main);
+        Mockito.when(main.getServer()).thenReturn(serverWrapper);
+        Mockito.when(serverWrapper.getServer()).thenReturn(null);
+
 
         Mockito.when(commander.getModel()).thenReturn(model);
         testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
@@ -92,7 +103,7 @@ public class TestCarrier extends TestEntity {
     @Test
     public void takeDamageTest() {
         testCarrier.takeDamage(1);
-        assertEquals(1, testCarrier.getHealth());
+        assertEquals(2, testCarrier.getHealth());
     }
 
     /**
@@ -106,7 +117,7 @@ public class TestCarrier extends TestEntity {
     /**
      * Tests the setHealth method.
      */
-    @Test
+   @Test
     public void setHealthTest() {
         testCarrier.setHealth(42);
         assertEquals(testCarrier.getHealth(), 42);
@@ -119,8 +130,5 @@ public class TestCarrier extends TestEntity {
     public void getPositionTest() {
         assertEquals(testCarrier.getPosition(), PlatformPosition.BACKLEFT);
     }
-
-
-
 
 }

@@ -48,6 +48,7 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
+
 				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, environment);
 
 				addressCarrierMap.put(conn.getAddress(), carrier);

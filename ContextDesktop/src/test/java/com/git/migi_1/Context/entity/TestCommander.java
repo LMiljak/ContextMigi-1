@@ -41,6 +41,7 @@ public class TestCommander extends TestEntity {
     @Override
     @Before
     public void setUp() {
+
     	try {
  			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
  				.withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));

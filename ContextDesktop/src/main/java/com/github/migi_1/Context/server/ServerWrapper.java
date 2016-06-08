@@ -7,7 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
+import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
+import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
@@ -25,10 +27,12 @@ public class ServerWrapper {
 				AccelerometerMessage.class,
 //				EnableSprayToAppMessage.class,
 				EnableSprayToVRMessage.class,
-                PositionMessage.class
 //				StartBugEventMessage.class,
 //				StopEventToVRMessage.class,
 //				StopAllEventsMessage.class
+				PositionMessage.class,
+                                HealthMessage.class,
+                                AttackMessage.class
 				);
 
 	/** The port on which the server is running. */

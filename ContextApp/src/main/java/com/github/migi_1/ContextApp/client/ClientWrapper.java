@@ -2,6 +2,8 @@ package com.github.migi_1.ContextApp.client;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
+import com.github.migi_1.ContextMessages.AttackMessage;
+import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import java.io.IOException;
 
@@ -27,6 +29,8 @@ public class ClientWrapper {
             Serializer.registerClass(AccelerometerMessage.class);
             Serializer.registerClass(PositionMessage.class);
             Serializer.registerClass(EnableSprayToVRMessage.class);
+            Serializer.registerClass(HealthMessage.class);
+            Serializer.registerClass(AttackMessage.class);
         }
 	
         /**

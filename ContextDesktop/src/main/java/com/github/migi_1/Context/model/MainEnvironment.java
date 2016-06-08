@@ -219,13 +219,14 @@ public class MainEnvironment extends Environment {
 		x = RELATIVE_CARRIER_LOCATION.x;
 		z = RELATIVE_CARRIER_LOCATION.z;
 
-		z = z * position.getzFactor();
-		x = x * position.getxFactor();
+		z *= position.getzFactor();
+		x *= position.getxFactor();
+		//Adjusting x so it carrier keeps up with the new location of the platform.
+		x = x + platform.getModel().getLocalTranslation().x - PLATFORM_LOCATION.x;
 		
 		Vector3f relativeLocation = new Vector3f(x, y, z);
 		
 		Carrier newCarrier = new Carrier(relativeLocation, position, this);
-		((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
 		results.put(newCarrier, new CollisionResults());
 		
 		return newCarrier;
@@ -237,6 +238,15 @@ public class MainEnvironment extends Environment {
      */
     public Commander getCommander() {
         return commander;
+    }
+    
+    /**
+     * Gets the platform.
+     * @return
+     * 		The retrieved platform.
+     */
+    public Platform getPlatform() {
+    	return platform;
     }
 
 

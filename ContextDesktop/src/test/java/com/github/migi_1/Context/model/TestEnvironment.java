@@ -67,7 +67,7 @@ public class TestEnvironment {
 		this.root = mock(Node.class);
 		when(app.getRootNode()).thenReturn(root);
 		AudioNode backgroundMusic = Mockito.mock(AudioNode.class);
-        when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic );
+        when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
 		this.environment.initialize(manager, app);
 	}
 

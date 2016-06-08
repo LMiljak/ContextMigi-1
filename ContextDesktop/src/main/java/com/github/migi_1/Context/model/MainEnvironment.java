@@ -408,6 +408,7 @@ public class MainEnvironment extends Environment {
      */
     public Main getMain() {
         return ((Main) app);
+    }
 
     /**
      * Sets the results hashmap.

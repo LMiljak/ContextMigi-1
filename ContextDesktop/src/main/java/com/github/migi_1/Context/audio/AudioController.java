@@ -16,6 +16,8 @@ import com.jme3.audio.AudioNode;
  */
 public class AudioController {
 
+    private boolean isPlaying;
+
     private AudioNode backgroundMusic;
 
     /**
@@ -31,7 +33,7 @@ public class AudioController {
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(1);
         ((Main) app).getRootNode().attachChild(backgroundMusic);
-        backgroundMusic.play();
+        isPlaying = false;
 
     }
 
@@ -49,6 +51,20 @@ public class AudioController {
      */
     public void setBackgroundMusic(AudioNode backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
+    }
+
+    /**
+     * Mute or unmute the background music.
+     */
+    public void mute() {
+        if (!isPlaying) {
+            isPlaying = true;
+            backgroundMusic.play();
+        }
+        else {
+            isPlaying = false;
+            backgroundMusic.pause();
+        }
     }
 
 

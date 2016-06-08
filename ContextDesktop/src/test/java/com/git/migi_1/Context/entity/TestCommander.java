@@ -3,6 +3,7 @@ package com.git.migi_1.Context.entity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Assert;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
@@ -41,13 +42,15 @@ public class TestCommander extends TestEntity {
     @Override
     @Before
     public void setUp() {
+
     	try {
- 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+                .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
  			
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
+ 	} catch (Exception e) {
+            e.printStackTrace();
+ 	}
+
     	
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);

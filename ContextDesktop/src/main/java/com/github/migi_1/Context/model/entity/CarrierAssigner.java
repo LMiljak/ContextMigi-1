@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.network.ConnectionListener;
 import com.jme3.network.HostedConnection;
 import com.jme3.network.Server;
@@ -21,6 +21,7 @@ public class CarrierAssigner implements ConnectionListener {
 	private Platform platform;
 	private MainEnvironment environment;
 	private HashMap<String, Carrier> addressCarrierMap = new HashMap<>(4);
+        private MainEnvironment env;
 	
 	/**
 	 * Constructor for CarrierAssigner.
@@ -48,6 +49,7 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
+
 				Carrier carrier = new Carrier(platform.getModel().getLocalTranslation(), position, environment);
 				
 				addressCarrierMap.put(conn.getAddress(), carrier);

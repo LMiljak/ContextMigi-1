@@ -32,6 +32,7 @@ public class Commander extends Camera {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
+
         setMoveBehaviour(new SumMultiMoveBehaviour(
         					new AccelerometerMoveBehaviour(),
         					new AcceleratingMoveBehaviour(MOVE_VECTOR)

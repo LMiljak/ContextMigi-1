@@ -13,7 +13,6 @@ public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
 
 	/**
 	 * Constructor for ConstantSpeedMoveBehaviour.
-	 * 
 	 * @param moveVector
 	 * 		The direction and speed of this behaviour.
 	 */
@@ -62,5 +61,7 @@ public class ConstantSpeedMoveBehaviour extends EntityMoveBehaviour {
     public void setDecay(float decay) {
         this.decay = decay;
     }
+    
+    
 
 }

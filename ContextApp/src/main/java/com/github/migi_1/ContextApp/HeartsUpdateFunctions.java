@@ -87,8 +87,10 @@ public class HeartsUpdateFunctions {
                 return R.id.Heart_1;
             case 2:
                 return R.id.Heart_2;
-            default:
+            case 3:
                 return R.id.Heart_3;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 

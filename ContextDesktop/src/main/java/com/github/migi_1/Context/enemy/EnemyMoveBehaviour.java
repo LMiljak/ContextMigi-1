@@ -23,7 +23,6 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     private EnemySpot targetSpot;
     private Enemy enemy;
     private boolean atSpot;
-    private ArrayList<Carrier> carriers;
 
     /**
      * Constructor of the EnemyMoveBehaviour.
@@ -34,7 +33,6 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         super();
         this.enemy = enemy;
         this.moveVector = new Vector3f(0, 0, 0);
-        this.carriers = carriers;
         this.localTranslation = enemy.getModel().getLocalTranslation();
         atSpot = false;
         targetSpot = createTargetSpot(carriers);

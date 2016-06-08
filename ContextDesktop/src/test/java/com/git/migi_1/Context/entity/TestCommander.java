@@ -78,13 +78,5 @@ public class TestCommander extends TestEntity {
         testCommander.collideWith(collider, results);
         Mockito.verify(model, Mockito.times(1)).collideWith(collider, results);
     }
-    
-    /**
-     * A temporary passing test.
-     */
-    @Test
-    public void passingTest1() {
-        Assert.assertTrue(true);
-    }
 
 }

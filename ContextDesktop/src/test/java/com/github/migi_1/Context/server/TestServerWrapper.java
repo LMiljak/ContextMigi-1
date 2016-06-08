@@ -1,7 +1,7 @@
 package com.github.migi_1.Context.server;
 
-/*import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;*/
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import org.junit.Before;
@@ -53,10 +53,10 @@ public class TestServerWrapper {
 	 * Asserts that the getServer method returns the correct server.
 	 * @throws IOException if the initialisation of the server failed.
 	 */
-	/*@Test
+	@Test
 	public void testGetServer() throws IOException {
 		assertEquals(server, wrapper.getServer());
-	}*/
+	}
 	
 	/**
 	 * Verifies that the server.start() method and server.close() method
@@ -87,12 +87,12 @@ public class TestServerWrapper {
 	 * Asserts that the closeServer does nothing because the server is already closed.
 	 * @throws IOException if the initialisation of the server failed.
 	 */
-	/*@Test
+	@Test
 	public void testCloseClosedServer() throws IOException {
 		wrapper.closeServer();
 		
 		verifyStartsAndCloses(0, 0);
-	}*/
+	}
 	
 	/**
 	 * Assert that after starting and then closing the server:
@@ -101,13 +101,13 @@ public class TestServerWrapper {
 	 * 
 	 * @throws IOException if the initialisation of the server failed.
 	 */
-	/*@Test
+	@Test
 	public void testStartCloseServer() throws IOException {
 		wrapper.startServer();
 		wrapper.closeServer();
 		
 		verifyStartsAndCloses(1, 1);
-	}*/
+	}
 	
 	/**
 	 * Assert that after starting and then starting it again the server:
@@ -116,13 +116,13 @@ public class TestServerWrapper {
 	 * 
 	 * @throws IOException if the initialisation of the server failed.
 	 */
-	/*@Test
+	@Test
 	public void testStartStartServer() throws IOException {
 		wrapper.startServer();
 		wrapper.startServer();
 		
 		verifyStartsAndCloses(1, 0);
-	}*/
+	}
 	
 	/**
 	 * Assert that after starting, closing, starting and closing again it again, the server:
@@ -131,7 +131,7 @@ public class TestServerWrapper {
 	 * 
 	 * @throws IOException if the initialisation of the server failed.
 	 */
-	/*@Test
+	@Test
 	public void testStartCloseStartCloseServer() throws IOException {
 		wrapper.startServer();
 		wrapper.closeServer();
@@ -139,7 +139,7 @@ public class TestServerWrapper {
 		wrapper.closeServer();
 		
 		verifyStartsAndCloses(2, 2);
-	}*/
+	}
 	
 	/**
 	 * Tests the createServer method by checking that it fails after 10 failing
@@ -147,7 +147,7 @@ public class TestServerWrapper {
 	 * 
 	 * @throws IOException 
 	 */
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testFailedToCreateServer() throws IOException {
 		Mockito.when(Network.createServer(PORT)).thenThrow(IOException.class);
@@ -162,5 +162,5 @@ public class TestServerWrapper {
 			//ServerWrapper in the setup method.
 			Network.createServer(Mockito.anyInt());
 		}
-	}*/
+	}
 }

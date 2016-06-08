@@ -1,10 +1,9 @@
 package com.git.migi_1.Context.entity;
 
-// import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
@@ -31,7 +30,7 @@ public abstract class TestEntity {
     @Test
     public void testGetMoveBehaviour() {
         testEntity.setMoveBehaviour(moveBehaviour);
-        Assert.assertEquals(moveBehaviour, testEntity.getMoveBehaviour());
+        assertEquals(moveBehaviour, testEntity.getMoveBehaviour());
     };
 
     /**

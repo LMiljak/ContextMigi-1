@@ -1,6 +1,6 @@
 package com.git.migi_1.Context.entity;
 
-// import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,6 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import org.junit.Assert;
 
 /**
  * Test class for the Platform class.
@@ -71,14 +70,6 @@ public class TestPlatform extends TestEntity {
      */
     @Test
     public void testGetDefaultModel() {
-        Assert.assertEquals(platform.getDefaultModel(), model);
-    }
-    
-    /**
-     * A temporary passing test.
-     */
-    @Test
-    public void passingTest2() {
-        Assert.assertTrue(true);
+        assertEquals(platform.getDefaultModel(), model);
     }
 }

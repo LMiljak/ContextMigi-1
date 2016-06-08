@@ -44,16 +44,14 @@ public class ObstacleSpawner {
     public ArrayList<Obstacle> getObstacles() {
 
         //call removeDamageDealer when an obstacle is too far away
-        boolean delete = false;
+        ArrayList<Obstacle> deleteList = new ArrayList<Obstacle>();
         for (Obstacle obs : obstacleList) {
             if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
-                delete = true;
+                deleteList.add(obs);
 
             }
         }
-        if (delete) {
-            removeDamageDealer();
-        }
+        obstacleList.removeAll(deleteList);
         while (obstacleList.size() < NUMBER_OBSTACLES) {
             Obstacle obs = obstacleFactory.produce();
             obs.scale(0.3f);

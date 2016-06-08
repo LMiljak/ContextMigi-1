@@ -20,7 +20,7 @@ public abstract class ClientState {
     }
     
     /**
-     * Gets the client on which this state applies
+     * Gets the client on which this state applies.
      * 
      * @return 
      *      The client on which this state applies

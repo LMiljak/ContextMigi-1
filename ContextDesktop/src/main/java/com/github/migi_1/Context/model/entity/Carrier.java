@@ -1,5 +1,8 @@
 package com.github.migi_1.Context.model.entity;
 
+
+import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -20,9 +23,13 @@ public class Carrier extends Entity implements IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
-    private static final int INITIAL_HEALTH = 2;
+    private static final int INITIAL_HEALTH = 3;
 
+    private Main main;
+    private HealthMessenger healthMessenger;
+    
     private int health;
+
     private PlatformPosition position;
     
     private Vector3f relativeLocation;
@@ -32,7 +39,8 @@ public class Carrier extends Entity implements IKillable {
      * @param position The position of the carrier under the platform.
      * @param environment The environment to follow
      */
-    public Carrier(Vector3f relativeLocation, PlatformPosition position, MainEnvironment environment) {
+    public Carrier(Vector3f relativeLocation, PlatformPosition position, 
+            MainEnvironment environment) {
         super();
         
         setModel(getDefaultModel());
@@ -45,6 +53,8 @@ public class Carrier extends Entity implements IKillable {
         setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
 
         health = INITIAL_HEALTH;
+        main = environment.getMain();
+        healthMessenger = new HealthMessenger(main);
         this.position = position;
     }
 
@@ -56,8 +66,16 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public void setHealth(int h) {
         health = h;
+        healthMessenger.sendHealth(getHealth(), getPosition());
     }
-
+    
+    @Override
+    public void takeDamage(int damage) {
+        setHealth(getHealth() - damage);
+    	if (getHealth() <= 0) {
+    		onKilled();
+        }
+    }
 
     /**
      * Gets the position of this Carrier under the Platform.
@@ -79,7 +97,6 @@ public class Carrier extends Entity implements IKillable {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
-
     /**
      * Get relativeLocation attribute.
      * @return relativeLocation attribute
@@ -87,5 +104,12 @@ public class Carrier extends Entity implements IKillable {
     public Vector3f getRelativeLocation() {
         return relativeLocation;
     }
-
+    
+    /**
+     * Getter for healthMessenger.
+     * @return healthMessenger HealthMessenger
+     */
+    public HealthMessenger getHealthMessenger() {
+        return healthMessenger;
+    }
 }

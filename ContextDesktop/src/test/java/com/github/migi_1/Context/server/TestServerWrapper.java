@@ -14,12 +14,13 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.jme3.network.Network;
 import com.jme3.network.Server;
+// import org.mockito.BDDMockito;
 
 /**
  * Test suite for the ServerWrapper class.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Network.class)
+@PrepareForTest({ServerWrapper.class, Network.class})
 public class TestServerWrapper {
 
 	/** The port on which the server is running. */

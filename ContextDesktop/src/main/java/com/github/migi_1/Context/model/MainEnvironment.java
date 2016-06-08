@@ -102,6 +102,8 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
+        
+        setPaused(true);
     }
 
     @Override

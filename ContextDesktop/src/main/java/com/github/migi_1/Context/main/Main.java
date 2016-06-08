@@ -78,12 +78,12 @@ public class Main extends VRApplication {
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
 
+        launchServer();
+        
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-        this.getStateManager().attach(mainMenuState);
-        
-        launchServer();
+        this.getStateManager().attachAll(mainMenuState, environmentState);
         
         // Probably not the right spot, but I'll put this here for now.
         attackMessageHandler = new AttackMessageHandler(this);

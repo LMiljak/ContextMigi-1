@@ -155,7 +155,7 @@ public class TestServerWrapper {
 		final int restartAttempts = 10;
 		
 		try {
-			ServerWrapper.getInstance();
+			new ServerWrapper();
 			fail();
 		} catch (IOException e) {
 			PowerMockito.verifyStatic(Mockito.times(restartAttempts + 1)); // + 1 because we create another 

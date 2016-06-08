@@ -10,6 +10,7 @@ import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -198,6 +199,7 @@ public class Main extends VRApplication {
      */
     public void handleAttack(PlatformPosition pos, String dir) {
         // TODO: EXECUTE ATTACKS
+    }
 
     /**
      * Sets the current main.

@@ -32,6 +32,7 @@ public class Commander extends Camera {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
+        
         setMoveBehaviour(platformBehaviour);
     }
 

@@ -47,11 +47,10 @@ public class TestPlatform extends TestEntity {
     public void setUp() throws Exception {
     	try {
  			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withAnyArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
- 			
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
+ 				.withAnyArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));	
+		} catch (Exception e) {
+		        e.printStackTrace();
+		}
     	
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);

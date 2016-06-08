@@ -1,12 +1,12 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
 import com.github.migi_1.Context.main.Main;
-import com.github.migi_1.Context.utility.Filter;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.jme3.math.Vector3f;
 import com.jme3.network.HostedConnection;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
+import com.github.migi_1.Context.utility.Filter;
 
 /**
  * A Movebehaviour that listens to AccelerometerMessages.

@@ -59,12 +59,14 @@ public class TestMainEnvironment {
     private HUDController hudController;
     private Entity entity;
 
+
+
     /**
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
      */
     @SuppressWarnings("unchecked")
-	@Before
+    @Before
     public void setUp() throws Exception {
     	try {
     		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
@@ -124,7 +126,7 @@ public class TestMainEnvironment {
     @Test
     public void intializeTest() {
         env.initialize(stateManager, app);
-        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
+        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
     }
 
     /**
@@ -134,9 +136,9 @@ public class TestMainEnvironment {
     public void updateTest() {
         env.initialize(stateManager, app);
         env.update(0.1f);
-        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.any());
+        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
-
+    
     /**
      * Test for the render method.
      */
@@ -154,9 +156,9 @@ public class TestMainEnvironment {
         env.initialize(stateManager, app);
         env.setFlyCam(cam);
         env.moveCam(new Vector3f(-1, 1, 1));
-        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.any());
+        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
-
+    
     /**
      * Test for the rotateCam method.
      */
@@ -184,7 +186,7 @@ public class TestMainEnvironment {
     /**
      * Test for the steer method.
      */
-    @Test
+   @Test
     public void steerTest() {
         env.initialize(stateManager, app);
         env.steer(-1.0f);
@@ -194,6 +196,7 @@ public class TestMainEnvironment {
     }
 
     /**
+
      * Test for the updateTestWorld method.
      * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
      */
@@ -202,8 +205,8 @@ public class TestMainEnvironment {
         env.initialize(stateManager, app);
         Whitebox.invokeMethod(env, "updateTestWorld");
         //Verify that everything is still in the right place.
-        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
-        Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
+        Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
+        Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.<Spatial>any());
     }
 
     /**

@@ -3,16 +3,17 @@ package com.github.migi_1.Context.model;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
-import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -52,6 +53,7 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private Application app;
     private Platform platform;
     private Commander commander;
     private DirectionalLight sun;
@@ -76,7 +78,8 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
+        this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -221,13 +224,10 @@ public class MainEnvironment extends Environment {
 
 		z *= position.getzFactor();
 		x *= position.getxFactor();
-		//Adjusting x so it carrier keeps up with the new location of the platform.
-		x = x + platform.getModel().getLocalTranslation().x - PLATFORM_LOCATION.x;
 		
 		Vector3f relativeLocation = new Vector3f(x, y, z);
 		
 		Carrier newCarrier = new Carrier(relativeLocation, position, this);
-		((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
 		results.put(newCarrier, new CollisionResults());
 		
 		return newCarrier;
@@ -389,6 +389,14 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+    
+    /**
+     * Returns the main application.
+     * @return (Main) app.
+     */
+    public Main getMain() {
+        return ((Main) app);
     }
 
     /**

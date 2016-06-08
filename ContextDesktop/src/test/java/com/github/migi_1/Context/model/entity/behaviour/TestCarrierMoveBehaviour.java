@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +20,7 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 
 /**
  * Test class for CarrierMoveBehaviour.
@@ -155,6 +154,4 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     public void getRelativeLocationTest() {
         assertEquals(new Vector3f(0, 0, 0), testMoveBehaviour.getRelativeLocation());
     }
-
-
 }

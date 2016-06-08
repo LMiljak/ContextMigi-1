@@ -121,6 +121,7 @@
 					<failOnViolation>false</failOnViolation>
 					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+                                        <excludes>**/generated/**/*</excludes>
 				</configuration>
 				<dependencies>
 					<dependency>

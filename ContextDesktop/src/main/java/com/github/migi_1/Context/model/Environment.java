@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
@@ -25,6 +26,7 @@ public class Environment extends AbstractAppState {
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
 	private HUDController hudController;
+	private AudioController audioController;
 	private boolean paused;
 	private Application app;
 
@@ -37,6 +39,7 @@ public class Environment extends AbstractAppState {
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 		hudController = new HUDController(app);
+		audioController = new AudioController(app);
 	}
 
 	@Override

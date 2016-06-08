@@ -20,10 +20,10 @@ public class AudioController {
         AudioKey key = new AudioKey("Music/POL-mushroom-trail-short.wav", true);
         backgroundMusic = new AudioNode(data, key);
         backgroundMusic.setPositional(false);
-        backgroundMusic.setLooping(false);
+        backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(2);
         ((Main) app).getRootNode().attachChild(backgroundMusic);
-
+        backgroundMusic.play();
 
     }
 

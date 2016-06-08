@@ -1,6 +1,6 @@
 package com.github.migi_1.Context.screens;
 
-import com.github.migi_1.Context.Main;
+import com.github.migi_1.Context.main.Main;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;

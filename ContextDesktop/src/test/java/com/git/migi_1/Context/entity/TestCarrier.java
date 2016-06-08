@@ -2,6 +2,8 @@ package com.git.migi_1.Context.entity;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +13,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
@@ -33,6 +38,8 @@ public class TestCarrier extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
+    private MainEnvironment environment;
+    private Commander commander;
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
@@ -40,17 +47,28 @@ public class TestCarrier extends TestEntity {
     @Override
     @Before
     public void setUp() {
-
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
+        commander = Mockito.mock(Commander.class);
+        ArrayList<Carrier> carriers = new ArrayList<>(4);
+        for (int i = 0; i < 4; i++) {
+        	Carrier carrier = Mockito.mock(Carrier.class);
+        	carriers.add(carrier);
+        	Mockito.when(carrier.getModel()).thenReturn(model);
+        }
         moveBehaviour = Mockito.mock(MoveBehaviour.class);
+        environment = Mockito.mock(MainEnvironment.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
+        Mockito.when(environment.getCarriers()).thenReturn(carriers);
+        Mockito.when(environment.getCommander()).thenReturn(commander);
+        Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
 
-        testCarrier = new Carrier(new Vector3f(0, 0, 0), 0);
+        Mockito.when(commander.getModel()).thenReturn(model);
+        testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCarrier);
@@ -95,20 +113,11 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Tests the getId method.
+     * Tests the getPosition method.
      */
     @Test
-    public void getIdTest() {
-        assertEquals(testCarrier.getId(), 0);
-    }
-
-    /**
-     * Tests the setId method.
-     */
-    @Test
-    public void setIdTest() {
-        testCarrier.setId(10);
-        assertEquals(testCarrier.getId(), 10);
+    public void getPositionTest() {
+        assertEquals(testCarrier.getPosition(), PlatformPosition.BACKLEFT);
     }
 
 

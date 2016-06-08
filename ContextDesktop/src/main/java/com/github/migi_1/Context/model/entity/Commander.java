@@ -1,5 +1,8 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
@@ -15,7 +18,7 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Commander extends Entity implements Collidable {
+public class Commander extends Camera {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
@@ -29,7 +32,10 @@ public class Commander extends Entity implements Collidable {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new ConstantSpeedMoveBehaviour(MOVE_VECTOR));
+        setMoveBehaviour(new SumMultiMoveBehaviour(
+        					new AccelerometerMoveBehaviour(),
+        					new AcceleratingMoveBehaviour(MOVE_VECTOR)
+        				));
     }
 
 

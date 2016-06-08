@@ -12,7 +12,7 @@ import com.jme3.network.Client;
 /**
  * Sensor that receives information about the accelerometer of the Android device.
  */
-public class AccelerometerSensor extends Activity implements SensorEventListener {
+public class TiltSensor extends Activity implements SensorEventListener {
 
     private MainActivity act;
     private ClientWrapper client;
@@ -25,7 +25,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      * @param client
      *      The clientwrapper used for communication with the server.
      */
-    public AccelerometerSensor(MainActivity act, ClientWrapper client) {
+    public TiltSensor(MainActivity act, ClientWrapper client) {
         this.act = act;
         this.client = client;
     }
@@ -40,12 +40,13 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             if (act.getMain() == null) {
                 return;
             }
-            int xforce = (int) se.values[0];
-            int yforce = (int) se.values[1];
-            int zforce = (int) se.values[2];
+
+            float xforce = se.values[0];
+            float yforce = se.values[1];
+            float zforce = se.values[2];
             
             // log the sensor values
-            Log.d("main", xforce + " " + yforce + " " + zforce);
+            //Log.d("main", xforce + " " + yforce + " " + zforce);
             //Sending the information to the Server.
             sendSensorInformation(xforce, yforce, zforce);
     }

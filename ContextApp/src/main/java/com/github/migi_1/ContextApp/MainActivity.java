@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.jme3.app.AndroidHarness;
+
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -24,13 +26,14 @@ public class MainActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        private AccelerometerSensor accelerometerSensor;
+        private TiltSensor tiltSensor;
         private PositionHolder posHolder;
         private AttackMessenger atkMessenger;
         private HeartsUpdateFunctions huFunctions;
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         private ClientWrapper client;
+        private AccelerometerSensor accelerometerSensor;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -41,6 +44,7 @@ public class MainActivity extends AndroidHarness {
         appClass = "com.github.migi_1.ContextApp.Main";
             
         //Create the accelerometer sensor.
+        tiltSensor = new TiltSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
         posHolder = PositionHolder.getInstance();
         
@@ -73,8 +77,8 @@ public class MainActivity extends AndroidHarness {
                 .autoStart(Executors.newFixedThreadPool(10));
             
         // create te accelerometerSensor
+        tiltSensor = new TiltSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
-        
         // wait until position is received
         /*while (true) {
             if (posHolder.getPosition() != null) {
@@ -98,8 +102,12 @@ public class MainActivity extends AndroidHarness {
         client.startClient();
         
         // register the lister for the accelerometer
-        mSensorManager.registerListener(accelerometerSensor, 
+        mSensorManager.registerListener(tiltSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_FASTEST);
+        
+        mSensorManager.registerListener(accelerometerSensor, 
+                mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
                 SensorManager.SENSOR_DELAY_FASTEST);
     }
     
@@ -109,6 +117,7 @@ public class MainActivity extends AndroidHarness {
     @Override
     protected void onStop() {  
         // unregister the sensor listener
+        mSensorManager.unregisterListener(tiltSensor);
         mSensorManager.unregisterListener(accelerometerSensor);
             
         client.closeClient();

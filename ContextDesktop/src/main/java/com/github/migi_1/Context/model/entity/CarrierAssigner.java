@@ -17,7 +17,7 @@ import com.jme3.network.Server;
  * a connection has been established with a client.
  */
 public class CarrierAssigner implements ConnectionListener {
-
+	
 	private Platform platform;
 	private MainEnvironment environment;
 	private HashMap<PlatformPosition, String> addressCarrierMap = new HashMap<>(4);
@@ -48,7 +48,7 @@ public class CarrierAssigner implements ConnectionListener {
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
 			if (addressCarrierMap.get(position) == null) {
-				Carrier carrier = new Carrier(platform.getModel().getWorldTranslation(), position, environment);
+				Carrier carrier = environment.createCarrier(position);
 				
 				addressCarrierMap.put(position, conn.getAddress());
 				platform.addCarrier(carrier);

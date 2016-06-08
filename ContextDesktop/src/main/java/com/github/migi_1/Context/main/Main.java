@@ -38,7 +38,7 @@ public class Main extends VRApplication {
 
 
     /**
-     * main function of the appication, sets some meta-parameters of the application
+     * main function of the application, sets some meta-parameters of the application
      * and starts it.
      *
      * @param args

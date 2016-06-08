@@ -1,6 +1,5 @@
 package com.github.migi_1.Context.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -55,7 +54,6 @@ public class MainEnvironment extends Environment {
 
     private Platform platform;
     private Commander commander;
-    private ArrayList<Carrier> carriers;
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
@@ -206,30 +204,29 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Create the carriers.
-     * @return Array with carriers
+     * Creates a carrier.
+     * 
+     * @param position
+     * 		The position under the platform to place the carrier.
+     * @return
+     * 		The created carrier.
      */
-    private ArrayList<Carrier> createCarriers() {
-        carriers = new ArrayList<Carrier>();
-        float x, y, z;
-        y = RELATIVE_CARRIER_LOCATION.y;
-        for (PlatformPosition position : PlatformPosition.values()) {
-            x = RELATIVE_CARRIER_LOCATION.x;
-            z = RELATIVE_CARRIER_LOCATION.z;
+    public Carrier createCarrier(PlatformPosition position) {
+		float x, y, z;
+		y = RELATIVE_CARRIER_LOCATION.y;
+		x = RELATIVE_CARRIER_LOCATION.x;
+		z = RELATIVE_CARRIER_LOCATION.z;
 
-            //put two carriers on the right side.
-            z = z * position.getzFactor();
-
-            //put two carriers on the back side.
-            x = x * position.getxFactor();
-
-            Vector3f relativeLocation = new Vector3f(x, y, z);
-            Carrier newCarrier = new Carrier(relativeLocation, position, this);
-            ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
-            results.put(newCarrier, new CollisionResults());
-            carriers.add(newCarrier);
-        }
-        return carriers;
+		z = z * position.getzFactor();
+		x = x * position.getxFactor();
+		
+		Vector3f relativeLocation = new Vector3f(x, y, z);
+		
+		Carrier newCarrier = new Carrier(relativeLocation, position, this);
+		((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
+		results.put(newCarrier, new CollisionResults());
+		
+		return newCarrier;
     }
 
     /**
@@ -238,14 +235,6 @@ public class MainEnvironment extends Environment {
      */
     public Commander getCommander() {
         return commander;
-    }
-
-    /**
-     * Get the carriers.
-     * @return carriers
-     */
-    public ArrayList<Carrier> getCarriers() {
-        return carriers;
     }
 
 

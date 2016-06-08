@@ -63,7 +63,6 @@ public class TestCarrier extends TestEntity {
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-        Mockito.when(environment.getCarriers()).thenReturn(carriers);
         Mockito.when(environment.getCommander()).thenReturn(commander);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
 

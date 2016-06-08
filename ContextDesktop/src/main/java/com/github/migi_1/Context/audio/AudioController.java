@@ -8,10 +8,20 @@ import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioKey;
 import com.jme3.audio.AudioNode;
 
+/**
+ * This class handles all audio features.
+ *
+ * @author Marcel
+ *
+ */
 public class AudioController {
 
     private AudioNode backgroundMusic;
 
+    /**
+     * Constructor. Initialises the background music and starts playing it.
+     * @param app The running application
+     */
     public AudioController(Application app) {
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
         AudioData data = assetManager.loadAudio("Music/POL-mushroom-trail-short.wav");
@@ -25,10 +35,18 @@ public class AudioController {
 
     }
 
+    /**
+     * Getter for the background music.
+     * @return The background music
+     */
     public AudioNode getBackgroundMusic() {
         return backgroundMusic;
     }
 
+    /**
+     * Setter for the background music.
+     * @param backgroundMusic Music to set.
+     */
     public void setBackgroundMusic(AudioNode backgroundMusic) {
         this.backgroundMusic = backgroundMusic;
     }

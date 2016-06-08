@@ -153,10 +153,18 @@ public class Environment extends AbstractAppState {
         audioController.getBackgroundMusic().pause();
     }
 
+    /**
+     * Getter for the AudioController.
+     * @return The AudioController.
+     */
     public AudioController getAudioController() {
         return audioController;
     }
 
+    /**
+     * Setter for the AudioController.
+     * @param audioController AudioController to set
+     */
     public void setAudioController(AudioController audioController) {
         this.audioController = audioController;
     }

@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Position: front/right"
-        android:id="@+id/BR_location"
+        android:text="Position: Somewhere over the rainbow"
+        android:id="@+id/Location"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:textColor="#ffffff" />
@@ -23,8 +23,8 @@
     <Button
         android:layout_width="160dp"
         android:layout_height="100dp"
-        android:id="@+id/BR_button_left"
-        android:text="Hit NE"
+        android:id="@+id/Button_left"
+        android:text="Hit SE"
         android:background="#4643d3"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true" />
@@ -32,8 +32,8 @@
     <Button
         android:layout_width="160dp"
         android:layout_height="100dp"
-        android:id="@+id/BR_button_middle"
-        android:text="Hit SE"
+        android:id="@+id/Button_middle"
+        android:text="Hit SW"
         android:background="#ff2d2d"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -41,8 +41,8 @@
     <Button
         android:layout_width="160dp"
         android:layout_height="100dp"
-        android:id="@+id/BR_button_right"
-        android:text="Hit SW"
+        android:id="@+id/Button_right"
+        android:text="Hit NW"
         android:background="#37af33"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true" />
@@ -50,7 +50,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/BR_heart_2"
+        android:id="@+id/Heart_2"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -58,17 +58,17 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/BR_heart_1"
+        android:id="@+id/Heart_1"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/BR_heart_2" />
+        android:layout_toLeftOf="@+id/Heart_2" />
 
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/BR_heart_3"
+        android:id="@+id/Heart_3"
         android:src="@drawable/heart_red"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/BR_heart_2" />
+        android:layout_toRightOf="@+id/Heart_2" />
 
 </RelativeLayout>

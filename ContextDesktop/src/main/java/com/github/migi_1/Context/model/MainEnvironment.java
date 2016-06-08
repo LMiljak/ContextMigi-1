@@ -22,6 +22,7 @@ import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -59,9 +60,11 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private Application app;
     private Platform platform;
     private Commander commander;
     private ArrayList<Carrier> carriers;
+
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
@@ -87,7 +90,8 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
+        this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -218,6 +222,7 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
+
         for (Carrier carrier : carriers) {
             addEntity(carrier);
         }
@@ -424,6 +429,14 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+    
+    /**
+     * Returns the main application.
+     * @return (Main) app.
+     */
+    public Main getMain() {
+        return ((Main) app);
     }
 
     /**

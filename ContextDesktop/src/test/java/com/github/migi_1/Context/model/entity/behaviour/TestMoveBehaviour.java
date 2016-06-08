@@ -65,6 +65,4 @@ public abstract class TestMoveBehaviour {
         this.moveVector = moveVector;
     }
 
-
-
 }

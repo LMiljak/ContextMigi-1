@@ -67,6 +67,22 @@ public class AudioController {
         }
     }
 
+    /**
+     * True when background music is playing.
+     * @return whether background music is playing
+     */
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    /**
+     * Set whether the background is playing.
+     * @param isPlaying Whether background music is playing.
+     */
+    public void setPlaying(boolean isPlaying) {
+        this.isPlaying = isPlaying;
+    }
+
 
 
 }

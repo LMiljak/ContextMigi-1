@@ -67,8 +67,9 @@ public final class InputHandler {
                     }
                     else {
                         main.getEnv().setPaused(false);
-                        main.getEnv().getAudioController().getBackgroundMusic().play();
-
+                        if (main.getEnv().getAudioController().isPlaying()) {
+                            main.getEnv().getAudioController().getBackgroundMusic().play();
+                        }
                     }
                 } else if (name.equals("menu") && keyPressed) {
                     main.getEnv().cleanup();

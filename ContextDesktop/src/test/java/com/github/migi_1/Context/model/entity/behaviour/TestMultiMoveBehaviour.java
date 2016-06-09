@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.github.migi_1.Context.utility.SummingVectorAggregator;
 
 /**
  * Test suite for the MultiMoveBehaviour class.
@@ -15,14 +18,15 @@ public class TestMultiMoveBehaviour {
 	
 	private MoveBehaviour subBehaviour1;
 	private MoveBehaviour subBehaviour2;
-	private MoveBehaviour subBehaviour3;
 	
 	/**
 	 * Initialises the test fields.
 	 */
 	@Before
 	public void setUp() {
-		this.behaviour = new SumMultiMoveBehaviour(subBehaviour1, subBehaviour2, subBehaviour3);
+		this.subBehaviour1 = Mockito.mock(MoveBehaviour.class);
+		this.subBehaviour2 = Mockito.mock(MoveBehaviour.class);
+		this.behaviour = new MultiMoveBehaviour(new SummingVectorAggregator(), subBehaviour1, subBehaviour2);
 	}
 	
 	/**
@@ -30,9 +34,8 @@ public class TestMultiMoveBehaviour {
 	 */
 	@Test
 	public void testConstructor() {
-		assertTrue(behaviour.behaviours.contains(subBehaviour1));
-		assertTrue(behaviour.behaviours.contains(subBehaviour2));
-		assertTrue(behaviour.behaviours.contains(subBehaviour3));
-		assertEquals(3, behaviour.behaviours.size());
+		assertTrue(behaviour.getBehaviours().contains(subBehaviour1));
+		assertTrue(behaviour.getBehaviours().contains(subBehaviour2));
+		assertEquals(2, behaviour.getBehaviours().size());
 	}
 }

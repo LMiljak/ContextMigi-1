@@ -80,17 +80,6 @@ public class MainActivity extends AndroidHarness {
         // create te accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
         
-        // wait until position is received
-        /*while (true) {
-            if (posHolder.getPosition() != null) {
-                position = posHolder.getPosition();
-            	break;
-       	    }
-        }*/
-        position = PlatformPosition.FRONTLEFT;
-        
-        setUI();
-        
     }
     
     /**
@@ -114,11 +103,21 @@ public class MainActivity extends AndroidHarness {
         super.onResume();
 
         client.startClient();
+        client.getClient().addMessageListener(posHolder);
         
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
+        
+        while (true) {
+            if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
+            	break;
+       	    }
+        }
+        
+        setUI();
     }
     
     /**

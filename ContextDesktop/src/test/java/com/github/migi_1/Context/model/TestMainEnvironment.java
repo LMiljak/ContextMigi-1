@@ -259,7 +259,7 @@ public class TestMainEnvironment {
         //Set the mocked results as results for now.
         env.setResults(newResults);
         //Call the checkCollision method.
-        Whitebox.invokeMethod(env, "checkCollision");
+        Whitebox.invokeMethod(env, "checkObstacleCollision");
         //Verify the mocked object has collided.
         Mockito.verify(moveBehaviour).collided();
     }

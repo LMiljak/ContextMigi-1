@@ -38,10 +38,10 @@ public class ObstacleSpawner {
         this.obstacleFactory = new StaticObstacleFactory();
     }
     /**
-     * Create list of obstacles that are to be spawned in the environment.
+     * Create list of obstacles that are to be spawned in the environment and return them.
      * @return Map with all obstacles, with as key value their Geometry in the environment.
      */
-    public ArrayList<Obstacle> getObstacles() {
+    public ArrayList<Obstacle> updateObstacles() {
 
         //call removeDamageDealer when an obstacle is too far away
         ArrayList<Obstacle> deleteList = new ArrayList<Obstacle>();

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -28,8 +30,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -121,7 +121,7 @@ public class MainEnvironment extends Environment {
     private void checkCollision() {
         //add collision check for all obstacles
 
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
                 staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
@@ -199,7 +199,7 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             addDisplayable(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
@@ -339,7 +339,7 @@ public class MainEnvironment extends Environment {
         }
 
         //update the Obstacles
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             addDisplayable(staticObstacle);
         }
 

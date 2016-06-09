@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.scene.Spatial;
 
 /**

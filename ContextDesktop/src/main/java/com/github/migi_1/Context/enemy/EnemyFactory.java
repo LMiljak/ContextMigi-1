@@ -25,7 +25,7 @@ public class EnemyFactory {
      */
     public EnemyFactory(ArrayList<Carrier> carriers) {
         LevelPiece levelPiece = new LevelPiece();
-        this.levelPieceBoundingBox = ((BoundingBox)levelPiece.getModel().getWorldBound());
+        this.levelPieceBoundingBox = ((BoundingBox) levelPiece.getModel().getWorldBound());
         this.levelPieceLength = levelPieceBoundingBox.getXExtent();
         this.levelPieceWidth = levelPieceBoundingBox.getCenter().z;
         this.carriers = carriers;

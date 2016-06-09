@@ -49,7 +49,8 @@ public class EnemySpawner {
      * @return list of new enemies to add to the game.
      */
     public LinkedList<Enemy> generateEnemies() {
-        currentLevelPiece = -Math.floor(commanderLocation.x / ((BoundingBox)(new LevelPiece()).getModel().getWorldBound()).getXExtent());
+        currentLevelPiece = -Math.floor(commanderLocation.x 
+                / ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent());
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
         if (enemies.size() < MAX_NUM_ENEMIES) {
             if (currentLevelPiece != lastLevelPiece) {
@@ -83,8 +84,8 @@ public class EnemySpawner {
             if (enemy.getHealth() <= 0) {
                 deleteList.add(enemy);
             }
-            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > 
-            ((BoundingBox)(new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3) {
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) 
+                    > ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3) {
                 deleteList.add(enemy);
             }
         }

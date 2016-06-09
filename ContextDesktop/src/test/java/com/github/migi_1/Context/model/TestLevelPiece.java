@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -15,11 +14,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.bounding.BoundingBox;
-import com.jme3.bounding.BoundingVolume;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 /**
  * Test class for the LevelPiece class.
@@ -34,10 +29,6 @@ public class TestLevelPiece {
 
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
-
-    private Spatial model;
-
-    private BoundingVolume boundingBox;
 
     /**
      * Initialise all mock objects, static class responses and initialise the tested object.

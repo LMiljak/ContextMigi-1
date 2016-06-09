@@ -17,7 +17,9 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -70,15 +72,16 @@ public class TestCarrier extends TestEntity {
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-        Mockito.when(environment.getCarriers()).thenReturn(carriers);
         Mockito.when(environment.getCommander()).thenReturn(commander);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
         Mockito.when(environment.getMain()).thenReturn(main);
         Mockito.when(main.getServer()).thenReturn(serverWrapper);
         Mockito.when(serverWrapper.getServer()).thenReturn(null);
-
-
         Mockito.when(commander.getModel()).thenReturn(model);
+        Platform platform = Mockito.mock(Platform.class);
+        Mockito.when(environment.getPlatform()).thenReturn(platform);
+        Mockito.when(platform.getMoveBehaviour()).thenReturn(new StaticMoveBehaviour());
+
         testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
 
         setMoveBehaviour(moveBehaviour);

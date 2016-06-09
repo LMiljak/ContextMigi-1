@@ -2,7 +2,6 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -21,7 +20,6 @@ public class Carrier extends Entity implements IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
-    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private static final int INITIAL_HEALTH = 3;
 
     private Main main;
@@ -47,9 +45,7 @@ public class Carrier extends Entity implements IKillable {
                 .getLocalTranslation().add(relativeLocation));
         this.relativeLocation = relativeLocation;
 
-        CarrierMoveBehaviour moveBehaviour = new CarrierMoveBehaviour(this, MOVE_VECTOR, environment);
-        moveBehaviour.setRelativeLocation(relativeLocation);
-        setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
+        setMoveBehaviour(environment.getPlatform().getMoveBehaviour());
 
         health = INITIAL_HEALTH;
         main = environment.getMain();

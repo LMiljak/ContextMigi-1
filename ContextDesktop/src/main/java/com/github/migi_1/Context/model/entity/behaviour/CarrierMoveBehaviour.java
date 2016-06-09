@@ -23,8 +23,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     private Vector3f relativeLocation;
 
-    private MainEnvironment environment;
-
     private static final int NUMBER_FRAMES = 120;
 
     /**
@@ -35,7 +33,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public CarrierMoveBehaviour(Carrier carrier, Vector3f moveVector, MainEnvironment environment) {
         this.immobilized = 0;
-        this.environment = environment;
         this.commander = environment.getCommander();
         this.carrier =  carrier;
         this.relativeLocation = carrier.getRelativeLocation();
@@ -57,11 +54,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     @Override
     public Vector3f getMoveVector() {
-        if (carrier == null) {
-            carrier = environment.getCarriers().get(0);
-        }
-        updateMoveVector();
-
         //when immobilized, don't move forward
         if (immobilized > 0) {
             return new Vector3f(0, 0, 0);

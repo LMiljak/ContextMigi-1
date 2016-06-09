@@ -57,60 +57,59 @@ public class MainActivity extends AndroidHarness {
             LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
 
         }
+        
+    /**
+     * Instanciate the game instance.
+     * Instanciate the sensor manager.
+     * @param savedInstanceState 
+     */
+    @Override  
+    public void onCreate(Bundle savedInstanceState) {  
+        
+        super.onCreate(savedInstanceState);
+
+        //instantiate the application
+        application = (Main) getJmeApplication();
+        application.setDisplayFps(false);
+        application.setDisplayStatView(false);
+
+        //start the sensor manager
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        
+        setContentView(R.layout.android_searching);  
+
+        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
+                .autoStart(Executors.newFixedThreadPool(10));
+            
+        // create te accelerometerSensor
+        accelerometerSensor = new AccelerometerSensor(this, client);
+        
+    }
     
-        /**
-         * Instanciate the game instance.
-         * Instanciate the sensor manager.
-         * @param savedInstanceState 
-         */
-        @Override  
-        public void onCreate(Bundle savedInstanceState) {  
+   /**
+    * This method runs the app is resumed.
+    */
+    @Override  
+    protected void onResume() {  
+        super.onResume();
 
-            super.onCreate(savedInstanceState);
-
-            //instantiate the application
-            application = (Main) getJmeApplication();
-            application.setDisplayFps(false);
-            application.setDisplayStatView(false);
-
-            //start the sensor manager
-            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-            setContentView(R.layout.android_searching);  
-
-            client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
-                    .autoStart(Executors.newFixedThreadPool(10));
-
-            // create te accelerometerSensor
-            accelerometerSensor = new AccelerometerSensor(this, client);
-
-            // wait until position is received
-            /*while (true) {
-                if (posHolder.getPosition() != null) {
-                    position = posHolder.getPosition();
-                    break;
-                }
-            }*/
-            position = PlatformPosition.FRONTLEFT;
-
-            setUI();
-
+        client.startClient();
+        client.getClient().addMessageListener(posHolder);
+        
+        // register the lister for the accelerometer
+        mSensorManager.registerListener(accelerometerSensor, 
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_FASTEST);
+        
+        while (true) {
+            if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
+            	break;
+       	    }
         }
-    
-        /**
-         * This method runs the app is resumed.
-         */
-         @Override  
-         protected void onResume() {  
-             super.onResume();
-
-             client.startClient();
-
-             // register the lister for the accelerometer
-             mSensorManager.registerListener(accelerometerSensor, 
-                     mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                     SensorManager.SENSOR_DELAY_FASTEST);
-         }
+        
+        setUI();
+    }
     
         /**
          * Closes the app.

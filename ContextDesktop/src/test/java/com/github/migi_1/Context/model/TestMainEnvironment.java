@@ -139,7 +139,7 @@ public class TestMainEnvironment {
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         
-        PowerMockito.whenNew(CarrierAssigner.class).withArguments(Platform.class, ServerWrapper.class).thenReturn(carrierAssigner);
+        PowerMockito.whenNew(CarrierAssigner.class).withArguments(Platform.class, ServerWrapper.class, MainEnvironment.class).thenReturn(carrierAssigner);
     }
 
     /**

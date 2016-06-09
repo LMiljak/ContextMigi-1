@@ -16,6 +16,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
@@ -27,6 +28,7 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.MatParamTexture;
@@ -59,9 +61,11 @@ public class TestMainEnvironment {
     private RenderManager renderManager;
     private Camera cam;
     private HUDController hudController;
+    private AudioController audioController;
     private Entity entity;
     private EntityMoveBehaviour moveBehaviour;
     private Path path;
+    private AudioNode backgroundMusic;
 
 
 
@@ -86,6 +90,7 @@ public class TestMainEnvironment {
 
         entity = Mockito.mock(Entity.class);
         hudController = Mockito.mock(HUDController.class);
+        audioController = Mockito.mock(AudioController.class);
         stateManager = Mockito.mock(AppStateManager.class);
         app = Mockito.mock(Main.class);
         viewPort = Mockito.mock(ViewPort.class);
@@ -98,11 +103,12 @@ public class TestMainEnvironment {
         cam = Mockito.mock(Camera.class);
         moveBehaviour = Mockito.mock(EntityMoveBehaviour.class);
         path = Mockito.mock(Path.class);
-
+        backgroundMusic = Mockito.mock(AudioNode.class);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
+        PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
@@ -119,7 +125,7 @@ public class TestMainEnvironment {
         Mockito.when(path.getModel()).thenReturn(model);
         Mockito.when(model.center()).thenReturn(model);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-
+        Mockito.when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);

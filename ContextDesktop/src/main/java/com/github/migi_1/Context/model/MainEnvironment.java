@@ -2,8 +2,7 @@ package com.github.migi_1.Context.model;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import jmevr.app.VRApplication;
+import java.util.Random;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
@@ -16,7 +15,7 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -24,11 +23,14 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -73,6 +75,8 @@ public class MainEnvironment extends Environment {
 
     private ScoreController scoreController;
 
+    private long randomEventTime;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -80,7 +84,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
@@ -104,8 +108,11 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
-        setPaused(true);
+
+        //Start the random event timer.
+        setNewRandomEventTime();
+
+        //setPaused(true);
     }
 
     @Override
@@ -114,6 +121,7 @@ public class MainEnvironment extends Environment {
 
         checkCollision();
         updateTestWorld();
+        checkRandomEvent();
     }
 
     /**
@@ -148,6 +156,26 @@ public class MainEnvironment extends Environment {
             entry.setValue(new CollisionResults());
         }
 
+    }
+
+    private void checkRandomEvent() {
+        //Time for a random event!
+        System.out.println("Time left: " + (randomEventTime - System.currentTimeMillis()));
+        if(System.currentTimeMillis() > randomEventTime) {
+            StartBugEventMessage startMessage = new StartBugEventMessage();
+            Server server = getMain().getServer().getServer();
+            if(server.isRunning()) {
+                server.broadcast(startMessage);
+            }
+            setNewRandomEventTime();
+        }
+    }
+
+    /**
+     * Sets the randomEvent time to 20-30 seconds from the current time.
+     */
+    private void setNewRandomEventTime() {
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 20;
     }
 
     /**
@@ -214,7 +242,7 @@ public class MainEnvironment extends Environment {
 
     /**
      * Creates a carrier.
-     * 
+     *
      * @param position
      * 		The position under the platform to place the carrier.
      * @return
@@ -228,12 +256,12 @@ public class MainEnvironment extends Environment {
 
 		z *= position.getzFactor();
 		x *= position.getxFactor();
-		
+
 		Vector3f relativeLocation = new Vector3f(x, y, z);
-		
+
 		Carrier newCarrier = new Carrier(relativeLocation, position, this);
 		results.put(newCarrier, new CollisionResults());
-		
+
 		return newCarrier;
     }
 
@@ -244,7 +272,7 @@ public class MainEnvironment extends Environment {
     public Commander getCommander() {
         return commander;
     }
-    
+
     /**
      * Gets the platform.
      * @return
@@ -394,7 +422,7 @@ public class MainEnvironment extends Environment {
     public float getSteering() {
         return steering;
     }
-    
+
     /**
      * Returns the main application.
      * @return (Main) app.

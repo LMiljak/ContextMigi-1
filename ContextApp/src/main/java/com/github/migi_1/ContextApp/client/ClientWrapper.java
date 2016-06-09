@@ -8,6 +8,7 @@ import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
 import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class ClientWrapper {
             Serializer.registerClass(EnableSprayToVRMessage.class);
             Serializer.registerClass(HealthMessage.class);
             Serializer.registerClass(PositionMessage.class);
+            Serializer.registerClass(StartBugEventMessage.class);
             Serializer.registerClass(StopEventToVRMessage.class);
             Serializer.registerClass(StopAllEventsMessage.class);
         }

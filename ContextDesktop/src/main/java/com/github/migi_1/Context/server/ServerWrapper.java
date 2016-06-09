@@ -12,6 +12,7 @@ import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
 import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import com.jme3.network.AbstractMessage;
@@ -30,7 +31,7 @@ public class ServerWrapper {
 				AccelerometerMessage.class,
 				EnableSprayToAppMessage.class,
 				EnableSprayToVRMessage.class,
-//				StartBugEventMessage.class,
+				StartBugEventMessage.class,
 				StopEventToVRMessage.class,
 				StopAllEventsMessage.class,
 				PositionMessage.class,

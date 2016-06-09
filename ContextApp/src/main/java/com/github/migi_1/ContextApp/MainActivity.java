@@ -40,6 +40,7 @@ public class MainActivity extends AndroidHarness {
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         private ClientWrapper client;
+        private StartBugEventMessageListener startBugEventListener;
 
         /**
          * Configure the game instance that is launched and start the logger.
@@ -67,8 +68,6 @@ public class MainActivity extends AndroidHarness {
 
         //instantiate the application
         application = (Main) getJmeApplication();
-        application.setDisplayFps(false);
-        application.setDisplayStatView(false);
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -125,6 +124,7 @@ public class MainActivity extends AndroidHarness {
             atkMessenger = new AttackMessenger(this);
             mbFunctions = new MakeButtonFunctions(this);
             huFunctions = new HeartsUpdateFunctions(this);
+            startBugEventListener = new StartBugEventMessageListener(this);
 
             setContentView(R.layout.android_ingame);
 
@@ -147,18 +147,8 @@ public class MainActivity extends AndroidHarness {
 
                 @Override
                 public void onClick(View v) {
-                        Log.d("rotate", name);
-                        if(name.equals("trigger")) {
-                            Log.d("rotate", "TRIGGERED");
-                            Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
-                            nextScreen.putExtra("Position", posHolder.getPosition());
-                            startActivity(nextScreen);
-                        } else {
-                            atkMessenger.sendAttack(posHolder.getPosition(), name);
-                        }
-
+                    atkMessenger.sendAttack(posHolder.getPosition(), name);
                 }
-
             });
         }
 
@@ -196,5 +186,11 @@ public class MainActivity extends AndroidHarness {
      */
     public ClientWrapper getClient() {
         return client;
+    }
+    
+    public void startBugEvent() {
+        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
+        nextScreen.putExtra("Position", posHolder.getPosition());
+        startActivity(nextScreen);
     }
 }

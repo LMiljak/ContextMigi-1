@@ -1,8 +1,11 @@
 package com.github.migi_1.ContextApp.client;
 
 import android.util.Log;
+import com.github.migi_1.ContextApp.MainActivity;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Connects a Client automatically to the first Server found
@@ -15,7 +18,7 @@ public final class AutoConnector {
     private static final AutoConnector INSTANCE = new AutoConnector();
     
     /**
-     * A wrapper of the wrapper of the client C:.
+     * A wrapper of the wrapper of the client.
      */
     private class ClientWrapperWrapper {
         private ClientWrapper wrapper;
@@ -41,21 +44,30 @@ public final class AutoConnector {
      * @param executorService
      *      On which executorService the server finder should be executed.
      * 
-     * @return client.wrapper
-     *          CAN SOMEBODY EXPLAIN THIS? I DIDN'T MAKE THIS, BUT
-     *          I HAVE TO DO THIS TO SOLVE A CHECKSTYLE WARNING. - Remi
+     * @return The clientWrapper inside the clientWrapperWrapper
      */
-    public ClientWrapper autoStart(ExecutorService executorService) {
+    public ClientWrapper autoStart(ExecutorService executorService, 
+            MainActivity main) {
         ServerFinder serverFinder = ServerFinder.getInstance();
         
         ClientWrapperWrapper client = new ClientWrapperWrapper();
         serverFinder.findServers(executorService, getConnector(client));
+        int counter = 0;
         
         while (client.wrapper == null) {
+            if (counter == 500) {
+                break;
+            }
+            
             Log.d("CarrierAway", "Waiting for client to connect");
+            counter++;
         }
-        Log.d("CarrierAway", "Connected succesfully");
         
+        if (client.wrapper == null) {
+            main.alert();
+        }
+            
+        Log.d("CarrierAway", "Connected succesfully");
         return client.wrapper;
     }
     

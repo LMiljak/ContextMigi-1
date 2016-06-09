@@ -1,13 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-
-import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
-import static com.github.migi_1.ContextMessages.PlatformPosition.BACKRIGHT;
-import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTLEFT;
-import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTRIGHT;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
@@ -15,7 +9,7 @@ import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviou
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.TempRotateBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.PlatformRotateBehaviour;
 import com.github.migi_1.Context.utility.AverageVectorAggregator;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.utility.SummingVectorAggregator;
@@ -72,8 +66,7 @@ public class Platform extends Entity implements IRotatable {
         	)
         );
         
-        this.rotateBehaviour = new TempRotateBehaviour(b, getModel().getLocalRotation());
-        System.out.println("hi");
+        this.rotateBehaviour = new PlatformRotateBehaviour(b, getModel().getLocalRotation());
     }
 
     /**

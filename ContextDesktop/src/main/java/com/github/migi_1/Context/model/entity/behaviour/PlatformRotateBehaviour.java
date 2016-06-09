@@ -10,7 +10,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
-public class TempRotateBehaviour extends RotateBehaviour {
+public class PlatformRotateBehaviour extends RotateBehaviour {
 
 	private float i = 0f;
 	private Collection<AccelerometerMoveBehaviour> carrierBehaviours;
@@ -20,7 +20,7 @@ public class TempRotateBehaviour extends RotateBehaviour {
 	private final Quaternion initialRotation;
 	private Quaternion rotation;
 	
-	public TempRotateBehaviour(Collection<AccelerometerMoveBehaviour> carrierBehaviours, Quaternion initialRotation) {
+	public PlatformRotateBehaviour(Collection<AccelerometerMoveBehaviour> carrierBehaviours, Quaternion initialRotation) {
 		super();
 		this.carrierBehaviours = carrierBehaviours;
 		this.initialRotation = new Quaternion(initialRotation);

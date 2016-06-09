@@ -9,7 +9,7 @@ import com.github.migi_1.ContextMessages.PositionMessage;
  * position this Client has been assigned. It also listens for messages
  * from the Server about the position.
  */
-public class PositionHolder extends MessageListener<PositionMessage> {
+public final class PositionHolder extends MessageListener<PositionMessage> {
 
     private static final PositionHolder INSTANCE = new PositionHolder();
     

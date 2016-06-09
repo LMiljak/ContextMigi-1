@@ -40,13 +40,14 @@ public class TestPlatform extends TestEntity {
     @Override
     @Before
     public void setUp() {
+
     	try {
- 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+                .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
  			
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
+ 	} catch (Exception e) {
+            e.printStackTrace();
+ 	}
     	
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);

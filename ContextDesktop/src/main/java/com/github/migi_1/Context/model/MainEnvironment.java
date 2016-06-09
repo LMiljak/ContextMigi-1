@@ -19,6 +19,7 @@ import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bounding.BoundingBox;
@@ -57,9 +58,11 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    private Application app;
     private Platform platform;
     private Commander commander;
     private ArrayList<Carrier> carriers;
+
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
@@ -86,7 +89,8 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
+        this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
@@ -128,14 +132,14 @@ public class MainEnvironment extends Environment {
     private void checkObstacleCollision() {
         //add collision check for all obstacles
 
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
                 staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
         }
 
         //check whether a collision has taken place.
-        //only one object can collide each update, two prevent two object from taking damage.
+        //only one object can collide each update, to prevent two objects from taking damage.
         Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
@@ -220,7 +224,7 @@ public class MainEnvironment extends Environment {
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             addDisplayable(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
@@ -229,6 +233,7 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
+
         for (Carrier carrier : carriers) {
             addEntity(carrier);
         }
@@ -375,7 +380,7 @@ public class MainEnvironment extends Environment {
         }
 
         //update the Obstacles
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             addDisplayable(staticObstacle);
         }
 
@@ -431,5 +436,22 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+    
+    /**
+     * Returns the main application.
+     * @return (Main) app.
+     */
+    public Main getMain() {
+        return ((Main) app);
+    }
+
+    /**
+     * Sets the results hashmap.
+     * Used in testing ONLY.
+     * @param newResults the new results.
+     */
+    public void setResults(HashMap<Entity, CollisionResults> newResults) {
+        results = newResults;
     }
 }

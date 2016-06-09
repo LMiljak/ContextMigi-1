@@ -156,9 +156,11 @@
 					</execution>
 				</executions>
 				<configuration>
-				<failOnViolation>false</failOnViolation>
+                                        <failOnViolation>false</failOnViolation>
 					<configLocation>${basedir}/checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+                                        <suppressionsLocation>${basedir}/suppressions.xml</suppressionsLocation>
+                                        <suppressionsFileExpression>${basedir}/suppressions.file</suppressionsFileExpression>
 				</configuration>
 				<dependencies>
 					<dependency>

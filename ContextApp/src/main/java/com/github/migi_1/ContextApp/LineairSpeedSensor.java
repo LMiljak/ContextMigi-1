@@ -1,18 +1,22 @@
 package com.github.migi_1.ContextApp;
 
-import com.github.migi_1.ContextApp.client.ClientWrapper;
+
+import java.io.IOException;
+
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
-import com.github.migi_1.ContextMessages.AccelerometerMessage;
+
+import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextMessages.LineairSpeedMessage;
 import com.jme3.network.Client;
 
 /**
  * Sensor that receives information about the accelerometer of the Android device.
  */
-public class TiltSensor extends Activity implements SensorEventListener {
+public class LineairSpeedSensor extends Activity implements SensorEventListener {
 
     private MainActivity act;
     private ClientWrapper client;
@@ -25,7 +29,7 @@ public class TiltSensor extends Activity implements SensorEventListener {
      * @param client
      *      The clientwrapper used for communication with the server.
      */
-    public TiltSensor(MainActivity act, ClientWrapper client) {
+    public LineairSpeedSensor(MainActivity act, ClientWrapper client) {
         this.act = act;
         this.client = client;
     }
@@ -37,18 +41,17 @@ public class TiltSensor extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent se) {
             // check whether the game has already been instantiated
+        Log.d("main", "sensor change");
             if (act.getMain() == null) {
                 return;
             }
-
-            float xforce = se.values[0];
-            float yforce = se.values[1];
+            Log.d("main", "value: " + se.values[2]);
             float zforce = se.values[2];
             
             // log the sensor values
             //Log.d("main", xforce + " " + yforce + " " + zforce);
             //Sending the information to the Server.
-            sendSensorInformation(xforce, yforce, zforce);
+            sendSensorInformation(zforce);
     }
 
     /**
@@ -61,12 +64,23 @@ public class TiltSensor extends Activity implements SensorEventListener {
      * @param zforce
      *      Acceleration force along the z axis (including gravity).
      */
-    private void sendSensorInformation(float xforce, float yforce, float zforce) {
-        AccelerometerMessage message = new AccelerometerMessage(xforce, yforce, zforce);
-        
+    private void sendSensorInformation(float zForce) {
+       
+       LineairSpeedMessage message = new LineairSpeedMessage(zForce);
+       Log.d("main", "trying to send message");
         Client c = client.getClient();
         if (c.isStarted()) {
-            client.getClient().send(message);
+            Log.d("main", "trying to send message2");
+            try {
+           client.getClient().send(message);
+            } catch(IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                Log.d("main", "trying to send message3");
+            } finally {
+                System.out.println("aaaaah");
+                Log.d("main", "trying to send message4");
+            }
+           Log.d("main", "sent message");
         }
     }
     

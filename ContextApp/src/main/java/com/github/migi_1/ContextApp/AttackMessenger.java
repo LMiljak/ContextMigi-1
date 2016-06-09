@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import android.util.Log;
+
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;

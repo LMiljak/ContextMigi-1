@@ -13,10 +13,10 @@ import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.LineairSpeedMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -192,7 +192,8 @@ public class MainEnvironment extends Environment {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
+        LineairSpeedMoveBehaviour l = new LineairSpeedMoveBehaviour();
+        
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION);
         commander = new Commander(COMMANDER_LOCATION);

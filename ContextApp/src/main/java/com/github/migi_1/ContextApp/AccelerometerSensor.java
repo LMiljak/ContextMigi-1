@@ -40,9 +40,9 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             if (act.getMain() == null) {
                 return;
             }
-            int xforce = (int) se.values[0];
-            int yforce = (int) se.values[1];
-            int zforce = (int) se.values[2];
+            float xforce =  se.values[0];
+            float yforce =  se.values[1];
+            float zforce =  se.values[2];
             
             // log the sensor values
             Log.d("main", xforce + " " + yforce + " " + zforce);

@@ -52,7 +52,7 @@ public final class AutoConnector {
         serverFinder.findServers(executorService, getConnector(client));
         
         while (client.wrapper == null) {
-            Log.d("CarrierAway", "Waiting for client to connect");
+            //Log.d("CarrierAway", "Waiting for client to connect");
         }
         Log.d("CarrierAway", "Connected succesfully");
         

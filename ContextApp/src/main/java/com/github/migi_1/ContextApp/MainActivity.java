@@ -26,7 +26,7 @@ public class MainActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        private TiltSensor tiltSensor;
+        private LineairSpeedSensor lineairSpeedSensor;
         private PositionHolder posHolder;
         private AttackMessenger atkMessenger;
         private HeartsUpdateFunctions huFunctions;
@@ -44,7 +44,7 @@ public class MainActivity extends AndroidHarness {
         appClass = "com.github.migi_1.ContextApp.Main";
             
         //Create the accelerometer sensor.
-        tiltSensor = new TiltSensor(this, client);
+        lineairSpeedSensor = new LineairSpeedSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
         posHolder = PositionHolder.getInstance();
         
@@ -77,7 +77,7 @@ public class MainActivity extends AndroidHarness {
                 .autoStart(Executors.newFixedThreadPool(10));
             
         // create te accelerometerSensor
-        tiltSensor = new TiltSensor(this, client);
+        lineairSpeedSensor = new LineairSpeedSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
         // wait until position is received
         /*while (true) {
@@ -102,11 +102,11 @@ public class MainActivity extends AndroidHarness {
         client.startClient();
         
         // register the lister for the accelerometer
-        mSensorManager.registerListener(tiltSensor, 
+        mSensorManager.registerListener(accelerometerSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
         
-        mSensorManager.registerListener(accelerometerSensor, 
+        mSensorManager.registerListener(lineairSpeedSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
                 SensorManager.SENSOR_DELAY_FASTEST);
     }
@@ -116,8 +116,8 @@ public class MainActivity extends AndroidHarness {
      */
     @Override
     protected void onStop() {  
-        // unregister the sensor listener
-        mSensorManager.unregisterListener(tiltSensor);
+        // unregister the sensor listener adb -s 323012d3e74711ad logcat -s main
+        mSensorManager.unregisterListener(lineairSpeedSensor);
         mSensorManager.unregisterListener(accelerometerSensor);
             
         client.closeClient();

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.jme3.app.AndroidHarness;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -191,6 +192,24 @@ public class MainActivity extends AndroidHarness {
     public void startBugEvent() {
         Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
         nextScreen.putExtra("Position", posHolder.getPosition());
+        nextScreen.putExtra("BugPosition", getRandomPosition());
+        nextScreen.putExtra("SprayPosition", getRandomPosition());
         startActivity(nextScreen);
+    }
+    
+    private PlatformPosition getRandomPosition() {
+        int randomNumber = new Random().nextInt(4);
+        switch(randomNumber) {
+            case 0:
+                return PlatformPosition.BACKLEFT;
+            case 1:
+                return PlatformPosition.BACKRIGHT;
+            case 2:
+                return PlatformPosition.FRONTLEFT;
+            case 3:
+                return PlatformPosition.FRONTRIGHT;
+            default:
+                throw new IllegalStateException("Wrong number: " + randomNumber);
+        }
     }
 }

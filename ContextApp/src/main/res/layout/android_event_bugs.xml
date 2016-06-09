@@ -13,7 +13,7 @@
      <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/eventBug_bug_bl"
+        android:id="@+id/eventBug_bug"
         android:text="BUG"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="FIND THE BUG"
-        android:id="@+id/eventBug_title_bl"
+        android:id="@+id/eventBug_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff" />
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="SPRAY"
-        android:id="@+id/eventBug_spray_bl"
+        android:id="@+id/eventBug_spray"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff" />

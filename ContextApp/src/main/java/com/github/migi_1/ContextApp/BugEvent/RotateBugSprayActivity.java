@@ -44,6 +44,7 @@ public class RotateBugSprayActivity extends Activity {
             super.onResume();
             
             clientEvent.startClient();
+            setUI();
         }
 
         /**
@@ -52,7 +53,6 @@ public class RotateBugSprayActivity extends Activity {
         @Override
         protected void onStop() {
             super.onStop();
-            
             clientEvent.closeClient();
         }
     
@@ -61,31 +61,9 @@ public class RotateBugSprayActivity extends Activity {
             
             super.onCreate(savedInstanceState);
             position = (PlatformPosition) getIntent().getExtras().get("Position");
-            setContentView(R.layout.android_event_bugs_fr);
-            spray = (TextView) findViewById(R.id.eventBug_spray_fr);
-            spray.setVisibility(View.VISIBLE);
-            bug = (Button) findViewById(R.id.eventBug_bug_fr);
-            bug.setVisibility(View.VISIBLE);
+            setContentView(R.layout.android_event_bugs);
             
             clientEvent = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
-            
-
-            bug.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(spray.getVisibility() == View.VISIBLE && bug.getVisibility() == View.VISIBLE) {
-                        Log.d("rotate", "Stopping random activity");
-                        StopEventToVRMessage sprayMsg = new StopEventToVRMessage();
-                        Log.d("rotate", "MESSAGE SEND: " + (clientEvent.getClient() != null));
-                        if(clientEvent.getClient().isStarted()) {
-                            clientEvent.getClient().send(sprayMsg);
-                        }
-                    }
-                }
-            });
-            
-            stopEventListener = new StopAllEventsMessageListener(this);
-            enableSprayListener = new EnableSprayAppMessageHandler(this);
         }
 
         @Override
@@ -188,5 +166,40 @@ public class RotateBugSprayActivity extends Activity {
 
         public PlatformPosition getPosition() {
             return position;
+        }
+        
+        private void setUI() {
+            
+            stopEventListener = new StopAllEventsMessageListener(this);
+            enableSprayListener = new EnableSprayAppMessageHandler(this);
+            
+            spray = (TextView) findViewById(R.id.eventBug_spray);
+            bug = (Button) findViewById(R.id.eventBug_bug);
+            spray.setVisibility(View.GONE);
+            bug.setVisibility(View.GONE);
+            
+            PlatformPosition bugPosition = (PlatformPosition) getIntent().getExtras().get("BugPosition");
+            PlatformPosition sprayPosition = (PlatformPosition) getIntent().getExtras().get("SprayPosition");
+            
+            Log.d("rotate", "" + bugPosition);
+            Log.d("rotate", "" + sprayPosition);
+            if (position == bugPosition) {
+                bug.setVisibility(View.VISIBLE);
+            }
+            if (position == sprayPosition) {
+                spray.setVisibility(View.VISIBLE);
+            }
+            
+            bug.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(spray.getVisibility() == View.VISIBLE && bug.getVisibility() == View.VISIBLE) {
+                        StopEventToVRMessage sprayMsg = new StopEventToVRMessage();
+                        if(clientEvent.getClient().isStarted()) {
+                            clientEvent.getClient().send(sprayMsg);
+                        }
+                    }
+                }
+            });
         }
 }

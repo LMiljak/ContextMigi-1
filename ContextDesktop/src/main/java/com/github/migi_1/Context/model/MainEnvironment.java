@@ -112,7 +112,7 @@ public class MainEnvironment extends Environment {
         //Start the random event timer.
         setNewRandomEventTime();
 
-        //setPaused(true);
+        setPaused(true);
     }
 
     @Override
@@ -160,7 +160,6 @@ public class MainEnvironment extends Environment {
 
     private void checkRandomEvent() {
         //Time for a random event!
-        System.out.println("Time left: " + (randomEventTime - System.currentTimeMillis()));
         if(System.currentTimeMillis() > randomEventTime) {
             StartBugEventMessage startMessage = new StartBugEventMessage();
             Server server = getMain().getServer().getServer();
@@ -175,7 +174,7 @@ public class MainEnvironment extends Environment {
      * Sets the randomEvent time to 20-30 seconds from the current time.
      */
     private void setNewRandomEventTime() {
-        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 20;
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 5000;
     }
 
     /**

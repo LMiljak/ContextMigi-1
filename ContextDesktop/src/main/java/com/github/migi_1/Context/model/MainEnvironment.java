@@ -114,7 +114,7 @@ public class MainEnvironment extends Environment {
 
     @Override
     public void update(float tpf) {
-        if(!isPaused()) {
+        if (!isPaused()) {
             super.update(tpf);
 
             checkCollision();

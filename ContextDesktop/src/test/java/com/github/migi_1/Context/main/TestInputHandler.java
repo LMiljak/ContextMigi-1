@@ -2,6 +2,8 @@ package com.github.migi_1.Context.main;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import jmevr.app.VRApplication;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,13 +14,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-
-import jmevr.app.VRApplication;
 
 /**
  * Test suite for the InputHandler.
@@ -35,6 +37,8 @@ public class TestInputHandler {
     private Quaternion quat;
     private Vector3f vec;
     private Main main;
+    private AudioNode backgroundMusic;
+    private AudioController audioController;
 
     /**
      * Setup for this test class.
@@ -46,6 +50,8 @@ public class TestInputHandler {
         envState = Mockito.mock(MainEnvironment.class);
         quat = PowerMockito.mock(Quaternion.class);
         vec = Mockito.mock(Vector3f.class);
+        audioController = Mockito.mock(AudioController.class);
+        backgroundMusic = Mockito.mock(AudioNode.class);
         PowerMockito.mockStatic(VRApplication.class);
         BDDMockito.given(VRApplication.getFinalObserverRotation()).willReturn(quat);
         BDDMockito.given(quat.getRotationColumn(Mockito.anyInt())).willReturn(vec);
@@ -54,7 +60,9 @@ public class TestInputHandler {
         Mockito.when(main.getInputManager()).thenReturn(inputManager);
         Mockito.when(main.getEnv()).thenReturn(envState);
         Mockito.when(envState.getFlyCamActive()).thenReturn(true);
+        Mockito.when(envState.getAudioController()).thenReturn(audioController);
 
+        when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
     }
@@ -65,9 +73,9 @@ public class TestInputHandler {
     @Test
     public void initInputTest() {
         //Verify all keys are mapped correctly.
-        Mockito.verify(inputManager, Mockito.times(13)).addMapping(Mockito.anyString(), Mockito.any());
+        Mockito.verify(inputManager, Mockito.times(14)).addMapping(Mockito.anyString(), Mockito.any());
         //Verify all listeners are bound.
-        Mockito.verify(inputManager, Mockito.times(13)).addListener(Mockito.any(), Mockito.anyString());
+        Mockito.verify(inputManager, Mockito.times(14)).addListener(Mockito.any(), Mockito.anyString());
     }
 
     /**

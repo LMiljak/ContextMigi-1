@@ -1,8 +1,11 @@
 package com.github.migi_1.ContextApp.client;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.AttackMessage;
+import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
@@ -31,6 +34,7 @@ public class ClientWrapper {
             Serializer.registerClass(AccelerometerMessage.class);
             Serializer.registerClass(PositionMessage.class);
             Serializer.registerClass(EnableSprayToVRMessage.class);
+            Serializer.registerClass(EnableSprayToAppMessage.class);
             Serializer.registerClass(StopEventToVRMessage.class);
             Serializer.registerClass(StopAllEventsMessage.class);
             Serializer.registerClass(HealthMessage.class);

@@ -151,6 +151,7 @@ public class MainActivity extends AndroidHarness {
                         if(name.equals("trigger")) {
                             Log.d("rotate", "TRIGGERED");
                             Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
+                            nextScreen.putExtra("Position", posHolder.getPosition());
                             startActivity(nextScreen);
                         } else {
                             atkMessenger.sendAttack(posHolder.getPosition(), name);

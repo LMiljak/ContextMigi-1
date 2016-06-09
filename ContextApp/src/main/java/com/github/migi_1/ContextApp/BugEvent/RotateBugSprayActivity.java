@@ -21,6 +21,7 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import com.jme3.network.Client;
 import java.util.concurrent.Executors;
+import javax.swing.text.Position;
 
 /**
  *
@@ -29,16 +30,16 @@ import java.util.concurrent.Executors;
 public class RotateBugSprayActivity extends Activity {
     private TextView spray;
     private Button bug;
-    private float x1, x2, y1, y2, deltaHorizontal, deltaVertical;
+    private float x1, x2, y1, y2;
     private ClientWrapper clientEvent;
     private StopAllEventsMessageListener stopEventListener;
+    private PlatformPosition position;
     
         /**
          * This method runs the app is resumed.
          */
         @Override
         protected void onResume() {
-            Log.d("rotate", "RESUMING RE");
             super.onResume();
             
             clientEvent.startClient();
@@ -49,7 +50,6 @@ public class RotateBugSprayActivity extends Activity {
          */
         @Override
         protected void onStop() {
-            Log.d("rotate", "STOPPING RE");
             super.onStop();
             
             clientEvent.closeClient();
@@ -59,6 +59,7 @@ public class RotateBugSprayActivity extends Activity {
         public void onCreate(Bundle savedInstanceState) {
             
             super.onCreate(savedInstanceState);
+            position = (PlatformPosition) getIntent().getExtras().get("Position");
             setContentView(R.layout.android_event_bugs_fr);
             spray = (TextView) findViewById(R.id.eventBug_spray_fr);
             spray.setVisibility(View.VISIBLE);
@@ -72,7 +73,6 @@ public class RotateBugSprayActivity extends Activity {
             bug.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("rotate", "FRONT RIGHT");
                     if(spray.getVisibility() == View.VISIBLE && bug.getVisibility() == View.VISIBLE) {
                         Log.d("rotate", "Stopping random activity");
                         StopEventToVRMessage sprayMsg = new StopEventToVRMessage();
@@ -87,6 +87,17 @@ public class RotateBugSprayActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
+            if(spray.getVisibility() == View.VISIBLE) {
+                trackSwipe(event);
+            }
+            return false;
+        }
+        
+        /**
+         * Position is known here, so we can use the position attribute. 
+         * @param event 
+         */
+        private void trackSwipe(MotionEvent event) {
             switch(event.getAction()) {
                 case (MotionEvent.ACTION_DOWN) :
                     x1 = event.getX();
@@ -96,34 +107,56 @@ public class RotateBugSprayActivity extends Activity {
                     x2 = event.getX();
                     y2 = event.getY();
 
-                    deltaHorizontal = x2 - x1;
-                    deltaVertical = y2 - y1;
-
-                    //Swipe down
-                    if(deltaVertical > 0 && Math.abs(deltaHorizontal) < Math.abs(deltaVertical)) {
-                        Log.d("rotate", "SWIPE DOWN");
-                        EnableSprayToVRMessage sprayMsg = new EnableSprayToVRMessage(PlatformPosition.BACKRIGHT);
-                        Log.d("rotate", "MESSAGE SEND: " + (clientEvent.getClient() != null));
-                        if(clientEvent.getClient().isStarted()) {
-                            clientEvent.getClient().send(sprayMsg);
-                        }
+                    float deltaHorizontal = x2 - x1;
+                    float deltaVertical = y2 - y1;
+                    EnableSprayToVRMessage sprayMessage = null;
+                    
+                    switch(position) {
+                        case BACKLEFT: 
+                            if(swipeUp(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTLEFT);
+                            } else if(swipeRight(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKRIGHT);
+                            }
+                            break;
+                        case BACKRIGHT:
+                            if(swipeUp(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTRIGHT);
+                            } else if(swipeLeft(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKLEFT);
+                            }
+                            break;
+                        case FRONTLEFT:
+                            if(swipeDown(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKLEFT);
+                            } else if(swipeRight(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTRIGHT);
+                            }
+                            break;
+                        case FRONTRIGHT:
+                            if(swipeDown(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKRIGHT);
+                            } else if(swipeLeft(deltaHorizontal, deltaVertical)) {
+                                sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTLEFT);
+                            }
+                            break;
+                        default:
+                            throw new IllegalStateException("Unknown position: " + position);
                     }
-
-                    //Swipe left
-                    if(deltaHorizontal < 0 && Math.abs(deltaHorizontal) > Math.abs(deltaVertical)) {
-                        Log.d("rotate", "SWIPE LEFT");
+                    if(sprayMessage != null && clientEvent.getClient().isStarted()) {
+                        Log.d("rotate", "Sending message from: " +  position + " to: " + sprayMessage.getPosition());
+                        clientEvent.getClient().send(sprayMessage);
+                        disableSprayButton(position);
                     }
-                    Log.d("rotate", "UPDATING POSITION");
-                }
-            return false;
+            }
         }
 
-        public void enableSprayButton() {
+        public void enableSprayButton(PlatformPosition position) {
             Log.d("rotate", "OMG ITS WORKING :D:D:D");
             spray.setVisibility(View.VISIBLE);
         }
 
-        public void disableSprayButton() {
+        public void disableSprayButton(PlatformPosition position) {
             spray.setVisibility(View.GONE);
         }
         
@@ -133,5 +166,21 @@ public class RotateBugSprayActivity extends Activity {
         
         public ClientWrapper getClient() {
             return clientEvent;
+        }
+        
+        private boolean swipeUp(float horizontal, float vertical) {
+            return (vertical < 0 && Math.abs(horizontal) < Math.abs(vertical));
+        }
+        
+        private boolean swipeDown(float horizontal, float vertical) {
+            return (vertical > 0 && Math.abs(horizontal) < Math.abs(vertical));
+        }
+        
+        private boolean swipeLeft(float horizontal, float vertical) {
+            return (horizontal < 0 && Math.abs(horizontal) > Math.abs(vertical));
+        }
+        
+        private boolean swipeRight(float horizontal, float vertical) {
+            return (horizontal > 0 && Math.abs(horizontal) > Math.abs(vertical));
         }
 }

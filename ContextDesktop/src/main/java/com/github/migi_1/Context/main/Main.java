@@ -11,6 +11,7 @@ import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.server.StopEventMessageHandler;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
 import com.jme3.network.Server;
@@ -128,19 +129,17 @@ public class Main extends VRApplication {
     @Override
     public void simpleRender(RenderManager rm) { }
 
-//    public void handleEnableSprayMessage(PlatformPosition pos) {
-//        Server sendServer = server.getServer();
-//        EnableSprayToAppMessage enableSprayMsg = new EnableSprayToAppMessage(pos);
-//        if(sendServer != null) {
-//            sendServer.broadcast(enableSprayMsg);
-//        }
-//    }
+    public void handleEnableSprayMessage(PlatformPosition pos) {
+        Server sendServer = server.getServer();
+        EnableSprayToAppMessage enableSprayMsg = new EnableSprayToAppMessage(pos);
+        if(sendServer.isRunning()) {
+            sendServer.broadcast(enableSprayMsg);
+        }
+    }
 
     public void handleStopBugEvent() {
         Server sendServer = server.getServer();
         StopAllEventsMessage stopMsg = new StopAllEventsMessage();
-        System.out.println("Stop message send: " + (sendServer.isRunning()));
-        System.out.println(sendServer.getConnections().size());
         if(sendServer.isRunning()) {
             sendServer.broadcast(stopMsg);
         }

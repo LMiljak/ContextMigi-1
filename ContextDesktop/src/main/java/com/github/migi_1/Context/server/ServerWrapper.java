@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.AttackMessage;
+import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
@@ -27,7 +28,7 @@ public class ServerWrapper {
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
 		= Arrays.asList(
 				AccelerometerMessage.class,
-//				EnableSprayToAppMessage.class,
+				EnableSprayToAppMessage.class,
 				EnableSprayToVRMessage.class,
 //				StartBugEventMessage.class,
 				StopEventToVRMessage.class,

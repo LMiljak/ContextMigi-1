@@ -16,8 +16,6 @@ public class MultiMoveBehaviour extends MoveBehaviour {
 
     private IVectorAggregator aggregator;
     private List<MoveBehaviour> behaviours;
-    private boolean collisionLeft;
-    private boolean collisionRight;
 
     /**
      * Constructor for MultiMoveBehaviour.
@@ -39,37 +37,8 @@ public class MultiMoveBehaviour extends MoveBehaviour {
             behaviour.updateMoveVector();
             vectors.add(behaviour.getMoveVector());
         }    
-
-        Vector3f temp = aggregator.aggregate(vectors);
-
-        if (collisionLeft) {
-            temp.z = -0.05f;
-        } 
-
-        if (collisionRight) {
-            temp.z = 0.05f;
-        } 
-
-        
-        collisionLeft = false;
-        collisionRight = false;
-        setMoveVector(temp);
+        setMoveVector(aggregator.aggregate(vectors));
     }	
-
-
-    /**
-     * Sets the collisionLeft value to true when a collision on the left side of the path has taken place.
-     */
-    public void collisionLeft() {
-        collisionLeft = true;
-    }
-
-    /**
-     * Sets the collisionRight value to true when a collision on the right side of the path has taken place.
-     */
-    public void collisionRight() {
-        collisionRight = true;
-    }
 
     /**
      * Gets the list of subbehaviours of this MultiMoveBehaviour.

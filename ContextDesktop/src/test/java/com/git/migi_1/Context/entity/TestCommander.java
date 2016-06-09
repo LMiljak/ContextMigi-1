@@ -42,15 +42,14 @@ public class TestCommander extends TestEntity {
     @Before
     public void setUp() {
 
-    	try {
+        try {
             PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
-                .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
- 			
- 	} catch (Exception e) {
+            .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+        } catch (Exception e) {
             e.printStackTrace();
- 	}
+        }
 
-    	
+
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);

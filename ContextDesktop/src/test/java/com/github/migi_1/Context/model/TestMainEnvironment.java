@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Any;
+import org.mockito.internal.matchers.Matches;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -136,7 +138,7 @@ public class TestMainEnvironment {
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         
-        PowerMockito.whenNew(CarrierAssigner.class).withNoArguments().thenReturn(carrierAssigner);
+        PowerMockito.whenNew(CarrierAssigner.class).withArguments(Any.ANY, Any.ANY).thenReturn(carrierAssigner);
     }
 
     /**

@@ -1,11 +1,8 @@
 package com.github.migi_1.ContextApp;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,10 +12,8 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.jme3.app.AndroidHarness;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 /**
  * This class contains the main activity that is started you run the project.

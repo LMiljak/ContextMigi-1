@@ -4,8 +4,6 @@ import android.util.Log;
 import com.github.migi_1.ContextApp.MainActivity;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Connects a Client automatically to the first Server found

@@ -43,6 +43,8 @@ public class Main extends VRApplication {
 
     private ServerWrapper server;
 
+    private boolean bugEventRunning = false;
+
     private AttackMessageHandler attackMessageHandler;
     private EnableSprayToVRMessageHandler enableSprayReceiveHandler;
     private StopEventMessageHandler stopEventHandler;
@@ -142,6 +144,7 @@ public class Main extends VRApplication {
         StopAllEventsMessage stopMsg = new StopAllEventsMessage();
         if(sendServer.isRunning()) {
             sendServer.broadcast(stopMsg);
+            bugEventRunning = false;
         }
     }
 
@@ -249,5 +252,14 @@ public class Main extends VRApplication {
      */
     public void setMainMenuState(MainMenu newMainMenuState) {
         mainMenuState = newMainMenuState;
+    }
+
+    public boolean isBugEventRunning() {
+        return bugEventRunning;
+    }
+
+    public void setBugEventRunning(boolean isRunning) {
+        bugEventRunning = isRunning;
+
     }
 }

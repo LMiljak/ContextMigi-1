@@ -1,7 +1,5 @@
 package com.github.migi_1.ContextApp.client;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.AttackMessage;
@@ -16,11 +14,12 @@ import java.io.IOException;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
+import java.io.Serializable;
 
 /**
  * A wrapper class for a com.jme3.network.client object.
  */
-public class ClientWrapper {
+public class ClientWrapper implements Serializable {
     
         /** The default port on which servers are running. */
         private static final int PORT = 4321;

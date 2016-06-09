@@ -62,8 +62,9 @@ public class RotateBugSprayActivity extends Activity {
             super.onCreate(savedInstanceState);
             position = (PlatformPosition) getIntent().getExtras().get("Position");
             setContentView(R.layout.android_event_bugs);
-            
+            Log.d("rotate", "Everything going well?");
             clientEvent = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+            Log.d("rotate", "client? " +  clientEvent.toString());
         }
 
         @Override

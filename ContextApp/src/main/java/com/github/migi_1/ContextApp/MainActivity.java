@@ -194,6 +194,7 @@ public class MainActivity extends AndroidHarness {
         nextScreen.putExtra("Position", posHolder.getPosition());
         nextScreen.putExtra("BugPosition", getRandomPosition());
         nextScreen.putExtra("SprayPosition", getRandomPosition());
+//        nextScreen.putExtra("Client", client);
         startActivity(nextScreen);
     }
     

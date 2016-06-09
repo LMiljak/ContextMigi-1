@@ -160,11 +160,13 @@ public class MainEnvironment extends Environment {
 
     private void checkRandomEvent() {
         //Time for a random event!
+        System.out.println("Time remaining: " + (randomEventTime - System.currentTimeMillis()));
         if(System.currentTimeMillis() > randomEventTime) {
             StartBugEventMessage startMessage = new StartBugEventMessage();
             Server server = getMain().getServer().getServer();
-            if(server.isRunning()) {
+            if(server.isRunning() && !getMain().isBugEventRunning()) {
                 server.broadcast(startMessage);
+                getMain().setBugEventRunning(true);
             }
             setNewRandomEventTime();
         }

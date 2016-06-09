@@ -119,6 +119,7 @@ public class TestMainEnvironment {
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
+        
     }
 
     /**

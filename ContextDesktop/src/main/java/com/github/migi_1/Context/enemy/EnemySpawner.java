@@ -17,18 +17,15 @@ import com.jme3.math.Vector3f;
  *
  */
 public class EnemySpawner {
-    
+
     private static final int MAX_NUM_ENEMIES = 12;
     private EnemyFactory enemyFactory;
     private LinkedList<Enemy> enemies;
     private LinkedList<Enemy> deleteList;
-    private BoundingBox levelPieceBoundingBox;
-    private float levelPieceLength;
     private double currentLevelPiece;
     private double lastLevelPiece;
-    private float levelPieceWidth;
     private Vector3f commanderLocation;
-    
+
     /**
      * Constructor of the EnemySpawner.
      * @param commander to find the offset of the carriers and therefore the spots where to spawn the enemies.
@@ -38,14 +35,11 @@ public class EnemySpawner {
         enemies = new LinkedList<Enemy>();
         deleteList = new LinkedList<Enemy>();        
         commanderLocation = commander.getModel().getLocalTranslation(); 
-        levelPieceBoundingBox = (BoundingBox) (new LevelPiece()).getModel().getWorldBound();
-        levelPieceLength = levelPieceBoundingBox.getXExtent();
-        levelPieceWidth =  levelPieceBoundingBox.getCenter().z;
         currentLevelPiece = 0;
         lastLevelPiece = -1;
-        enemyFactory = new EnemyFactory(levelPieceBoundingBox, levelPieceLength, levelPieceWidth, carriers);
+        enemyFactory = new EnemyFactory(carriers);
     }
-    
+
     /**
      * Determines how many enemies to spawn and where, returns a list of said enemies.
      * It first calculates the levelPiece the carriage is currently on.
@@ -55,7 +49,7 @@ public class EnemySpawner {
      * @return list of new enemies to add to the game.
      */
     public LinkedList<Enemy> generateEnemies() {
-        currentLevelPiece = -Math.floor(commanderLocation.x / levelPieceLength);
+        currentLevelPiece = -Math.floor(commanderLocation.x / ((BoundingBox)(new LevelPiece()).getModel().getWorldBound()).getXExtent());
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
         if (enemies.size() < MAX_NUM_ENEMIES) {
             if (currentLevelPiece != lastLevelPiece) {
@@ -77,7 +71,7 @@ public class EnemySpawner {
         enemies.addAll(newEnemies);
         return newEnemies;        
     }
-    
+
     /**
      * Creates a list of enemies to delete.
      * Enemies which need to be deleted are enemies which have no health and enemies which have fallen too far behind
@@ -89,7 +83,8 @@ public class EnemySpawner {
             if (enemy.getHealth() <= 0) {
                 deleteList.add(enemy);
             }
-            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > levelPieceLength * 3) {
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) > 
+            ((BoundingBox)(new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3) {
                 deleteList.add(enemy);
             }
         }

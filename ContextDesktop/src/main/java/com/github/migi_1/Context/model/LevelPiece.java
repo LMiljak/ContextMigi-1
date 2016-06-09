@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.scene.Spatial;
 
 /**
@@ -23,6 +24,7 @@ public class LevelPiece implements IDisplayable {
      * several world modules.
      */
     public LevelPiece() {
+                
         StringBuilder sb = new StringBuilder();
         sb.append("Models/world");
         sb.append(new Random().nextInt(DIFFERENT_WORLDS) + 1);
@@ -46,5 +48,49 @@ public class LevelPiece implements IDisplayable {
         this.model = model;
 
     }
+//
+//    /**
+//     * @return the levelPieceWidth
+//     */
+//    public float getLevelPieceWidth() {
+//        return levelPieceWidth;
+//    }
+//
+//    /**
+//     * @param levelPieceWidth the levelPieceWidth to set
+//     */
+//    public void setLevelPieceWidth(float levelPieceWidth) {
+//        this.levelPieceWidth = levelPieceWidth;
+//    }
+//
+//    /**
+//     * @return the levelPieceLength
+//     */
+//    public float getLevelPieceLength() {
+//        return levelPieceLength;
+//    }
+//
+//    /**
+//     * @param levelPieceLength the levelPieceLength to set
+//     */
+//    public void setLevelPieceLength(float levelPieceLength) {
+//        this.levelPieceLength = levelPieceLength;
+//    }
+//
+//    /**
+//     * @return the levelPieceBoundingBox
+//     */
+//    public BoundingBox getLevelPieceBoundingBox() {
+//        return levelPieceBoundingBox;
+//    }
+//
+//    /**
+//     * @param levelPieceBoundingBox the levelPieceBoundingBox to set
+//     */
+//    public void setLevelPieceBoundingBox(BoundingBox levelPieceBoundingBox) {
+//        this.levelPieceBoundingBox = levelPieceBoundingBox;
+//    }
+    
+    
 
 }

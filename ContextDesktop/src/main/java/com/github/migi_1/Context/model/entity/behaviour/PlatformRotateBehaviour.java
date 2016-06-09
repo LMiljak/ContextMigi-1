@@ -62,7 +62,7 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 	}
 	
 	private Vector3f getDisSimilarity() {
-		DistanceVectorAggregator similer = new DistanceVectorAggregator();
+		DistanceVectorAggregator aggregator = new DistanceVectorAggregator();
 		
 		Collection<Vector3f> vectors = new ArrayList<>(carrierBehaviours.size());
 		
@@ -70,7 +70,7 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 			vectors.add(behaviour.getMoveVector());
 		}
 		
-		return similer.aggregate(vectors);
+		return aggregator.aggregate(vectors);
 	}
 	
 }

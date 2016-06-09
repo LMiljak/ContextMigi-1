@@ -9,6 +9,7 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.IMovable;
+import com.github.migi_1.Context.model.entity.IRotatable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -25,6 +26,7 @@ public class Environment extends AbstractAppState {
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
+	private Collection<IRotatable> rotatables;
 	private HUDController hudController;
 	private AudioController audioController;
 	private boolean paused;
@@ -37,6 +39,7 @@ public class Environment extends AbstractAppState {
 		this.paused = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
+		this.rotatables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 		hudController = new HUDController(app);
 		audioController = new AudioController(app);
@@ -48,6 +51,7 @@ public class Environment extends AbstractAppState {
 		if (!paused) {
 		    hudController.updateHUD();
 		    moveMovables();
+		    rotateRotatables();
 		}
 	}
 
@@ -102,6 +106,10 @@ public class Environment extends AbstractAppState {
 		addDisplayable(entity);
 		movables.add(entity);
 	}
+	
+	public void addRotatable(IRotatable rotatable) {
+		rotatables.add(rotatable);
+	}
 
 	/**
 	 * Removes an Entity from the world.
@@ -121,6 +129,13 @@ public class Environment extends AbstractAppState {
 		for (IMovable movable : movables) {
 		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());
+		}
+	}
+	
+	private void rotateRotatables() {
+		for (IRotatable rotatable : rotatables) {
+			rotatable.getRotateBehaviour().updateRotateVector();
+			rotatable.rotate();
 		}
 	}
 

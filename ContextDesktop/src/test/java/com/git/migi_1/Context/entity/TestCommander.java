@@ -10,6 +10,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -60,7 +61,7 @@ public class TestCommander extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(MoveBehaviour.class));
+        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(Platform.class));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCommander);

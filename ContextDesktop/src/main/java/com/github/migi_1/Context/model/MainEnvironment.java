@@ -192,7 +192,7 @@ public class MainEnvironment extends Environment {
 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
-        commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
+        commander = new Commander(COMMANDER_LOCATION, platform);
         obstacleSpawner = new ObstacleSpawner(commander);
 
         //attach all objects to the root pane
@@ -207,7 +207,9 @@ public class MainEnvironment extends Environment {
         }
 
         addEntity(platform);
+        addRotatable(platform);
         addEntity(commander);
+        addRotatable(commander);
     }
 
     /**

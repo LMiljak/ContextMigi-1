@@ -12,6 +12,8 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.TempRotateBehaviour;
 import com.github.migi_1.Context.utility.AverageVectorAggregator;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.utility.SummingVectorAggregator;
@@ -24,12 +26,13 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Platform extends Entity {
+public class Platform extends Entity implements IRotatable {
 
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
     private CarrierAssigner carrierAssigner;
+    private RotateBehaviour rotateBehaviour;
     
     /**
      * Constructor of the platform.
@@ -60,6 +63,8 @@ public class Platform extends Entity {
         		)
         	)
         );
+        
+        this.rotateBehaviour = new TempRotateBehaviour();
     }
 
     /**
@@ -101,6 +106,11 @@ public class Platform extends Entity {
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
+
+	@Override
+	public RotateBehaviour getRotateBehaviour() {
+		return rotateBehaviour;
+	}
 
 
 

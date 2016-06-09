@@ -164,7 +164,7 @@ public class MainEnvironment extends Environment {
         if(System.currentTimeMillis() > randomEventTime) {
             StartBugEventMessage startMessage = new StartBugEventMessage();
             Server server = getMain().getServer().getServer();
-            if(server.isRunning() && !getMain().isBugEventRunning()) {
+            if(server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
                 server.broadcast(startMessage);
                 getMain().setBugEventRunning(true);
             }

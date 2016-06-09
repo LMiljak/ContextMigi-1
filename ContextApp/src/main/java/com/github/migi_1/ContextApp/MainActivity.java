@@ -112,10 +112,10 @@ public class MainActivity extends AndroidHarness {
          */
         @Override
         protected void onStop() {  
+            super.onStop();  
             // unregister the sensor listener
             mSensorManager.unregisterListener(accelerometerSensor);
-
-            super.onStop();  
+            client.closeClient();
         } 
     
         /**
@@ -194,7 +194,9 @@ public class MainActivity extends AndroidHarness {
         nextScreen.putExtra("Position", posHolder.getPosition());
         nextScreen.putExtra("BugPosition", getRandomPosition());
         nextScreen.putExtra("SprayPosition", getRandomPosition());
+        Log.d("rotate", "Added all positions");
 //        nextScreen.putExtra("Client", client);
+//        Log.d("rotate", "Added client, sPlatformPosition bugPositiontarting Random event");
         startActivity(nextScreen);
     }
     

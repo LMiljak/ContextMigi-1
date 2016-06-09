@@ -5,8 +5,6 @@
 package com.github.migi_1.ContextApp.BugEvent;
 
 import android.app.Activity;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,9 +17,7 @@ import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StopEventToVRMessage;
-import com.jme3.network.Client;
 import java.util.concurrent.Executors;
-import javax.swing.text.Position;
 
 /**
  *
@@ -36,14 +32,18 @@ public class RotateBugSprayActivity extends Activity {
     private EnableSprayAppMessageHandler enableSprayListener;
     private PlatformPosition position;
     
+    public RotateBugSprayActivity() { }
+    
         /**
          * This method runs the app is resumed.
          */
         @Override
         protected void onResume() {
+            Log.d("rotate", "RESUMING RE");
             super.onResume();
             
             clientEvent.startClient();
+            
             setUI();
         }
 
@@ -52,19 +52,21 @@ public class RotateBugSprayActivity extends Activity {
          */
         @Override
         protected void onStop() {
+            Log.d("rotate", "STOPPING RE");
             super.onStop();
             clientEvent.closeClient();
         }
     
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            
+            Log.d("rotate", "Creating Random event");
             super.onCreate(savedInstanceState);
             position = (PlatformPosition) getIntent().getExtras().get("Position");
+            Log.d("rotate", "Position get!");
             setContentView(R.layout.android_event_bugs);
             Log.d("rotate", "Everything going well?");
+//            clientEvent = (ClientWrapper) getIntent().getExtras().get("Client");
             clientEvent = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
-            Log.d("rotate", "client? " +  clientEvent.toString());
         }
 
         @Override

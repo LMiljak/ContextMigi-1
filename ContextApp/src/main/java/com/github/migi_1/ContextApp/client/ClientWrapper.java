@@ -21,6 +21,8 @@ import java.io.Serializable;
  */
 public class ClientWrapper implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+    
         /** The default port on which servers are running. */
         private static final int PORT = 4321;
         /** The amount of times the client should restart before sending an error.*/

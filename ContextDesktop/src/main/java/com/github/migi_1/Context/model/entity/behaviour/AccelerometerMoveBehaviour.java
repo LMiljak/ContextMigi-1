@@ -40,7 +40,6 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 	 */
 	@Override
 	public void messageReceived(Object source, Message m) {
-	    System.out.println("wrong receiver");
 		if (m instanceof AccelerometerMessage) { //Check that it's an AccelerometerMessage
 			AccelerometerMessage message = (AccelerometerMessage) m;
 
@@ -52,7 +51,7 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 			this.moveVector = new Vector3f(0, 0, zSpeed);
 		}
 	}
-        
+
         @Override
         public void updateMoveVector() {
             // NOTHING

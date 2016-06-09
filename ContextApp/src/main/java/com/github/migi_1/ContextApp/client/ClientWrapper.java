@@ -32,13 +32,13 @@ public class ClientWrapper {
 	//Every message types is registered by the Serializer in this class initializer.
         static {
             Serializer.registerClass(AccelerometerMessage.class);
-            Serializer.registerClass(PositionMessage.class);
-            Serializer.registerClass(EnableSprayToVRMessage.class);
+            Serializer.registerClass(AttackMessage.class);
             Serializer.registerClass(EnableSprayToAppMessage.class);
+            Serializer.registerClass(EnableSprayToVRMessage.class);
+            Serializer.registerClass(HealthMessage.class);
+            Serializer.registerClass(PositionMessage.class);
             Serializer.registerClass(StopEventToVRMessage.class);
             Serializer.registerClass(StopAllEventsMessage.class);
-            Serializer.registerClass(HealthMessage.class);
-            Serializer.registerClass(AttackMessage.class);
         }
 	
         /**

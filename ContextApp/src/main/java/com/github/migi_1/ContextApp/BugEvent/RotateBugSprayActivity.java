@@ -33,6 +33,7 @@ public class RotateBugSprayActivity extends Activity {
     private float x1, x2, y1, y2;
     private ClientWrapper clientEvent;
     private StopAllEventsMessageListener stopEventListener;
+    private EnableSprayAppMessageHandler enableSprayListener;
     private PlatformPosition position;
     
         /**
@@ -68,7 +69,6 @@ public class RotateBugSprayActivity extends Activity {
             
             clientEvent = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
             
-            stopEventListener = new StopAllEventsMessageListener(this);
 
             bug.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,6 +83,9 @@ public class RotateBugSprayActivity extends Activity {
                     }
                 }
             });
+            
+            stopEventListener = new StopAllEventsMessageListener(this);
+            enableSprayListener = new EnableSprayAppMessageHandler(this);
         }
 
         @Override
@@ -151,8 +154,7 @@ public class RotateBugSprayActivity extends Activity {
             }
         }
 
-        public void enableSprayButton(PlatformPosition position) {
-            Log.d("rotate", "OMG ITS WORKING :D:D:D");
+        public void enableSprayButton() {
             spray.setVisibility(View.VISIBLE);
         }
 
@@ -182,5 +184,9 @@ public class RotateBugSprayActivity extends Activity {
         
         private boolean swipeRight(float horizontal, float vertical) {
             return (horizontal > 0 && Math.abs(horizontal) > Math.abs(vertical));
+        }
+
+        public PlatformPosition getPosition() {
+            return position;
         }
 }

@@ -7,6 +7,7 @@ package com.github.migi_1.ContextApp.BugEvent;
 import android.util.Log;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
  *
@@ -26,7 +27,9 @@ public class EnableSprayAppMessageHandler extends MessageListener<EnableSprayToA
     @Override
     public void messageReceived(Object source, EnableSprayToAppMessage message) {
         Log.d("rotate", "Spray enabled for screen: " + message.getPosition());
-        bugActivity.enableSprayButton(message.getPosition());
+        if (message.getPosition() == bugActivity.getPosition()) {
+            bugActivity.enableSprayButton();
+        }
     }
 
     @Override

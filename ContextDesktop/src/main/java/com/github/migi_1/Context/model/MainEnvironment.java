@@ -14,6 +14,7 @@ import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.app.Application;
@@ -70,6 +71,7 @@ public class MainEnvironment extends Environment {
 
     private ObstacleSpawner obstacleSpawner;
 
+    private ScoreController scoreController;
 
     /**
      * First method that is called after the state has been created.
@@ -87,7 +89,7 @@ public class MainEnvironment extends Environment {
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
 
-
+        scoreController = new ScoreController();
 
         results = new HashMap<Entity, CollisionResults>();
 

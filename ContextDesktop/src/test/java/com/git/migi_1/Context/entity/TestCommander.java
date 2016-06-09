@@ -33,13 +33,14 @@ public class TestCommander extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
-    private Filter filter;
+    private Filter<String> filter;
 
 
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Before
     public void setUp() {

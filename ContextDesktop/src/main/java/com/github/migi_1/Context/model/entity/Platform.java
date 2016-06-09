@@ -1,12 +1,12 @@
 package com.github.migi_1.Context.model.entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
 import static com.github.migi_1.ContextMessages.PlatformPosition.BACKRIGHT;
 import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTLEFT;
 import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTRIGHT;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
@@ -103,9 +103,14 @@ public class Platform extends Entity {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
     
+    /**
+     * Returns all carriers currently in the game.
+     * @return 
+     *    Carriers in the game. If none, it will return null.
+     */
     public ArrayList<Carrier> getCarriers() {
         ArrayList<Carrier> results = new ArrayList<Carrier>();
-        for (Carrier carrier : carriers.values()){
+        for (Carrier carrier : carriers.values()) {
             results.add(carrier);
         }
         return results;

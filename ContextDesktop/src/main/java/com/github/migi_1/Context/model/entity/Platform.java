@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
@@ -47,7 +49,13 @@ public class Platform extends Entity implements IRotatable {
         super();
         
         this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
+
+        ArrayList<AccelerometerMoveBehaviour> b = new ArrayList<>(4);
+        for (PlatformPosition p : PlatformPosition.values()) {
+        	b.add(new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(p))));
+        }
         		
+        
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(
@@ -56,15 +64,16 @@ public class Platform extends Entity implements IRotatable {
         		new AcceleratingMoveBehaviour(MOVE_VECTOR), //Responsible for going forwards
         		new MultiMoveBehaviour(//Responsible for steering
         			new AverageVectorAggregator(),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(BACKLEFT))),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(BACKRIGHT))),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(FRONTLEFT))),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(FRONTRIGHT)))
+        			b.get(0),
+        			b.get(1),
+        			b.get(2),
+        			b.get(3)
         		)
         	)
         );
         
-        this.rotateBehaviour = new TempRotateBehaviour();
+        this.rotateBehaviour = new TempRotateBehaviour(b, getModel().getLocalRotation());
+        System.out.println("hi");
     }
 
     /**

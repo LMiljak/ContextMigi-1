@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.TempRotateBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
@@ -36,7 +37,7 @@ public class Commander extends Camera implements IRotatable {
         getModel().setLocalTranslation(startLocation);
         
         setMoveBehaviour(platform.getMoveBehaviour());
-        this.rotateBehaviour = platform.getRotateBehaviour();
+        rotateBehaviour = platform.getRotateBehaviour();
     }
 
 

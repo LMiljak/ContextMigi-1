@@ -22,6 +22,5 @@ public interface IRotatable extends IDisplayable {
 	default void rotate() {
 		Vector3f rotateVector = getRotateBehaviour().getRotateVector();
 		getModel().rotate(rotateVector.x, rotateVector.y, rotateVector.z);
-		System.out.println(getModel().getLocalRotation());
 	}
 }

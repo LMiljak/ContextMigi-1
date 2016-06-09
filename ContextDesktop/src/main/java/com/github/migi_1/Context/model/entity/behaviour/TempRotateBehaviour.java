@@ -1,20 +1,56 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Stack;
+
+import com.github.migi_1.Context.utility.AverageVectorAggregator;
+import com.github.migi_1.Context.utility.DistanceVectorAggregator;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 
 public class TempRotateBehaviour extends RotateBehaviour {
 
-	float i = 0f;
-	boolean reverse;
+	private float i = 0f;
+	private Collection<AccelerometerMoveBehaviour> carrierBehaviours;
+	private float badness = 1000f;
+	private float similarity = 0.1f;
 	
-	public TempRotateBehaviour() {
+	private final Quaternion initialRotation;
+	private Quaternion rotation;
+	
+	public TempRotateBehaviour(Collection<AccelerometerMoveBehaviour> carrierBehaviours, Quaternion initialRotation) {
 		super();
+		this.carrierBehaviours = carrierBehaviours;
+		this.initialRotation = new Quaternion(initialRotation);
+		this.rotation = initialRotation;
 	}
 	
 	@Override
 	public void updateRotateVector() {
-		i += 0.01f;
-		super.setRotateVector(new Vector3f((float) (Math.cos(i) / 200), 0.0f, (float) (Math.cos(i * 2)) / 200));
+		if (i >= 2 * Math.PI) {
+			i = 0;
+			rotation.set(initialRotation);
+			similarity = getSimilarity().z;
+		} else {
+			float amplitude = (badness - badness * similarity) / 5 + 1;
+			i += (float) (Math.PI / 200);
+			Vector3f v = new Vector3f((float) (Math.cos(i * 2) / 150), 0.0f, (float) (Math.cos(i)) / 150);
+			super.setRotateVector(v);
+		}
 	}
-
+	
+	private Vector3f getSimilarity() {
+		DistanceVectorAggregator similer = new DistanceVectorAggregator();
+		
+		Collection<Vector3f> vectors = new ArrayList<>(carrierBehaviours.size());
+		
+		for (MoveBehaviour behaviour : carrierBehaviours) {
+			vectors.add(behaviour.getMoveVector());
+		}
+		
+		return similer.aggregate(vectors);
+	}
+	
 }

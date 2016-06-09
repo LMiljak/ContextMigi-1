@@ -11,6 +11,8 @@ import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
@@ -28,11 +30,11 @@ public class ServerWrapper {
 //				EnableSprayToAppMessage.class,
 				EnableSprayToVRMessage.class,
 //				StartBugEventMessage.class,
-//				StopEventToVRMessage.class,
-//				StopAllEventsMessage.class
+				StopEventToVRMessage.class,
+				StopAllEventsMessage.class,
 				PositionMessage.class,
-                                HealthMessage.class,
-                                AttackMessage.class
+                HealthMessage.class,
+                AttackMessage.class
 				);
 
 	/** The port on which the server is running. */

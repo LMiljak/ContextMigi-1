@@ -5,6 +5,8 @@ import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
+import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.github.migi_1.ContextMessages.StopEventToVRMessage;
 import java.io.IOException;
 
 import com.jme3.network.Client;
@@ -29,6 +31,8 @@ public class ClientWrapper {
             Serializer.registerClass(AccelerometerMessage.class);
             Serializer.registerClass(PositionMessage.class);
             Serializer.registerClass(EnableSprayToVRMessage.class);
+            Serializer.registerClass(StopEventToVRMessage.class);
+            Serializer.registerClass(StopAllEventsMessage.class);
             Serializer.registerClass(HealthMessage.class);
             Serializer.registerClass(AttackMessage.class);
         }

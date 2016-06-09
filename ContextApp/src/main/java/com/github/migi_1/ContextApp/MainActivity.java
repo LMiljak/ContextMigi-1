@@ -49,8 +49,6 @@ public class MainActivity extends AndroidHarness {
             // Set the application class to run
             appClass = "com.github.migi_1.ContextApp.Main";
 
-            //Create the accelerometer sensor.
-            accelerometerSensor = new AccelerometerSensor(this, client);
             posHolder = PositionHolder.getInstance();
 
             // Start the log manager
@@ -65,7 +63,6 @@ public class MainActivity extends AndroidHarness {
      */
     @Override  
     public void onCreate(Bundle savedInstanceState) {  
-        
         super.onCreate(savedInstanceState);
 
         //instantiate the application
@@ -76,14 +73,12 @@ public class MainActivity extends AndroidHarness {
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         
-        setContentView(R.layout.android_searching);  
-
-        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
-                .autoStart(Executors.newFixedThreadPool(10));
-            
-        // create te accelerometerSensor
-        accelerometerSensor = new AccelerometerSensor(this, client);
+        setContentView(R.layout.android_searching); 
         
+        client = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+        
+        // create the accelerometerSensor
+        accelerometerSensor = new AccelerometerSensor(this, client);
     }
     
    /**
@@ -92,8 +87,9 @@ public class MainActivity extends AndroidHarness {
     @Override  
     protected void onResume() {  
         super.onResume();
-
+        
         client.startClient();
+        
         client.getClient().addMessageListener(posHolder);
         
         // register the lister for the accelerometer
@@ -118,7 +114,6 @@ public class MainActivity extends AndroidHarness {
         protected void onStop() {  
             // unregister the sensor listener
             mSensorManager.unregisterListener(accelerometerSensor);
-
 
             super.onStop();  
         } 

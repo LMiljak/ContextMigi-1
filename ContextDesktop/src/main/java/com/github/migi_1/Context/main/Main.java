@@ -9,8 +9,11 @@ import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
+import com.github.migi_1.Context.server.StopEventMessageHandler;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -41,6 +44,7 @@ public class Main extends VRApplication {
 
     private AttackMessageHandler attackMessageHandler;
     private EnableSprayToVRMessageHandler enableSprayReceiveHandler;
+    private StopEventMessageHandler stopEventHandler;
 
 
     /**
@@ -89,7 +93,7 @@ public class Main extends VRApplication {
         // Probably not the right spot, but I'll put this here for now.
         attackMessageHandler = new AttackMessageHandler(this);
         enableSprayReceiveHandler = new EnableSprayToVRMessageHandler(this);
-
+        stopEventHandler = new StopEventMessageHandler(this);
     }
 
     /**
@@ -131,14 +135,16 @@ public class Main extends VRApplication {
 //            sendServer.broadcast(enableSprayMsg);
 //        }
 //    }
-//
-//    public void handleStopBugEvent() {
-//        Server sendServer = server.getServer();
-//        StopAllEventsMessage stopMsg = new StopAllEventsMessage();
-//        if(sendServer != null) {
-//            sendServer.broadcast(stopMsg);
-//        }
-//    }
+
+    public void handleStopBugEvent() {
+        Server sendServer = server.getServer();
+        StopAllEventsMessage stopMsg = new StopAllEventsMessage();
+        System.out.println("Stop message send: " + (sendServer.isRunning()));
+        System.out.println(sendServer.getConnections().size());
+        if(sendServer.isRunning()) {
+            sendServer.broadcast(stopMsg);
+        }
+    }
 
     /**
      * Returns the main menu state.

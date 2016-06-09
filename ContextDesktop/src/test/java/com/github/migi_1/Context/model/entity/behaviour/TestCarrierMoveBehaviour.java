@@ -57,7 +57,6 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         setMoveVector(new Vector3f(1, 2, 3));
-        Mockito.when(environment.getCarriers()).thenReturn(carriers);
         Mockito.when(environment.getCommander()).thenReturn(commander);
         testMoveBehaviour = new CarrierMoveBehaviour(carriers.get(0), getMoveVector(), environment);
         testMoveBehaviour.setRelativeLocation(new Vector3f(0, 0, 0));

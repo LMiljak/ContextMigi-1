@@ -1,11 +1,21 @@
 package com.github.migi_1.Context.model.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
+import static com.github.migi_1.ContextMessages.PlatformPosition.BACKRIGHT;
+import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTLEFT;
+import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTRIGHT;
+
+import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
+import com.github.migi_1.Context.utility.AverageVectorAggregator;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.Context.utility.SummingVectorAggregator;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -20,19 +30,37 @@ public class Platform extends Entity {
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
+    private CarrierAssigner carrierAssigner;
+    
     /**
-     * constructor of the platform.
-     * @param startLocation location where the carrier will be initialized
+     * Constructor of the platform.
+     * 
+     * @param startLocation
+     * 		location where the carrier will be initialised
+     * @param environment
+     * 		The environment that contains this platform.
+     * 
      */
-    public Platform(Vector3f startLocation) {
+    public Platform(Vector3f startLocation, MainEnvironment environment) {
         super();
         
+        this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
+        		
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new SumMultiMoveBehaviour(
-				new AccelerometerMoveBehaviour(), 
-				new AcceleratingMoveBehaviour(MOVE_VECTOR)
-			));
+        setMoveBehaviour(
+        	new MultiMoveBehaviour(
+        		new SummingVectorAggregator(),
+        		new AcceleratingMoveBehaviour(MOVE_VECTOR), //Responsible for going forwards
+        		new MultiMoveBehaviour(//Responsible for steering
+        			new AverageVectorAggregator(),
+        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(BACKLEFT))),
+        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(BACKRIGHT))),
+        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(FRONTLEFT))),
+        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(FRONTRIGHT)))
+        		)
+        	)
+        );
     }
 
     /**
@@ -73,6 +101,14 @@ public class Platform extends Entity {
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+    }
+    
+    public ArrayList<Carrier> getCarriers() {
+        ArrayList<Carrier> results = new ArrayList<Carrier>();
+        for (Carrier carrier : carriers.values()){
+            results.add(carrier);
+        }
+        return results;
     }
 
 

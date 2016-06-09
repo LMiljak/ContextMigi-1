@@ -16,6 +16,7 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.jme3.math.Vector3f;
+import com.jme3.network.HostedConnection;
 import com.jme3.network.Server;
 
 /**
@@ -43,7 +44,7 @@ public class TestAccelerometerMoveBehaviour {
         Mockito.when(main.getServer()).thenReturn(serverWrapper);
         Mockito.when(serverWrapper.getServer()).thenReturn(server);
 
-        acceleroMoveBehaviour = Mockito.spy(new AccelerometerMoveBehaviour());
+        acceleroMoveBehaviour = Mockito.spy(new AccelerometerMoveBehaviour(ip -> true));
     }
 
     /**
@@ -82,8 +83,9 @@ public class TestAccelerometerMoveBehaviour {
      */
     @Test
     public void testMessageReceived() {
+    	HostedConnection h = Mockito.mock(HostedConnection.class);
         Vector3f oldMoveVector = acceleroMoveBehaviour.getMoveVector();
-        acceleroMoveBehaviour.messageReceived(null, new AccelerometerMessage(10, 10, 10));
+        acceleroMoveBehaviour.messageReceived(h, new AccelerometerMessage(10, 10, 10));
         //Verify the moveVector is updated.
         assertNotEquals(oldMoveVector, acceleroMoveBehaviour.getMoveVector());
     }

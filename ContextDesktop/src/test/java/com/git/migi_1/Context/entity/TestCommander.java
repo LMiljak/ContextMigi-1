@@ -14,6 +14,7 @@ import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehavio
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
+import com.github.migi_1.Context.utility.Filter;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -32,6 +33,7 @@ public class TestCommander extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
+    private Filter filter;
 
 
 
@@ -41,10 +43,10 @@ public class TestCommander extends TestEntity {
     @Override
     @Before
     public void setUp() {
-
+        filter = Mockito.mock(Filter.class);
         try {
             PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
-            .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+            .withArguments(filter).thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,15 +6,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
-import jopenvr.VR_IVRSystem_FnTable.PollNextEventWithPose_callback;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.mockito.internal.matchers.Any;
-import org.mockito.internal.matchers.Matches;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -26,6 +23,7 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -72,6 +70,7 @@ public class TestMainEnvironment {
     private Path path;
     private AudioNode backgroundMusic;
     private CarrierAssigner carrierAssigner;
+    private Platform platform;
 
 
 
@@ -113,6 +112,8 @@ public class TestMainEnvironment {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         carrierAssigner = Mockito.mock(CarrierAssigner.class);
+        platform = Mockito.mock(Platform.class);
+        
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
         PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
@@ -138,7 +139,7 @@ public class TestMainEnvironment {
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         
-        PowerMockito.whenNew(CarrierAssigner.class).withArguments(Any.ANY, Any.ANY).thenReturn(carrierAssigner);
+        PowerMockito.whenNew(CarrierAssigner.class).withArguments(Platform.class, ServerWrapper.class).thenReturn(carrierAssigner);
     }
 
     /**

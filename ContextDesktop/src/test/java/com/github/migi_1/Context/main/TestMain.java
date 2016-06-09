@@ -95,7 +95,7 @@ public class TestMain {
         assertNotNull(main.getStateManager().getState(MainMenu.class));
         //Verify the MainEnvironment state is created.
         assertNotNull(main.getEnv());
-        //Verify the MainEnvironment state is added to the statemanager.
+        //Verify the MainEnvironment state is not yet added to the statemanager.
         assertNull(main.getStateManager().getState(MainEnvironment.class));
     }
 

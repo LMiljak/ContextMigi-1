@@ -94,6 +94,10 @@ public class EnemySpawner {
         return deleteList;
     }
     
+    /**
+     * Return the carriers.
+     * @return the carriers the enemySpawner uses.
+     */
     public ArrayList<Carrier> getCarriers() {
         return carriers;
     }

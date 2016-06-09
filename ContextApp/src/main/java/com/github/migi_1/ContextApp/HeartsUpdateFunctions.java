@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp;
 
+import android.media.SoundPool;
 import android.widget.ImageView;
 
 /**
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 public class HeartsUpdateFunctions {
 
     private MainActivity act;
+    private SoundPool soundPool;
+    private int[] soundIds;
     
     /**
      * This creates an instance of the HeartsUpdateFunctions.
@@ -17,6 +20,8 @@ public class HeartsUpdateFunctions {
      */
     public HeartsUpdateFunctions(MainActivity act) {
         this.act = act;
+        soundPool = act.getSoundPool();
+        soundIds = act.getSoundIds();
     }
     
    /**
@@ -25,6 +30,8 @@ public class HeartsUpdateFunctions {
     *      and red hearts.
     */
     public void setHealth(int health) {
+        
+        soundPool.play(soundIds[0], 1, 1, 1, 0, 1.f);
         
         switch (health) {
             case 1:

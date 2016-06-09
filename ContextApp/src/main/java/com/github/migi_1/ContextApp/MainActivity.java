@@ -222,4 +222,12 @@ public class MainActivity extends AndroidHarness {
         return soundPool;
     }
     
+    /**
+     * Getter for soundIds.
+     * @return the array of sound effects so that they can be played by other classes.
+     */
+    public int[] getSoundIds() {
+        return soundIds;
+    }
+    
 }

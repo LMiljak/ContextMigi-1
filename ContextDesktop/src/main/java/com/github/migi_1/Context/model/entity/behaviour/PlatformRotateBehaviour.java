@@ -13,14 +13,15 @@ import com.jme3.math.Vector3f;
  * to determine how badly the Platform is rotating.
  */
 public class PlatformRotateBehaviour extends RotateBehaviour {
-
-	private float i = 0f;
-	private Collection<AccelerometerMoveBehaviour> carrierBehaviours;
-	private float badness = 1000f;
-	private float similarity = 0.1f;
 	
+	private Collection<AccelerometerMoveBehaviour> carrierBehaviours;
 	private final Quaternion initialRotation;
 	private Quaternion rotation;
+	
+	private final float baseAmplitude = 0.05f;
+	private final int speed = 200;
+	private float disSimilarity = 0.0f;
+	private float time = 0f;
 	
 	/**
 	 * Constructor for PlatformRotateBehaviour.
@@ -42,19 +43,25 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 	
 	@Override
 	public void updateRotateVector() {
-		if (i >= 2 * Math.PI) {
-			i = 0;
+		if (time >= 2 * Math.PI) {
+			time = 0;
 			rotation.set(initialRotation);
-			similarity = getSimilarity().z;
+			disSimilarity = getDisSimilarity().z;
 		} else {
-			float amplitude = (badness - badness * similarity) / 5 + 1;
-			i += (float) (Math.PI / 200);
-			Vector3f v = new Vector3f((float) (Math.cos(i * 2) / 150), 0.0f, (float) (Math.cos(i)) / 150);
-			super.setRotateVector(v);
+			time += (float) (Math.PI / speed);
+			
+			float amplitude = (baseAmplitude * disSimilarity);
+			
+			Vector3f res = new Vector3f(
+					(float) (Math.cos(time * 2) * amplitude), 
+					0.0f,
+					(float) (Math.cos(time)) * amplitude);
+			
+			super.setRotateVector(res);
 		}
 	}
 	
-	private Vector3f getSimilarity() {
+	private Vector3f getDisSimilarity() {
 		DistanceVectorAggregator similer = new DistanceVectorAggregator();
 		
 		Collection<Vector3f> vectors = new ArrayList<>(carrierBehaviours.size());

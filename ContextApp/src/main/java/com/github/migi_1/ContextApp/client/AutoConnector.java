@@ -43,6 +43,8 @@ public final class AutoConnector {
      * 
      * @param executorService
      *      On which executorService the server finder should be executed.
+     * @param main 
+     *      Its alert method is called when the client can't connect in time.
      * 
      * @return The clientWrapper inside the clientWrapperWrapper
      */
@@ -55,19 +57,17 @@ public final class AutoConnector {
         int counter = 0;
         
         while (client.wrapper == null) {
-            if (counter == 500) {
+            if (counter == 10000) {
                 break;
             }
-            
-            Log.d("CarrierAway", "Waiting for client to connect");
+            Log.d("CarriedAway", "Waiting for client to connect ");
             counter++;
         }
         
         if (client.wrapper == null) {
             main.alert();
         }
-            
-        Log.d("CarrierAway", "Connected succesfully");
+        
         return client.wrapper;
     }
     

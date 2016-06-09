@@ -93,6 +93,10 @@ public class MainActivity extends AndroidHarness {
         
     }
     
+    /**
+     * Shows a 'toast' giving the player instructions on how to get the app to 
+     * work with the game and closes the app.
+     */
     public void alert() {
         CharSequence text = "Start the game before running the app";
         int duration = Toast.LENGTH_SHORT;

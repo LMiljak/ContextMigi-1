@@ -25,6 +25,7 @@ public class EnemySpawner {
     private double currentLevelPiece;
     private double lastLevelPiece;
     private Vector3f commanderLocation;
+    private ArrayList<Carrier> carriers;
 
     /**
      * Constructor of the EnemySpawner.
@@ -32,6 +33,7 @@ public class EnemySpawner {
      * @param carriers the carriers which have spots where the enemies will walk to.
      */
     public EnemySpawner(Commander commander, ArrayList<Carrier> carriers) {
+        this.carriers = carriers;
         enemies = new LinkedList<Enemy>();
         deleteList = new LinkedList<Enemy>();        
         commanderLocation = commander.getModel().getLocalTranslation(); 
@@ -90,5 +92,9 @@ public class EnemySpawner {
             }
         }
         return deleteList;
+    }
+    
+    public ArrayList<Carrier> getCarriers() {
+        return carriers;
     }
 }

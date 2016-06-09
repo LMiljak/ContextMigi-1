@@ -17,7 +17,8 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
      * @param main
      * 			the main application by which this function is called
      */
-    public AttackMessageHandler(Main main) {
+    @SuppressWarnings("unchecked")
+	public AttackMessageHandler(Main main) {
         this.main = main;
         main.getServer().getServer().addMessageListener(this);
     }

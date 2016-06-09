@@ -47,50 +47,7 @@ public class LevelPiece implements IDisplayable {
     public void setModel(Spatial model) {
         this.model = model;
 
-    }
-//
-//    /**
-//     * @return the levelPieceWidth
-//     */
-//    public float getLevelPieceWidth() {
-//        return levelPieceWidth;
-//    }
-//
-//    /**
-//     * @param levelPieceWidth the levelPieceWidth to set
-//     */
-//    public void setLevelPieceWidth(float levelPieceWidth) {
-//        this.levelPieceWidth = levelPieceWidth;
-//    }
-//
-//    /**
-//     * @return the levelPieceLength
-//     */
-//    public float getLevelPieceLength() {
-//        return levelPieceLength;
-//    }
-//
-//    /**
-//     * @param levelPieceLength the levelPieceLength to set
-//     */
-//    public void setLevelPieceLength(float levelPieceLength) {
-//        this.levelPieceLength = levelPieceLength;
-//    }
-//
-//    /**
-//     * @return the levelPieceBoundingBox
-//     */
-//    public BoundingBox getLevelPieceBoundingBox() {
-//        return levelPieceBoundingBox;
-//    }
-//
-//    /**
-//     * @param levelPieceBoundingBox the levelPieceBoundingBox to set
-//     */
-//    public void setLevelPieceBoundingBox(BoundingBox levelPieceBoundingBox) {
-//        this.levelPieceBoundingBox = levelPieceBoundingBox;
-//    }
-    
+    }   
     
 
 }

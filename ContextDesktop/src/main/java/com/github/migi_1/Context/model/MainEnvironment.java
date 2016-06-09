@@ -157,18 +157,14 @@ public class MainEnvironment extends Environment {
     private void checkPathCollision() {
         for (Carrier carrier : platform.getCarriers()) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
-                ((MultiMoveBehaviour)commander.getMoveBehaviour()).collisionLeft();
-                ((MultiMoveBehaviour)platform.getMoveBehaviour()).collisionLeft();
-                System.out.println(commander.getMoveBehaviour().equals(platform.getMoveBehaviour()));
-//                Vector3f vector = ((MultiMoveBehaviour)commander.getMoveBehaviour()).getMoveVector();
-//                vector.z = -0.05f;
-//                ((MultiMoveBehaviour)commander.getMoveBehaviour()).getMoveVector().z = -0.05f;
-//                System.out.println(commander.getMoveBehaviour().getMoveVector().z);
-               // System.out.println(((MultiMoveBehaviour)commander.getMoveBehaviour()).getMoveVector().z);
+                commander.move(new Vector3f(0, 0, -0.3f));
+                platform.move(new Vector3f(0, 0, -0.3f));                
+                carrier.move(new Vector3f(0, 0, -0.3f));                
             }
             else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-                //((MultiMoveBehaviour)platform.getMoveBehaviour()).collisionRight();
-                ((MultiMoveBehaviour)commander.getMoveBehaviour()).collisionRight();           
+                commander.move(new Vector3f(0, 0, 0.3f));
+                platform.move(new Vector3f(0, 0, 0.3f));                
+                carrier.move(new Vector3f(0, 0, 0.3f));
             }
         }
     }

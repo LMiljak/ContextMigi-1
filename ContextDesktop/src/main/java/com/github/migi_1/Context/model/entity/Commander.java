@@ -37,21 +37,6 @@ public class Commander extends Camera {
     }
 
 
-    /**
-     * Method that registers a collision.
-     * @param arg0 Collidable to check the collision against.
-     * @param arg1 The register to where the collision results are added to.
-     * @return whether the collision was succesul or not, 0 means succesful.
-     * @throws UnsupportedCollisionException When the collision is unsupported by the jmonkey collision checker.
-     */
-//    @Override
-//    public int collideWith(Collidable arg0, CollisionResults arg1)
-//            throws UnsupportedCollisionException {
-//        getModel().collideWith(arg0, arg1);
-//        return 0;
-//    }
-
-
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);

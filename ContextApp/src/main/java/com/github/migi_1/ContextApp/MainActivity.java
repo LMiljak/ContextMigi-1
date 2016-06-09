@@ -2,6 +2,8 @@ package com.github.migi_1.ContextApp;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +33,7 @@ public class MainActivity extends AndroidHarness {
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         private ClientWrapper client;
+        private SoundPool soundPool;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -75,6 +78,8 @@ public class MainActivity extends AndroidHarness {
         // create te accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
         
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        
         // wait until position is received
         /*while (true) {
             if (posHolder.getPosition() != null) {
@@ -112,6 +117,8 @@ public class MainActivity extends AndroidHarness {
         mSensorManager.unregisterListener(accelerometerSensor);
             
         client.closeClient();
+        
+        soundPool.release();
             
         super.onStop();  
     } 

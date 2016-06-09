@@ -79,6 +79,7 @@ public class MainActivity extends AndroidHarness {
         // create te accelerometerSensor
         lineairSpeedSensor = new LineairSpeedSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
+<<<<<<< HEAD
         // wait until position is received
         /*while (true) {
             if (posHolder.getPosition() != null) {
@@ -89,6 +90,8 @@ public class MainActivity extends AndroidHarness {
         position = PlatformPosition.FRONTLEFT;
         
         setUI();
+=======
+>>>>>>> master
         
     }
     
@@ -100,15 +103,27 @@ public class MainActivity extends AndroidHarness {
         super.onResume();
 
         client.startClient();
+        client.getClient().addMessageListener(posHolder);
         
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
         
+<<<<<<< HEAD
         mSensorManager.registerListener(lineairSpeedSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
                 SensorManager.SENSOR_DELAY_FASTEST);
+=======
+        while (true) {
+            if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
+            	break;
+       	    }
+        }
+        
+        setUI();
+>>>>>>> master
     }
     
     /**

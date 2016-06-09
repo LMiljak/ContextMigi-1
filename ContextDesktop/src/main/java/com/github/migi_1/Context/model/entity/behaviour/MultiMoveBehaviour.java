@@ -1,32 +1,53 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.github.migi_1.Context.utility.IVectorAggregator;
+import com.jme3.math.Vector3f;
 
 /**
- * Abstract MoveBehaviour class for every behaviour that is composed
- * of multiple other behaviours (constructor ensures that there is
- * always at least one behaviour in this class).
+ * A MoveBehaviour class for every behaviour that is composed
+ * of multiple other behaviours.
  */
-public abstract class MultiMoveBehaviour extends MoveBehaviour {
+public class MultiMoveBehaviour extends MoveBehaviour {
 
-	protected ArrayList<MoveBehaviour> behaviours = new ArrayList<>();
+	private IVectorAggregator aggregator;
+	private List<MoveBehaviour> behaviours;
 	
 	/**
 	 * Constructor for MultiMoveBehaviour.
-	 * Requires at least one MoveBehaviour.
 	 * 
-	 * @param behaviour1
-	 * 		One of the behaviour this MultiMoveBehaviour is composed of.
-	 * @param behaviour2
-	 * 		The rest of the behaviours this MultiMoveBehaviour is composed of.
+	 * @param aggregator
+	 * 		The aggregator that should aggregate the MoveVectors into one MoveVector.
+	 * @param behaviours
+	 * 		The behaviours of which this MultiMoveBehaviour is composed of.
 	 */
-	public MultiMoveBehaviour(MoveBehaviour behaviour1, MoveBehaviour... behaviour2) {
-		behaviours.add(behaviour1);
-		for (MoveBehaviour behaviour : behaviour2) {
-			behaviours.add(behaviour);
-		}
+	public MultiMoveBehaviour(IVectorAggregator aggregator, MoveBehaviour... behaviours) {
+		this.aggregator = aggregator;
+		this.behaviours = Arrays.asList(behaviours);
 	}
 	
 	@Override
-	public void updateMoveVector() { }
+	public void updateMoveVector() {
+		Collection<Vector3f> vectors = new LinkedList<>();
+		for (MoveBehaviour behaviour : getBehaviours()) {
+			behaviour.updateMoveVector();
+			vectors.add(behaviour.getMoveVector());
+		}
+		
+		super.setMoveVector(aggregator.aggregate(vectors));
+	}
+
+	/**
+	 * Gets the list of subbehaviours of this MultiMoveBehaviour.
+	 * 
+	 * @return
+	 * 		The list of subbehaviours of this MultiMoveBehaviour.
+	 */
+	public List<MoveBehaviour> getBehaviours() {
+		return behaviours;
+	}
 }

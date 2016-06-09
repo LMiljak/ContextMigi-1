@@ -20,9 +20,10 @@ public abstract class TestEntity {
 
     /**
      * Initialise attributes.
+     * @throws Exception 
      */
     @Before
-    public abstract void setUp();
+    public abstract void setUp() throws Exception;
 
     /**
      * Test the getMoveBehaviour method.

@@ -2,14 +2,16 @@ package com.github.migi_1.Context.model.entity.behaviour;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Stack;
 
-import com.github.migi_1.Context.utility.AverageVectorAggregator;
 import com.github.migi_1.Context.utility.DistanceVectorAggregator;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
 
+/**
+ * A RotateBehaviour specially designed for a Platform.
+ * It uses the similarity of the platform's AccelerometerMoveBehaviours used for steering,
+ * to determine how badly the Platform is rotating.
+ */
 public class PlatformRotateBehaviour extends RotateBehaviour {
 
 	private float i = 0f;
@@ -20,7 +22,18 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 	private final Quaternion initialRotation;
 	private Quaternion rotation;
 	
-	public PlatformRotateBehaviour(Collection<AccelerometerMoveBehaviour> carrierBehaviours, Quaternion initialRotation) {
+	/**
+	 * Constructor for PlatformRotateBehaviour.
+	 * 
+	 * @param carrierBehaviours
+	 * 		The AccelerometerMoveBehaviours used by the Platform for steering.
+	 * @param initialRotation
+	 * 		The current rotation of the platform.
+	 */
+	public PlatformRotateBehaviour(
+			Collection<AccelerometerMoveBehaviour> carrierBehaviours, 
+			Quaternion initialRotation) {
+		
 		super();
 		this.carrierBehaviours = carrierBehaviours;
 		this.initialRotation = new Quaternion(initialRotation);

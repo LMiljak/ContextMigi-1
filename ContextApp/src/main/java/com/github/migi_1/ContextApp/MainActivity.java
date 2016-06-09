@@ -34,6 +34,7 @@ public class MainActivity extends AndroidHarness {
         private PlatformPosition position;
         private ClientWrapper client;
         private SoundPool soundPool;
+        private int[] soundIds;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -75,10 +76,11 @@ public class MainActivity extends AndroidHarness {
         client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
                 .autoStart(Executors.newFixedThreadPool(10));
             
-        // create te accelerometerSensor
+        // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
         
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        // create the soundPool
+        createSoundPool();
         
         // wait until position is received
         /*while (true) {
@@ -198,6 +200,26 @@ public class MainActivity extends AndroidHarness {
      */
     public ClientWrapper getClient() {
         return client;
+    }
+    
+    /**
+     * Creates the SoundPool, allows for volume control and adds sfx.
+     */
+    public void createSoundPool() {
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        soundIds = new int[3];
+        soundIds[0] = soundPool.load(this, R.raw.gethit, 1);
+        soundIds[1] = soundPool.load(this, R.raw.miss, 1);
+        soundIds[2] = soundPool.load(this, R.raw.hit, 1);
+    }
+    
+    /**
+     * Getter for soundPool.
+     * @return the SoundPool, so that other classes can make it play a sound effect
+     */
+    public SoundPool getSoundPool() {
+        return soundPool;
     }
     
 }

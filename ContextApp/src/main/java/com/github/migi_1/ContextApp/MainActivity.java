@@ -157,6 +157,9 @@ public class MainActivity extends AndroidHarness {
                 
                     atkMessenger.sendAttack(posHolder.getPosition(), string);
                     
+                    // TODO: check whether attack hit or not.
+                    soundPool.play(soundIds[1], 1, 1, 1, 0, 1.f);
+                    
             }
             
         });

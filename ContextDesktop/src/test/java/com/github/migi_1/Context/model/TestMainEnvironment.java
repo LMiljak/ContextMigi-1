@@ -91,7 +91,7 @@ public class TestMainEnvironment {
             e.printStackTrace();
         }
 
-        env = PowerMockito.spy(new MainEnvironment());
+        
 
         entity = Mockito.mock(Entity.class);
         hudController = Mockito.mock(HUDController.class);
@@ -138,8 +138,9 @@ public class TestMainEnvironment {
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
-        
+        PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
+        env = PowerMockito.spy(new MainEnvironment());
     }
 
     /**

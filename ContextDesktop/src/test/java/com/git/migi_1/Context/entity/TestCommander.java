@@ -3,7 +3,6 @@ package com.git.migi_1.Context.entity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.Assert;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
@@ -61,7 +60,7 @@ public class TestCommander extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCommander = new Commander(new Vector3f(0, 0, 0));
+        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(MoveBehaviour.class));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCommander);

@@ -59,6 +59,12 @@ public final class PositionHolder extends MessageListener<PositionMessage> {
         return position;
     }
     
-    
+    /**
+     * Clears the position in the PositionHolder.
+     * This way a new screen can be printed when the app connects a 2nd time.
+     */
+    public void clearPosition() {
+        position = null;
+    }
     
 }

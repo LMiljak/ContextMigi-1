@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import android.widget.TextView;
 import com.github.migi_1.ContextApp.client.ClientHub;
+import android.widget.Toast;
 
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
@@ -27,7 +28,6 @@ import java.util.logging.LogManager;
  * This class contains the main activity that is started you run the project.
  */
 public class MainActivity extends AndroidHarness {
-
     private Main application;
     private SensorManager mSensorManager;
     private AccelerometerSensor accelerometerSensor;
@@ -38,7 +38,7 @@ public class MainActivity extends AndroidHarness {
     private PlatformPosition position;
     private ClientHub clientHub;
     private StartBugEventMessageListener startBugEventListener;
-
+    private ClientWrapper client;
     /**
      * Configure the game instance that is launched and start the logger.
      */
@@ -64,16 +64,33 @@ public class MainActivity extends AndroidHarness {
 
         setContentView(R.layout.android_searching); 
 
-        clientHub = new ClientHub();
+        clientHub = new ClientHub(this);
         
         getClient().startClient();
+
         
         getClient().getClient().addMessageListener(posHolder);
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, clientHub.getClientWrapper());
     }
+   
+    /**
+     * Shows a 'toast' giving the player instructions on how to get the app to 
+     * work with the game and closes the app.
+     */
+    public void alert() {
+        CharSequence text = "Start the game before running the app";
+        int duration = Toast.LENGTH_SHORT;
 
+        Toast toast = Toast.makeText(this, text, duration);
+        toast.show();
+        finish();
+    }
+    
+   /**
+    * This method runs the app is resumed.
+    */
     @Override  
     protected void onResume() {  
         super.onResume();
@@ -117,7 +134,11 @@ public class MainActivity extends AndroidHarness {
         super.onStop();  
         // unregister the sensor listener
         mSensorManager.unregisterListener(accelerometerSensor);
+
         clientHub.getClientWrapper().closeClient();
+        
+        // clear the position
+        posHolder.clearPosition();
     } 
 
     /**

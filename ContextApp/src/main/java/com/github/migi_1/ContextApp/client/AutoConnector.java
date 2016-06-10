@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp.client;
 
 import android.util.Log;
+import com.github.migi_1.ContextApp.MainActivity;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
 
@@ -15,7 +16,7 @@ public final class AutoConnector {
     private static final AutoConnector INSTANCE = new AutoConnector();
     
     /**
-     * A wrapper of the wrapper of the client C:.
+     * A wrapper of the wrapper of the client.
      */
     private class ClientWrapperWrapper {
         private ClientWrapper wrapper;
@@ -40,21 +41,30 @@ public final class AutoConnector {
      * 
      * @param executorService
      *      On which executorService the server finder should be executed.
+     * @param main 
+     *      Its alert method is called when the client can't connect in time.
      * 
-     * @return client.wrapper
-     *          CAN SOMEBODY EXPLAIN THIS? I DIDN'T MAKE THIS, BUT
-     *          I HAVE TO DO THIS TO SOLVE A CHECKSTYLE WARNING. - Remi
+     * @return The clientWrapper inside the clientWrapperWrapper
      */
-    public ClientWrapper autoStart(ExecutorService executorService) {
+    public ClientWrapper autoStart(ExecutorService executorService, 
+            MainActivity main) {
         ServerFinder serverFinder = ServerFinder.getInstance();
         
         ClientWrapperWrapper client = new ClientWrapperWrapper();
         serverFinder.findServers(executorService, getConnector(client));
+        int counter = 0;
         
         while (client.wrapper == null) {
-            Log.d("CarrierAway", "Waiting for client to connect");
+            if (counter == 10000) {
+                break;
+            }
+            Log.d("CarriedAway", "Waiting for client to connect ");
+            counter++;
         }
-        Log.d("CarrierAway", "Connected succesfully");
+        
+        if (client.wrapper == null) {
+            main.alert();
+        }
         
         return client.wrapper;
     }

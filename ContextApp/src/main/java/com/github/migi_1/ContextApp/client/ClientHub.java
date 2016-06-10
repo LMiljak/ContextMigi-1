@@ -6,6 +6,7 @@ package com.github.migi_1.ContextApp.client;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.github.migi_1.ContextApp.MainActivity;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import java.util.concurrent.Executors;
 
@@ -17,13 +18,15 @@ public class ClientHub implements Parcelable {
     
     private PlatformPosition position;
     private ClientWrapper clientWrapper;
+    private static MainActivity mainActivity;
     
     /**
      * Constructor for the clienthub.
      * Starts a clientWrapper.
      */
-    public ClientHub() {
-        clientWrapper = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
+    public ClientHub(MainActivity main) {
+        mainActivity = main;
+        clientWrapper = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), mainActivity);
     }
     
     /**
@@ -69,7 +72,7 @@ public class ClientHub implements Parcelable {
 
         @Override
         public ClientHub createFromParcel(Parcel source) {
-            return new ClientHub();
+            return new ClientHub(mainActivity);
         }
 
         @Override

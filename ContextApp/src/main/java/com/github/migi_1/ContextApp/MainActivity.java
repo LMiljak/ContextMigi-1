@@ -93,7 +93,7 @@ public class MainActivity extends AndroidHarness {
     * This method runs the app is resumed.
     */
     @Override  
-    protected void onResume() {  
+    public void onResume() {  
         super.onResume();
         Log.d("rotate", "=========Main Activity==========");
         Log.d("rotate", "Main Activity is starting again.");
@@ -118,10 +118,10 @@ public class MainActivity extends AndroidHarness {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("rotate", "ACT RESULT CALLED!");
+        Log.d("rotate", "ACTIVITY RESULT CALLED!");
         super.onActivityResult(requestCode, resultCode, data); 
         if(resultCode == RESULT_OK) {
-            clientHub = data.getParcelableExtra("ClientWrapper");
+            clientHub = (ClientHub) data.getParcelableExtra("ClientHub");
             Log.d("rotate", "Is client started: " + getClient().getClient().isStarted());
         }
     }
@@ -230,7 +230,6 @@ public class MainActivity extends AndroidHarness {
         nextScreen.putExtra("BugPosition", getRandomPosition());
         nextScreen.putExtra("SprayPosition", getRandomPosition());
         nextScreen.putExtra("ClientHub", (Parcelable) clientHub);
-        Log.d("rotate", "Added all positions");
         startActivityForResult(nextScreen, 42);
     }
 

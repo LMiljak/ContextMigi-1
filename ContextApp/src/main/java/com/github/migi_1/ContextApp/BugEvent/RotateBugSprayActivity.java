@@ -3,6 +3,7 @@ package com.github.migi_1.ContextApp.BugEvent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -144,8 +145,8 @@ public class RotateBugSprayActivity extends Activity {
      */
     public void stopEvent() {
         Log.d("rotate", "Stopping all events");
-        Intent result = new Intent();
-        result.putExtra("ClientWrapper", clientHub);
+        Intent result = getIntent();
+        result.putExtra("ClientHub", (Parcelable) clientHub);
         setResult(RESULT_OK, result);
         Log.d("rotate", "FINISHING");
         finish();

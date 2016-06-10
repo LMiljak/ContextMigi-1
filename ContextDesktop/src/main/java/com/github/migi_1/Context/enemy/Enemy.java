@@ -48,6 +48,14 @@ public class Enemy extends Entity implements IKillable {
     public void setHealth(int health) {
         this.health = health;        
     }
+    
+    @Override
+    public void takeDamage(int damage) {
+        setHealth(getHealth() - damage);
+    	if (getHealth() <= 0) {
+    		onKilled();
+    	}
+    }
 
     @Override
     public void onKilled() {

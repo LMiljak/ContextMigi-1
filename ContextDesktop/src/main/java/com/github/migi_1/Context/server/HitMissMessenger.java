@@ -29,7 +29,7 @@ public class HitMissMessenger {
      * @param pos
      * 			the position of the attacking player.
      */
-    public void sendHealth(boolean hit, PlatformPosition pos) {
+    public void sendHitMiss(boolean hit, PlatformPosition pos) {
         HitMissMessage message = new HitMissMessage(hit, pos);
         
         ServerWrapper serverWrapper = main.getServer();

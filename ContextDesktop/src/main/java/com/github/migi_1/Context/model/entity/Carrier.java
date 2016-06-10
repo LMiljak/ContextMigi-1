@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model.entity;
 
 
 
+import com.github.migi_1.Context.enemy.Enemy;
 import java.util.ArrayList;
 
 import com.github.migi_1.Context.main.Main;
@@ -10,6 +11,7 @@ import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.server.AttackMessageHandler;
+import com.github.migi_1.Context.server.HitMissMessenger;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.math.Vector3f;
@@ -32,6 +34,7 @@ public class Carrier extends Entity implements IKillable {
     private Main main;
     private HealthMessenger healthMessenger;
     private AttackMessageHandler attackMessageHandler;
+    private HitMissMessenger hitMissMessenger;
     
     private int health;
 
@@ -65,6 +68,7 @@ public class Carrier extends Entity implements IKillable {
         main = environment.getMain();
         healthMessenger = new HealthMessenger(main);
         attackMessageHandler = new AttackMessageHandler(main, this, position);
+        hitMissMessenger = new HitMissMessenger(main);
 
         this.position = position;
         if (position.equals(PlatformPosition.FRONTRIGHT) 
@@ -191,8 +195,16 @@ public class Carrier extends Entity implements IKillable {
         }
     }
     
-    public void attack(int spot) {
-        // TODO: execute attacks
+    public void attack(int direction) {
+        EnemySpot enemySpot = enemySpots.get(direction);
+        if (!enemySpot.isOccupied()) {
+            hitMissMessenger.sendHitMiss(false, position);
+        }
+        else {
+            hitMissMessenger.sendHitMiss(true, position);
+            Enemy enemy = enemySpot.getEnemy();
+            enemy.takeDamage(1);
+        }
     }
 
 }

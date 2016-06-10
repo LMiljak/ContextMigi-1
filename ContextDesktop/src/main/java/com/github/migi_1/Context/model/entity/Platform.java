@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
@@ -100,6 +101,14 @@ public class Platform extends Entity {
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+    }
+
+    public ArrayList<Carrier> getCarriers() {
+        ArrayList<Carrier> results = new ArrayList<Carrier>();
+        for (Carrier carrier : carriers.values()) {
+            results.add(carrier);
+        }
+        return results;
     }
 
 

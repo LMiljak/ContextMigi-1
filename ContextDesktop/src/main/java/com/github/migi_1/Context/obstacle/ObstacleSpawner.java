@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 
 /**TODO: UPDATE THIS JAVADOC WHEN DYNAMIC OBSTACLE SPAWNING IS IMPLEMENTED
@@ -30,6 +31,10 @@ public class ObstacleSpawner {
 
     private MainEnvironment environment;
 
+    private float leftBound;
+
+    private float rightBound;
+
     /**
      * Constructor for the obstacle spawner object.
      * @param commander needed for knowing where to spawn the obstacles.
@@ -40,7 +45,10 @@ public class ObstacleSpawner {
         this.location = commander.getModel().getLocalTranslation();
         this.obstacleList = new ArrayList<Obstacle>();
         this.obstacleFactory = new StaticObstacleFactory();
+        this.leftBound = getBound(environment.getLeftBound());
+        this.rightBound = getBound(environment.getLeftBound());
     }
+
     /**
      * Create list of obstacles that are to be spawned in the environment and return them.
      * @return Map with all obstacles, with as key value their Geometry in the environment.
@@ -103,4 +111,7 @@ public class ObstacleSpawner {
         return obstacleFactory;
     }
 
+    private float getBound(BoundingBox boundingBox) {
+        return boundingBox.getCenter().z;
+    }
 }

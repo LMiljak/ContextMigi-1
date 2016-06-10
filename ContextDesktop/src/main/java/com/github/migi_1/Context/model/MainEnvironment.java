@@ -218,13 +218,14 @@ public class MainEnvironment extends Environment {
      */
     private void initSpatials() {
 
+        createWallBoundingBoxes();
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
         commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
 
         obstacleSpawner = new ObstacleSpawner(this);
-        createWallBoundingBoxes();
+
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -476,5 +477,13 @@ public class MainEnvironment extends Environment {
      */
     public void setResults(HashMap<Entity, CollisionResults> newResults) {
         results = newResults;
+    }
+
+    public BoundingBox getLeftBound() {
+        return boundingBoxWallLeft;
+    }
+
+    public BoundingBox getRightBound() {
+        return boundingBoxWallRight;
     }
 }

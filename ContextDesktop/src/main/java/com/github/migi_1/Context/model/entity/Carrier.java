@@ -36,6 +36,7 @@ public class Carrier extends Entity implements IKillable {
     private int health;
 
     private PlatformPosition position;
+    private String side;
     
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
@@ -66,6 +67,13 @@ public class Carrier extends Entity implements IKillable {
         attackMessageHandler = new AttackMessageHandler(main, this, position);
 
         this.position = position;
+        if (position.equals(PlatformPosition.FRONTRIGHT) 
+                || position.equals(PlatformPosition.BACKRIGHT)) {
+            side = "right";
+        }
+        else {
+            side = "left";
+        }
         this.environment = environment;
         createEnemyLocations();
         
@@ -158,48 +166,32 @@ public class Carrier extends Entity implements IKillable {
      * 			the direction of the attack (String)
      */
     public void handleAttack(String direction) {
-        if (position.equals(PlatformPosition.FRONTLEFT)
-                || position.equals(PlatformPosition.BACKLEFT)) {
-            attackLeft(direction);
-        }
-        else {
-            attackRight(direction);
-        }
-    }
-    
-    public void attackLeft(String direction) {
         switch (direction) {
             case "left":
-                attack(Direction.SOUTH);
+                if (side.equals("left")) {
+                    attack(2);
+                }
+                else {
+                    attack(0);
+                }
                 break;
             case "middle":
-                attack(Direction.WEST);
+                attack(1);
                 break;
             case "right":
-                attack(Direction.NORTH);
+                if (side.equals("left")) {
+                    attack(0);
+                }
+                else {
+                    attack(1);
+                }
                 break;
             default:
                 throw new IllegalArgumentException();
         }
     }
     
-    public void attackRight(String direction) {
-        switch (direction) {
-            case "left":
-                attack(Direction.NORTH);
-                break;
-            case "middle":
-                attack(Direction.EAST);
-                break;
-            case "right":
-                attack(Direction.SOUTH);
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-    
-    public void attack(Direction direction) {
+    public void attack(int spot) {
         // TODO: execute attacks
     }
 

@@ -46,7 +46,7 @@ public class ObstacleSpawner {
         this.obstacleList = new ArrayList<Obstacle>();
         this.obstacleFactory = new StaticObstacleFactory();
         this.leftBound = getBound(environment.getLeftBound());
-        this.rightBound = getBound(environment.getLeftBound());
+        this.rightBound = getBound(environment.getRightBound());
     }
 
     /**
@@ -67,13 +67,19 @@ public class ObstacleSpawner {
         while (obstacleList.size() < NUMBER_OBSTACLES) {
             Obstacle obs = obstacleFactory.produce();
             obs.scale(0.3f);
-            location = location.add(new Vector3f(-30.f, 0, 0.0f));
+            location = location.add(new Vector3f(-30.f, 0,0));
 
-            obs.move(location);
+            obs.move(location.add(new Vector3f(0, 0, getZLocation())));
             obstacleList.add(obs);
         }
         return obstacleList;
 
+    }
+
+    private float getZLocation() {
+        Float rand = (float) Math.random();
+        float zOrientation = rand*(leftBound - rightBound) - (leftBound - rightBound)/2.f;
+        return (zOrientation );
     }
 
     /**

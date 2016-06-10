@@ -126,6 +126,7 @@ public class MainEnvironment extends Environment {
         if (!isPaused()) {
             super.update(tpf);
             checkRandomEvent();
+
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
@@ -256,14 +257,13 @@ public class MainEnvironment extends Environment {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
+        createWallBoundingBoxes();
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
         commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
 
-        obstacleSpawner = new ObstacleSpawner(commander);
-        createWallBoundingBoxes();
+        obstacleSpawner = new ObstacleSpawner(this);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -515,5 +515,21 @@ public class MainEnvironment extends Environment {
      */
     public void setResults(HashMap<Entity, CollisionResults> newResults) {
         results = newResults;
+    }
+
+    /**
+     * Getter for the left bounding box.
+     * @return the left bounding box
+     */
+    public BoundingBox getLeftBound() {
+        return boundingBoxWallLeft;
+    }
+
+    /**
+     * Getter for the right bounding box.
+     * @return the right bounding box
+     */
+    public BoundingBox getRightBound() {
+        return boundingBoxWallRight;
     }
 }

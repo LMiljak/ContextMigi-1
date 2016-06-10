@@ -44,7 +44,6 @@ public class Main extends VRApplication {
     private ServerWrapper server;
 
     private boolean bugEventRunning = false;
-
     private AttackMessageHandler attackMessageHandler;
     private EnableSprayToVRMessageHandler enableSprayReceiveHandler;
     private StopEventMessageHandler stopEventHandler;
@@ -94,6 +93,7 @@ public class Main extends VRApplication {
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attachAll(mainMenuState);
+
         // Probably not the right spot, but I'll put this here for now.
         attackMessageHandler = new AttackMessageHandler(this);
         enableSprayReceiveHandler = new EnableSprayToVRMessageHandler(this);

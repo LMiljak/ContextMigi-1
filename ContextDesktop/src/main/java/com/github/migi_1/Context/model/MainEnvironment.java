@@ -1,10 +1,13 @@
 package com.github.migi_1.Context.model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
+import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -65,6 +68,9 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+    private EnemySpawner enemySpawner;
+
+    private LinkedList<Enemy> enemies;
 
 
     private HashMap<Entity, CollisionResults> results;
@@ -90,9 +96,7 @@ public class MainEnvironment extends Environment {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
         scoreController = new ScoreController();
-
         results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
@@ -112,12 +116,16 @@ public class MainEnvironment extends Environment {
 
     @Override
     public void update(float tpf) {
-        super.update(tpf);
-
-        checkObstacleCollision();
-        checkPathCollision();
-        updateTestWorld();
+        if (!isPaused()) {
+            super.update(tpf);
+            
+            updateEnemies(tpf);
+            checkObstacleCollision();
+            checkPathCollision();
+            updateTestWorld();
+        }
     }    
+
 
     /**
      * Handle collision checking.
@@ -210,12 +218,14 @@ public class MainEnvironment extends Environment {
      */
     private void initSpatials() {
 
+        enemies = new LinkedList<Enemy>(); 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
         commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
-        obstacleSpawner = new ObstacleSpawner(commander);
 
+        obstacleSpawner = new ObstacleSpawner(commander);
         createWallBoundingBoxes();
+        
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
@@ -295,7 +305,7 @@ public class MainEnvironment extends Environment {
      */
     private void initCameras() {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         commander.makeObserver();
@@ -354,8 +364,10 @@ public class MainEnvironment extends Environment {
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
-        removeDisplayables(loc);
+        removeDisplayables(loc);        
+        flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -391,6 +403,26 @@ public class MainEnvironment extends Environment {
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
+        }
+    }
+
+    private void updateEnemies(float tpf) {
+        if (enemySpawner == null || enemySpawner.getCarriers().size() == 0) {
+            enemySpawner = new EnemySpawner(commander, platform.getCarriers());
+        } else {
+            for (Enemy enemy : enemySpawner.generateEnemies()) {
+                addEntity(enemy);
+                enemies.add(enemy);
+            }
+
+            for (Enemy enemy : enemySpawner.deleteEnemies()) {
+                removeEntity(enemy);
+                enemies.remove(enemy);
+            }
+
+            for (Enemy enemy : enemies) {
+                enemy.attack(tpf);
+            }
         }
     }
 

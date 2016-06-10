@@ -1,5 +1,4 @@
 package com.github.migi_1.Context.model.entity;
-
 import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
 import static com.github.migi_1.ContextMessages.PlatformPosition.BACKRIGHT;
 import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTLEFT;

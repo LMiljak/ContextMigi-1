@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -86,7 +85,6 @@ public class TestMainEnvironment {
             Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
             PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
             .withNoArguments().thenReturn(amb);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,9 +2,6 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResults;
-import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -36,21 +33,6 @@ public class Commander extends Camera implements IRotatable {
         
         setMoveBehaviour(platform.getMoveBehaviour());
         rotateBehaviour = platform.getRotateBehaviour();
-    }
-
-
-    /**
-     * Method that registers a collision.
-     * @param arg0 Collidable to check the collision against.
-     * @param arg1 The register to where the collision results are added to.
-     * @return whether the collision was succesul or not, 0 means succesful.
-     * @throws UnsupportedCollisionException When the collision is unsupported by the jmonkey collision checker.
-     */
-    @Override
-    public int collideWith(Collidable arg0, CollisionResults arg1)
-            throws UnsupportedCollisionException {
-        getModel().collideWith(arg0, arg1);
-        return 0;
     }
 
 

@@ -108,6 +108,19 @@ public class Platform extends Entity implements IRotatable {
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
+    
+    /**
+     * Returns all carriers currently in the game.
+     * @return 
+     *    Carriers in the game. If none, it will return null.
+     */
+    public ArrayList<Carrier> getCarriers() {
+        ArrayList<Carrier> results = new ArrayList<Carrier>();
+        for (Carrier carrier : carriers.values()) {
+            results.add(carrier);
+        }
+        return results;
+    }
 
 	@Override
 	public RotateBehaviour getRotateBehaviour() {

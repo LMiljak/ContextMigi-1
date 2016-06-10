@@ -48,11 +48,9 @@ public class Environment extends AbstractAppState {
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		if (!paused) {
 		    hudController.updateHUD();
 		    moveMovables();
 		    rotateRotatables();
-		}
 	}
 
 	/**
@@ -103,7 +101,7 @@ public class Environment extends AbstractAppState {
 	 * 		The entity to add.
 	 */
 	public void addEntity(Entity entity) {
-		addDisplayable(entity);
+		addDisplayable(entity);		
 		movables.add(entity);
 	}
 	

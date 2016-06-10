@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +20,11 @@ import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
@@ -29,6 +32,7 @@ import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioNode;
 import com.jme3.bounding.BoundingBox;
+import com.jme3.collision.CollisionResults;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
@@ -61,7 +65,11 @@ public class TestMainEnvironment {
     private HUDController hudController;
     private AudioController audioController;
     private Entity entity;
+    private EntityMoveBehaviour moveBehaviour;
+    private Path path;
     private AudioNode backgroundMusic;
+    private CarrierAssigner carrierAssigner;
+    private Platform platform;
 
 
 
@@ -72,16 +80,16 @@ public class TestMainEnvironment {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
-    	try {
-    		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
-    		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
- 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withAnyArguments().thenReturn(amb);
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
+        try {
+            AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
+            Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+            .withNoArguments().thenReturn(amb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        env = PowerMockito.spy(new MainEnvironment());
+        
 
         entity = Mockito.mock(Entity.class);
         hudController = Mockito.mock(HUDController.class);
@@ -96,10 +104,14 @@ public class TestMainEnvironment {
         model =  Mockito.mock(Spatial.class);
         renderManager = Mockito.mock(RenderManager.class);
         cam = Mockito.mock(Camera.class);
+        moveBehaviour = Mockito.mock(EntityMoveBehaviour.class);
+        path = Mockito.mock(Path.class);
         backgroundMusic = Mockito.mock(AudioNode.class);
-
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
+        carrierAssigner = Mockito.mock(CarrierAssigner.class);
+        platform = Mockito.mock(Platform.class);
+        
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
         PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
@@ -113,18 +125,20 @@ public class TestMainEnvironment {
         Mockito.when(matDef.getMaterialParam(Mockito.anyString())).thenReturn(matParam);
         Mockito.when(model.getWorldBound()).thenReturn(new BoundingBox(new Vector3f(0, 0, 0), 0, 0, 0));
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(500, 500, 500));
-        Platform platform = Mockito.mock(Platform.class);
-        PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
-        MoveBehaviour moveBehaviour = Mockito.mock(MoveBehaviour.class);
-        Mockito.when(platform.getMoveBehaviour()).thenReturn(moveBehaviour);
         Mockito.when(entity.getModel()).thenReturn(model);
         Mockito.when(entity.getMoveBehaviour()).thenReturn(moveBehaviour);
         Mockito.when(app.getGuiNode()).thenReturn(guiNode);
+        Mockito.when(path.getModel()).thenReturn(model);
+        Mockito.when(model.center()).thenReturn(model);
+        Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
         Mockito.when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
+        PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
+        PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
+        env = PowerMockito.spy(new MainEnvironment());
     }
 
     /**
@@ -146,7 +160,7 @@ public class TestMainEnvironment {
         env.update(0.1f);
         Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
-    
+
     /**
      * Test for the render method.
      */
@@ -166,7 +180,7 @@ public class TestMainEnvironment {
         env.moveCam(new Vector3f(-1, 1, 1));
         Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
-    
+
     /**
      * Test for the rotateCam method.
      */
@@ -194,7 +208,7 @@ public class TestMainEnvironment {
     /**
      * Test for the steer method.
      */
-   @Test
+    @Test
     public void steerTest() {
         env.initialize(stateManager, app);
         env.steer(-1.0f);
@@ -233,6 +247,36 @@ public class TestMainEnvironment {
         //Verify that everything is still in the right place.
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
+    }
+
+    /**
+     * Tests the getCarriers method.
+     */
+    //    @Test
+    //    public void getCarriersTest() {
+    //        env.initialize(stateManager, app);
+    //        assertEquals(4, env.getCarriers().size());
+    //    }
+
+    /**
+     * Verifies the checkCollision method works the way it should.
+     * @throws Exception when the invokeMethod() method can't find the specified method.
+     */
+    @Test
+    public void checkCollisionCollidingTest() throws Exception {
+        env.initialize(stateManager, app);
+        //Add a mocked results hashmap to simulate the collision.
+        HashMap<Entity, CollisionResults> newResults = new HashMap<Entity, CollisionResults>();
+        //Add collisionResults to trigger the removal of the object.
+        CollisionResults collisionResults = new CollisionResults();
+        collisionResults.addReusedCollision(0, 0, 0, 0);
+        newResults.put(entity, collisionResults);
+        //Set the mocked results as results for now.
+        env.setResults(newResults);
+        //Call the checkCollision method.
+        Whitebox.invokeMethod(env, "checkObstacleCollision");
+        //Verify the mocked object has collided.
+        Mockito.verify(moveBehaviour).collided();
     }
 
     /**

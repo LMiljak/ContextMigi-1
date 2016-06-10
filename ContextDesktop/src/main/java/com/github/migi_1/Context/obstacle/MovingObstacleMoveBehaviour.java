@@ -8,13 +8,19 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
     private Vector3f moveVector;
 
     public MovingObstacleMoveBehaviour() {
-        this.moveVector = new Vector3f(0, 0, -0.5f);
+        System.out.println("goedendag");
+        this.moveVector = new Vector3f(0, 0, -2f);
     }
 
     @Override
     public void updateMoveVector() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Vector3f getMoveVector() {
+        return moveVector;
     }
 
 }

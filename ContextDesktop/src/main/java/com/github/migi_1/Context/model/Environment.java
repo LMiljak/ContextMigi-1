@@ -97,7 +97,7 @@ public class Environment extends AbstractAppState {
 	 * 		The entity to add.
 	 */
 	public void addEntity(Entity entity) {
-		addDisplayable(entity);		
+		addDisplayable(entity);
 		movables.add(entity);
 	}
 
@@ -116,6 +116,7 @@ public class Environment extends AbstractAppState {
 	 * Moves all Movable objects in the world using the MoveBehaviours.
 	 */
 	private void moveMovables() {
+	    System.out.println(movables.size());
 		for (IMovable movable : movables) {
 		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());

@@ -3,7 +3,6 @@ package com.github.migi_1.ContextApp;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,6 +30,7 @@ public class MainActivity extends AndroidHarness {
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         private ClientWrapper client;
+        private boolean cooldown;
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -190,6 +190,15 @@ public class MainActivity extends AndroidHarness {
      */
     public ClientWrapper getClient() {
         return client;
+    }
+    
+    /**
+     * Setter for cooldown
+     * @param cooldown 
+     *              Boolean that determines whether or not a player can use attacks.
+     */
+    public void setCooldown(boolean cooldown) {
+        this.cooldown = cooldown;
     }
     
 }

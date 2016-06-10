@@ -1,7 +1,10 @@
 package com.github.migi_1.Context.model.entity;
 
+import java.util.ArrayList;
+
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -30,6 +33,9 @@ public class Carrier extends Entity implements IKillable {
     private PlatformPosition position;
 
     private Vector3f relativeLocation;
+    private ArrayList<EnemySpot> enemySpots;
+    private MainEnvironment environment;
+
     /**
      * Constructor of the carrier.
      * @param relativeLocation location relative to the commander
@@ -40,6 +46,7 @@ public class Carrier extends Entity implements IKillable {
             MainEnvironment environment) {
         super();
 
+        enemySpots = new ArrayList<EnemySpot>();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
@@ -50,7 +57,23 @@ public class Carrier extends Entity implements IKillable {
         health = INITIAL_HEALTH;
         main = environment.getMain();
         healthMessenger = new HealthMessenger(main);
+
         this.position = position;
+        this.environment = environment;
+        createEnemyLocations();
+
+    }
+
+    private void createEnemyLocations() {
+        enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
+        if (position.getzFactor() == 1) {
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.EAST));
+        }
+        else {
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.WEST));
+        }
+        enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
+
     }
 
     @Override
@@ -108,10 +131,25 @@ public class Carrier extends Entity implements IKillable {
     }
 
     /**
+     * @return the enemySpots
+     */
+    public ArrayList<EnemySpot> getEnemySpots() {
+        return enemySpots;
+    }
+
+    /**
+     * @param enemySpots the enemySpots to set
+     */
+    public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
+        this.enemySpots = enemySpots;
+    }
+
+    /**
      * Getter for healthMessenger.
      * @return healthMessenger HealthMessenger
      */
     public HealthMessenger getHealthMessenger() {
         return healthMessenger;
     }
+
 }

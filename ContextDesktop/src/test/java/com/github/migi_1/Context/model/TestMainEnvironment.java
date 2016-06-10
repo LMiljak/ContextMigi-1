@@ -72,14 +72,15 @@ public class TestMainEnvironment {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
-    	try {
-    		AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
-    		Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
- 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withAnyArguments().thenReturn(amb);
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
+        try {
+            AccelerometerMoveBehaviour amb = Mockito.mock(AccelerometerMoveBehaviour.class);
+            Mockito.when(amb.getMoveVector()).thenReturn(Vector3f.ZERO);
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+            .withNoArguments().thenReturn(amb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         env = PowerMockito.spy(new MainEnvironment());
 
@@ -125,6 +126,7 @@ public class TestMainEnvironment {
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
+
     }
 
     /**
@@ -194,7 +196,7 @@ public class TestMainEnvironment {
     /**
      * Test for the steer method.
      */
-   @Test
+    @Test
     public void steerTest() {
         env.initialize(stateManager, app);
         env.steer(-1.0f);

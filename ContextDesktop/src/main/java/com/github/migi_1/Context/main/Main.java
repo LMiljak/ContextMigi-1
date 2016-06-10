@@ -72,9 +72,11 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
+
         super.setSettings(settings);
         VRConfigurer.configureVR(this);
         super.setPauseOnLostFocus(true);
+
     }
 
     /**
@@ -91,8 +93,7 @@ public class Main extends VRApplication {
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-        this.getStateManager().attachAll(mainMenuState, environmentState);
-
+        this.getStateManager().attachAll(mainMenuState);
         // Probably not the right spot, but I'll put this here for now.
         attackMessageHandler = new AttackMessageHandler(this);
         enableSprayReceiveHandler = new EnableSprayToVRMessageHandler(this);

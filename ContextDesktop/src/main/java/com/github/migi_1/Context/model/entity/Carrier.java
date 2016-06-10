@@ -130,9 +130,6 @@ public class Carrier extends Entity implements IKillable {
         return relativeLocation;
     }
 
-
-
-
     /**
      * @return the enemySpots
      */
@@ -140,15 +137,12 @@ public class Carrier extends Entity implements IKillable {
         return enemySpots;
     }
 
-
-
     /**
      * @param enemySpots the enemySpots to set
      */
     public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
         this.enemySpots = enemySpots;
     }
-    
     
     /**
      * Getter for healthMessenger.
@@ -164,7 +158,49 @@ public class Carrier extends Entity implements IKillable {
      * 			the direction of the attack (String)
      */
     public void handleAttack(String direction) {
-        // TODO: EXECUTE ATTACKS
+        if (position.equals(PlatformPosition.FRONTLEFT)
+                || position.equals(PlatformPosition.BACKLEFT)) {
+            attackLeft(direction);
+        }
+        else {
+            attackRight(direction);
+        }
+    }
+    
+    public void attackLeft(String direction) {
+        switch (direction) {
+            case "left":
+                attack(Direction.SOUTH);
+                break;
+            case "middle":
+                attack(Direction.WEST);
+                break;
+            case "right":
+                attack(Direction.NORTH);
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+    
+    public void attackRight(String direction) {
+        switch (direction) {
+            case "left":
+                attack(Direction.NORTH);
+                break;
+            case "middle":
+                attack(Direction.EAST);
+                break;
+            case "right":
+                attack(Direction.SOUTH);
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+    
+    public void attack(Direction direction) {
+        // TODO: execute attacks
     }
 
 }

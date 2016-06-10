@@ -44,15 +44,19 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 	@Override
 	public void updateRotateVector() {
 		if (time >= 2 * Math.PI) {
-			time = 0;
-			rotation.set(initialRotation);
-			disSimilarity = getDisSimilarity().z;
+			//After 2PI, the platform has made extra one succesful rotation, 
+
+			time = 0; //reset time
+			rotation.set(initialRotation); //reset initial location to prevent floating point errors
+			disSimilarity = getDisSimilarity().z; //Update the dissimilarity
 		} else {
 			time += (float) (Math.PI / speed);
 			
 			float amplitude = (baseAmplitude * disSimilarity);
 			
 			Vector3f res = new Vector3f(
+					//Using cos for the proper rotation, the amplitude is how hard the platform
+					//is rotating. For the x-rotation, we use time*2 as it seemed to give a nicer effect.
 					(float) (Math.cos(time * 2) * amplitude), 
 					0.0f,
 					(float) (Math.cos(time) * amplitude)

@@ -212,7 +212,7 @@ public class MainEnvironment extends Environment {
      * Sets the randomEvent time to 20-30 seconds from the current time.
      */
     private void setNewRandomEventTime() {
-        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 5000;
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 20000;
     }
 
     /**

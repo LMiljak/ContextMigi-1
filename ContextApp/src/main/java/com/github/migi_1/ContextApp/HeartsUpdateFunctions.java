@@ -20,8 +20,6 @@ public class HeartsUpdateFunctions {
      */
     public HeartsUpdateFunctions(MainActivity act) {
         this.act = act;
-        soundPool = act.getSoundPool();
-        soundIds = act.getSoundIds();
     }
     
    /**
@@ -31,7 +29,7 @@ public class HeartsUpdateFunctions {
     */
     public void setHealth(int health) {
         
-        soundPool.play(soundIds[0], 1, 1, 1, 0, 1.f);
+        act.play(0);
         
         switch (health) {
             case 1:

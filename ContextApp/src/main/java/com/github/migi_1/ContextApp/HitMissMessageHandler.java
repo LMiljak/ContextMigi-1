@@ -35,15 +35,11 @@ public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     public void messageReceived(Object source, HitMissMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
-            SoundPool soundPool = main.getSoundPool();
-            int[] soundIds = main.getSoundIds();
             if (message.getHit() == true) {
-                // play hit sfx
-                soundPool.play(soundIds[2], 1, 1, 1, 0, 1.f);
+                main.play(2);
             }
             else {
-                // play miss sfx
-                soundPool.play(soundIds[1], 1, 1, 1, 0, 1.f);
+                main.play(1);
                 try {
                     main.setCooldown(true);
                     Thread.sleep(3000);

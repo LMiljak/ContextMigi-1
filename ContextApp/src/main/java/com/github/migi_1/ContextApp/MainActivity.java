@@ -81,8 +81,6 @@ public class MainActivity extends AndroidHarness {
         accelerometerSensor = new AccelerometerSensor(this, client);
         // Set cooldown to false.
         setCooldown(false);
-        // Create the soundPool.
-        createSoundPool();
         
         // wait until position is received
         while (true) {
@@ -107,6 +105,21 @@ public class MainActivity extends AndroidHarness {
         Toast toast = Toast.makeText(this, text, duration);
         toast.show();
         finish();
+    }
+    
+    public void play(int sfx) {
+        createSoundPool();
+        
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        float volume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (soundPool != null) {
+            soundPool.play(soundIds[sfx], volume, volume, 1, 0, 1.f);
+        }
+        
+        // release the SoundPool
+        if (soundPool != null) {
+            soundPool.release();
+        }
     }
     
    /**
@@ -144,9 +157,6 @@ public class MainActivity extends AndroidHarness {
         
         // close the client
         client.closeClient();
-        
-        // release the SoundPool
-        soundPool.release();
 
         // clear the position
         posHolder.clearPosition();
@@ -237,28 +247,13 @@ public class MainActivity extends AndroidHarness {
      * Creates the SoundPool, allows for volume control and adds sfx.
      */
     public void createSoundPool() {
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        soundPool = new SoundPool(10, audioManager.STREAM_MUSIC, 0);
+        setVolumeControlStream(audioManager.STREAM_MUSIC);
         soundIds = new int[3];
         soundIds[0] = soundPool.load(this, R.raw.gethit, 1);
         soundIds[1] = soundPool.load(this, R.raw.miss, 1);
         soundIds[2] = soundPool.load(this, R.raw.hit, 1);
-    }
-    
-    /**
-     * Getter for soundPool.
-     * @return the SoundPool, so that other classes can make it play a sound effect
-     */
-    public SoundPool getSoundPool() {
-        return soundPool;
-    }
-    
-    /**
-     * Getter for soundIds.
-     * @return the array of sound effects so that they can be played by other classes.
-     */
-    public int[] getSoundIds() {
-        return soundIds;
     }
     
     /*

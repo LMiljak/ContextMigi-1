@@ -98,7 +98,9 @@ public class Environment extends AbstractAppState {
 	 */
 	public void addEntity(Entity entity) {
 		addDisplayable(entity);
-		movables.add(entity);
+		if (!(movables.contains(entity))) {
+		    movables.add(entity);
+		}
 	}
 
 	/**

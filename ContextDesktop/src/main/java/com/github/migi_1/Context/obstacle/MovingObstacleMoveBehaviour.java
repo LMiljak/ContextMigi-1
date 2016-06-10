@@ -36,9 +36,6 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
             goingLeft = true;
             moveVector = baseVector;
         }
-        System.out.println(movingObstacle.getModel().getLocalTranslation().z);
-        System.out.println(leftBound);
-        System.out.println(rightBound);
     }
 
     @Override

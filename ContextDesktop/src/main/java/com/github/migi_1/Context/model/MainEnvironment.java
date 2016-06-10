@@ -385,7 +385,7 @@ public class MainEnvironment extends Environment {
 
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
 
     }

@@ -12,6 +12,7 @@ public class MovingObstacleFactory extends AbstractObstacleFactory {
 
     @Override
     public Obstacle produce() {
+        System.out.println("hallo");
         return new MovingObstacle(environment.getLeftBound(), environment.getRightBound());
     }
 

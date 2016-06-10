@@ -32,12 +32,9 @@ public class MainActivity extends AndroidHarness {
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         private ClientWrapper client;
-<<<<<<< HEAD
         private SoundPool soundPool;
         private int[] soundIds;
-=======
         private boolean cooldown;
->>>>>>> 32ad2d4ffcdd092a63aa2e712820bcf12a04aac6
         
         /**
          * Configure the game instance that is launched and start the logger.

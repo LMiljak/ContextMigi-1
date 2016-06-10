@@ -57,22 +57,8 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
             AccelerometerMessage message = (AccelerometerMessage) m;
 
             if (ipFilter.filter(((HostedConnection) source).getAddress())) { //Check if the filter allows this address
-                
-                if (message.getZ_force() < -10 && !busy) {
-                    busy = true;
-                    timer = new Timer();
-                    System.out.println("duck!");
-                    
-                    timer.schedule(new busyTask(), 1000);
-                    
-                } else if (message.getZ_force() > 17 && !busy) {
-                    busy = true;
-                    timer = new Timer();
-                    System.out.println("jump!"); 
-                                      
-                    timer.schedule(new busyTask(), 1000);
-                    
-                } 
+                checkForJump(message);
+
 
                 float zSpeed = message.getY_force(); //Y on the gyroscope is Z on JMonkey
                 zSpeed *= FACTOR;
@@ -84,24 +70,39 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
         }
     }
 
-    class busyTask extends TimerTask {     
-        
+    private void checkForJump(AccelerometerMessage message) {
+        if (message.getZ_force() < -10 && !busy) {
+            busy = true;
+            timer = new Timer();
+            System.out.println("duck!");
+
+            timer.schedule(new BusyTask(), 1000);
+
+        } else if (message.getZ_force() > 17 && !busy) {
+            busy = true;
+            timer = new Timer();
+            System.out.println("jump!"); 
+
+            timer.schedule(new BusyTask(), 1000);
+
+        } 
+    }
+
+    class BusyTask extends TimerTask {     
+
         public void run() {
             busy = false;
             timer.cancel();
         }
     }
-    /**
-     * @return the busyTask
-     */
 
     @Override
     public void updateMoveVector() {
         // TODO Auto-generated method stub
-        
+
     }
-    
-    
+
+
 
 
 }

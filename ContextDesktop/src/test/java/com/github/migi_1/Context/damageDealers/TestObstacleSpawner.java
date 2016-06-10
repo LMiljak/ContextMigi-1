@@ -47,12 +47,10 @@ public class TestObstacleSpawner {
 
     /**
      * Setup for the tests.
-     * @throws Exception
-     * @throws SecurityException
-     * @throws NoSuchMethodException
+     * @throws Exception something went wrong.
      */
     @Before
-    public void setUp() throws NoSuchMethodException, SecurityException, Exception {
+    public void setUp() throws Exception {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);

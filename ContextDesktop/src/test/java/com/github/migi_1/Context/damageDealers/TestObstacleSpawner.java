@@ -47,7 +47,7 @@ public class TestObstacleSpawner {
 
     /**
      * Setup for the tests.
-     * @throws Exception something went wrong.
+     * @throws Exception something went wrong
      */
     @Before
     public void setUp() throws Exception {

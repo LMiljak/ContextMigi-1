@@ -24,11 +24,11 @@ public class ClientHub implements Parcelable {
     /**
      * Constructor for the clienthub.
      * Starts a clientWrapper.
+     * @param main the main activity used in starting the client.
      */
     public ClientHub(MainActivity main) {
         mainActivity = main;
         clientWrapper = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), mainActivity);
-        Log.d("rotate", "Clientwrapper == null? " + (clientWrapper == null));
     }
     
     /**

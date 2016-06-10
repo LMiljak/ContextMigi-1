@@ -120,6 +120,7 @@ public class RotateBugSprayActivity extends Activity {
                     clientEvent.getClient().send(sprayMessage);
                     disableSprayButton();
                 }
+                break;
             default:
                 //Do nothing.
                 break;

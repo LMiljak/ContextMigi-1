@@ -98,7 +98,7 @@ public class MainActivity extends AndroidHarness {
         Log.d("rotate", "=========Main Activity==========");
         Log.d("rotate", "Main Activity is starting again.");
         Log.d("rotate", "Client started: " + getClient().getClient().isStarted());
-        if(!getClient().getClient().isStarted()) {
+        if (!getClient().getClient().isStarted()) {
             getClient().startClient();
         }
         
@@ -120,7 +120,7 @@ public class MainActivity extends AndroidHarness {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("rotate", "ACTIVITY RESULT CALLED!");
         super.onActivityResult(requestCode, resultCode, data); 
-        if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             clientHub = (ClientHub) data.getParcelableExtra("ClientHub");
             Log.d("rotate", "Is client started: " + getClient().getClient().isStarted());
         }

@@ -26,7 +26,6 @@ public class MainActivity extends AndroidHarness {
         
         private Main application;
         private SensorManager mSensorManager;
-        private LinearSpeedSensor linearSpeedSensor;
         private PositionHolder posHolder;
         private AttackMessenger atkMessenger;
         private HeartsUpdateFunctions huFunctions;
@@ -44,7 +43,6 @@ public class MainActivity extends AndroidHarness {
         appClass = "com.github.migi_1.ContextApp.Main";
             
         //Create the accelerometer sensor.
-        linearSpeedSensor = new LinearSpeedSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
         posHolder = PositionHolder.getInstance();
         
@@ -77,7 +75,6 @@ public class MainActivity extends AndroidHarness {
                 .autoStart(Executors.newFixedThreadPool(10));
             
         // create te accelerometerSensor
-        linearSpeedSensor = new LinearSpeedSensor(this, client);
         accelerometerSensor = new AccelerometerSensor(this, client);
         // wait until position is received
         /*while (true) {
@@ -107,9 +104,6 @@ public class MainActivity extends AndroidHarness {
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
         
-        mSensorManager.registerListener(linearSpeedSensor, 
-                mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
-                SensorManager.SENSOR_DELAY_FASTEST);
         while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
@@ -126,7 +120,6 @@ public class MainActivity extends AndroidHarness {
     @Override
     protected void onStop() {  
         // unregister the sensor listener adb -s 323012d3e74711ad logcat -s main
-        mSensorManager.unregisterListener(linearSpeedSensor);
         mSensorManager.unregisterListener(accelerometerSensor);
             
         client.closeClient();

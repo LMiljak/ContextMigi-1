@@ -29,7 +29,6 @@ public class ObstacleSpawner {
 
     private Commander commander;
 
-    private MainEnvironment environment;
 
     private float leftBound;
 
@@ -37,10 +36,9 @@ public class ObstacleSpawner {
 
     /**
      * Constructor for the obstacle spawner object.
-     * @param commander needed for knowing where to spawn the obstacles.
+     * @param environment needed for knowing where to spawn the obstacles.
      */
     public ObstacleSpawner(MainEnvironment environment) {
-        this.environment = environment;
         this.commander = environment.getCommander();
         this.location = commander.getModel().getLocalTranslation();
         this.obstacleList = new ArrayList<Obstacle>();
@@ -67,7 +65,7 @@ public class ObstacleSpawner {
         while (obstacleList.size() < NUMBER_OBSTACLES) {
             Obstacle obs = obstacleFactory.produce();
             obs.scale(0.3f);
-            location = location.add(new Vector3f(-30.f, 0,0));
+            location = location.add(new Vector3f(-30.f, 0, 0));
 
             obs.move(location.add(new Vector3f(0, 0, getZLocation())));
             obstacleList.add(obs);
@@ -76,10 +74,14 @@ public class ObstacleSpawner {
 
     }
 
+    /**
+     * Return a random location on the z-axis between the two bounding boxes.
+     * @return random location
+     */
     private float getZLocation() {
         Float rand = (float) Math.random();
-        float zOrientation = rand*(leftBound - rightBound) - (leftBound - rightBound)/2.f;
-        return (zOrientation );
+        float zOrientation = rand * (leftBound - rightBound) - (leftBound - rightBound) / 2.f;
+        return zOrientation;
     }
 
     /**
@@ -117,6 +119,11 @@ public class ObstacleSpawner {
         return obstacleFactory;
     }
 
+    /**
+     * Get the z coordinate of the center of a bounding box.
+     * @param boundingBox Bounding box to check
+     * @return z coordinate of the center
+     */
     private float getBound(BoundingBox boundingBox) {
         return boundingBox.getCenter().z;
     }

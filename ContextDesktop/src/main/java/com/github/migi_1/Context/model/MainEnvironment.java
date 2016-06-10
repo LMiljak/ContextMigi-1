@@ -479,10 +479,18 @@ public class MainEnvironment extends Environment {
         results = newResults;
     }
 
+    /**
+     * Getter for the left bounding box.
+     * @return the left bounding box
+     */
     public BoundingBox getLeftBound() {
         return boundingBoxWallLeft;
     }
 
+    /**
+     * Getter for the right bounding box.
+     * @return the right bounding box
+     */
     public BoundingBox getRightBound() {
         return boundingBoxWallRight;
     }

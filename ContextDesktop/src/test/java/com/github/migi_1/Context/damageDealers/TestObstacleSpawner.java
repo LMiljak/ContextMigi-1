@@ -13,6 +13,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -58,7 +59,7 @@ public class TestObstacleSpawner {
         Mockito.when(main.getServer()).thenReturn(serverWrapper);
         Mockito.when(serverWrapper.getServer()).thenReturn(server);
 
-        obstacleSpawner = new ObstacleSpawner(new Commander(new Vector3f(0, 0, 0)));
+        obstacleSpawner = new ObstacleSpawner(new Commander(new Vector3f(0, 0, 0), Mockito.mock(MoveBehaviour.class)));
     }
 
     /**

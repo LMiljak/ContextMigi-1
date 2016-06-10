@@ -20,6 +20,7 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
      * @param main
      * 			the main application by which this function is called
      */
+    @SuppressWarnings("unchecked")
     public AttackMessageHandler(Main main, Carrier carrier, PlatformPosition position) {
         this.main = main;
         this.carrier = carrier;

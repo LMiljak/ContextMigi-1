@@ -40,7 +40,7 @@ public class Main extends VRApplication {
     private ServerWrapper server;
 
     /**
-     * main function of the appication, sets some meta-parameters of the application
+     * main function of the application, sets some meta-parameters of the application
      * and starts it.
      *
      * @param args
@@ -75,12 +75,13 @@ public class Main extends VRApplication {
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
 
+        launchServer();
+        
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-        this.getStateManager().attach(mainMenuState);
-        
-        launchServer();
+
+        this.getStateManager().attachAll(mainMenuState, environmentState);
     }
 
     /**

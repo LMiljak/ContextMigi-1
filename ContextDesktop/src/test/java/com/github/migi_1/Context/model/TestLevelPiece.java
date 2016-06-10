@@ -35,14 +35,13 @@ public class TestLevelPiece {
      */
     @Before
     public void setUp() {
-
+        
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
-
-
+        
         lvlPiece = new LevelPiece();
     }
 

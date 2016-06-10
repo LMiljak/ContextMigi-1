@@ -183,6 +183,6 @@ public class TestEnvironment {
 	    //Verify that when paused,
         //The HUDcontroller is not updated.
 	    environment.update(0);
-	    Mockito.verifyNoMoreInteractions(hudController);
+	    Mockito.verify(hudController, times(2)).updateHUD();
 	}
 }

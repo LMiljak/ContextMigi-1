@@ -13,7 +13,7 @@ import com.jme3.network.MessageListener;
 //The reason this is implements the networking listener rather than the MessageListener in
 //the Messages module, is because it's an abstract class (blame java 1.7), but this class
 //already extends MoveBehaviour.
-public class LineairSpeedMoveBehaviour extends MoveBehaviour implements MessageListener {
+public class LinearSpeedMoveBehaviour extends MoveBehaviour implements MessageListener {
 
   /** The factor for the accelerometer force for deciding the speed.*/
   private static final float FACTOR = -0.1f;
@@ -26,7 +26,7 @@ public class LineairSpeedMoveBehaviour extends MoveBehaviour implements MessageL
    * Also automatically registers this behaviour to the server.
    */
   @SuppressWarnings("unchecked")
-  public LineairSpeedMoveBehaviour() {
+  public LinearSpeedMoveBehaviour() {
     Main.getInstance().getServer().getServer().addMessageListener(this);
   }
 

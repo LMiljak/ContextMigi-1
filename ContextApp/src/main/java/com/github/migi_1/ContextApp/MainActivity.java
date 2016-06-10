@@ -75,6 +75,9 @@ public class MainActivity extends AndroidHarness {
         // create te accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
         
+        // set cooldown to false
+        setCooldown(false);
+        
     }
     
    /**
@@ -145,7 +148,9 @@ public class MainActivity extends AndroidHarness {
             @Override
             public void onClick(View v) {
                 
+                if(cooldown == false) {
                     atkMessenger.sendAttack(posHolder.getPosition(), string);
+                }
                     
             }
             

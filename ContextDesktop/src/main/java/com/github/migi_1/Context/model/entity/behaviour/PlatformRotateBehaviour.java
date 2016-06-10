@@ -55,7 +55,8 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 			Vector3f res = new Vector3f(
 					(float) (Math.cos(time * 2) * amplitude), 
 					0.0f,
-					(float) (Math.cos(time)) * amplitude);
+					(float) (Math.cos(time) * amplitude)
+				);
 			
 			super.setRotateVector(res);
 		}

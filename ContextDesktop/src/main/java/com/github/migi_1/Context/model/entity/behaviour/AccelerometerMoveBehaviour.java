@@ -25,10 +25,10 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 
     private Filter<String> ipFilter;
     private boolean jumping;
-    private double decay = 0.02;
-    private double ySpeed = -2;
-    private float tpf;
+    private float decay = 0.02f;
+    private float ySpeed = -2;
     private float check = 0;
+    private float offset = 0.001f;
     /**
      * Constructor for AccelerometerMoveBehaviour.
      * Also automatically registers this behaviour to the server.
@@ -36,7 +36,6 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
      * @param ipFilter
      * 		A filter for ip addresses, so that certain ip addresses can
      * 		be ignored.
-     * @param tpf 
      */
     @SuppressWarnings("unchecked")
     public AccelerometerMoveBehaviour(Filter<String> ipFilter) {
@@ -55,38 +54,37 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 
             //Check if the filter allows this address   
             if (ipFilter.filter(((HostedConnection) source).getAddress())) {             
-                if (message.getZ_force() > 17 && !jumping) {
-                    jumping = true;
-                    System.out.println("jump!"); 
-                    ySpeed = 1f;
-                    check = 1f;
-                } 
-
-                if (ySpeed >= -1f + decay && jumping) {
-                    ySpeed -= decay;
-                    check -= decay;
-                } else {
-                    ySpeed = 0;
-                    jumping = false;
-                }
-                
-                if (!jumping && check != 0) {
-                    System.out.println(check);
-                    ySpeed = 1 - (-check);
-                    check = 0;
-                }
+                jump(message);
                 
                 System.out.println(ySpeed);
                 float zSpeed = message.getY_force(); //Y on the gyroscope is Z on JMonkey
                 zSpeed *= FACTOR;
                 zSpeed = Math.min(zSpeed, MAX_SPEED);
                 zSpeed = Math.max(zSpeed, -MAX_SPEED);
-
-                super.setMoveVector(new Vector3f(0, (float)ySpeed, zSpeed));
+                
+                check += ySpeed;
+                System.out.println("check = " + check);
+                super.setMoveVector(new Vector3f(0, ySpeed, zSpeed));
             }
         }
     }
+    
+    public void jump(AccelerometerMessage message) {
+        if (message.getZ_force() > 17 && !jumping) {
+            jumping = true;
+            System.out.println("jump!"); 
+            ySpeed = 1f;
+            check = 1f;
+        } 
 
+        if ((ySpeed >= -1f + 2 * decay + offset ||  ySpeed >= -1f + 2 * decay - offset) && jumping) {
+            ySpeed -= decay;
+            check -= decay;
+        } else {
+            ySpeed = 0;
+            jumping = false;
+        }
+    }
 
     @Override
     public void updateMoveVector() {

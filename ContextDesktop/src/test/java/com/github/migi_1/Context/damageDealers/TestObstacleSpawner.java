@@ -47,9 +47,7 @@ public class TestObstacleSpawner {
 
     /**
      * Setup for the tests.
-     * @throws Exception
-     * @throws SecurityException
-     * @throws NoSuchMethodException
+     * @throws Exception something went wrong
      */
     @Before
     public void setUp() throws NoSuchMethodException, SecurityException, Exception {

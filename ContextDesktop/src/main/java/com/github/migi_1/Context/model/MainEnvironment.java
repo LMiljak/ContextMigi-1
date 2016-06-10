@@ -118,13 +118,13 @@ public class MainEnvironment extends Environment {
     public void update(float tpf) {
         if (!isPaused()) {
             super.update(tpf);
-            
+
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
             updateTestWorld();
         }
-    }    
+    }
 
 
     /**
@@ -165,12 +165,12 @@ public class MainEnvironment extends Environment {
         for (Carrier carrier : platform.getCarriers()) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
                 commander.move(new Vector3f(0, 0, -0.3f));
-                platform.move(new Vector3f(0, 0, -0.3f));                
-                carrier.move(new Vector3f(0, 0, -0.3f));                
+                platform.move(new Vector3f(0, 0, -0.3f));
+                carrier.move(new Vector3f(0, 0, -0.3f));
             }
             else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
                 commander.move(new Vector3f(0, 0, 0.3f));
-                platform.move(new Vector3f(0, 0, 0.3f));                
+                platform.move(new Vector3f(0, 0, 0.3f));
                 carrier.move(new Vector3f(0, 0, 0.3f));
             }
         }
@@ -218,14 +218,15 @@ public class MainEnvironment extends Environment {
      */
     private void initSpatials() {
 
-        enemies = new LinkedList<Enemy>(); 
+        createWallBoundingBoxes();
+        enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
         commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
 
-        obstacleSpawner = new ObstacleSpawner(commander);
-        createWallBoundingBoxes();
-        
+        obstacleSpawner = new ObstacleSpawner(this);
+
+
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
@@ -244,13 +245,13 @@ public class MainEnvironment extends Environment {
     private void createWallBoundingBoxes() {
         Path path = new Path();
         boundingBoxWallLeft = new BoundingBox(
-                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
                         + ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);
 
         boundingBoxWallRight = new BoundingBox(
-                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z 
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
                         -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);
@@ -258,7 +259,7 @@ public class MainEnvironment extends Environment {
 
     /**
      * Creates a carrier.
-     * 
+     *
      * @param position
      * 		The position under the platform to place the carrier.
      * @return
@@ -364,7 +365,7 @@ public class MainEnvironment extends Environment {
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
-        removeDisplayables(loc);        
+        removeDisplayables(loc);
         flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
 
@@ -476,5 +477,21 @@ public class MainEnvironment extends Environment {
      */
     public void setResults(HashMap<Entity, CollisionResults> newResults) {
         results = newResults;
+    }
+
+    /**
+     * Getter for the left bounding box.
+     * @return the left bounding box
+     */
+    public BoundingBox getLeftBound() {
+        return boundingBoxWallLeft;
+    }
+
+    /**
+     * Getter for the right bounding box.
+     * @return the right bounding box
+     */
+    public BoundingBox getRightBound() {
+        return boundingBoxWallRight;
     }
 }

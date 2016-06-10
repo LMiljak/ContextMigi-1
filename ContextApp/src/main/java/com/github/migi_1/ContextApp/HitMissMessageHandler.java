@@ -1,15 +1,14 @@
 package com.github.migi_1.ContextApp;
 
+import android.media.SoundPool;
 import android.util.Log;
 import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class handles HitMissMessages and gives the player cooldown depending
- * on whether their attack hit or not.
+ * on whether their attack hit or not and plays the right sound effect.
  */
 public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     
@@ -36,11 +35,15 @@ public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     public void messageReceived(Object source, HitMissMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
+            SoundPool soundPool = main.getSoundPool();
+            int[] soundIds = main.getSoundIds();
             if (message.getHit() == true) {
-                // Sound effect hit
+                // play hit sfx
+                soundPool.play(soundIds[2], 1, 1, 1, 0, 1.f);
             }
             else {
-                // Sound effect miss
+                // play miss sfx
+                soundPool.play(soundIds[1], 1, 1, 1, 0, 1.f);
                 try {
                     main.setCooldown(true);
                     Thread.sleep(3000);

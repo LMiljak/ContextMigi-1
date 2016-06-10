@@ -33,6 +33,7 @@ public class MainActivity extends AndroidHarness {
         private PlatformPosition position;
         private ClientWrapper client;
         private SoundPool soundPool;
+        
         private int[] soundIds;
         private boolean cooldown;
         
@@ -68,21 +69,18 @@ public class MainActivity extends AndroidHarness {
         application.setDisplayFps(false);
         application.setDisplayStatView(false);
 
-        //start the sensor manager
+        // Start the sensor manager.
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        
+        // Set the view.
         setContentView(R.layout.android_searching);  
-
+        // Set the client.
         client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
-                .autoStart(Executors.newFixedThreadPool(10));
-            
-        // create the accelerometerSensor
+                .autoStart(Executors.newFixedThreadPool(10));    
+        // Create the accelerometerSensor.
         accelerometerSensor = new AccelerometerSensor(this, client);
-        
-        // set cooldown to false
+        // Set cooldown to false.
         setCooldown(false);
-        
-        // create the soundPool
+        // Create the soundPool.
         createSoundPool();
         
         // wait until position is received
@@ -93,7 +91,7 @@ public class MainActivity extends AndroidHarness {
        	    }
         }*/
         position = PlatformPosition.FRONTLEFT;
-        
+        // Set the UI.
         setUI();
         
     }
@@ -171,9 +169,6 @@ public class MainActivity extends AndroidHarness {
                 if(cooldown == false) {
                     atkMessenger.sendAttack(posHolder.getPosition(), string);
                 }
-                    
-                    // TODO: check whether attack hit or not.
-                    soundPool.play(soundIds[1], 1, 1, 1, 0, 1.f);
                     
             }
             

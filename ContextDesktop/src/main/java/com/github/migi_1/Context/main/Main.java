@@ -139,7 +139,7 @@ public class Main extends VRApplication {
     public void handleEnableSprayMessage(PlatformPosition pos) {
         Server sendServer = server.getServer();
         EnableSprayToAppMessage enableSprayMsg = new EnableSprayToAppMessage(pos);
-        if(sendServer.isRunning()) {
+        if (sendServer.isRunning()) {
             //Send a message which enables the spray on the send location.
             //This happens in the app.
             sendServer.broadcast(enableSprayMsg);
@@ -153,7 +153,7 @@ public class Main extends VRApplication {
     public void handleStopBugEvent() {
         Server sendServer = server.getServer();
         StopAllEventsMessage stopMsg = new StopAllEventsMessage();
-        if(sendServer.isRunning()) {
+        if (sendServer.isRunning()) {
             sendServer.broadcast(stopMsg);
             bugEventRunning = false;
         }

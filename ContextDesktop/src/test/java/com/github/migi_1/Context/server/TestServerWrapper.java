@@ -32,7 +32,7 @@ public class TestServerWrapper {
 
 	/**
 	 * Initialises the attributes in this class used for testing.
-	 * @throws IOException
+	 * @throws IOException when server can't be created.
 	 */
 	@Before
 	public void setUp() throws IOException {
@@ -146,7 +146,7 @@ public class TestServerWrapper {
 	 * Tests the createServer method by checking that it fails after 10 failing
 	 * attempts of creating the server.
 	 *
-	 * @throws IOException
+	 * @throws IOException when server can't be created.
 	 */
 	@SuppressWarnings("unchecked")
 	@Test

@@ -10,30 +10,51 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import java.util.concurrent.Executors;
 
 /**
- *
- * @author Nils
+ * Used to have one clientwrapper per device.
+ * This class is passed over when a new Activity starts. 
  */
 public class ClientHub implements Parcelable {
     
     private PlatformPosition position;
     private ClientWrapper clientWrapper;
     
+    /**
+     * Constructor for the clienthub.
+     * Starts a clientWrapper.
+     */
     public ClientHub() {
         clientWrapper = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
     }
     
+    /**
+     * Getter for the position the clienthub is responsible for.
+     * @return the position. 
+     */
     public PlatformPosition getPosition() {
         return position;
     }
     
+    /**
+     * Setter for the position of the clienthub. 
+     * @param newPosition the new position. 
+     */
     public void setPosition(PlatformPosition newPosition) {
         position = newPosition;
     }
     
+    /**
+     * Getter for the clientwrapper.
+     * @return the clientwrapper. 
+     */
     public ClientWrapper getClientWrapper() {
         return clientWrapper;
     }
 
+    /**
+     * The following methods are added by the Parcelable interface.
+     * This interface is implemented to pass the clienthub when a new Activity is started. 
+     */
+    
     @Override
     public int describeContents() {
         return 0;
@@ -44,7 +65,7 @@ public class ClientHub implements Parcelable {
         dest.writeString(position.getPosition());
     }
     
-    public static final Parcelable.Creator<ClientHub> CREATOR = new Parcelable.Creator<ClientHub> () {
+    public static final Parcelable.Creator<ClientHub> CREATOR = new Parcelable.Creator<ClientHub>() {
 
         @Override
         public ClientHub createFromParcel(Parcel source) {

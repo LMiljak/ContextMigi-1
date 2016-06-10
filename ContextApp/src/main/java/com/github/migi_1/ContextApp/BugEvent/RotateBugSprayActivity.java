@@ -57,7 +57,7 @@ public class RotateBugSprayActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(spray.getVisibility() == View.VISIBLE) {
+        if (spray.getVisibility() == View.VISIBLE) {
             trackSwipe(event);
         }
         return false;
@@ -68,7 +68,7 @@ public class RotateBugSprayActivity extends Activity {
      * @param event the event created by the overwritten method "onTouchEvent"
      */
     private void trackSwipe(MotionEvent event) {
-        switch(event.getAction()) {
+        switch (event.getAction()) {
             case (MotionEvent.ACTION_DOWN) :
                 x1 = event.getX();
                 y1 = event.getY();
@@ -81,44 +81,47 @@ public class RotateBugSprayActivity extends Activity {
                 float deltaVertical = y2 - y1;
                 EnableSprayToVRMessage sprayMessage = null;
 
-                switch(position) {
+                switch (position) {
                     case BACKLEFT: 
-                        if(swipeUp(deltaHorizontal, deltaVertical)) {
+                        if (swipeUp(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTLEFT);
-                        } else if(swipeRight(deltaHorizontal, deltaVertical)) {
+                        } else if (swipeRight(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKRIGHT);
                         }
                         break;
                     case BACKRIGHT:
-                        if(swipeUp(deltaHorizontal, deltaVertical)) {
+                        if (swipeUp(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTRIGHT);
-                        } else if(swipeLeft(deltaHorizontal, deltaVertical)) {
+                        } else if (swipeLeft(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKLEFT);
                         }
                         break;
                     case FRONTLEFT:
-                        if(swipeDown(deltaHorizontal, deltaVertical)) {
+                        if (swipeDown(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKLEFT);
-                        } else if(swipeRight(deltaHorizontal, deltaVertical)) {
+                        } else if (swipeRight(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTRIGHT);
                         }
                         break;
                     case FRONTRIGHT:
-                        if(swipeDown(deltaHorizontal, deltaVertical)) {
+                        if (swipeDown(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.BACKRIGHT);
-                        } else if(swipeLeft(deltaHorizontal, deltaVertical)) {
+                        } else if (swipeLeft(deltaHorizontal, deltaVertical)) {
                             sprayMessage = new EnableSprayToVRMessage(PlatformPosition.FRONTLEFT);
                         }
                         break;
                     default:
                         throw new IllegalStateException("Unknown position: " + position);
                 }
-                if(sprayMessage != null && clientEvent.getClient().isStarted()) {
+                if (sprayMessage != null && clientEvent.getClient().isStarted()) {
                     Log.d("rotate", "Sending message from: " +  position + " to: " + sprayMessage.getPosition());
                     clientEvent.getClient().send(sprayMessage);
                     disableSprayButton();
                 }
-            }
+            default:
+                //Do nothing.
+                break;
+        }
     }
 
     /**
@@ -136,7 +139,7 @@ public class RotateBugSprayActivity extends Activity {
     }
 
     /**
-     * Stop the bug event
+     * Stop the bug event.
      */
     public void stopEvent() {
         finish();
@@ -234,10 +237,10 @@ public class RotateBugSprayActivity extends Activity {
         bug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(spray.getVisibility() == View.VISIBLE && bug.getVisibility() == View.VISIBLE) {
+                if (spray.getVisibility() == View.VISIBLE && bug.getVisibility() == View.VISIBLE) {
                     //Send a stop message to the server. 
                     StopEventToVRMessage sprayMsg = new StopEventToVRMessage();
-                    if(clientEvent.getClient().isStarted()) {
+                    if (clientEvent.getClient().isStarted()) {
                         clientEvent.getClient().send(sprayMsg);
                     }
                 }

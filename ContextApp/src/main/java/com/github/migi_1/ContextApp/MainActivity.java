@@ -122,7 +122,7 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param string 
+     * @param name 
      *              message to be logged
      */
     public void setButtonClick(Button button, final String name) {
@@ -191,7 +191,7 @@ public class MainActivity extends AndroidHarness {
      */
     private PlatformPosition getRandomPosition() {
         int randomNumber = new Random().nextInt(4);
-        switch(randomNumber) {
+        switch (randomNumber) {
             case 0:
                 return PlatformPosition.BACKLEFT;
             case 1:

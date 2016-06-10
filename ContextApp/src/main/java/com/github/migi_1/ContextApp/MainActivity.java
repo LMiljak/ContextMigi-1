@@ -95,8 +95,12 @@ public class MainActivity extends AndroidHarness {
     @Override  
     protected void onResume() {  
         super.onResume();
+        Log.d("rotate", "=========Main Activity==========");
         Log.d("rotate", "Main Activity is starting again.");
         Log.d("rotate", "Client started: " + getClient().getClient().isStarted());
+        if(!getClient().getClient().isStarted()) {
+            getClient().startClient();
+        }
         
         
         setContentView(R.layout.android_ingame);
@@ -113,8 +117,9 @@ public class MainActivity extends AndroidHarness {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("rotate", "ACT RESULT CALLED!");
+        super.onActivityResult(requestCode, resultCode, data); 
         if(resultCode == RESULT_OK) {
             clientHub = data.getParcelableExtra("ClientWrapper");
             Log.d("rotate", "Is client started: " + getClient().getClient().isStarted());
@@ -226,7 +231,7 @@ public class MainActivity extends AndroidHarness {
         nextScreen.putExtra("SprayPosition", getRandomPosition());
         nextScreen.putExtra("ClientHub", (Parcelable) clientHub);
         Log.d("rotate", "Added all positions");
-        startActivity(nextScreen);
+        startActivityForResult(nextScreen, 42);
     }
 
     /**

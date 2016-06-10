@@ -30,6 +30,7 @@ public class RotateBugSprayActivity extends Activity {
 
     @Override
     protected void onResume() {
+        Log.d("rotate", "============EVENT=========");
         Log.d("rotate", "RESUMING RE");
         super.onResume();
         clientEvent.startClient();
@@ -143,10 +144,10 @@ public class RotateBugSprayActivity extends Activity {
      */
     public void stopEvent() {
         Log.d("rotate", "Stopping all events");
-//        Intent result = new Intent();
-//        result.putExtra("ClientWrapper", clientHub);
-//        setResult(RESULT_OK, result);
-//        Log.d("rotate", "FINISHING");
+        Intent result = new Intent();
+        result.putExtra("ClientWrapper", clientHub);
+        setResult(RESULT_OK, result);
+        Log.d("rotate", "FINISHING");
         finish();
     }
 

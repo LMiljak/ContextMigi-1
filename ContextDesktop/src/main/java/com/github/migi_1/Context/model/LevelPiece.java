@@ -23,6 +23,7 @@ public class LevelPiece implements IDisplayable {
      * several world modules.
      */
     public LevelPiece() {
+                
         StringBuilder sb = new StringBuilder();
         sb.append("Models/world");
         sb.append(new Random().nextInt(DIFFERENT_WORLDS) + 1);
@@ -45,6 +46,7 @@ public class LevelPiece implements IDisplayable {
     public void setModel(Spatial model) {
         this.model = model;
 
-    }
+    }   
+    
 
 }

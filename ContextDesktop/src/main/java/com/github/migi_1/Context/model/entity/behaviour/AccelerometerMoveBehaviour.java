@@ -1,10 +1,6 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
-import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
-
-import javafx.concurrent.Task;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.utility.Filter;
@@ -29,9 +25,7 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 
     private Filter<String> ipFilter;
     private Timer timer;
-    private boolean ducking;
     private boolean jumping;
-    private boolean busy;
     /**
      * Constructor for AccelerometerMoveBehaviour.
      * Also automatically registers this behaviour to the server.
@@ -71,29 +65,10 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
     }
 
     private void checkForJump(AccelerometerMessage message) {
-        if (message.getZ_force() < -10 && !busy) {
-            busy = true;
-            timer = new Timer();
-            System.out.println("duck!");
-
-            timer.schedule(new BusyTask(), 1000);
-
-        } else if (message.getZ_force() > 17 && !busy) {
-            busy = true;
-            timer = new Timer();
+        if (message.getZ_force() > 17 && !jumping) {
+            jumping = true;
             System.out.println("jump!"); 
-
-            timer.schedule(new BusyTask(), 1000);
-
         } 
-    }
-
-    class BusyTask extends TimerTask {     
-
-        public void run() {
-            busy = false;
-            timer.cancel();
-        }
     }
 
     @Override

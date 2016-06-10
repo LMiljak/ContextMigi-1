@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.obstacle;
 
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -13,10 +14,10 @@ public class MovingObstacle extends Obstacle {
     /**
      * Instantiate object.
      */
-    public MovingObstacle() {
+    public MovingObstacle(BoundingBox leftBound, BoundingBox rightBound) {
         super();
         setModel(getDefaultModel());
-        setMoveBehaviour(new MovingObstacleMoveBehaviour());
+        setMoveBehaviour(new MovingObstacleMoveBehaviour(this, leftBound, rightBound));
         getModel().move(new Vector3f(0, -2.0f, 0));
         health = 1;
     }

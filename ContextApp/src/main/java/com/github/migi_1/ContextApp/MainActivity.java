@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
@@ -21,21 +22,23 @@ import java.util.logging.LogManager;
  */
 public class MainActivity extends AndroidHarness {
         
-        private Main application;
-        private SensorManager mSensorManager;
-        private AccelerometerSensor accelerometerSensor;
-        private PositionHolder posHolder;
-        private AttackMessenger atkMessenger;
-        private HeartsUpdateFunctions huFunctions;
-        private MakeButtonFunctions mbFunctions;
-        private PlatformPosition position;
-        private ClientWrapper client;
-        private boolean cooldown;
+
+    private Main application;
+    private SensorManager mSensorManager;
+    private AccelerometerSensor accelerometerSensor;
+    private PositionHolder posHolder;
+    private AttackMessenger atkMessenger;
+    private HeartsUpdateFunctions huFunctions;
+    private MakeButtonFunctions mbFunctions;
+    private PlatformPosition position;
+    private ClientWrapper client;
+    private boolean cooldown;
         
-        /**
-         * Configure the game instance that is launched and start the logger.
-         */
-        public MainActivity() {
+    /**
+     * Configure the game instance that is launched and start the logger.
+     */
+    public MainActivity() {
+
             
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
@@ -70,7 +73,7 @@ public class MainActivity extends AndroidHarness {
         setContentView(R.layout.android_searching);  
 
         client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
-                .autoStart(Executors.newFixedThreadPool(10));
+                .autoStart(Executors.newFixedThreadPool(10), this);
             
         // create te accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
@@ -78,6 +81,19 @@ public class MainActivity extends AndroidHarness {
         // set cooldown to false
         setCooldown(false);
         
+    }
+    
+    /**
+     * Shows a 'toast' giving the player instructions on how to get the app to 
+     * work with the game and closes the app.
+     */
+    public void alert() {
+        CharSequence text = "Start the game before running the app";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(this, text, duration);
+        toast.show();
+        finish();
     }
     
    /**
@@ -112,8 +128,12 @@ public class MainActivity extends AndroidHarness {
     protected void onStop() {  
         // unregister the sensor listener
         mSensorManager.unregisterListener(accelerometerSensor);
-            
+        
+        // close the client
         client.closeClient();
+        
+        // clear the position
+        posHolder.clearPosition();
             
         super.onStop();  
     } 

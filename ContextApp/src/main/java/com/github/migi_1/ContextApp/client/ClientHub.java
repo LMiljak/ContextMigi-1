@@ -6,6 +6,7 @@ package com.github.migi_1.ContextApp.client;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import com.github.migi_1.ContextApp.MainActivity;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import java.util.concurrent.Executors;
@@ -27,6 +28,7 @@ public class ClientHub implements Parcelable {
     public ClientHub(MainActivity main) {
         mainActivity = main;
         clientWrapper = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10), mainActivity);
+        Log.d("rotate", "Clientwrapper == null? " + (clientWrapper == null));
     }
     
     /**

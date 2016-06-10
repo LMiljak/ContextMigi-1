@@ -54,6 +54,7 @@ public class MainActivity extends AndroidHarness {
 
     @Override  
     public void onCreate(Bundle savedInstanceState) {  
+        Log.d("rotate", "Starting main activity.");
         super.onCreate(savedInstanceState);
 
         //instantiate the application
@@ -63,29 +64,29 @@ public class MainActivity extends AndroidHarness {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         setContentView(R.layout.android_searching); 
+        Log.d("rotate", "Set content view.");
 
         clientHub = new ClientHub(this);
         
-        getClient().startClient();
-
+        Log.d("rotate", "new client hub");
+        
+        clientHub.getClientWrapper().startClient();
+        Log.d("rotate", "Client started");
         
         getClient().getClient().addMessageListener(posHolder);
+                
+        while (true) {
+            if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
+                break;
+            }
+        }
+        
+        clientHub.setPosition(position);
+        Log.d("rotate", "Position set");
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, clientHub.getClientWrapper());
-    }
-   
-    /**
-     * Shows a 'toast' giving the player instructions on how to get the app to 
-     * work with the game and closes the app.
-     */
-    public void alert() {
-        CharSequence text = "Start the game before running the app";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(this, text, duration);
-        toast.show();
-        finish();
     }
     
    /**
@@ -107,16 +108,7 @@ public class MainActivity extends AndroidHarness {
                 SensorManager.SENSOR_DELAY_FASTEST);
 
         Log.d("rotate", "Registered listener");
-        while (true) {
-            if (posHolder.getPosition() != null) {
-                position = posHolder.getPosition();
-                break;
-            }
-        }
-        Log.d("rotate", "Position set");
 
-        clientHub.setPosition(position);
-        Log.d("rotate", "Position updated");
         setUI();
     }
 
@@ -140,11 +132,25 @@ public class MainActivity extends AndroidHarness {
         // clear the position
         posHolder.clearPosition();
     } 
+    
+    /**
+     * Shows a 'toast' giving the player instructions on how to get the app to 
+     * work with the game and closes the app.
+     */
+    public void alert() {
+        CharSequence text = "Start the game before running the app";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(this, text, duration);
+        toast.show();
+        finish();
+    }
 
     /**
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
+        Log.d("rotate", "SettingUI");
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         huFunctions = new HeartsUpdateFunctions(this);

@@ -118,7 +118,7 @@ public class MainEnvironment extends Environment {
 
         //Start the random event timer.
         setNewRandomEventTime();
-//        setPaused(true);
+        setPaused(true);
     }
 
     @Override

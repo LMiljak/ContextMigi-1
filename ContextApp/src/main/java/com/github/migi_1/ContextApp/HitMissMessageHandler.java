@@ -38,17 +38,13 @@ public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
         if (position == main.getPosHolder().getPosition()) {
             if (message.getHit() == true) {
                 // Sound effect hit
+                Log.d("attack", "missed");
             }
             else {
                 // Sound effect miss
-                try {
-                    main.setCooldown(true);
-                    Thread.sleep(3000);
-                    main.setCooldown(false);
-                    Log.d("CarriedAway", "Cooldown succesful");
-                } catch (InterruptedException ex) {
-                    Log.d("CarriedAway", "Can't use cooldown");
-                }
+                Log.d("attack", "attack succesful");
+                main.setCooldown(true);
+                main.setCooldown(false);
             }
         }
     }

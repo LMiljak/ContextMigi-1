@@ -1,24 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.migi_1.ContextApp;
 
 import android.util.Log;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
-import com.github.migi_1.ContextMessages.StopAllEventsMessage;
 
 /**
- *
- * @author Nils
+ * Message handler for the start bug event message.
+ * Receives StartBugEvent messages send to client (app).
  */
 public class StartBugEventMessageListener extends MessageListener<StartBugEventMessage> {
 
     private MainActivity main;
     
-    public StartBugEventMessageListener() { }
-    
+    /**
+     * The constructor for the StartBugEventMessage listener. 
+     * @param mainActivity the main activity in which "the listener listens to messages". 
+     */
     public StartBugEventMessageListener(MainActivity mainActivity) {
         this.main = mainActivity;
         main.getClient().getClient().addMessageListener(this);
@@ -34,5 +31,4 @@ public class StartBugEventMessageListener extends MessageListener<StartBugEventM
     public Class<StartBugEventMessage> getMessageClass() {
         return StartBugEventMessage.class;
     }
-    
 }

@@ -131,14 +131,25 @@ public class Main extends VRApplication {
     @Override
     public void simpleRender(RenderManager rm) { }
 
+    /**
+     * Sends the enable spray message.
+     * Method called in the EnableSprayToVRMessageHandler
+     * @param pos the position the spray should be activated on.
+     */
     public void handleEnableSprayMessage(PlatformPosition pos) {
         Server sendServer = server.getServer();
         EnableSprayToAppMessage enableSprayMsg = new EnableSprayToAppMessage(pos);
         if(sendServer.isRunning()) {
+            //Send a message which enables the spray on the send location.
+            //This happens in the app.
             sendServer.broadcast(enableSprayMsg);
         }
     }
 
+    /**
+     * Sends the stop bug event message.
+     * Method called in the StopEventMessageHandler.
+     */
     public void handleStopBugEvent() {
         Server sendServer = server.getServer();
         StopAllEventsMessage stopMsg = new StopAllEventsMessage();
@@ -158,13 +169,14 @@ public class Main extends VRApplication {
 
     /**
      * Returns the environment state.
-     * @return the env
+     * @return the environment
      */
     public MainEnvironment getEnv() {
         return environmentState;
     }
 
     /**
+     * Returns the rootnode.
      * @return
      * 		The root node.
      */
@@ -174,6 +186,7 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Returns the GUInode.
      * @return The GUI node.
      */
     @Override
@@ -183,7 +196,7 @@ public class Main extends VRApplication {
 
     /**
      * Returns the only instance of main.
-     * @return main.
+     * @return the main instance.
      */
     public static Main getInstance() {
         return main;
@@ -254,10 +267,18 @@ public class Main extends VRApplication {
         mainMenuState = newMainMenuState;
     }
 
+    /**
+     * Checks if the bug event is running.
+     * @return true when running.
+     */
     public boolean isBugEventRunning() {
         return bugEventRunning;
     }
 
+    /**
+     * Sets whether or not the bug event is running.
+     * @param isRunning the new state of the bug event (true/false).
+     */
     public void setBugEventRunning(boolean isRunning) {
         bugEventRunning = isRunning;
 

@@ -158,12 +158,18 @@ public class MainEnvironment extends Environment {
 
     }
 
+    /**
+     * Checks every update if a random event should start.
+     */
     private void checkRandomEvent() {
         //Time for a random event!
-        System.out.println("Time remaining: " + (randomEventTime - System.currentTimeMillis()));
         if(System.currentTimeMillis() > randomEventTime) {
             StartBugEventMessage startMessage = new StartBugEventMessage();
             Server server = getMain().getServer().getServer();
+            //Message is send when:
+            //The server is running.
+            //There is no other bug event currently running
+            //There is at least one person connected.
             if(server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
                 server.broadcast(startMessage);
                 getMain().setBugEventRunning(true);
@@ -176,7 +182,7 @@ public class MainEnvironment extends Environment {
      * Sets the randomEvent time to 20-30 seconds from the current time.
      */
     private void setNewRandomEventTime() {
-        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 5000;
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 20000;
     }
 
     /**

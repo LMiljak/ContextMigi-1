@@ -14,14 +14,11 @@ import java.io.IOException;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
-import java.io.Serializable;
 
 /**
  * A wrapper class for a com.jme3.network.client object.
  */
-public class ClientWrapper implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
+public class ClientWrapper {
     
         /** The default port on which servers are running. */
         private static final int PORT = 4321;

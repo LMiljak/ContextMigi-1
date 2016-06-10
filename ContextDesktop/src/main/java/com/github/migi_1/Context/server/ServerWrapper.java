@@ -28,13 +28,13 @@ public class ServerWrapper {
 	/** The message the server should be able to handle. */
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
 		= Arrays.asList(
-				AccelerometerMessage.class,
-				EnableSprayToAppMessage.class,
-				EnableSprayToVRMessage.class,
-				StartBugEventMessage.class,
-				StopEventToVRMessage.class,
-				StopAllEventsMessage.class,
-				PositionMessage.class,
+                AccelerometerMessage.class,
+                EnableSprayToAppMessage.class,
+                EnableSprayToVRMessage.class,
+                StartBugEventMessage.class,
+                StopEventToVRMessage.class,
+                StopAllEventsMessage.class,
+                PositionMessage.class,
                 HealthMessage.class,
                 AttackMessage.class
 				);

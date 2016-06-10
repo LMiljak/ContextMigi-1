@@ -132,6 +132,16 @@ public class Main extends VRApplication {
     public void simpleRender(RenderManager rm) { }
 
     /**
+     * Steers the platform depending on the orientation of an accelerometer.
+     *
+     * @param orientation
+     *      The acceleration force along the z axis (including gravity).
+     */
+    public void handleAccelerometerMessage(float orientation) {
+        environmentState.steer(orientation);
+    }
+
+    /**
      * Sends the enable spray message.
      * Method called in the EnableSprayToVRMessageHandler
      * @param pos the position the spray should be activated on.

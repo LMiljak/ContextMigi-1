@@ -133,23 +133,23 @@ public class TestMain {
         Mockito.verifyZeroInteractions(renderManager);
     }
 
-//    /**
-//     * Tests the handleAccelerometerMessage.
-//     */
-//    @Test
-//    public void testHandleAccelerometerMessage() {
-//        MainEnvironment mainEnvState = Mockito.mock(MainEnvironment.class);
-//        main.setEnvState(mainEnvState);
-//        //Check if no steering works.
-//        main.handleAccelerometerMessage(0);
-//        Mockito.verify(mainEnvState).steer(0);
-//        //Check if steering left works.
-//        main.handleAccelerometerMessage(-1);
-//        Mockito.verify(mainEnvState).steer(-1);
-//        //Check if steering right works.
-//        main.handleAccelerometerMessage(1);
-//        Mockito.verify(mainEnvState).steer(1);
-//    }
+    /**
+     * Tests the handleAccelerometerMessage.
+     */
+    @Test
+    public void testHandleAccelerometerMessage() {
+        MainEnvironment mainEnvState = Mockito.mock(MainEnvironment.class);
+        main.setEnvState(mainEnvState);
+        //Check if no steering works.
+        main.handleAccelerometerMessage(0);
+        Mockito.verify(mainEnvState).steer(0);
+        //Check if steering left works.
+        main.handleAccelerometerMessage(-1);
+        Mockito.verify(mainEnvState).steer(-1);
+        //Check if steering right works.
+        main.handleAccelerometerMessage(1);
+        Mockito.verify(mainEnvState).steer(1);
+    }
 
     /**
      * Tests if the getter for the main menu state works.

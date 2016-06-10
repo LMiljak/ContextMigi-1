@@ -2,8 +2,8 @@ package com.github.migi_1.Context.main;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
+
+import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
@@ -12,12 +12,9 @@ import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-
-import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
@@ -40,7 +37,7 @@ public class Main extends VRApplication {
     private static AppSettings settings;
 
     private ServerWrapper server;
-    
+
     private AttackMessageHandler attackMessageHandler;
 
 
@@ -83,12 +80,12 @@ public class Main extends VRApplication {
         inputHandler.initInputs(main);
 
         launchServer();
-        
+
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attachAll(mainMenuState);
-        
+
         // Probably not the right spot, but I'll put this here for now.
         attackMessageHandler = new AttackMessageHandler(this);
     }
@@ -193,10 +190,10 @@ public class Main extends VRApplication {
     public ServerWrapper getServer() {
     	return server;
     }
-    
+
     /**
      * Executes an attack using a player's position and direction of attack.
-     * @param pos 
+     * @param pos
      * 			the PlatformPosition of the attacking player
      * @param dir
      * 			the direction of the attack (String)

@@ -21,6 +21,7 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -55,7 +56,7 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -3.5f, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -78,7 +79,9 @@ public class MainEnvironment extends Environment {
     private HashMap<Entity, CollisionResults> results;
 
     private ObstacleSpawner obstacleSpawner;
+    private BoundingBox boundingBoxWallLeft;
 
+    private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
 
     private long randomEventTime;
@@ -122,11 +125,11 @@ public class MainEnvironment extends Environment {
     public void update(float tpf) {
         if (!isPaused()) {
             super.update(tpf);
-
-            checkCollision();
             checkRandomEvent();
-            updateTestWorld();
             updateEnemies(tpf);
+            checkObstacleCollision();
+            checkPathCollision();
+            updateTestWorld();
         }
     }
 
@@ -134,7 +137,7 @@ public class MainEnvironment extends Environment {
     /**
      * Handle collision checking.
      */
-    private void checkCollision() {
+    private void checkObstacleCollision() {
         //add collision check for all obstacles
 
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
@@ -163,6 +166,21 @@ public class MainEnvironment extends Environment {
             entry.setValue(new CollisionResults());
         }
 
+    }
+
+    private void checkPathCollision() {
+        for (Carrier carrier : platform.getCarriers()) {
+            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
+                commander.move(new Vector3f(0, 0, -0.3f));
+                platform.move(new Vector3f(0, 0, -0.3f));
+                carrier.move(new Vector3f(0, 0, -0.3f));
+            }
+            else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+                commander.move(new Vector3f(0, 0, 0.3f));
+                platform.move(new Vector3f(0, 0, 0.3f));
+                carrier.move(new Vector3f(0, 0, 0.3f));
+            }
+        }
     }
 
     /**
@@ -245,7 +263,7 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
 
         obstacleSpawner = new ObstacleSpawner(commander);
-
+        createWallBoundingBoxes();
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -260,6 +278,21 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
+    }
+
+    private void createWallBoundingBoxes() {
+        Path path = new Path();
+        boundingBoxWallLeft = new BoundingBox(
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                        + ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
+
+        boundingBoxWallRight = new BoundingBox(
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                        -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
     }
 
     /**

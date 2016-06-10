@@ -12,6 +12,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.utility.Filter;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
@@ -32,23 +33,24 @@ public class TestCommander extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
+    private Filter<String> filter;
 
 
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Before
     public void setUp() {
-
-    	try {
- 			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
-
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
+        filter = Mockito.mock(Filter.class);
+        try {
+            PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
+            .withArguments(filter).thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);

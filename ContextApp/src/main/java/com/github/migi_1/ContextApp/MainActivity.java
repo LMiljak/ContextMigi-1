@@ -65,6 +65,10 @@ public class MainActivity extends AndroidHarness {
         setContentView(R.layout.android_searching); 
 
         clientHub = new ClientHub();
+        
+        getClient().startClient();
+        
+        getClient().getClient().addMessageListener(posHolder);
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, clientHub.getClientWrapper());
@@ -73,32 +77,47 @@ public class MainActivity extends AndroidHarness {
     @Override  
     protected void onResume() {  
         super.onResume();
-
-        clientHub.getClientWrapper().startClient();
-
-        clientHub.getClientWrapper().getClient().addMessageListener(posHolder);
+        Log.d("rotate", "Main Activity is starting again.");
+        Log.d("rotate", "Client started: " + getClient().getClient().isStarted());
+        
+        
+        setContentView(R.layout.android_ingame);
+        Log.d("rotate", "Content view set");
 
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
 
+        Log.d("rotate", "Registered listener");
         while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
                 break;
             }
         }
+        Log.d("rotate", "Position set");
 
         clientHub.setPosition(position);
+        Log.d("rotate", "Position updated");
         setUI();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("rotate", "ACT RESULT CALLED!");
+        if(resultCode == RESULT_OK) {
+            clientHub = data.getParcelableExtra("ClientWrapper");
+            Log.d("rotate", "Is client started: " + getClient().getClient().isStarted());
+        }
+    }
+    
     @Override
     protected void onStop() {  
         super.onStop();  
         // unregister the sensor listener
         mSensorManager.unregisterListener(accelerometerSensor);
+        clientHub.getClientWrapper().closeClient();
     } 
 
     /**
@@ -109,8 +128,6 @@ public class MainActivity extends AndroidHarness {
         mbFunctions = new MakeButtonFunctions(this);
         huFunctions = new HeartsUpdateFunctions(this);
         startBugEventListener = new StartBugEventMessageListener(this);
-
-        setContentView(R.layout.android_ingame);
 
         TextView textView = (TextView) findViewById(R.id.Location);
         textView.setText(position.getPosition());

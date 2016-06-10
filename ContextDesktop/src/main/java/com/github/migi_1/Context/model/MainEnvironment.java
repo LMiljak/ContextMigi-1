@@ -115,7 +115,7 @@ public class MainEnvironment extends Environment {
 
         //Start the random event timer.
         setNewRandomEventTime();
-        setPaused(true);
+//        setPaused(true);
     }
 
     @Override
@@ -177,6 +177,11 @@ public class MainEnvironment extends Environment {
             //The server is running.
             //There is no other bug event currently running
             //There is at least one person connected.
+            System.out.println(server.getConnections().size());
+            System.out.println(server.isRunning());
+            System.out.println(!getMain().isBugEventRunning());
+            System.out.println(server.getConnections().size() > 0);
+            System.out.println("---");
             if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
                 server.broadcast(startMessage);
                 getMain().setBugEventRunning(true);
@@ -189,7 +194,7 @@ public class MainEnvironment extends Environment {
      * Sets the randomEvent time to 20-30 seconds from the current time.
      */
     private void setNewRandomEventTime() {
-        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 20000;
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 5000;
     }
 
     /**

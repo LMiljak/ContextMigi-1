@@ -3,6 +3,7 @@ package com.github.migi_1.ContextApp.client;
 import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
+import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ public class ClientWrapper {
             Serializer.registerClass(PositionMessage.class);
             Serializer.registerClass(HealthMessage.class);
             Serializer.registerClass(AttackMessage.class);
+            Serializer.registerClass(HitMissMessage.class);
         }
 	
         /**

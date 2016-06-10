@@ -66,6 +66,12 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 		}
 	}
 	
+	/**
+	 * Gets the dissimilarity of the accelerometer using a DistanceVectorAggregator.
+	 * 
+	 * @return
+	 * 		The calculated dissimilarity.
+	 */
 	private Vector3f getDisSimilarity() {
 		DistanceVectorAggregator aggregator = new DistanceVectorAggregator();
 		

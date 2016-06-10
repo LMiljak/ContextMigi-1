@@ -39,9 +39,8 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
      * @param tpf 
      */
     @SuppressWarnings("unchecked")
-    public AccelerometerMoveBehaviour(Filter<String> ipFilter, float tpf) {
+    public AccelerometerMoveBehaviour(Filter<String> ipFilter) {
         this.ipFilter = ipFilter;
-        this.tpf = tpf;
 
         Main.getInstance().getServer().getServer().addMessageListener(this);
     }

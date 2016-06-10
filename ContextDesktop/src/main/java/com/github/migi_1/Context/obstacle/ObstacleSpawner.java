@@ -2,6 +2,7 @@ package com.github.migi_1.Context.obstacle;
 
 import java.util.ArrayList;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.jme3.math.Vector3f;
 
@@ -27,13 +28,16 @@ public class ObstacleSpawner {
 
     private Commander commander;
 
+    private MainEnvironment environment;
+
     /**
      * Constructor for the obstacle spawner object.
      * @param commander needed for knowing where to spawn the obstacles.
      */
-    public ObstacleSpawner(Commander commander) {
+    public ObstacleSpawner(MainEnvironment environment) {
+        this.environment = environment;
+        this.commander = environment.getCommander();
         this.location = commander.getModel().getLocalTranslation();
-        this.commander = commander;
         this.obstacleList = new ArrayList<Obstacle>();
         this.obstacleFactory = new StaticObstacleFactory();
     }

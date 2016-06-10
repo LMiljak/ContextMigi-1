@@ -44,9 +44,11 @@ public class Platform extends Entity implements IRotatable {
         
         this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
 
-        ArrayList<AccelerometerMoveBehaviour> b = new ArrayList<>(4);
-        for (PlatformPosition p : PlatformPosition.values()) {
-        	b.add(new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(p))));
+        ArrayList<AccelerometerMoveBehaviour> carrierBehaviours = new ArrayList<>(4);
+        for (PlatformPosition position : PlatformPosition.values()) {
+        	carrierBehaviours.add(
+        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(position)))
+        	);
         }
         		
         
@@ -58,15 +60,15 @@ public class Platform extends Entity implements IRotatable {
         		new AcceleratingMoveBehaviour(MOVE_VECTOR), //Responsible for going forwards
         		new MultiMoveBehaviour(//Responsible for steering
         			new AverageVectorAggregator(),
-        			b.get(0),
-        			b.get(1),
-        			b.get(2),
-        			b.get(3)
+        			carrierBehaviours.get(0),
+        			carrierBehaviours.get(1),
+        			carrierBehaviours.get(2),
+        			carrierBehaviours.get(3)
         		)
         	)
         );
         
-        this.rotateBehaviour = new PlatformRotateBehaviour(b, getModel().getLocalRotation());
+        this.rotateBehaviour = new PlatformRotateBehaviour(carrierBehaviours, getModel().getLocalRotation());
     }
 
     /**

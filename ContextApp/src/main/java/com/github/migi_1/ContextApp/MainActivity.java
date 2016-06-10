@@ -122,8 +122,12 @@ public class MainActivity extends AndroidHarness {
     protected void onStop() {  
         // unregister the sensor listener
         mSensorManager.unregisterListener(accelerometerSensor);
-            
+        
+        // close the client
         client.closeClient();
+        
+        // clear the position
+        posHolder.clearPosition();
             
         super.onStop();  
     } 

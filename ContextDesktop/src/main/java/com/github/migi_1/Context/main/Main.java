@@ -5,11 +5,9 @@ import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
-import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
@@ -61,9 +59,11 @@ public class Main extends VRApplication {
         settings.setTitle("Carried Away");
         settings.setResolution(1280, 720);
         settings.setVSync(true);
+
         super.setSettings(settings);
         VRConfigurer.configureVR(this);
         super.setPauseOnLostFocus(true);
+
     }
 
     /**
@@ -82,6 +82,7 @@ public class Main extends VRApplication {
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
 
         this.getStateManager().attachAll(mainMenuState, environmentState);
+
     }
 
     /**

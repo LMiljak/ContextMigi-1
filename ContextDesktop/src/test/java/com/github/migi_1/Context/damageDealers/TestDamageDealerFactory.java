@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
+import com.github.migi_1.Context.obstacle.Obstacle;
 
 /**
  * Test class for the DamageDealerFactory class.
@@ -15,7 +16,7 @@ import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
 public abstract class TestDamageDealerFactory {
 
     private AbstractObstacleFactory testDamageDealerFactory;
-    private Object damageDealer;
+    private Obstacle obstacle;
 
     /**
      * Initialise attributes.
@@ -29,7 +30,7 @@ public abstract class TestDamageDealerFactory {
      */
     @Test
     public void testProduce() {
-        assertTrue(testDamageDealerFactory.produce().equals(damageDealer));
+        assertTrue(testDamageDealerFactory.produce().equals(obstacle));
     }
 
     /**
@@ -54,16 +55,16 @@ public abstract class TestDamageDealerFactory {
      * Get the damageDealer attribute.
      * @return damageDealer attribute
      */
-    public Object getDamageDealer() {
-        return damageDealer;
+    public Obstacle getDamageDealer() {
+        return obstacle;
     }
 
     /**
      * Set the damageDealer attribute.
      * @param damageDealer The damageDealer to set
      */
-    public void setDamageDealer(Object damageDealer) {
-        this.damageDealer = damageDealer;
+    public void setDamageDealer(Obstacle damageDealer) {
+        this.obstacle = damageDealer;
     }
 
 

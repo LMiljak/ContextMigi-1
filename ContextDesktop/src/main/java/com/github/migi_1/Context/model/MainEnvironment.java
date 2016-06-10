@@ -1,10 +1,13 @@
 package com.github.migi_1.Context.model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import jmevr.app.VRApplication;
 
+import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -16,7 +19,6 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
@@ -65,6 +67,9 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+    private EnemySpawner enemySpawner;
+
+    private LinkedList<Enemy> enemies;
 
 
     private HashMap<Entity, CollisionResults> results;
@@ -80,7 +85,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
@@ -88,9 +93,7 @@ public class MainEnvironment extends Environment {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
         scoreController = new ScoreController();
-
         results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
@@ -104,17 +107,22 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
+
         setPaused(true);
     }
 
     @Override
     public void update(float tpf) {
-        super.update(tpf);
+        if (!isPaused()) {
+            super.update(tpf);
 
-        checkCollision();
-        updateTestWorld();
+            checkCollision();
+
+            updateTestWorld();
+            updateEnemies(tpf);
+        }
     }
+
 
     /**
      * Handle collision checking.
@@ -192,10 +200,13 @@ public class MainEnvironment extends Environment {
      */
     private void initSpatials() {
 
+        enemies = new LinkedList<Enemy>(); 
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
         commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
+
         obstacleSpawner = new ObstacleSpawner(commander);
+
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -221,20 +232,20 @@ public class MainEnvironment extends Environment {
      * 		The created carrier.
      */
     public Carrier createCarrier(PlatformPosition position) {
-		float x, y, z;
-		y = RELATIVE_CARRIER_LOCATION.y;
-		x = RELATIVE_CARRIER_LOCATION.x;
-		z = RELATIVE_CARRIER_LOCATION.z;
+        float x, y, z;
+        y = RELATIVE_CARRIER_LOCATION.y;
+        x = RELATIVE_CARRIER_LOCATION.x;
+        z = RELATIVE_CARRIER_LOCATION.z;
 
-		z *= position.getzFactor();
-		x *= position.getxFactor();
-		
-		Vector3f relativeLocation = new Vector3f(x, y, z);
-		
-		Carrier newCarrier = new Carrier(relativeLocation, position, this);
-		results.put(newCarrier, new CollisionResults());
-		
-		return newCarrier;
+        z *= position.getzFactor();
+        x *= position.getxFactor();
+
+        Vector3f relativeLocation = new Vector3f(x, y, z);
+
+        Carrier newCarrier = new Carrier(relativeLocation, position, this);
+        results.put(newCarrier, new CollisionResults());
+
+        return newCarrier;
     }
 
     /**
@@ -244,14 +255,14 @@ public class MainEnvironment extends Environment {
     public Commander getCommander() {
         return commander;
     }
-    
+
     /**
      * Gets the platform.
      * @return
      * 		The retrieved platform.
      */
     public Platform getPlatform() {
-    	return platform;
+        return platform;
     }
 
 
@@ -261,7 +272,7 @@ public class MainEnvironment extends Environment {
      */
     private void initCameras() {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         commander.makeObserver();
@@ -320,8 +331,10 @@ public class MainEnvironment extends Environment {
     private void updateTestWorld() {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
-        removeDisplayables(loc);
+        removeDisplayables(loc);        
+        flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -360,6 +373,26 @@ public class MainEnvironment extends Environment {
         }
     }
 
+    private void updateEnemies(float tpf) {
+        if (enemySpawner == null || enemySpawner.getCarriers().size() == 0) {
+            enemySpawner = new EnemySpawner(commander, platform.getCarriers());
+        } else {
+            for (Enemy enemy : enemySpawner.generateEnemies()) {
+                addEntity(enemy);
+                enemies.add(enemy);
+            }
+
+            for (Enemy enemy : enemySpawner.deleteEnemies()) {
+                removeEntity(enemy);
+                enemies.remove(enemy);
+            }
+
+            for (Enemy enemy : enemies) {
+                enemy.attack(tpf);
+            }
+        }
+    }
+
     /**
      * Update the steering direction.
      * @param orientation This translates to the steering ange.
@@ -394,7 +427,7 @@ public class MainEnvironment extends Environment {
     public float getSteering() {
         return steering;
     }
-    
+
     /**
      * Returns the main application.
      * @return (Main) app.

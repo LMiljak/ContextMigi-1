@@ -3,10 +3,10 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.server.HealthMessenger;
-import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -22,11 +22,11 @@ public class Carrier extends Entity implements IKillable {
 
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
-    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private static final int INITIAL_HEALTH = 3;
 
     private Main main;
     private HealthMessenger healthMessenger;
+    private AttackMessageHandler attackMessageHandler;
     
     private int health;
 
@@ -47,14 +47,13 @@ public class Carrier extends Entity implements IKillable {
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
         this.relativeLocation = relativeLocation;
-        
-        CarrierMoveBehaviour moveBehaviour = new CarrierMoveBehaviour(this, MOVE_VECTOR, environment);
-        moveBehaviour.setRelativeLocation(relativeLocation);
-        setMoveBehaviour(new CarrierMoveBehaviour(this, MOVE_VECTOR, environment));
+
+        setMoveBehaviour(environment.getPlatform().getMoveBehaviour());
 
         health = INITIAL_HEALTH;
         main = environment.getMain();
         healthMessenger = new HealthMessenger(main);
+        attackMessageHandler = new AttackMessageHandler(main, this, position);
         this.position = position;
     }
 
@@ -111,5 +110,14 @@ public class Carrier extends Entity implements IKillable {
      */
     public HealthMessenger getHealthMessenger() {
         return healthMessenger;
+    }
+    
+    /**
+     * Executes an attack using a player's position and direction of attack.
+     * @param direction
+     * 			the direction of the attack (String)
+     */
+    public void handleAttack(String direction) {
+        // TODO: EXECUTE ATTACKS
     }
 }

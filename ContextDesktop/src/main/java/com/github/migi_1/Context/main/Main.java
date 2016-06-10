@@ -38,12 +38,9 @@ public class Main extends VRApplication {
     private static AppSettings settings;
 
     private ServerWrapper server;
-    
-    private AttackMessageHandler attackMessageHandler;
-
 
     /**
-     * main function of the appication, sets some meta-parameters of the application
+     * main function of the application, sets some meta-parameters of the application
      * and starts it.
      *
      * @param args
@@ -78,15 +75,13 @@ public class Main extends VRApplication {
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
 
+        launchServer();
+        
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-        this.getStateManager().attach(mainMenuState);
-        
-        launchServer();
-        
-        // Probably not the right spot, but I'll put this here for now.
-        attackMessageHandler = new AttackMessageHandler(this);
+
+        this.getStateManager().attachAll(mainMenuState, environmentState);
     }
 
     /**
@@ -188,17 +183,6 @@ public class Main extends VRApplication {
      */
     public ServerWrapper getServer() {
     	return server;
-    }
-    
-    /**
-     * Executes an attack using a player's position and direction of attack.
-     * @param pos 
-     * 			the PlatformPosition of the attacking player
-     * @param dir
-     * 			the direction of the attack (String)
-     */
-    public void handleAttack(PlatformPosition pos, String dir) {
-        // TODO: EXECUTE ATTACKS
     }
 
     /**

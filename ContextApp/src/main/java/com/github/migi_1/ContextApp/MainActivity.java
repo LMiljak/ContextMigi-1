@@ -5,7 +5,6 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,8 +32,12 @@ public class MainActivity extends AndroidHarness {
         private MakeButtonFunctions mbFunctions;
         private PlatformPosition position;
         private ClientWrapper client;
+<<<<<<< HEAD
         private SoundPool soundPool;
         private int[] soundIds;
+=======
+        private boolean cooldown;
+>>>>>>> 32ad2d4ffcdd092a63aa2e712820bcf12a04aac6
         
         /**
          * Configure the game instance that is launched and start the logger.
@@ -79,6 +82,9 @@ public class MainActivity extends AndroidHarness {
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, client);
         
+        // set cooldown to false
+        setCooldown(false);
+        
         // create the soundPool
         createSoundPool();
         
@@ -103,11 +109,21 @@ public class MainActivity extends AndroidHarness {
         super.onResume();
 
         client.startClient();
+        client.getClient().addMessageListener(posHolder);
         
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
+        
+        while (true) {
+            if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
+            	break;
+       	    }
+        }
+        
+        setUI();
     }
     
     /**
@@ -155,7 +171,9 @@ public class MainActivity extends AndroidHarness {
             @Override
             public void onClick(View v) {
                 
+                if(cooldown == false) {
                     atkMessenger.sendAttack(posHolder.getPosition(), string);
+                }
                     
                     // TODO: check whether attack hit or not.
                     soundPool.play(soundIds[1], 1, 1, 1, 0, 1.f);
@@ -231,6 +249,15 @@ public class MainActivity extends AndroidHarness {
      */
     public int[] getSoundIds() {
         return soundIds;
+    }
+    
+    /*
+     * Setter for cooldown
+     * @param cooldown 
+     *              Boolean that determines whether or not a player can use attacks.
+     */
+    public void setCooldown(boolean cooldown) {
+        this.cooldown = cooldown;
     }
     
 }

@@ -1,15 +1,12 @@
 package com.github.migi_1.ContextApp.BugEvent;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.github.migi_1.ContextApp.PositionHolder;
 import com.github.migi_1.ContextApp.R;
 import com.github.migi_1.ContextApp.client.ClientHub;
 import com.github.migi_1.ContextApp.client.ClientWrapper;

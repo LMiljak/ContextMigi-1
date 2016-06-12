@@ -41,8 +41,6 @@ public final class AutoConnector {
      *
      * @param executorService
      *      On which executorService the server finder should be executed.
-     * @param main
-     *      Its alert method is called when the client can't connect in time.
      *
      * @return The clientWrapper inside the clientWrapperWrapper
      */

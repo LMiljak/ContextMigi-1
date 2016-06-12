@@ -4,18 +4,16 @@
  */
 package com.github.migi_1.ContextApp.client;
 
-import com.github.migi_1.ContextMessages.PlatformPosition;
 import java.util.concurrent.Executors;
 
 /**
  * Used to have one clientwrapper per device.
  * This class is passed over when a new Activity starts.
  */
-public class ClientHub {
+public final class ClientHub {
 
     private ClientWrapper clientWrapper;
-    private static volatile ClientHub INSTANCE = new ClientHub();
-    private PlatformPosition position;
+    private static volatile ClientHub instance = new ClientHub();
 
     /**
      * Constructor for the clienthub.
@@ -26,19 +24,19 @@ public class ClientHub {
         clientWrapper = AutoConnector.getInstance().autoStart(Executors.newFixedThreadPool(10));
     }
 
+    /**
+     * Returns an instance of the clientHub.
+     * @return the clienthub.
+     */
     public static ClientHub getInstance() {
-        return INSTANCE;
+        return instance;
     }
 
+    /**
+     * Returns the clientWrapper that is created in the clienthub. 
+     * @return the clientwrapper. 
+     */
     public ClientWrapper getClientWrapper() {
         return clientWrapper;
-    }
-    
-    public void setPosition(PlatformPosition newPos) {
-        position = newPos;
-    }
-    
-    public PlatformPosition getPosition() {
-        return position;
     }
 }

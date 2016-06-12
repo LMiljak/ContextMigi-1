@@ -24,7 +24,6 @@ public class LobbyHUDController {
     private Main main;
     private AssetManager assetManager;
     private AppSettings settings;
-    private ExitButtonListener exitButtonListener;
     private Node exitNode;
     private Node playNode;
 

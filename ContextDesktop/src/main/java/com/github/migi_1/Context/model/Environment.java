@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
@@ -13,7 +14,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.scene.Node;
 
 /**
@@ -25,6 +25,8 @@ public class Environment extends AbstractAppState {
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
+	private HUDController hudController;
+	private AudioController audioController;
 	private boolean paused;
 	private Application app;
 
@@ -36,15 +38,16 @@ public class Environment extends AbstractAppState {
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-		this.assetManager.registerLocator("assets", FileLocator.class);
+
+		hudController = new HUDController(app);
+		audioController = new AudioController(app);
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		if (!paused) {
-		    moveMovables();
-		}
+		hudController.updateHUD();
+		moveMovables();
 	}
 
 	/**
@@ -95,7 +98,7 @@ public class Environment extends AbstractAppState {
 	 * 		The entity to add.
 	 */
 	public void addEntity(Entity entity) {
-		addDisplayable(entity);
+		addDisplayable(entity);		
 		movables.add(entity);
 	}
 
@@ -142,7 +145,28 @@ public class Environment extends AbstractAppState {
     @Override
     public void cleanup() {
         super.cleanup();
-        ((Main) this.app).getGuiNode().detachAllChildren();
+        this.assetManager.clearAssetEventListeners();
+        this.assetManager.clearCache();
         this.rootNode.detachAllChildren();
+        ((Main) this.app).getGuiNode().detachAllChildren();
+        audioController.getBackgroundMusic().pause();
     }
+
+    /**
+     * Getter for the AudioController.
+     * @return The AudioController.
+     */
+    public AudioController getAudioController() {
+        return audioController;
+    }
+
+    /**
+     * Setter for the AudioController.
+     * @param audioController AudioController to set
+     */
+    public void setAudioController(AudioController audioController) {
+        this.audioController = audioController;
+    }
+
+
 }

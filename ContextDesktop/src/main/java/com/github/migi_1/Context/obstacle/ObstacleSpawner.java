@@ -2,7 +2,9 @@ package com.github.migi_1.Context.obstacle;
 
 import java.util.ArrayList;
 
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Vector3f;
 
 /**TODO: UPDATE THIS JAVADOC WHEN DYNAMIC OBSTACLE SPAWNING IS IMPLEMENTED
@@ -27,31 +29,59 @@ public class ObstacleSpawner {
 
     private Commander commander;
 
+
+    private float leftBound;
+
+    private float rightBound;
+
     /**
      * Constructor for the obstacle spawner object.
-     * @param commander needed for knowing where to spawn the obstacles.
+     * @param environment needed for knowing where to spawn the obstacles.
      */
-    public ObstacleSpawner(Commander commander) {
+    public ObstacleSpawner(MainEnvironment environment) {
+        this.commander = environment.getCommander();
         this.location = commander.getModel().getLocalTranslation();
-        this.commander = commander;
         this.obstacleList = new ArrayList<Obstacle>();
         this.obstacleFactory = new StaticObstacleFactory();
+        this.leftBound = getBound(environment.getLeftBound());
+        this.rightBound = getBound(environment.getRightBound());
     }
+
     /**
-     * Create list of obstacles that are to be spawned in the environment.
+     * Create list of obstacles that are to be spawned in the environment and return them.
      * @return Map with all obstacles, with as key value their Geometry in the environment.
      */
-    public ArrayList<Obstacle> getObstacles() {
+    public ArrayList<Obstacle> updateObstacles() {
+
+        //call removeDamageDealer when an obstacle is too far away
+        ArrayList<Obstacle> deleteList = new ArrayList<Obstacle>();
+        for (Obstacle obs : obstacleList) {
+            if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
+                deleteList.add(obs);
+
+            }
+        }
+        obstacleList.removeAll(deleteList);
         while (obstacleList.size() < NUMBER_OBSTACLES) {
             Obstacle obs = obstacleFactory.produce();
             obs.scale(0.3f);
-            location = location.add(new Vector3f(-30.f, 0, 0.0f));
+            location = location.add(new Vector3f(-30.f, 0, 0));
 
-            obs.move(location);
+            obs.move(location.add(new Vector3f(0, 0, getZLocation())));
             obstacleList.add(obs);
         }
         return obstacleList;
 
+    }
+
+    /**
+     * Return a random location on the z-axis between the two bounding boxes.
+     * @return random location
+     */
+    private float getZLocation() {
+        Float rand = (float) Math.random();
+        float zOrientation = rand * (leftBound - rightBound) - (leftBound - rightBound) / 2.f;
+        return zOrientation;
     }
 
     /**
@@ -74,10 +104,27 @@ public class ObstacleSpawner {
     }
 
     /**
-     * @param obstacleFactory the obstacleFactory to set
+     * Sets the current obstacleFactory.
+     * @param obstacleFactory the obstacleFactory to set.
      */
     public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
         this.obstacleFactory = obstacleFactory;
     }
 
+    /**
+     * Gets the current obstacleFactory.
+     * @return the obstacleFactory.
+     */
+    public AbstractObstacleFactory getObstacleFactory() {
+        return obstacleFactory;
+    }
+
+    /**
+     * Get the z coordinate of the center of a bounding box.
+     * @param boundingBox Bounding box to check
+     * @return z coordinate of the center
+     */
+    private float getBound(BoundingBox boundingBox) {
+        return boundingBox.getCenter().z;
+    }
 }

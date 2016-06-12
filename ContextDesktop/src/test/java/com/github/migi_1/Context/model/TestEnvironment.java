@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,14 +16,16 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.behaviour.ConstantSpeedMoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -38,7 +42,7 @@ public class TestEnvironment {
 	protected Node root;
 	protected AssetManager assetManager;
 	private HUDController hudController;
-
+	private AudioController audioController;
 
 	/**
 	 * Initialises the environment field for testing.
@@ -49,10 +53,12 @@ public class TestEnvironment {
 		this.environment = new Environment();
 
 		hudController = Mockito.mock(HUDController.class);
+		audioController = Mockito.mock(AudioController.class);
 		AppStateManager manager = mock(AppStateManager.class);
 		ProjectAssetManager projectAssetManager = mock(ProjectAssetManager.class);
 		PowerMockito.mockStatic(ProjectAssetManager.class);
-		PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
+        PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
+        PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
 		when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
 		this.assetManager = Mockito.mock(AssetManager.class);
 		when(projectAssetManager.getAssetManager()).thenReturn(assetManager);
@@ -60,8 +66,8 @@ public class TestEnvironment {
 		Main app = mock(Main.class);
 		this.root = mock(Node.class);
 		when(app.getRootNode()).thenReturn(root);
-
-
+		AudioNode backgroundMusic = Mockito.mock(AudioNode.class);
+		when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
 		this.environment.initialize(manager, app);
 	}
 
@@ -152,5 +158,31 @@ public class TestEnvironment {
 		environment.update(0);
 
 		verify(entity, times(1)).move(moveVector);
+	}
+
+	/**
+	 * Tests if the getter and setter for paused work correctly.
+	 */
+	@Test
+	public void testIsAndSetPaused() {
+	    assertFalse(environment.isPaused());
+	    environment.setPaused(true);
+	    assertTrue(environment.isPaused());
+	}
+
+	/**
+	 * Tests if the update method behaves well when the game is paused.
+	 */
+	@Test
+	public void testUpdateWhenPaused() {
+	    //Verify that when not paused,
+	    //The HUDcontroller is updated.
+	    environment.update(0);
+	    Mockito.verify(hudController).updateHUD();
+	    environment.setPaused(true);
+	    //Verify that when paused,
+        //The HUDcontroller is not updated.
+	    environment.update(0);
+	    Mockito.verify(hudController, times(2)).updateHUD();
 	}
 }

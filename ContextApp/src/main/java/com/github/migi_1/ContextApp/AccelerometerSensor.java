@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextApp.client.ClientWrapper;
@@ -18,16 +14,18 @@ import com.jme3.network.Client;
  */
 public class AccelerometerSensor extends Activity implements SensorEventListener {
 
-    private HelloActivity act;
+    private MainActivity act;
     private ClientWrapper client;
     
     /**
      * Constructor for AccelerometerSensor.
      * 
      * @param act
-     *      The main activity from which is was created.
+     *      The main activity from which it was created.
+     * @param client
+     *      The clientwrapper used for communication with the server.
      */
-    public AccelerometerSensor(HelloActivity act, ClientWrapper client) {
+    public AccelerometerSensor(MainActivity act, ClientWrapper client) {
         this.act = act;
         this.client = client;
     }
@@ -43,28 +41,28 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
                 return;
             }
 
-            float x_force = se.values[0];
-            float y_force = se.values[1];
-            float z_force = se.values[2];
+            float xforce = se.values[0];
+            float yforce = se.values[1];
+            float zforce = se.values[2];
             
             // log the sensor values
-            Log.d("main", x_force + " " + y_force + " " + z_force);
+            Log.d("main", xforce + " " + yforce + " " + zforce);
             //Sending the information to the Server.
-            sendSensorInformation(x_force, y_force, z_force);
+            sendSensorInformation(xforce, yforce, zforce);
     }
 
     /**
      * Sends information about the accelerometer to the Server.
      * 
-     * @param x_force
+     * @param xforce
      *      Acceleration force along the x axis (including gravity).
-     * @param y_force
+     * @param yforce
      *      Acceleration force along the y axis (including gravity).
-     * @param z_force
+     * @param zforce
      *      Acceleration force along the z axis (including gravity).
      */
-    private void sendSensorInformation(float x_force, float y_force, float z_force) {
-        AccelerometerMessage message = new AccelerometerMessage(x_force, y_force, z_force);
+    private void sendSensorInformation(float xforce, float yforce, float zforce) {
+        AccelerometerMessage message = new AccelerometerMessage(xforce, yforce, zforce);
         
         Client c = client.getClient();
         if (c.isStarted()) {

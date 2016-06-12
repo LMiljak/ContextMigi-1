@@ -1,14 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
-import java.util.Arrays;
-
-import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.SumMultiMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResults;
-import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -24,35 +17,20 @@ public class Commander extends Camera {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
-    private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
 
     /**
      * Constructor of the commander.
-     * @param startLocation startLocation location where the Commander will be initialized
+     * @param startLocation 
+     * 		startLocation location where the Commander will be initialised
+     * @param platformBehaviour
+     * 		The behaviour of the platform on which this commander is standing.
      */
-    public Commander(Vector3f startLocation) {
+    public Commander(Vector3f startLocation, MoveBehaviour platformBehaviour) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        setMoveBehaviour(new SumMultiMoveBehaviour(
-        					new AccelerometerMoveBehaviour(), 
-        					new AcceleratingMoveBehaviour(MOVE_VECTOR)
-        				));
-    }
-
-
-    /**
-     * Method that registers a collision.
-     * @param arg0 Collidable to check the collision against.
-     * @param arg1 The register to where the collision results are added to.
-     * @return whether the collision was succesul or not, 0 means succesful.
-     * @throws UnsupportedCollisionException When the collision is unsupported by the jmonkey collision checker.
-     */
-    @Override
-    public int collideWith(Collidable arg0, CollisionResults arg1)
-            throws UnsupportedCollisionException {
-        getModel().collideWith(arg0, arg1);
-        return 0;
+        
+        setMoveBehaviour(platformBehaviour);
     }
 
 

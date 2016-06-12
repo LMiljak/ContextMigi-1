@@ -23,8 +23,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
 
     private Vector3f relativeLocation;
 
-    private MainEnvironment environment;
-
     private static final int NUMBER_FRAMES = 120;
 
     /**
@@ -34,9 +32,7 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      * @param environment The environment to follow
      */
     public CarrierMoveBehaviour(Carrier carrier, Vector3f moveVector, MainEnvironment environment) {
-
         this.immobilized = 0;
-        this.environment = environment;
         this.commander = environment.getCommander();
         this.carrier =  carrier;
         this.relativeLocation = carrier.getRelativeLocation();
@@ -58,11 +54,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     @Override
     public Vector3f getMoveVector() {
-        if (carrier == null) {
-            carrier = environment.getCarriers().get(0);
-        }
-        updateMoveVector();
-
         //when immobilized, don't move forward
         if (immobilized > 0) {
             return new Vector3f(0, 0, 0);
@@ -93,15 +84,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
             catchUp = false;
             carrier.getModel().setLocalTranslation(destination);
         }
-
-    }
-
-    /**
-     * Set the carrier, by id.
-     * @param id The id of the carrier
-     */
-    public void carrierId(int id) {
-        carrier = environment.getCarriers().get(id);
     }
 
     /**
@@ -110,7 +92,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public void setRelativeLocation(Vector3f relativeLocation) {
         this.relativeLocation = relativeLocation;
-
     }
 
     /**
@@ -119,14 +100,6 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
      */
     public int getImmobilized() {
         return immobilized;
-    }
-
-    /**
-     * Set the immobilized attribute.
-     * @param immobilized attribute
-     */
-    public void setImmobilized(int immobilized) {
-        this.immobilized = immobilized;
     }
 
     /**
@@ -176,7 +149,4 @@ public class CarrierMoveBehaviour extends EntityMoveBehaviour {
     public static int getNumberFrames() {
         return NUMBER_FRAMES;
     }
-
-
-
 }

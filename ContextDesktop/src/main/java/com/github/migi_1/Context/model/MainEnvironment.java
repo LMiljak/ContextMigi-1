@@ -1,28 +1,29 @@
 package com.github.migi_1.Context.model;
 
-import com.github.migi_1.Context.main.HUDController;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map.Entry;
-
-import com.github.migi_1.Context.model.entity.Camera;
-import com.github.migi_1.Context.model.entity.CarrierAssigner;
-
-import java.util.ArrayList;
 
 import jmevr.app.VRApplication;
 
+import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
-import com.github.migi_1.Context.model.entity.behaviour.CarrierMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -54,17 +55,15 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -3.5f, 3);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private static final int NUMBER_OF_CARRIERS = 4;
-
     private HUDController hudController;
 
+    private Application app;
     private Platform platform;
     private Commander commander;
-    private ArrayList<Carrier> carriers;
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
@@ -73,12 +72,18 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+    private EnemySpawner enemySpawner;
+
+    private LinkedList<Enemy> enemies;
 
 
     private HashMap<Entity, CollisionResults> results;
 
     private ObstacleSpawner obstacleSpawner;
+    private BoundingBox boundingBoxWallLeft;
 
+    private BoundingBox boundingBoxWallRight;
+    private ScoreController scoreController;
 
     /**
      * First method that is called after the state has been created.
@@ -87,16 +92,16 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
+        
         hudController = new HUDController(app);
+        this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
         flyCamActive = false;
         
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
-
-
+        scoreController = new ScoreController();
         results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
@@ -110,40 +115,47 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
-        new CarrierAssigner(platform, ((Main) app).getServer(), this);
+
+        setPaused(true);
     }
 
     @Override
     public void update(float tpf) {
-        super.update(tpf);
+        if (!isPaused()) {
+            super.update(tpf);
 
-        hudController.updateHUD();
-        checkCollision();
-        updateTestWorld();
+            hudController.updateHUD();
+            updateEnemies(tpf);
+            checkObstacleCollision();
+            checkPathCollision();
+            updateTestWorld();
+        }
     }
+
 
     /**
      * Handle collision checking.
      */
-    private void checkCollision() {
+    private void checkObstacleCollision() {
         //add collision check for all obstacles
 
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
                 staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
             }
         }
 
         //check whether a collision has taken place.
-        //only one object can collide each update, two prevent two object from taking damage.
+        //only one object can collide each update, to prevent two objects from taking damage.
         Boolean collided  = false;
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
                 removeDisplayable(obstacleSpawner.removeDamageDealer());
                 entry.setValue(new CollisionResults());
-                ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
+                if (entry.getKey().getMoveBehaviour() instanceof EntityMoveBehaviour) {
+                    ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
+                }
 
             }
         }
@@ -153,6 +165,21 @@ public class MainEnvironment extends Environment {
             entry.setValue(new CollisionResults());
         }
 
+    }
+
+    private void checkPathCollision() {
+        for (Carrier carrier : platform.getCarriers()) {
+            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
+                commander.move(new Vector3f(0, 0, -0.3f));
+                platform.move(new Vector3f(0, 0, -0.3f));
+                carrier.move(new Vector3f(0, 0, -0.3f));
+            }
+            else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+                commander.move(new Vector3f(0, 0, 0.3f));
+                platform.move(new Vector3f(0, 0, 0.3f));
+                carrier.move(new Vector3f(0, 0, 0.3f));
+            }
+        }
     }
 
     /**
@@ -197,17 +224,20 @@ public class MainEnvironment extends Environment {
      */
     private void initSpatials() {
 
+        createWallBoundingBoxes();
+        enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        platform = new Platform(PLATFORM_LOCATION);
-        commander = new Commander(COMMANDER_LOCATION);
-        carriers = createCarriers();
-        obstacleSpawner = new ObstacleSpawner(commander);
+        platform = new Platform(PLATFORM_LOCATION, this);
+        commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
+
+        obstacleSpawner = new ObstacleSpawner(this);
+
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             addDisplayable(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
@@ -216,36 +246,46 @@ public class MainEnvironment extends Environment {
 
         addEntity(platform);
         addEntity(commander);
-        for (Carrier carrier : carriers) {
-            addEntity(carrier);
-        }
+    }
+
+    private void createWallBoundingBoxes() {
+        Path path = new Path();
+        boundingBoxWallLeft = new BoundingBox(
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                        + ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
+
+        boundingBoxWallRight = new BoundingBox(
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                        -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
     }
 
     /**
-     * Create the carriers.
-     * @return Array with carriers
+     * Creates a carrier.
+     *
+     * @param position
+     * 		The position under the platform to place the carrier.
+     * @return
+     * 		The created carrier.
      */
-    private ArrayList<Carrier> createCarriers() {
-        carriers = new ArrayList<Carrier>();
+    public Carrier createCarrier(PlatformPosition position) {
         float x, y, z;
         y = RELATIVE_CARRIER_LOCATION.y;
-        for (PlatformPosition position : PlatformPosition.values()) {
-            x = RELATIVE_CARRIER_LOCATION.x;
-            z = RELATIVE_CARRIER_LOCATION.z;
+        x = RELATIVE_CARRIER_LOCATION.x;
+        z = RELATIVE_CARRIER_LOCATION.z;
 
-            //put two carriers on the right side.
-            z = z * position.getzFactor();
+        z *= position.getzFactor();
+        x *= position.getxFactor();
 
-            //put two carriers on the back side.
-            x = x * position.getxFactor();
-            
-            Vector3f relativeLocation = new Vector3f(x, y, z);
-            Carrier newCarrier = new Carrier(relativeLocation, position, this);
-            ((CarrierMoveBehaviour) newCarrier.getMoveBehaviour()).setRelativeLocation(relativeLocation);
-            results.put(newCarrier, new CollisionResults());
-            carriers.add(newCarrier);
-        }
-        return carriers;
+        Vector3f relativeLocation = new Vector3f(x, y, z);
+
+        Carrier newCarrier = new Carrier(relativeLocation, position, this);
+        results.put(newCarrier, new CollisionResults());
+
+        return newCarrier;
     }
 
     /**
@@ -257,11 +297,12 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Get the carriers.
-     * @return carriers
+     * Gets the platform.
+     * @return
+     * 		The retrieved platform.
      */
-    public ArrayList<Carrier> getCarriers() {
-        return carriers;
+    public Platform getPlatform() {
+        return platform;
     }
 
 
@@ -271,7 +312,7 @@ public class MainEnvironment extends Environment {
      */
     private void initCameras() {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         commander.makeObserver();
@@ -331,7 +372,9 @@ public class MainEnvironment extends Environment {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
         removeDisplayables(loc);
+        flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -345,9 +388,9 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(loc)) {
             addDisplayable(path);
         }
-        
+
         //update the Obstacles
-        for (Obstacle staticObstacle : obstacleSpawner.getObstacles()) {
+        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
             addDisplayable(staticObstacle);
         }
 
@@ -367,6 +410,26 @@ public class MainEnvironment extends Environment {
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
+        }
+    }
+
+    private void updateEnemies(float tpf) {
+        if (enemySpawner == null || enemySpawner.getCarriers().size() == 0) {
+            enemySpawner = new EnemySpawner(commander, platform.getCarriers());
+        } else {
+            for (Enemy enemy : enemySpawner.generateEnemies()) {
+                addEntity(enemy);
+                enemies.add(enemy);
+            }
+
+            for (Enemy enemy : enemySpawner.deleteEnemies()) {
+                removeEntity(enemy);
+                enemies.remove(enemy);
+            }
+
+            for (Enemy enemy : enemies) {
+                enemy.attack(tpf);
+            }
         }
     }
 
@@ -403,5 +466,38 @@ public class MainEnvironment extends Environment {
      */
     public float getSteering() {
         return steering;
+    }
+
+    /**
+     * Returns the main application.
+     * @return (Main) app.
+     */
+    public Main getMain() {
+        return ((Main) app);
+    }
+
+    /**
+     * Sets the results hashmap.
+     * Used in testing ONLY.
+     * @param newResults the new results.
+     */
+    public void setResults(HashMap<Entity, CollisionResults> newResults) {
+        results = newResults;
+    }
+
+    /**
+     * Getter for the left bounding box.
+     * @return the left bounding box
+     */
+    public BoundingBox getLeftBound() {
+        return boundingBoxWallLeft;
+    }
+
+    /**
+     * Getter for the right bounding box.
+     * @return the right bounding box
+     */
+    public BoundingBox getRightBound() {
+        return boundingBoxWallRight;
     }
 }

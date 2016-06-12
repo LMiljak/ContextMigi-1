@@ -44,6 +44,9 @@ public class MainMenuFunctions implements ScreenController {
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
 //        this.screen = screen;
+        
+        nifty.getSoundSystem().addSound("buttonConfirm", "Sfx/MenuButtonPress 1.wav");
+        nifty.getSoundSystem().addSound("buttonExit", "Sfx/MenuButtonPress 2.wav");
     }
 
     /**
@@ -67,6 +70,7 @@ public class MainMenuFunctions implements ScreenController {
      * @param scr String
      */
     public void toScreen(String scr) {
+        nifty.getSoundSystem().getSound("buttonConfirm").play();
         nifty.gotoScreen(scr);
     }
 
@@ -75,7 +79,8 @@ public class MainMenuFunctions implements ScreenController {
      * Detaches the menu and attaches the environment to the app.
      */
     public void startGame() {
-       // main.getStateManager().detach(main.getMainMenu());
+        nifty.getSoundSystem().getSound("buttonConfirm").play();
+        // main.getStateManager().detach(main.getMainMenu());
         main.getStateManager().attach(main.getEnv());
     }
 
@@ -85,6 +90,7 @@ public class MainMenuFunctions implements ScreenController {
      * @NOTE in the end app.stop() will probably be a bit nicer (but it is not possible to do so yet).
      */
     public void quitGame() {
+        nifty.getSoundSystem().getSound("buttonExit").play();
         System.exit(0);
     }
 }

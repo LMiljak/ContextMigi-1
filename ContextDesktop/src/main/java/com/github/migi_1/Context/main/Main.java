@@ -1,17 +1,19 @@
 package com.github.migi_1.Context.main;
 
-import com.github.migi_1.Context.model.Environment;
-import com.github.migi_1.Context.model.LobbyEnvironment;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.LobbyEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -39,9 +41,11 @@ public class Main extends VRApplication {
 
     private ServerWrapper server;
 
+    private AttackMessageHandler attackMessageHandler;
+
 
     /**
-     * main function of the appication, sets some meta-parameters of the application
+     * main function of the application, sets some meta-parameters of the application
      * and starts it.
      *
      * @param args
@@ -63,19 +67,10 @@ public class Main extends VRApplication {
         settings.setResolution(1280, 720);
         settings.setVSync(true);
 
-        main.setSettings(settings);
-        VRConfigurer.configureVR(main);
-        main.setPauseOnLostFocus(true);
-    }
+        super.setSettings(settings);
+        VRConfigurer.configureVR(this);
+        super.setPauseOnLostFocus(true);
 
-    /**
-     * Gets the instance of this Application.
-     *
-     * @return
-     * 		The instance of this Application.
-     */
-    public static Main getMain() {
-    	return main;
     }
 
     /**
@@ -86,13 +81,16 @@ public class Main extends VRApplication {
     public void simpleInitApp() {
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
+        
+        launchServer();
 
         lobbyState = new LobbyEnvironment();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(lobbyState);
 
-        launchServer();
+        // Probably not the right spot, but I'll put this here for now.
+        attackMessageHandler = new AttackMessageHandler(this);
     }
 
     /**
@@ -195,4 +193,53 @@ public class Main extends VRApplication {
     public ServerWrapper getServer() {
     	return server;
     }
+
+    /**
+     * Executes an attack using a player's position and direction of attack.
+     * @param pos
+     * 			the PlatformPosition of the attacking player
+     * @param dir
+     * 			the direction of the attack (String)
+     */
+    public void handleAttack(PlatformPosition pos, String dir) {
+        // TODO: EXECUTE ATTACKS
+    }
+
+    /**
+     * Sets the current main.
+     * Used for testing ONLY.
+     * @param newMain the new main.
+     */
+    public static void setMain(Main newMain) {
+        main = newMain;
+    }
+
+    /**
+     * Sets the current inputHandler.
+     * Used for testing ONLY.
+     * @param newInputHandler the new inputHandler.
+     */
+    public void setInputHandler(InputHandler newInputHandler) {
+        inputHandler = newInputHandler;
+    }
+
+    /**
+     * Sets the current environment state.
+     * Used for testing ONLY.
+     * @param newEnvState the new environment state.
+     */
+    public void setEnvState(MainEnvironment newEnvState) {
+        environmentState = newEnvState;
+    }
+
+    // TESTS NEED TO BE ALTERED, SINCE THE MENU IS GOING TO BE REPLACED.
+    
+    /**
+     * Sets the current mainmenu state.
+     * Used for testing ONLY.
+     * @param newMainMenuState the new main menu state.
+     */
+    /*public void setMainMenuState(MainMenu newMainMenuState) {
+        mainMenuState = newMainMenuState;
+    }*/
 }

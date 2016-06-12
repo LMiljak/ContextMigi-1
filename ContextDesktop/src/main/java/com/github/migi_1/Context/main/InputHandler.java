@@ -15,10 +15,12 @@ import com.jme3.math.Vector3f;
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
-                                "up", "down", "steer_left", "steer_right", "pause", "restart"};
+                                "up", "down", "steer_left", "steer_right", "pause", "menu", "restart", "mute"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
                                KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
-                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_P, KeyInput.KEY_R};
+                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_P, KeyInput.KEY_E,
+                               KeyInput.KEY_R, KeyInput.KEY_M};
+
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
     private ActionListener actionListener;
@@ -61,14 +63,23 @@ public final class InputHandler {
                 } else if (name.equals("pause") && keyPressed) {
                     if (!main.getEnv().isPaused()) {
                         main.getEnv().setPaused(true);
+                        main.getEnv().getAudioController().getBackgroundMusic().pause();
                     }
                     else {
                         main.getEnv().setPaused(false);
-
+                        if (main.getEnv().getAudioController().isPlaying()) {
+                            main.getEnv().getAudioController().getBackgroundMusic().play();
+                        }
                     }
-                } else if (name.equals("restart") && keyPressed) {
+                } else if (name.equals("menu") && keyPressed) {
+                    main.getEnv().cleanup();
+                    main.getStateManager().attach(main.getMainMenu());
+                    main.getStateManager().detach(main.getEnv());
+                } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
                     main.getEnv().cleanup();
                     main.getEnv().initialize(main.getStateManager(), main);
+                } else if (name.equals("mute") && keyPressed) {
+                    main.getEnv().getAudioController().mute();
 
                 }
 

@@ -9,7 +9,7 @@ import com.github.migi_1.ContextMessages.PositionMessage;
  * position this Client has been assigned. It also listens for messages
  * from the Server about the position.
  */
-public class PositionHolder extends MessageListener<PositionMessage> {
+public final class PositionHolder extends MessageListener<PositionMessage> {
 
     private static final PositionHolder INSTANCE = new PositionHolder();
     
@@ -59,6 +59,12 @@ public class PositionHolder extends MessageListener<PositionMessage> {
         return position;
     }
     
-    
+    /**
+     * Clears the position in the PositionHolder.
+     * This way a new screen can be printed when the app connects a 2nd time.
+     */
+    public void clearPosition() {
+        position = null;
+    }
     
 }

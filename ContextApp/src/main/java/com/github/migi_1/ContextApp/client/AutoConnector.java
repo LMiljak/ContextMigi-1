@@ -1,9 +1,7 @@
 package com.github.migi_1.ContextApp.client;
 
 import android.util.Log;
-import com.github.migi_1.ContextApp.client.ServerDiscoveryHandler;
-import com.github.migi_1.ContextApp.client.ServerFinder;
-import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextApp.MainActivity;
 import java.net.InetAddress;
 import java.util.concurrent.ExecutorService;
 
@@ -17,8 +15,11 @@ public final class AutoConnector {
     
     private static final AutoConnector INSTANCE = new AutoConnector();
     
+    /**
+     * A wrapper of the wrapper of the client.
+     */
     private class ClientWrapperWrapper {
-        ClientWrapper wrapper;
+        private ClientWrapper wrapper;
     }
     
     /**
@@ -40,15 +41,29 @@ public final class AutoConnector {
      * 
      * @param executorService
      *      On which executorService the server finder should be executed.
+     * @param main 
+     *      Its alert method is called when the client can't connect in time.
+     * 
+     * @return The clientWrapper inside the clientWrapperWrapper
      */
-    public ClientWrapper autoStart(ExecutorService executorService) {
+    public ClientWrapper autoStart(ExecutorService executorService, 
+            MainActivity main) {
         ServerFinder serverFinder = ServerFinder.getInstance();
         
         ClientWrapperWrapper client = new ClientWrapperWrapper();
         serverFinder.findServers(executorService, getConnector(client));
+        int counter = 0;
         
         while (client.wrapper == null) {
-            Log.d("CarrierAway", "Waiting for client to connect");
+            if (counter == 10000) {
+                break;
+            }
+            Log.d("CarriedAway", "Waiting for client to connect ");
+            counter++;
+        }
+        
+        if (client.wrapper == null) {
+            main.alert();
         }
         
         return client.wrapper;

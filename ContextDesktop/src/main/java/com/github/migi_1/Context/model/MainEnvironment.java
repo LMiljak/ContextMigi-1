@@ -200,10 +200,10 @@ public class MainEnvironment extends Environment {
             System.out.println(server.isRunning());
             System.out.println(!getMain().isBugEventRunning());
             System.out.println(server.getConnections().size() > 0);
-            System.out.println(server.getConnections().size());
             System.out.println("---");
             if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
                 getMain().setBugEventRunning(true);
+                System.out.println("BROADCASTING START message!!!");
                 server.broadcast(startMessage);
             }
             setNewRandomEventTime();

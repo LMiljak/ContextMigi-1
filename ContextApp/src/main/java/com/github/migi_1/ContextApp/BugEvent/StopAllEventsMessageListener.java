@@ -24,7 +24,7 @@ public class StopAllEventsMessageListener extends MessageListener<StopAllEventsM
 
     @Override
     public void messageReceived(Object source, StopAllEventsMessage message) {
-        Log.d("rotate", "MESSAGE RECEIVED, STOPPING ALL OF THE EVENTS!");
+        Log.d("rotate", "STOP MESSAGE RECEIVED, STOPPING EVENT!");
         bugActivity.stopEvent();
     }
     

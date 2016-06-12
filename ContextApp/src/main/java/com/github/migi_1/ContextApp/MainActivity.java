@@ -39,6 +39,7 @@ public class MainActivity extends AndroidHarness {
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
+    private boolean eventStarted;
     /**
      * Configure the game instance that is launched and start the logger.
      */
@@ -95,6 +96,8 @@ public class MainActivity extends AndroidHarness {
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
 
+        eventStarted = false;
+        
         setUI();
     }
     
@@ -195,12 +198,15 @@ public class MainActivity extends AndroidHarness {
      * Starts the bug event. 
      */
     public void startBugEvent() {
-        Log.d("rotate", "STARTING BUG EVENT!!!");
-        Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
-        nextScreen.putExtra("Position", posHolder.getPosition());
-        nextScreen.putExtra("BugPosition", getRandomPosition());
-        nextScreen.putExtra("SprayPosition", getRandomPosition());
-        startActivity(nextScreen);
+        if(!eventStarted) {
+            eventStarted = true;
+            Log.d("rotate", "STARTING BUG EVENT!!!");
+            Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
+            nextScreen.putExtra("Position", posHolder.getPosition());
+            nextScreen.putExtra("BugPosition", getRandomPosition());
+            nextScreen.putExtra("SprayPosition", getRandomPosition());
+            startActivity(nextScreen);
+        }
     }
 
     /**

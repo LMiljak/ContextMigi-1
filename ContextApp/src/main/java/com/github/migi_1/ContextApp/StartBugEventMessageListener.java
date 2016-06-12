@@ -23,7 +23,7 @@ public class StartBugEventMessageListener extends MessageListener<StartBugEventM
     
     @Override
     public void messageReceived(Object source, StartBugEventMessage message) {
-        Log.d("rotate", "Starting the Random event!");
+        Log.d("rotate", "START MESSAGE RECEIVED: starting the Random event!");
         main.startBugEvent();
     }
 

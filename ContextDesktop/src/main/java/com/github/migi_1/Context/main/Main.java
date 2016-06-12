@@ -44,9 +44,6 @@ public class Main extends VRApplication {
     private ServerWrapper server;
 
     private boolean bugEventRunning = false;
-    private AttackMessageHandler attackMessageHandler;
-    private EnableSprayToVRMessageHandler enableSprayReceiveHandler;
-    private StopEventMessageHandler stopEventHandler;
 
 
     /**
@@ -95,9 +92,9 @@ public class Main extends VRApplication {
         this.getStateManager().attachAll(mainMenuState);
 
         // Probably not the right spot, but I'll put this here for now.
-        attackMessageHandler = new AttackMessageHandler(this);
-        enableSprayReceiveHandler = new EnableSprayToVRMessageHandler(this);
-        stopEventHandler = new StopEventMessageHandler(this);
+        new AttackMessageHandler(this);
+        new EnableSprayToVRMessageHandler(this);
+        new StopEventMessageHandler(this);
     }
 
     /**
@@ -164,8 +161,11 @@ public class Main extends VRApplication {
     public void handleStopBugEvent() {
         Server sendServer = server.getServer();
         StopAllEventsMessage stopMsg = new StopAllEventsMessage();
-        if (sendServer.isRunning()) {
+        System.out.println(server.getServer().getConnections().size());
+        if (sendServer.isRunning() && bugEventRunning) {
+            System.out.println("Stop message sending");
             sendServer.broadcast(stopMsg);
+            System.out.println("Stop message sent");
             bugEventRunning = false;
         }
     }

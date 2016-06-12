@@ -23,7 +23,7 @@ public class RotateBugSprayActivity extends Activity {
     private TextView spray;
     private Button bug;
     private float x1, x2, y1, y2;
-    private ClientHub clientHub;
+    private ClientHub clientHub = ClientHub.getInstance();
     private ClientWrapper clientEvent;
     private StopAllEventsMessageListener stopEventListener;
     private EnableSprayAppMessageHandler enableSprayListener;
@@ -31,30 +31,24 @@ public class RotateBugSprayActivity extends Activity {
 
     @Override
     protected void onResume() {
-        Log.d("rotate", "============EVENT=========");
-        Log.d("rotate", "RESUMING RE");
+        Log.d("rotate", "============RESUMING EVENT=========");
         super.onResume();
-        clientEvent.startClient();
 
         setUI();
     }
 
     @Override
     protected void onStop() {
-        Log.d("rotate", "STOPPING RE");
+        Log.d("rotate", "STOPPING EVENT");
         super.onStop();
-        clientEvent.closeClient();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("rotate", "Creating Random event");
+        Log.d("rotate", "STARTING EVENT");
         super.onCreate(savedInstanceState);
         position = (PlatformPosition) getIntent().getExtras().get("Position");
-        Log.d("rotate", "Position get!");
         setContentView(R.layout.android_event_bugs);
-        Log.d("rotate", "Everything going well?");
-        clientHub = (ClientHub) getIntent().getParcelableExtra("ClientHub");
         clientEvent = clientHub.getClientWrapper();
     }
 
@@ -145,11 +139,7 @@ public class RotateBugSprayActivity extends Activity {
      * Stop the bug event.
      */
     public void stopEvent() {
-        Log.d("rotate", "Stopping all events");
-        Intent result = getIntent();
-        result.putExtra("ClientHub", (Parcelable) clientHub);
-        setResult(RESULT_OK, result);
-        Log.d("rotate", "FINISHING");
+        Log.d("rotate", "Stopping EVENT received msg");
         finish();
     }
 
@@ -219,8 +209,8 @@ public class RotateBugSprayActivity extends Activity {
     private void setUI() {
         Log.d("rotate", "SET UI");
         //Initialize the listeners.
-        stopEventListener = new StopAllEventsMessageListener(this);
-        enableSprayListener = new EnableSprayAppMessageHandler(this);
+        new StopAllEventsMessageListener(this);
+        new EnableSprayAppMessageHandler(this);
         Log.d("rotate", "Listeners enabled");
 
         //Add the spray text and the bug button. 

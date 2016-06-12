@@ -36,7 +36,7 @@ public class MainActivity extends AndroidHarness {
     private HeartsUpdateFunctions huFunctions;
     private MakeButtonFunctions mbFunctions;
     private PlatformPosition position;
-    private ClientHub clientHub;
+    private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
     /**
@@ -54,7 +54,7 @@ public class MainActivity extends AndroidHarness {
 
     @Override  
     public void onCreate(Bundle savedInstanceState) {  
-        Log.d("rotate", "Starting main activity.");
+        Log.d("rotate", "Main activity: CREATING");
         super.onCreate(savedInstanceState);
 
         //instantiate the application
@@ -64,14 +64,8 @@ public class MainActivity extends AndroidHarness {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         setContentView(R.layout.android_searching); 
-        Log.d("rotate", "Set content view.");
 
-        clientHub = new ClientHub(this);
-        
-        Log.d("rotate", "new client hub");
-        
         clientHub.getClientWrapper().startClient();
-        Log.d("rotate", "Client started");
         
         getClient().getClient().addMessageListener(posHolder);
                 
@@ -82,11 +76,9 @@ public class MainActivity extends AndroidHarness {
             }
         }
         
-        clientHub.setPosition(position);
-        Log.d("rotate", "Position set");
 
         // create the accelerometerSensor
-        accelerometerSensor = new AccelerometerSensor(this, clientHub.getClientWrapper());
+        accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
     
    /**
@@ -94,45 +86,24 @@ public class MainActivity extends AndroidHarness {
     */
     @Override  
     public void onResume() {  
+        Log.d("rotate", "======MAIN ACTIVITY RESUMING=====");
         super.onResume();
-        Log.d("rotate", "=========Main Activity==========");
-        Log.d("rotate", "Main Activity is starting again.");
-        Log.d("rotate", "Client started: " + getClient().getClient().isStarted());
-        if (!getClient().getClient().isStarted()) {
-            getClient().startClient();
-        }
-        
-        
         setContentView(R.layout.android_ingame);
-        Log.d("rotate", "Content view set");
 
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
 
-        Log.d("rotate", "Registered listener");
-
         setUI();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("rotate", "ACTIVITY RESULT CALLED!");
-        super.onActivityResult(requestCode, resultCode, data); 
-        if (resultCode == RESULT_OK) {
-            clientHub = (ClientHub) data.getParcelableExtra("ClientHub");
-            Log.d("rotate", "Is client started: " + getClient().getClient().isStarted());
-        }
     }
     
     @Override
-    protected void onStop() {  
+    protected void onStop() {
+        Log.d("rotate", "Main activtity stopping");
         super.onStop();  
         // unregister the sensor listener
         mSensorManager.unregisterListener(accelerometerSensor);
-
-        clientHub.getClientWrapper().closeClient();
         
         // clear the position
         posHolder.clearPosition();
@@ -155,7 +126,6 @@ public class MainActivity extends AndroidHarness {
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
-        Log.d("rotate", "SettingUI");
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         huFunctions = new HeartsUpdateFunctions(this);
@@ -225,12 +195,12 @@ public class MainActivity extends AndroidHarness {
      * Starts the bug event. 
      */
     public void startBugEvent() {
+        Log.d("rotate", "STARTING BUG EVENT!!!");
         Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
         nextScreen.putExtra("Position", posHolder.getPosition());
         nextScreen.putExtra("BugPosition", getRandomPosition());
         nextScreen.putExtra("SprayPosition", getRandomPosition());
-        nextScreen.putExtra("ClientHub", (Parcelable) clientHub);
-        startActivityForResult(nextScreen, 42);
+        startActivity(nextScreen);
     }
 
     /**

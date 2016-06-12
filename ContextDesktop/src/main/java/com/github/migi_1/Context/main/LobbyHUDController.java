@@ -19,13 +19,11 @@ import com.jme3.ui.Picture;
  */
 public class LobbyHUDController {
 
-    private BitmapText title, player1, player2, player3, player4;
+    private BitmapText title, player1, player2, player3, player4, instruction;
     
     private Main main;
     private AssetManager assetManager;
     private AppSettings settings;
-    private Node exitNode;
-    private Node playNode;
 
     /**
      * Constructor. Generates initial score and displays it.
@@ -44,14 +42,7 @@ public class LobbyHUDController {
         main.getGuiNode().attachChild(title);
         
         addPlayers();
-        
-        playNode = new Node("play");
-        main.getGuiNode().attachChild(playNode);
-        playNode = addPlayButton(playNode);
-        
-        exitNode = new Node("exit");
-        main.getGuiNode().attachChild(exitNode);
-        exitNode = addExitButton(exitNode);
+        addInstruction();
     }
     
     /**
@@ -78,6 +69,17 @@ public class LobbyHUDController {
         
     }
     
+    private void addInstruction() {
+        BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
+        instruction = new BitmapText(titleFont, false);
+        instruction.setSize(titleFont.getCharSet().getRenderedSize() * 0.75f);
+        instruction.setColor(ColorRGBA.White);
+        instruction.setText("Pressfspaceftofstart");
+        settings = main.getSettings();
+        setTextPosition(instruction, 0.5f, 0.3f);
+        main.getGuiNode().attachChild(instruction);
+    }
+    
     public BitmapText setPlayer(BitmapFont font, BitmapText player) {
         player = new BitmapText(font, false);
         player.setSize(font.getCharSet().getRenderedSize());
@@ -101,38 +103,6 @@ public class LobbyHUDController {
         float width = widthFactor * settings.getWidth() - 0.5f * text.getLineWidth();
         float height = heightFactor * settings.getHeight();
         text.setLocalTranslation(width, height, 0);
-    }
-    
-    /**
-     * Adds the play button to the lobby.
-     */
-    private Node addPlayButton(Node node) {
-        Picture playButton = new Picture("play");
-        playButton.setImage(assetManager, "Interface/Buttons/play_button_inactive.png", true);
-        playButton.setHeight(settings.getHeight()/8);
-        float width = settings.getWidth()/8;
-        playButton.setWidth(width);
-        playButton.setPosition(0.7f * settings.getWidth() - 0.5f * width, 
-                0.2f * settings.getHeight());
-        
-        node.attachChild(playButton);
-        return node;
-    }
-    
-    /**
-     * Adds the exit button to the lobby.
-     */
-    private Node addExitButton(Node node) {
-        Picture exitButton = new Picture("exit");
-        exitButton.setImage(assetManager, "Interface/Buttons/exit_button.png", true);
-        exitButton.setHeight(settings.getHeight()/8);
-        float width = settings.getWidth()/8;
-        exitButton.setWidth(width);
-        exitButton.setPosition(0.3f * settings.getWidth() - 0.5f * width, 
-                0.2f * settings.getHeight());
-        
-        node.attachChild(exitButton);
-        return node;
     }
 
     /**

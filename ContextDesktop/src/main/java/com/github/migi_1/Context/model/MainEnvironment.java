@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model;
 
+import com.github.migi_1.Context.audio.AudioController;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -60,6 +61,7 @@ public class MainEnvironment extends Environment {
     private static final float COMMANDER_ROTATION = -1.5f;
 
     private HUDController hudController;
+    private AudioController audioController;
 
     private Application app;
     private Platform platform;
@@ -93,6 +95,7 @@ public class MainEnvironment extends Environment {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         
+	audioController = new AudioController(app);
         hudController = new HUDController(app);
         this.app = app;
         viewPort = app.getViewPort();
@@ -450,6 +453,7 @@ public class MainEnvironment extends Environment {
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
         super.cleanup();
+        audioController.getBackgroundMusic().pause();
     }
 
     /**
@@ -499,5 +503,21 @@ public class MainEnvironment extends Environment {
      */
     public BoundingBox getRightBound() {
         return boundingBoxWallRight;
+    }
+    
+    /**
+     * Getter for the AudioController.
+     * @return The AudioController.
+     */
+    public AudioController getAudioController() {
+        return audioController;
+    }
+
+    /**
+     * Setter for the AudioController.
+     * @param audioController AudioController to set
+     */
+    public void setAudioController(AudioController audioController) {
+        this.audioController = audioController;
     }
 }

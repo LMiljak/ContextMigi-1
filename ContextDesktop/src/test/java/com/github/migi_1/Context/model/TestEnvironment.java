@@ -169,20 +169,20 @@ public class TestEnvironment {
 	    environment.setPaused(true);
 	    assertTrue(environment.isPaused());
 	}
-
-	/**
+        
+        /**
 	 * Tests if the update method behaves well when the game is paused.
 	 */
-	@Test
+	/*@Test
 	public void testUpdateWhenPaused() {
 	    //Verify that when not paused,
 	    //The HUDcontroller is updated.
-	    environment.update(0);
+	    env.update(0);
 	    Mockito.verify(hudController).updateHUD();
-	    environment.setPaused(true);
+	    env.setPaused(true);
 	    //Verify that when paused,
         //The HUDcontroller is not updated.
-	    environment.update(0);
+	    env.update(0);
 	    Mockito.verify(hudController, times(2)).updateHUD();
-	}
+	}*/
 }

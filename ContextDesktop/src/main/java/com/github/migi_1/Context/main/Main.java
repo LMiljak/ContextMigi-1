@@ -42,6 +42,8 @@ public class Main extends VRApplication {
     private ServerWrapper server;
 
     private AttackMessageHandler attackMessageHandler;
+    
+    private boolean inLobby;
 
 
     /**
@@ -88,6 +90,7 @@ public class Main extends VRApplication {
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(lobbyState);
+        inLobby = true;
 
         // Probably not the right spot, but I'll put this here for now.
         attackMessageHandler = new AttackMessageHandler(this);
@@ -193,6 +196,42 @@ public class Main extends VRApplication {
     public ServerWrapper getServer() {
     	return server;
     }
+    
+    /**
+     * Sets the boolean inLobby.
+     * @param inLobby used to check whether or not the program is in the lobby.
+     */
+    public void setInLobby(boolean inLobby) {
+        this.inLobby = inLobby;
+    }
+    
+    /**
+     * Getter for inLobby
+     * @return a boolean value that tells whether or not the program is in the lobby.
+     */
+    public boolean getInLobby() {
+        return inLobby;
+    }
+    
+    /**
+     * Makes the game switch to the level.
+     */
+    public void toMainEnvironment() {
+        setInLobby(false);
+        lobbyState.cleanup();
+        this.getStateManager().attach(environmentState);
+        this.getStateManager().detach(lobbyState);
+    }
+    
+    /**
+     * Makes the game switch to the lobby.
+     */
+    public void toLobby() {
+        setInLobby(true);
+        environmentState.cleanup();
+        this.getStateManager().attach(lobbyState);
+        this.getStateManager().detach(environmentState);
+    }
 
     /**
      * Executes an attack using a player's position and direction of attack.
@@ -213,7 +252,7 @@ public class Main extends VRApplication {
     public static void setMain(Main newMain) {
         main = newMain;
     }
-
+    
     /**
      * Sets the current inputHandler.
      * Used for testing ONLY.
@@ -235,11 +274,11 @@ public class Main extends VRApplication {
     // TESTS NEED TO BE ALTERED, SINCE THE MENU IS GOING TO BE REPLACED.
     
     /**
-     * Sets the current mainmenu state.
+     * Sets the current lobby state.
      * Used for testing ONLY.
-     * @param newMainMenuState the new main menu state.
+     * @param newLobbyState the new lobby state.
      */
-    /*public void setMainMenuState(MainMenu newMainMenuState) {
-        mainMenuState = newMainMenuState;
-    }*/
+    public void setLobby(LobbyEnvironment newLobbyState) {
+        lobbyState = newLobbyState;
+    }
 }

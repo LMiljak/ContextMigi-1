@@ -41,6 +41,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import static org.mockito.Mockito.times;
 
 /**
  * Test class that tests the MainEnvironment class.
@@ -290,6 +291,6 @@ public class TestMainEnvironment {
         Mockito.verify(viewPort).clearProcessors();
     }
 
-
+    
 
 }

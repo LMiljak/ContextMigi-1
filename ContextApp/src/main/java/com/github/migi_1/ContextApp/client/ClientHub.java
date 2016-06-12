@@ -4,6 +4,7 @@
  */
 package com.github.migi_1.ContextApp.client;
 
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import java.util.concurrent.Executors;
 
 /**
@@ -14,6 +15,7 @@ public class ClientHub {
 
     private ClientWrapper clientWrapper;
     private static volatile ClientHub INSTANCE = new ClientHub();
+    private PlatformPosition position;
 
     /**
      * Constructor for the clienthub.
@@ -30,5 +32,13 @@ public class ClientHub {
 
     public ClientWrapper getClientWrapper() {
         return clientWrapper;
+    }
+    
+    public void setPosition(PlatformPosition newPos) {
+        position = newPos;
+    }
+    
+    public PlatformPosition getPosition() {
+        return position;
     }
 }

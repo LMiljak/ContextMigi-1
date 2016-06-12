@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.github.migi_1.ContextApp.PositionHolder;
 import com.github.migi_1.ContextApp.R;
 import com.github.migi_1.ContextApp.client.ClientHub;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
@@ -33,6 +34,7 @@ public class RotateBugSprayActivity extends Activity {
     protected void onResume() {
         Log.d("rotate", "============RESUMING EVENT=========");
         super.onResume();
+        position = (PlatformPosition) getIntent().getExtras().get("Position");
 
         setUI();
     }
@@ -47,7 +49,6 @@ public class RotateBugSprayActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Log.d("rotate", "STARTING EVENT");
         super.onCreate(savedInstanceState);
-        position = (PlatformPosition) getIntent().getExtras().get("Position");
         setContentView(R.layout.android_event_bugs);
         clientEvent = clientHub.getClientWrapper();
     }
@@ -55,6 +56,7 @@ public class RotateBugSprayActivity extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (spray.getVisibility() == View.VISIBLE) {
+            Log.d("rotate", "trackSwipe starting");
             trackSwipe(event);
         }
         return false;
@@ -69,15 +71,18 @@ public class RotateBugSprayActivity extends Activity {
             case (MotionEvent.ACTION_DOWN) :
                 x1 = event.getX();
                 y1 = event.getY();
+                Log.d("rotate", "Action down ended");
                 break;
             case (MotionEvent.ACTION_UP) :
                 x2 = event.getX();
                 y2 = event.getY();
 
+                Log.d("rotate", "Action up event coords registered");
                 float deltaHorizontal = x2 - x1;
                 float deltaVertical = y2 - y1;
                 EnableSprayToVRMessage sprayMessage = null;
-
+                Log.d("rotate", "Starting switch case");
+                Log.d("rotate", "Position: " + position);
                 switch (position) {
                     case BACKLEFT: 
                         if (swipeUp(deltaHorizontal, deltaVertical)) {
@@ -111,8 +116,11 @@ public class RotateBugSprayActivity extends Activity {
                         throw new IllegalStateException("Unknown position: " + position);
                 }
                 if (sprayMessage != null && clientEvent.getClient().isStarted()) {
+                    Log.d("rotate", "sending spray message");
                     clientEvent.getClient().send(sprayMessage);
+                    Log.d("rotate", "disabling spray");
                     disableSprayButton();
+                    Log.d("rotate", "spray should be disabled now");
                 }
                 break;
             default:

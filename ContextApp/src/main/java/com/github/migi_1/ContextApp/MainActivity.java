@@ -107,9 +107,6 @@ public class MainActivity extends AndroidHarness {
         super.onStop();  
         // unregister the sensor listener
         mSensorManager.unregisterListener(accelerometerSensor);
-        
-        // clear the position
-        posHolder.clearPosition();
     } 
     
     /**
@@ -202,7 +199,7 @@ public class MainActivity extends AndroidHarness {
             eventStarted = true;
             Log.d("rotate", "STARTING BUG EVENT!!!");
             Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
-            nextScreen.putExtra("Position", posHolder.getPosition());
+            nextScreen.putExtra("Position", position);
             nextScreen.putExtra("BugPosition", getRandomPosition());
             nextScreen.putExtra("SprayPosition", getRandomPosition());
             startActivity(nextScreen);

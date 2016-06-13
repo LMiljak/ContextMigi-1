@@ -1,7 +1,5 @@
 package com.github.migi_1.Context.model.entity;
 
-
-
 import java.util.ArrayList;
 
 import com.github.migi_1.Context.main.Main;
@@ -29,27 +27,26 @@ public class Carrier extends Entity implements IKillable {
 
     private Main main;
     private HealthMessenger healthMessenger;
-    
+
     private int health;
 
     private PlatformPosition position;
-    
+
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
-    
+
     /**
      * Constructor of the carrier.
      * @param relativeLocation location relative to the commander
      * @param position The position of the carrier under the platform.
      * @param environment The environment to follow
      */
-    public Carrier(Vector3f relativeLocation, PlatformPosition position, 
+    public Carrier(Vector3f relativeLocation, PlatformPosition position,
             MainEnvironment environment) {
         super();
 
         enemySpots = new ArrayList<EnemySpot>();
-
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
@@ -64,7 +61,7 @@ public class Carrier extends Entity implements IKillable {
         this.position = position;
         this.environment = environment;
         createEnemyLocations();
-        
+
     }
 
     private void createEnemyLocations() {
@@ -89,7 +86,7 @@ public class Carrier extends Entity implements IKillable {
         health = h;
         healthMessenger.sendHealth(getHealth(), getPosition());
     }
-    
+
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
@@ -100,7 +97,7 @@ public class Carrier extends Entity implements IKillable {
 
     /**
      * Gets the position of this Carrier under the Platform.
-     * 
+     *
      * @return
      * 		The position of this Carrier under the Platform.
      */
@@ -119,15 +116,19 @@ public class Carrier extends Entity implements IKillable {
     }
 
     /**
+     * This function sends the health value to the right android app.
+     */
+    public void sendHealth() {
+        // TODO
+    }
+
+    /**
      * Get relativeLocation attribute.
      * @return relativeLocation attribute
      */
     public Vector3f getRelativeLocation() {
         return relativeLocation;
     }
-
-
-
 
     /**
      * @return the enemySpots
@@ -136,16 +137,13 @@ public class Carrier extends Entity implements IKillable {
         return enemySpots;
     }
 
-
-
     /**
      * @param enemySpots the enemySpots to set
      */
     public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
         this.enemySpots = enemySpots;
     }
-    
-    
+
     /**
      * Getter for healthMessenger.
      * @return healthMessenger HealthMessenger

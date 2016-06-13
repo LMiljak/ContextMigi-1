@@ -13,9 +13,9 @@ import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.utility.Filter;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-import com.github.migi_1.Context.utility.Filter;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -52,7 +52,6 @@ public class TestCommander extends TestEntity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);

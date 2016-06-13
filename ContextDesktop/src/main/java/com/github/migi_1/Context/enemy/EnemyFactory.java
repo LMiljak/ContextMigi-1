@@ -9,16 +9,14 @@ import com.jme3.math.Vector3f;
 
 /**
  * This class is a factory that produces Enemy objects.
- * @author Damian
- *
  */
 public class EnemyFactory {
-    
+
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
     private float levelPieceWidth;
     private ArrayList<Carrier> carriers;
-    
+
     /**
      * Constructor of the EnemyFactory.
      * @param carriers the carriers on which the spawning will be based.
@@ -30,7 +28,7 @@ public class EnemyFactory {
         this.levelPieceWidth = levelPieceBoundingBox.getCenter().z;
         this.carriers = carriers;
     }
-    
+
     /**
      * Creates an enemy at the left side of the path, 2 levelPieces ahead of the commander.
      * @param currentLevelPiece to calculate where to spawn the enemy
@@ -40,11 +38,11 @@ public class EnemyFactory {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
                 carriers.get(0).getModel().getLocalTranslation().y,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers); 
+                carriers);
         enemy.getModel().rotate(0, (float) Math.PI, 0);
         return enemy;
     }
-    
+
     /**
      * Creates an enemy at the left side of the path, 2 levelPieces ahead of the commander.
      * @param currentLevelPiece to calculate where to spawn the enemy
@@ -54,11 +52,11 @@ public class EnemyFactory {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
                 + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers);        
+                carriers);
         enemy.getModel().rotate(0, (float) Math.PI, 0);
         return enemy;
     }
-    
+
     /**
      * Creates an enemy at the left side of the path, 2.5 levelPieces ahead of the commander.
      * @param currentLevelPiece to calculate where to spawn the enemy
@@ -68,9 +66,6 @@ public class EnemyFactory {
         return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
                 + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers); 
+                carriers);
     }
-
-
-
 }

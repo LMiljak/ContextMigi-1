@@ -204,17 +204,6 @@ public class MainActivity extends AndroidHarness {
      */
     private PlatformPosition getRandomPosition() {
         int randomNumber = new Random().nextInt(4);
-        switch (randomNumber) {
-            case 0:
-                return PlatformPosition.BACKLEFT;
-            case 1:
-                return PlatformPosition.BACKRIGHT;
-            case 2:
-                return PlatformPosition.FRONTLEFT;
-            case 3:
-                return PlatformPosition.FRONTRIGHT;
-            default:
-                throw new IllegalStateException("Wrong number: " + randomNumber);
-        }
+        return PlatformPosition.values()[randomNumber];
     }
 }

@@ -60,6 +60,14 @@ public class MainEnvironment extends Environment {
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
+    //This value is the time in milliseconds (1 second = 1000 ms).
+    private static final long LOWER_BOUND_EVENT_TIME = 20000;
+
+    //This value is in milliseconds.
+    //It sort of sets the upper bound of the event time,
+    //using formula: LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME.
+    private static final int RANGE_EVENT_TIME = 10000;
+
     private Application app;
     private Platform platform;
     private Commander commander;
@@ -205,10 +213,12 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Sets the randomEvent time to 20-30 seconds from the current time.
+     * Sets the randomEvent time to
+     * LOWER_BOUND_EVENT_TIME to (LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME)
+     * seconds from the current time.
      */
     private void setNewRandomEventTime() {
-        randomEventTime = System.currentTimeMillis() + new Random().nextInt(10) * 1000 + 20000;
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(RANGE_EVENT_TIME) + LOWER_BOUND_EVENT_TIME;
     }
 
     /**

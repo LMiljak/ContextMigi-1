@@ -24,7 +24,6 @@ public class StopEventMessageHandler extends MessageListener<StopEventToVRMessag
 
     @Override
     public void messageReceived(Object source, StopEventToVRMessage message) {
-        System.out.println("Message received, stopping event!");
         main.handleStopBugEvent();
     }
 

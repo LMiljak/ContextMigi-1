@@ -161,11 +161,8 @@ public class Main extends VRApplication {
     public void handleStopBugEvent() {
         Server sendServer = server.getServer();
         StopAllEventsMessage stopMsg = new StopAllEventsMessage();
-        System.out.println(server.getServer().getConnections().size());
         if (sendServer.isRunning() && bugEventRunning) {
-            System.out.println("Stop message sending");
             sendServer.broadcast(stopMsg);
-            System.out.println("Stop message sent");
             bugEventRunning = false;
         }
     }

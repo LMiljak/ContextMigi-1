@@ -3,6 +3,7 @@ package com.github.migi_1.ContextApp;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -224,6 +225,25 @@ public class MainActivity extends AndroidHarness {
      */
     public void setCooldown(boolean cooldown) {
         this.cooldown = cooldown;
+    }
+    
+    /**
+     * Checks whether or not the carrier's attack has hit or not and calls the 
+     * functions corresponding to the boolean value.
+     * @param hit 
+     *          whether or not the attack was successful
+     */
+    public void hitMiss(boolean hit) {
+        if (hit == true) {
+                // Sound effect hit
+                Log.d("attack", "missed");
+            }
+            else {
+                // Sound effect miss
+                Log.d("attack", "succesful");
+                setCooldown(true);
+                setCooldown(false);
+            }
     }
     
 }

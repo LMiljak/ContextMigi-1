@@ -4,8 +4,6 @@ import android.util.Log;
 import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class handles HitMissMessages and gives the player cooldown depending
@@ -36,16 +34,7 @@ public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     public void messageReceived(Object source, HitMissMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
-            if (message.getHit() == true) {
-                // Sound effect hit
-                Log.d("attack", "missed");
-            }
-            else {
-                // Sound effect miss
-                Log.d("attack", "attack succesful");
-                main.setCooldown(true);
-                main.setCooldown(false);
-            }
+            main.hitMiss(message.getHit());
         }
     }
     

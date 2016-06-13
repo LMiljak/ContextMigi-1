@@ -42,7 +42,7 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
     @Override
     public void messageReceived(Object source, AttackMessage message) {
         PlatformPosition pos = message.getPosition();
-        if(position.equals(pos)) {
+        if (position.equals(pos)) {
             String dir = message.getDirection();
             carrier.handleAttack(dir);
         }

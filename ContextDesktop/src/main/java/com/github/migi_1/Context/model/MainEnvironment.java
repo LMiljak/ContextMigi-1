@@ -196,7 +196,7 @@ public class MainEnvironment extends Environment {
             //The server is running.
             //There is no other bug event currently running
             //There are 4 people connected.
-            if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() == 4) {
+            if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
                 getMain().setBugEventRunning(true);
                 server.broadcast(startMessage);
             }

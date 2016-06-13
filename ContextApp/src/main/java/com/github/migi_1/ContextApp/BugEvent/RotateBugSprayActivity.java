@@ -206,20 +206,22 @@ public class RotateBugSprayActivity extends Activity {
         //Add the spray text and the bug button. 
         spray = (TextView) findViewById(R.id.eventBug_spray);
         bug = (Button) findViewById(R.id.eventBug_bug);
-        spray.setVisibility(View.GONE);
-        bug.setVisibility(View.GONE);
+        //This is for testing only,
+        //After pr, we want this to be set to view.GONE
+        spray.setVisibility(View.VISIBLE);
+        bug.setVisibility(View.VISIBLE);
 
         //Get the initial positions for the bug and spray. 
         PlatformPosition bugPosition = (PlatformPosition) getIntent().getExtras().get("BugPosition");
         PlatformPosition sprayPosition = (PlatformPosition) getIntent().getExtras().get("SprayPosition");
 
         //Set the positions to visible when the given position is the current position. 
-        if (position == bugPosition) {
-            bug.setVisibility(View.VISIBLE);
-        }
-        if (position == sprayPosition) {
-            spray.setVisibility(View.VISIBLE);
-        }
+//        if (position == bugPosition) {
+//            bug.setVisibility(View.VISIBLE);
+//        }
+//        if (position == sprayPosition) {
+//            spray.setVisibility(View.VISIBLE);
+//        }
 
         //Add a listener for the bug button. 
         bug.setOnClickListener(new View.OnClickListener() {

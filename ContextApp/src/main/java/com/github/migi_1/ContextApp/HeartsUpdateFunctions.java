@@ -1,7 +1,5 @@
 package com.github.migi_1.ContextApp;
 
-import android.widget.ImageView;
-
 /**
  * Contains functions which changes the hearts that represent the 
  * player's health.

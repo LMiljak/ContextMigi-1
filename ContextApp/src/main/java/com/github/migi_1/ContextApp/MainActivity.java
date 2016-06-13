@@ -178,7 +178,7 @@ public class MainActivity extends AndroidHarness {
             @Override
             public void onClick(View v) {
                 
-                if(cooldown == false) {
+                if (!cooldown) {
                     atkMessenger.sendAttack(posHolder.getPosition(), string);
                 }
                     
@@ -228,7 +228,7 @@ public class MainActivity extends AndroidHarness {
     }
     
     /**
-     * Setter for cooldown
+     * Setter for cooldown.
      * @param cooldown 
      *              Boolean that determines whether or not a player can use attacks.
      */
@@ -264,10 +264,13 @@ public class MainActivity extends AndroidHarness {
         switch (heartid) {
             case 1:
                 img1.setImageResource(R.drawable.heart_red);
+                break;
             case 2:
                 img2.setImageResource(R.drawable.heart_red);
+                break;
             case 3:
                 img3.setImageResource(R.drawable.heart_red);
+                break;
             default:
                 throw new IllegalArgumentException();
         }
@@ -283,10 +286,13 @@ public class MainActivity extends AndroidHarness {
         switch (heartid) {
             case 1:
                 img1.setImageResource(R.drawable.heart_grey);
+                break;
             case 2:
                 img2.setImageResource(R.drawable.heart_grey);
+                break;
             case 3:
                 img3.setImageResource(R.drawable.heart_grey);
+                break;
             default:
                 throw new IllegalArgumentException();
         }

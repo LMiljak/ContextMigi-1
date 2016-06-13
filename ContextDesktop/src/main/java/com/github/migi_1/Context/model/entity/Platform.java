@@ -1,8 +1,4 @@
 package com.github.migi_1.Context.model.entity;
-import static com.github.migi_1.ContextMessages.PlatformPosition.BACKLEFT;
-import static com.github.migi_1.ContextMessages.PlatformPosition.BACKRIGHT;
-import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTLEFT;
-import static com.github.migi_1.ContextMessages.PlatformPosition.FRONTRIGHT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +8,8 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.PlatformRotateBehaviour;
 import com.github.migi_1.Context.utility.AverageVectorAggregator;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.utility.SummingVectorAggregator;
@@ -24,12 +22,13 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Platform extends Entity {
+public class Platform extends Entity implements IRotatable {
 
     private static final String PATHNAME = "Models/testPlatform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
     private CarrierAssigner carrierAssigner;
+    private RotateBehaviour rotateBehaviour;
     
     /**
      * Constructor of the platform.
@@ -44,7 +43,15 @@ public class Platform extends Entity {
         super();
         
         this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
+
+        ArrayList<AccelerometerMoveBehaviour> carrierBehaviours = new ArrayList<>(4);
+        for (PlatformPosition position : PlatformPosition.values()) {
+        	carrierBehaviours.add(
+        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(position)))
+        	);
+        }
         		
+        
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(
@@ -53,13 +60,15 @@ public class Platform extends Entity {
         		new AcceleratingMoveBehaviour(MOVE_VECTOR), //Responsible for going forwards
         		new MultiMoveBehaviour(//Responsible for steering
         			new AverageVectorAggregator(),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(BACKLEFT))),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(BACKRIGHT))),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(FRONTLEFT))),
-        			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(FRONTRIGHT)))
+        			carrierBehaviours.get(0),
+        			carrierBehaviours.get(1),
+        			carrierBehaviours.get(2),
+        			carrierBehaviours.get(3)
         		)
         	)
         );
+        
+        this.rotateBehaviour = new PlatformRotateBehaviour(carrierBehaviours, getModel().getLocalRotation());
     }
 
     /**
@@ -114,6 +123,11 @@ public class Platform extends Entity {
         }
         return results;
     }
+
+	@Override
+	public RotateBehaviour getRotateBehaviour() {
+		return rotateBehaviour;
+	}
 
 
 

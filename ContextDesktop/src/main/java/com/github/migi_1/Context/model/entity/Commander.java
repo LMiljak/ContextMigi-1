@@ -1,6 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -13,24 +13,26 @@ import com.jme3.scene.Spatial;
  * @author Damian
  *
  */
-public class Commander extends Camera {
+public class Commander extends Camera implements IRotatable {
 
     //String of the path to the commander model
     private static final String PATHNAME = "Models/ninja.j3o";
+    private RotateBehaviour rotateBehaviour;
 
     /**
      * Constructor of the commander.
      * @param startLocation 
      * 		startLocation location where the Commander will be initialised
-     * @param platformBehaviour
-     * 		The behaviour of the platform on which this commander is standing.
+     * @param platform
+     * 		The platform on which the Commander is standing.
      */
-    public Commander(Vector3f startLocation, MoveBehaviour platformBehaviour) {
+    public Commander(Vector3f startLocation, Platform platform) {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         
-        setMoveBehaviour(platformBehaviour);
+        setMoveBehaviour(platform.getMoveBehaviour());
+        rotateBehaviour = platform.getRotateBehaviour();
     }
 
 
@@ -38,5 +40,11 @@ public class Commander extends Camera {
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
+
+
+	@Override
+	public RotateBehaviour getRotateBehaviour() {
+		return rotateBehaviour;
+	}
 
 }

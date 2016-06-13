@@ -20,6 +20,7 @@ import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -65,7 +66,8 @@ public class TestPlatform extends TestEntity {
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-
+        Mockito.when(model.getLocalRotation()).thenReturn(new Quaternion(0, 0, 0, 0));
+        
         platform = new Platform(new Vector3f(0, 0, 0), Mockito.mock(MainEnvironment.class));
 
         setMoveBehaviour(moveBehaviour);

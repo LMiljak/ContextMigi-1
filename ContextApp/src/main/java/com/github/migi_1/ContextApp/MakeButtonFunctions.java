@@ -11,9 +11,8 @@ public class MakeButtonFunctions {
     
     private MainActivity act;
     
-    private Button left;
-    private Button middle;
-    private Button right;
+    private Button left, middle, right;
+    
     
     /**
      * This creates an instance of the MakeButtonFunctions.

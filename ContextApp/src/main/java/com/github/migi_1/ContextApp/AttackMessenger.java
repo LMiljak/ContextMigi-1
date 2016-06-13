@@ -26,7 +26,7 @@ public class AttackMessenger {
      * Creates an AttackMessage and sends it to the server.
      * @param position
      * 			the PlatformPosition of the player who's attacking.
-     * @param direcion
+     * @param direction
      * 			the direction in which the player is attacking (String).
      */
     public void sendAttack(PlatformPosition position, String direction) {

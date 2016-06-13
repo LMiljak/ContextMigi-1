@@ -10,11 +10,12 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.utility.Filter;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
-import com.github.migi_1.Context.utility.Filter;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
@@ -52,7 +53,6 @@ public class TestCommander extends TestEntity {
             e.printStackTrace();
         }
 
-
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
@@ -62,7 +62,7 @@ public class TestCommander extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCommander = new Commander(new Vector3f(0, 0, 0), moveBehaviour);
+        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(Platform.class));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCommander);

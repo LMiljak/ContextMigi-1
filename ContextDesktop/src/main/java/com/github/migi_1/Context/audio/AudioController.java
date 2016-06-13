@@ -46,14 +46,6 @@ public class AudioController {
     }
 
     /**
-     * Setter for the background music.
-     * @param backgroundMusic Music to set.
-     */
-    public void setBackgroundMusic(AudioNode backgroundMusic) {
-        this.backgroundMusic = backgroundMusic;
-    }
-
-    /**
      * Mute or unmute the background music.
      */
     public void mute() {

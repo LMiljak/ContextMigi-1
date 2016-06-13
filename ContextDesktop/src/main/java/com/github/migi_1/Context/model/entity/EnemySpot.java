@@ -103,6 +103,7 @@ public class EnemySpot {
      */
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
+        setOccupied(true);
     }
 
     /**
@@ -110,11 +111,6 @@ public class EnemySpot {
      */
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
-    }
+    }  
     
-    
-    
-    
-    
-        
 }

@@ -11,7 +11,6 @@ import com.jme3.math.Vector3f;
  */
 public class MovingObstacleMoveBehaviour extends MoveBehaviour {
 
-    private Vector3f moveVector;
 
     private boolean goingLeft;
 
@@ -30,7 +29,7 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
      * @param rightBound BoundingBox of the right side
      */
     public MovingObstacleMoveBehaviour(MovingObstacle movingObstacle, BoundingBox leftBound, BoundingBox rightBound) {
-        this.moveVector = baseVector;
+        setMoveVector(baseVector);
         this.goingLeft = true;
         this.leftBound = getBound(leftBound);
         this.rightBound = getBound(rightBound);
@@ -43,18 +42,13 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
         //if exceeding bounds to the left, go to the right
         if (movingObstacle.getModel().getLocalTranslation().z > leftBound) {
             goingLeft = false;
-            moveVector = baseVector.mult(-1);
+            setMoveVector(baseVector.mult(-1));
         }
         //if exceeding bounds to the right, go to the left
         if (movingObstacle.getModel().getLocalTranslation().z < rightBound) {
             goingLeft = true;
-            moveVector = baseVector;
+            setMoveVector(baseVector);
         }
-    }
-
-    @Override
-    public Vector3f getMoveVector() {
-        return moveVector;
     }
 
     /**

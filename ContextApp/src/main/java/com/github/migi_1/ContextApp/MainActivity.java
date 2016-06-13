@@ -154,7 +154,6 @@ public class MainActivity extends AndroidHarness {
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         huFunctions = new HeartsUpdateFunctions(this);
-        healthListener = new HealthMessageHandler(this);
         hitMissListener = new HitMissMessageHandler(this);
         
         setContentView(R.layout.android_ingame);

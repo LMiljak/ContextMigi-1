@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -53,8 +52,7 @@ public class MainActivity extends AndroidHarness {
     }
 
     @Override  
-    public void onCreate(Bundle savedInstanceState) {  
-        Log.d("rotate", "Main activity: CREATING");
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //instantiate the application
@@ -85,8 +83,7 @@ public class MainActivity extends AndroidHarness {
     * This method runs the app is resumed.
     */
     @Override  
-    public void onResume() {  
-        Log.d("rotate", "======MAIN ACTIVITY RESUMING=====");
+    public void onResume() {
         super.onResume();
         setContentView(R.layout.android_ingame);
 
@@ -102,10 +99,7 @@ public class MainActivity extends AndroidHarness {
     
     @Override
     protected void onStop() {
-        Log.d("rotate", "Main activtity stopping");
-        super.onStop();  
-        // unregister the sensor listener
-        mSensorManager.unregisterListener(accelerometerSensor);
+        super.onStop();
     } 
     
     /**
@@ -196,7 +190,6 @@ public class MainActivity extends AndroidHarness {
     public void startBugEvent() {
         if (!eventStarted) {
             eventStarted = true;
-            Log.d("rotate", "STARTING BUG EVENT!!!");
             Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
             nextScreen.putExtra("Position", position);
             nextScreen.putExtra("BugPosition", getRandomPosition());

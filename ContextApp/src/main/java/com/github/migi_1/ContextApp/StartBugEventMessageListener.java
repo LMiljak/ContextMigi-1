@@ -1,6 +1,5 @@
 package com.github.migi_1.ContextApp;
 
-import android.util.Log;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 
@@ -23,7 +22,6 @@ public class StartBugEventMessageListener extends MessageListener<StartBugEventM
     
     @Override
     public void messageReceived(Object source, StartBugEventMessage message) {
-        Log.d("rotate", "START MESSAGE RECEIVED: starting the Random event!");
         main.startBugEvent();
     }
 

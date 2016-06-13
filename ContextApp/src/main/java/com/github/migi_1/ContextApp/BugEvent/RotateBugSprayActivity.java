@@ -2,7 +2,6 @@ package com.github.migi_1.ContextApp.BugEvent;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +28,6 @@ public class RotateBugSprayActivity extends Activity {
 
     @Override
     protected void onResume() {
-        Log.d("rotate", "============RESUMING EVENT=========");
         super.onResume();
         position = (PlatformPosition) getIntent().getExtras().get("Position");
 
@@ -38,13 +36,11 @@ public class RotateBugSprayActivity extends Activity {
 
     @Override
     protected void onStop() {
-        Log.d("rotate", "STOPPING EVENT");
         super.onStop();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("rotate", "STARTING EVENT");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.android_event_bugs);
         clientEvent = clientHub.getClientWrapper();
@@ -53,7 +49,6 @@ public class RotateBugSprayActivity extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (spray.getVisibility() == View.VISIBLE) {
-            Log.d("rotate", "trackSwipe starting");
             trackSwipe(event);
         }
         return false;
@@ -68,18 +63,14 @@ public class RotateBugSprayActivity extends Activity {
             case (MotionEvent.ACTION_DOWN) :
                 x1 = event.getX();
                 y1 = event.getY();
-                Log.d("rotate", "Action down ended");
                 break;
             case (MotionEvent.ACTION_UP) :
                 x2 = event.getX();
                 y2 = event.getY();
 
-                Log.d("rotate", "Action up event coords registered");
                 float deltaHorizontal = x2 - x1;
                 float deltaVertical = y2 - y1;
                 EnableSprayToVRMessage sprayMessage = null;
-                Log.d("rotate", "Starting switch case");
-                Log.d("rotate", "Position: " + position);
                 switch (position) {
                     case BACKLEFT: 
                         if (swipeUp(deltaHorizontal, deltaVertical)) {
@@ -113,11 +104,8 @@ public class RotateBugSprayActivity extends Activity {
                         throw new IllegalStateException("Unknown position: " + position);
                 }
                 if (sprayMessage != null && clientEvent.getClient().isStarted()) {
-                    Log.d("rotate", "sending spray message");
                     clientEvent.getClient().send(sprayMessage);
-                    Log.d("rotate", "disabling spray");
                     disableSprayButton();
-                    Log.d("rotate", "spray should be disabled now");
                 }
                 break;
             default:
@@ -144,7 +132,6 @@ public class RotateBugSprayActivity extends Activity {
      * Stop the bug event.
      */
     public void stopEvent() {
-        Log.d("rotate", "Stopping EVENT received msg");
         finish();
     }
 
@@ -212,43 +199,37 @@ public class RotateBugSprayActivity extends Activity {
      * Sets the UI of the android app bugEvent, including buttons and listeners.
      */
     private void setUI() {
-        Log.d("rotate", "SET UI");
         //Initialize the listeners.
         new StopAllEventsMessageListener(this);
         new EnableSprayAppMessageHandler(this);
-        Log.d("rotate", "Listeners enabled");
 
         //Add the spray text and the bug button. 
         spray = (TextView) findViewById(R.id.eventBug_spray);
         bug = (Button) findViewById(R.id.eventBug_bug);
-        spray.setVisibility(View.VISIBLE);
-        bug.setVisibility(View.VISIBLE);
+        spray.setVisibility(View.GONE);
+        bug.setVisibility(View.GONE);
 
-        Log.d("rotate", "Buttons added");
         //Get the initial positions for the bug and spray. 
         PlatformPosition bugPosition = (PlatformPosition) getIntent().getExtras().get("BugPosition");
         PlatformPosition sprayPosition = (PlatformPosition) getIntent().getExtras().get("SprayPosition");
 
-        Log.d("rotate", "" + bugPosition);
-        Log.d("rotate", "" + sprayPosition);
         //Set the positions to visible when the given position is the current position. 
-//        if (position == bugPosition) {
-//            bug.setVisibility(View.VISIBLE);
-//        }
-//        if (position == sprayPosition) {
-//            spray.setVisibility(View.VISIBLE);
-//        }
+        if (position == bugPosition) {
+            bug.setVisibility(View.VISIBLE);
+        }
+        if (position == sprayPosition) {
+            spray.setVisibility(View.VISIBLE);
+        }
 
         //Add a listener for the bug button. 
         bug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (spray.getVisibility() == View.VISIBLE && bug.getVisibility() == View.VISIBLE) {
+                    //Spray and button are both visible on screen. 
                     //Send a stop message to the server. 
                     StopEventToVRMessage stopMessage = new StopEventToVRMessage();
-                    Log.d("rotate", "Sending stop event message? " + clientEvent.getClient().isStarted());
                     if (clientEvent.getClient().isStarted()) {
-                        Log.d("rotate", "Sending stopevent message");
                         clientEvent.getClient().send(stopMessage);
                     }
                 }

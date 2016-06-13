@@ -1,6 +1,5 @@
 package com.github.migi_1.ContextApp.BugEvent;
- 
-import android.util.Log;
+
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
 
@@ -24,7 +23,6 @@ public class StopAllEventsMessageListener extends MessageListener<StopAllEventsM
 
     @Override
     public void messageReceived(Object source, StopAllEventsMessage message) {
-        Log.d("rotate", "STOP MESSAGE RECEIVED, STOPPING EVENT!");
         bugActivity.stopEvent();
     }
     

@@ -25,7 +25,7 @@ public final class VRConfigurer {
         // use full screen distortion, maximum FOV, possibly quicker (not compatible with instancing)
         main.preconfigureVRApp(PRECONFIG_PARAMETER.USE_CUSTOM_DISTORTION, false);
         // runs faster when set to false, but will allow mirroring
-        main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, false);
+        main.preconfigureVRApp(PRECONFIG_PARAMETER.ENABLE_MIRROR_WINDOW, true);
         // render two eyes, regardless of SteamVR
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
         // you can downsample for performance reasons

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +30,13 @@ public class MainActivity extends AndroidHarness {
     private AccelerometerSensor accelerometerSensor;
     private PositionHolder posHolder;
     private AttackMessenger atkMessenger;
+    private HealthMessageHandler healthListener;
+    private HitMissMessageHandler hitMissListener;
     private HeartsUpdateFunctions huFunctions;
     private MakeButtonFunctions mbFunctions;
     private PlatformPosition position;
     private ClientWrapper client;
+    private ImageView img1, img2, img3;
     private boolean cooldown;
         
     /**
@@ -70,8 +74,6 @@ public class MainActivity extends AndroidHarness {
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        
-        setContentView(R.layout.android_searching);  
 
         client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
                 .autoStart(Executors.newFixedThreadPool(10), this);
@@ -103,6 +105,12 @@ public class MainActivity extends AndroidHarness {
     @Override  
     protected void onResume() {  
         super.onResume();
+        
+        setContentView(R.layout.android_searching); 
+        
+        img3 = (ImageView) findViewById(R.id.Heart_1);
+        img3 = (ImageView) findViewById(R.id.Heart_2);
+        img3 = (ImageView) findViewById(R.id.Heart_3);
 
         client.startClient();
         client.getClient().addMessageListener(posHolder);
@@ -146,6 +154,8 @@ public class MainActivity extends AndroidHarness {
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         huFunctions = new HeartsUpdateFunctions(this);
+        healthListener = new HealthMessageHandler(this);
+        hitMissListener = new HitMissMessageHandler(this);
         
         setContentView(R.layout.android_ingame);
         
@@ -234,16 +244,54 @@ public class MainActivity extends AndroidHarness {
      *          whether or not the attack was successful
      */
     public void hitMiss(boolean hit) {
-        if (hit == true) {
-                // Sound effect hit
-                Log.d("attack", "missed");
-            }
-            else {
-                // Sound effect miss
-                Log.d("attack", "succesful");
-                setCooldown(true);
-                setCooldown(false);
-            }
+        if (hit) {
+            // Sound effect hit
+            Log.d("attack", "missed");
+        }
+        else {
+            // Sound effect miss
+            Log.d("attack", "successful");
+            setCooldown(true);
+            setCooldown(false);
+        }
+    }
+    
+    /**
+     * Makes a heart red.
+     * @param heartid the id of the heart which has its sprite changed
+     */
+    public void makeRed(int heartid) {
+        
+        switch (heartid) {
+            case 1:
+                img1.setImageResource(R.drawable.heart_red);
+            case 2:
+                img2.setImageResource(R.drawable.heart_red);
+            case 3:
+                img3.setImageResource(R.drawable.heart_red);
+            default:
+                throw new IllegalArgumentException();
+        }
+        
+    }
+
+    /**
+     * Makes a heart grey.
+     * @param heartid the id of the heart which has its sprite changed
+     */
+    public void makeGrey(int heartid) {
+        
+        switch (heartid) {
+            case 1:
+                img1.setImageResource(R.drawable.heart_grey);
+            case 2:
+                img2.setImageResource(R.drawable.heart_grey);
+            case 3:
+                img3.setImageResource(R.drawable.heart_grey);
+            default:
+                throw new IllegalArgumentException();
+        }
+
     }
     
 }

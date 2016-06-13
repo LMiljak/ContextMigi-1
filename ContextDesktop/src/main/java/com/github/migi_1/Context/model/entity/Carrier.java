@@ -195,6 +195,14 @@ public class Carrier extends Entity implements IKillable {
         }
     }
     
+    /**
+     * This function checks whether or not the player hits an enemy and
+     * performs an attack when it does.
+     * It also sends a HitMissMessage to the player.
+     * @param direction 
+     *              the direction of the attack, represented by an integer
+     *              (see function handleAttack)
+     */
     public void attack(int direction) {
         EnemySpot enemySpot = enemySpots.get(direction);
         Enemy enemy = enemySpot.getEnemy();

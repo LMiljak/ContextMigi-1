@@ -61,7 +61,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-        if(spot != null) {
+        if (spot != null) {
             spot.setEnemy(null);
             spot.setOccupied(false);
             spot = null;

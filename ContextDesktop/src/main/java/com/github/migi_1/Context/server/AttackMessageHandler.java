@@ -18,7 +18,11 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
     /**
      * Creates an AttackMessageHandler.
      * @param main
-     * 			the main application by which this function is called
+     * 			the main application in which this function is called
+     * @param carrier
+     *                  the carrier by which this function is called
+     * @param position
+     *                  the position of the carrier
      */
     @SuppressWarnings("unchecked")
     public AttackMessageHandler(Main main, Carrier carrier, PlatformPosition position) {

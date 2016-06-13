@@ -1,10 +1,8 @@
 package com.github.migi_1.Context.model.entity;
 
-
-
-import com.github.migi_1.Context.enemy.Enemy;
 import java.util.ArrayList;
 
+import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
@@ -40,23 +38,22 @@ public class Carrier extends Entity implements IKillable {
 
     private PlatformPosition position;
     private String side;
-    
+
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
-    
+
     /**
      * Constructor of the carrier.
      * @param relativeLocation location relative to the commander
      * @param position The position of the carrier under the platform.
      * @param environment The environment to follow
      */
-    public Carrier(Vector3f relativeLocation, PlatformPosition position, 
+    public Carrier(Vector3f relativeLocation, PlatformPosition position,
             MainEnvironment environment) {
         super();
 
         enemySpots = new ArrayList<EnemySpot>();
-
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
@@ -80,7 +77,7 @@ public class Carrier extends Entity implements IKillable {
         }
         this.environment = environment;
         createEnemyLocations();
-        
+
     }
 
     private void createEnemyLocations() {
@@ -105,7 +102,7 @@ public class Carrier extends Entity implements IKillable {
         health = h;
         healthMessenger.sendHealth(getHealth(), getPosition());
     }
-    
+
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
@@ -116,7 +113,7 @@ public class Carrier extends Entity implements IKillable {
 
     /**
      * Gets the position of this Carrier under the Platform.
-     * 
+     *
      * @return
      * 		The position of this Carrier under the Platform.
      */
@@ -132,6 +129,13 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+    }
+
+    /**
+     * This function sends the health value to the right android app.
+     */
+    public void sendHealth() {
+        // TODO
     }
 
     /**
@@ -155,7 +159,7 @@ public class Carrier extends Entity implements IKillable {
     public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
         this.enemySpots = enemySpots;
     }
-    
+
     /**
      * Getter for healthMessenger.
      * @return healthMessenger HealthMessenger

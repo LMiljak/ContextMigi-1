@@ -1,5 +1,10 @@
 package com.github.migi_1.ContextApp;
 
+
+import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
+
+import android.content.Intent;
+
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -12,18 +17,16 @@ import android.widget.Toast;
 
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextApp.client.ClientHub;
 import com.jme3.app.AndroidHarness;
-import java.util.concurrent.Executors;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
 /**
  * This class contains the main activity that is started you run the project.
- * 
- * @author Marcel
  */
 public class MainActivity extends AndroidHarness {
-        
 
     private Main application;
     private SensorManager mSensorManager;
@@ -35,56 +38,83 @@ public class MainActivity extends AndroidHarness {
     private HeartsUpdateFunctions huFunctions;
     private MakeButtonFunctions mbFunctions;
     private PlatformPosition position;
+    private ClientHub clientHub = ClientHub.getInstance();
+    private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
     private ImageView img1, img2, img3;
+    
     private boolean cooldown;
-        
+    private boolean eventStarted;
+
     /**
      * Configure the game instance that is launched and start the logger.
      */
     public MainActivity() {
 
-            
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
-            
-        //Create the accelerometer sensor.
-        accelerometerSensor = new AccelerometerSensor(this, client);
+
         posHolder = PositionHolder.getInstance();
-        
+
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
-        
     }
-    
-    /**
-     * Instanciate the game instance.
-     * Instanciate the sensor manager.
-     * @param savedInstanceState 
-     */
+
     @Override  
-    public void onCreate(Bundle savedInstanceState) {  
-        
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //instantiate the application
         application = (Main) getJmeApplication();
-        application.setDisplayFps(false);
-        application.setDisplayStatView(false);
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        client = com.github.migi_1.ContextApp.client.AutoConnector.getInstance()
-                .autoStart(Executors.newFixedThreadPool(10), this);
-            
-        // create te accelerometerSensor
-        accelerometerSensor = new AccelerometerSensor(this, client);
+        setContentView(R.layout.android_searching); 
+
+        clientHub.getClientWrapper().startClient();
+        
+        getClient().getClient().addMessageListener(posHolder);
+                
+        while (true) {
+            if (posHolder.getPosition() != null) {
+                position = posHolder.getPosition();
+                break;
+            }
+        }
         
         // set cooldown to false
         setCooldown(false);
-        
+
+        // create the accelerometerSensor
+        accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
+    
+   /**
+    * This method runs the app is resumed.
+    */
+    @Override  
+    public void onResume() {
+        super.onResume();
+        
+        img3 = (ImageView) findViewById(R.id.Heart_1);
+        img3 = (ImageView) findViewById(R.id.Heart_2);
+        img3 = (ImageView) findViewById(R.id.Heart_3);
+
+        // register the lister for the accelerometer
+        mSensorManager.registerListener(accelerometerSensor, 
+                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_FASTEST);
+
+        eventStarted = false;
+        
+        setUI();
+    }
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+    } 
     
     /**
      * Shows a 'toast' giving the player instructions on how to get the app to 
@@ -98,55 +128,7 @@ public class MainActivity extends AndroidHarness {
         toast.show();
         finish();
     }
-    
-   /**
-    * This method runs the app is resumed.
-    */
-    @Override  
-    protected void onResume() {  
-        super.onResume();
-        
-        setContentView(R.layout.android_searching); 
-        
-        img3 = (ImageView) findViewById(R.id.Heart_1);
-        img3 = (ImageView) findViewById(R.id.Heart_2);
-        img3 = (ImageView) findViewById(R.id.Heart_3);
 
-        client.startClient();
-        client.getClient().addMessageListener(posHolder);
-        
-        // register the lister for the accelerometer
-        mSensorManager.registerListener(accelerometerSensor, 
-                mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_FASTEST);
-        
-        while (true) {
-            if (posHolder.getPosition() != null) {
-                position = posHolder.getPosition();
-            	break;
-       	    }
-        }
-        
-        setUI();
-    }
-    
-    /**
-     * Closes the app.
-     */
-    @Override
-    protected void onStop() {  
-        // unregister the sensor listener
-        mSensorManager.unregisterListener(accelerometerSensor);
-        
-        // close the client
-        client.closeClient();
-        
-        // clear the position
-        posHolder.clearPosition();
-            
-        super.onStop();  
-    } 
-    
     /**
      * Sets the UI of the android app in-game, including buttons and images.
      */
@@ -157,21 +139,23 @@ public class MainActivity extends AndroidHarness {
         hitMissListener = new HitMissMessageHandler(this);
         
         setContentView(R.layout.android_ingame);
+
+        startBugEventListener = new StartBugEventMessageListener(this);
         
         TextView textView = (TextView) findViewById(R.id.Location);
         textView.setText(position.getPosition());
-        
+
         mbFunctions.setButtons(position);
     }
-    
+
     /**
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param string 
+     * @param name 
      *              message to be logged
      */
-    public void setButtonClick(Button button, final String string) {
+    public void setButtonClick(Button button, final String name) {
 
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -179,11 +163,10 @@ public class MainActivity extends AndroidHarness {
             public void onClick(View v) {
                 
                 if (!cooldown) {
-                    atkMessenger.sendAttack(posHolder.getPosition(), string);
+                    atkMessenger.sendAttack(posHolder.getPosition(), name);
                 }
                     
             }
-            
         });
     }
 
@@ -194,9 +177,9 @@ public class MainActivity extends AndroidHarness {
      *      The instance of this Application.
      */
     public Main getMain() {
-        
+
         return application;
-        
+
     }
 
     /**
@@ -204,27 +187,46 @@ public class MainActivity extends AndroidHarness {
      * @return posHolder
      */
     public PositionHolder getPosHolder() {
-        
         return posHolder;
-        
     }
-    
+
     /**
      * Returns the app's instance of the HeartsUpdateFunctions class.
      * @return huFunctions HeartsUpdateFunctions
      */
     public HeartsUpdateFunctions getHUFunctions() {
-        
         return huFunctions;
-        
     }
-    
+
     /**
      * Getter of client.
      * @return client ClientWrapper
      */
     public ClientWrapper getClient() {
-        return client;
+        return clientHub.getClientWrapper();
+    }
+
+    /**
+     * Starts the bug event. 
+     */
+    public void startBugEvent() {
+        if (!eventStarted) {
+            eventStarted = true;
+            Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
+            nextScreen.putExtra("Position", position);
+            nextScreen.putExtra("BugPosition", getRandomPosition());
+            nextScreen.putExtra("SprayPosition", getRandomPosition());
+            startActivity(nextScreen);
+        }
+    }
+
+    /**
+     * Retuns a random position. 
+     * @return a random platform position.
+     */
+    private PlatformPosition getRandomPosition() {
+        int randomNumber = new Random().nextInt(4);
+        return PlatformPosition.values()[randomNumber];
     }
     
     /**

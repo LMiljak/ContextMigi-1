@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:textColor="#ffffff" />
-
+    
     <Button
         android:layout_width="160dp"
         android:layout_height="100dp"

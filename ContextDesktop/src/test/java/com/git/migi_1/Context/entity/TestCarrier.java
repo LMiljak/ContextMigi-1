@@ -1,24 +1,25 @@
 package com.git.migi_1.Context.entity;
 
-import com.github.migi_1.Context.main.Main;
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import java.util.ArrayList;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -85,7 +86,7 @@ public class TestCarrier extends TestEntity {
         Platform platform = Mockito.mock(Platform.class);
         Mockito.when(environment.getPlatform()).thenReturn(platform);
         Mockito.when(platform.getMoveBehaviour()).thenReturn(new StaticMoveBehaviour());
-        
+
         testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
 
         setMoveBehaviour(moveBehaviour);
@@ -110,7 +111,7 @@ public class TestCarrier extends TestEntity {
     @Test
     public void takeDamageTest() {
         testCarrier.takeDamage(1);
-        assertEquals(testCarrier.getHealth(), 2);
+        assertEquals(2, testCarrier.getHealth());
     }
 
     /**

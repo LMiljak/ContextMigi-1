@@ -5,7 +5,7 @@ import com.github.migi_1.Context.model.entity.IKillable;
 
 /**
  * Class that defines what an Obstacle needs to implement.
- * 
+ *
  * @author Damian
  *
  */

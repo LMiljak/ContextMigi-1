@@ -19,6 +19,7 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextApp.client.ClientHub;
 import com.jme3.app.AndroidHarness;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -35,13 +36,12 @@ public class MainActivity extends AndroidHarness {
     private AttackMessenger atkMessenger;
     private HealthMessageHandler healthListener;
     private HitMissMessageHandler hitMissListener;
-    private HeartsUpdateFunctions huFunctions;
     private MakeButtonFunctions mbFunctions;
     private PlatformPosition position;
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
-    private ImageView img1, img2, img3;
+    private ArrayList<ImageView> images;
     
     private boolean cooldown;
     private boolean eventStarted;
@@ -97,9 +97,9 @@ public class MainActivity extends AndroidHarness {
     public void onResume() {
         super.onResume();
         
-        img3 = (ImageView) findViewById(R.id.Heart_1);
-        img3 = (ImageView) findViewById(R.id.Heart_2);
-        img3 = (ImageView) findViewById(R.id.Heart_3);
+        images.add((ImageView) findViewById(R.id.Heart_1));
+        images.add((ImageView) findViewById(R.id.Heart_2));
+        images.add((ImageView) findViewById(R.id.Heart_3));
 
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
@@ -135,7 +135,6 @@ public class MainActivity extends AndroidHarness {
     public void setUI() {
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
-        huFunctions = new HeartsUpdateFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
         
         setContentView(R.layout.android_ingame);
@@ -188,14 +187,6 @@ public class MainActivity extends AndroidHarness {
      */
     public PositionHolder getPosHolder() {
         return posHolder;
-    }
-
-    /**
-     * Returns the app's instance of the HeartsUpdateFunctions class.
-     * @return huFunctions HeartsUpdateFunctions
-     */
-    public HeartsUpdateFunctions getHUFunctions() {
-        return huFunctions;
     }
 
     /**
@@ -258,47 +249,36 @@ public class MainActivity extends AndroidHarness {
     }
     
     /**
-     * Makes a heart red.
-     * @param heartid the id of the heart which has its sprite changed
-     */
-    public void makeRed(int heartid) {
+    * Calls functions to make the hearts the right colour.
+    * @param health the amount of health that has to be displayed in grey
+    *      and red hearts.
+    */
+    public void setHealth(int health) {
         
-        switch (heartid) {
+        switch (health) {
+            case 0:
+                images.get(1).setImageResource(R.drawable.heart_grey);
+                images.get(2).setImageResource(R.drawable.heart_grey);
+                images.get(3).setImageResource(R.drawable.heart_grey);
+                break;
             case 1:
-                img1.setImageResource(R.drawable.heart_red);
+                images.get(1).setImageResource(R.drawable.heart_red);
+                images.get(2).setImageResource(R.drawable.heart_grey);
+                images.get(3).setImageResource(R.drawable.heart_grey);
                 break;
             case 2:
-                img2.setImageResource(R.drawable.heart_red);
+                images.get(1).setImageResource(R.drawable.heart_red);
+                images.get(2).setImageResource(R.drawable.heart_red);
+                images.get(3).setImageResource(R.drawable.heart_grey);
                 break;
             case 3:
-                img3.setImageResource(R.drawable.heart_red);
+                images.get(1).setImageResource(R.drawable.heart_red);
+                images.get(2).setImageResource(R.drawable.heart_red);
+                images.get(3).setImageResource(R.drawable.heart_red);
                 break;
             default:
                 throw new IllegalArgumentException();
         }
-        
-    }
-
-    /**
-     * Makes a heart grey.
-     * @param heartid the id of the heart which has its sprite changed
-     */
-    public void makeGrey(int heartid) {
-        
-        switch (heartid) {
-            case 1:
-                img1.setImageResource(R.drawable.heart_grey);
-                break;
-            case 2:
-                img2.setImageResource(R.drawable.heart_grey);
-                break;
-            case 3:
-                img3.setImageResource(R.drawable.heart_grey);
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-
     }
     
 }

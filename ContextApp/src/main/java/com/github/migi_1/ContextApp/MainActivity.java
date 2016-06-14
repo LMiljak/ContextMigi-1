@@ -58,6 +58,8 @@ public class MainActivity extends AndroidHarness {
 
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
+        
+        images = new ArrayList<ImageView>();
     }
 
     @Override  

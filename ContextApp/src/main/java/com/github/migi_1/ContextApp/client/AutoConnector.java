@@ -49,14 +49,14 @@ public final class AutoConnector {
 
         ClientWrapperWrapper client = new ClientWrapperWrapper();
         serverFinder.findServers(executorService, getConnector(client));
-        int counter = 0;
+        //int counter = 0;
 
         while (client.wrapper == null) {
-            if (counter == 10000) {
+            /*if (counter == 10000) {
                 break;
-            }
+            }*/
             Log.d("CarriedAway", "Waiting for client to connect ");
-            counter++;
+            //counter++;
         }
 
 

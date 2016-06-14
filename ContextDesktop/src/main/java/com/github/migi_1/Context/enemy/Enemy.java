@@ -46,7 +46,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public void setHealth(int health) {
-        this.health = health;        
+        this.health = health;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Enemy extends Entity implements IKillable {
     }
 
     /**
-     * Attack the carrier for 1 damage every 3 seconds. Can only attack if the 
+     * Attack the carrier for 1 damage every 3 seconds. Can only attack if the
      * enemy is at a spot next to a carrier.
      * @param tpf deltatime required for calulating when to attack again.
      */
@@ -68,8 +68,4 @@ public class Enemy extends Entity implements IKillable {
             }
         }
     }
-
-
-
-
 }

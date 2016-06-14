@@ -1,26 +1,24 @@
 package com.github.migi_1.ContextApp;
 
 
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+
 import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
+import com.github.migi_1.ContextApp.client.ClientHub;
+import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.jme3.app.AndroidHarness;
 
 import android.content.Intent;
-
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import android.widget.TextView;
-import com.github.migi_1.ContextApp.client.ClientHub;
 import android.widget.Toast;
-
-import com.github.migi_1.ContextMessages.PlatformPosition;
-import com.github.migi_1.ContextApp.client.ClientWrapper;
-import com.jme3.app.AndroidHarness;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 /**
  * This class contains the main activity that is started you run the project.
@@ -51,7 +49,7 @@ public class MainActivity extends AndroidHarness {
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
     }
 
-    @Override  
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -61,49 +59,49 @@ public class MainActivity extends AndroidHarness {
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        setContentView(R.layout.android_searching); 
+        setContentView(R.layout.android_searching);
 
         clientHub.getClientWrapper().startClient();
-        
+
         getClient().getClient().addMessageListener(posHolder);
-                
+
         while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
                 break;
             }
         }
-        
+
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
-    
+
    /**
     * This method runs the app is resumed.
     */
-    @Override  
+    @Override
     public void onResume() {
         super.onResume();
         setContentView(R.layout.android_ingame);
 
         // register the lister for the accelerometer
-        mSensorManager.registerListener(accelerometerSensor, 
+        mSensorManager.registerListener(accelerometerSensor,
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
 
         eventStarted = false;
-        
+
         setUI();
     }
-    
+
     @Override
     protected void onStop() {
         super.onStop();
-    } 
-    
+    }
+
     /**
-     * Shows a 'toast' giving the player instructions on how to get the app to 
+     * Shows a 'toast' giving the player instructions on how to get the app to
      * work with the game and closes the app.
      */
     public void alert() {
@@ -134,7 +132,7 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param name 
+     * @param name
      *              message to be logged
      */
     public void setButtonClick(Button button, final String name) {
@@ -150,7 +148,7 @@ public class MainActivity extends AndroidHarness {
 
     /**
      * Gets the instance of this Application.
-     * 
+     *
      * @return
      *      The instance of this Application.
      */
@@ -185,7 +183,7 @@ public class MainActivity extends AndroidHarness {
     }
 
     /**
-     * Starts the bug event. 
+     * Starts the bug event.
      */
     public void startBugEvent() {
         if (!eventStarted) {
@@ -199,7 +197,7 @@ public class MainActivity extends AndroidHarness {
     }
 
     /**
-     * Retuns a random position. 
+     * Retuns a random position.
      * @return a random platform position.
      */
     private PlatformPosition getRandomPosition() {

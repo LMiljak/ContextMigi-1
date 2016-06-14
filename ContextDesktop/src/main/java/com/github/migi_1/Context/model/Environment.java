@@ -7,6 +7,7 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
 import com.github.migi_1.Context.model.entity.IMovable;
+import com.github.migi_1.Context.model.entity.IRotatable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -23,6 +24,7 @@ public class Environment extends AbstractAppState {
 	private Node rootNode;
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
+	private Collection<IRotatable> rotatables;
 	private boolean paused;
 	private Application app;
 
@@ -33,13 +35,15 @@ public class Environment extends AbstractAppState {
 		this.paused = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
+		this.rotatables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		moveMovables();
+	    moveMovables();
+	    rotateRotatables();
 	}
 
 	/**
@@ -90,8 +94,12 @@ public class Environment extends AbstractAppState {
 	 * 		The entity to add.
 	 */
 	public void addEntity(Entity entity) {
-		addDisplayable(entity);		
+		addDisplayable(entity);
 		movables.add(entity);
+	}
+	
+	public void addRotatable(IRotatable rotatable) {
+		rotatables.add(rotatable);
 	}
 
 	/**
@@ -112,6 +120,13 @@ public class Environment extends AbstractAppState {
 		for (IMovable movable : movables) {
 		    movable.getMoveBehaviour().updateMoveVector();
 			movable.move(movable.getMoveBehaviour().getMoveVector());
+		}
+	}
+	
+	private void rotateRotatables() {
+		for (IRotatable rotatable : rotatables) {
+			rotatable.getRotateBehaviour().updateRotateVector();
+			rotatable.rotate();
 		}
 	}
 

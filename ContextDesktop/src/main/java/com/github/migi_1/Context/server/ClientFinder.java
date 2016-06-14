@@ -108,7 +108,7 @@ public final class ClientFinder {
 
 				if (checkReceivedPacket(packet)) {
 					byte[] responseData = "Yea dude, Im a real server".getBytes();
-					DatagramPacket responsePacket = 
+					DatagramPacket responsePacket =
 						new DatagramPacket(responseData, responseData.length, packet.getAddress(), packet.getPort());
 					socket.send(responsePacket);
 				}

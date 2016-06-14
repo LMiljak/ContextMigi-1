@@ -41,7 +41,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import static org.mockito.Mockito.times;
 
 /**
  * Test class that tests the MainEnvironment class.
@@ -90,7 +89,7 @@ public class TestMainEnvironment {
             e.printStackTrace();
         }
 
-        
+
 
         entity = Mockito.mock(Entity.class);
         hudController = Mockito.mock(HUDController.class);
@@ -112,7 +111,7 @@ public class TestMainEnvironment {
         assetManager = Mockito.mock(AssetManager.class);
         carrierAssigner = Mockito.mock(CarrierAssigner.class);
         platform = Mockito.mock(Platform.class);
-        
+
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
         PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
@@ -150,16 +149,6 @@ public class TestMainEnvironment {
     public void intializeTest() {
         env.initialize(stateManager, app);
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
-    }
-
-    /**
-     * Test for the update method.
-     */
-    @Test
-    public void updateTest() {
-        env.initialize(stateManager, app);
-        env.update(0.1f);
-        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
     }
 
     /**
@@ -290,7 +279,4 @@ public class TestMainEnvironment {
         Mockito.verify(rootNode, Mockito.times(2)).removeLight(Mockito.any());
         Mockito.verify(viewPort).clearProcessors();
     }
-
-    
-
 }

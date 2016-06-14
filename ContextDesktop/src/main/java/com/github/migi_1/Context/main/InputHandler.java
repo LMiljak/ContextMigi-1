@@ -19,8 +19,8 @@ public final class InputHandler {
                                 "pause", "menu", "restart", "mute"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
                                KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
-                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_SPACE, KeyInput.KEY_P, KeyInput.KEY_E,
-                               KeyInput.KEY_R, KeyInput.KEY_M};
+                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_SPACE, KeyInput.KEY_P,
+                               KeyInput.KEY_E, KeyInput.KEY_R, KeyInput.KEY_M};
 
     private boolean forwards, back, left, right, up, down = false;
     private Main main;

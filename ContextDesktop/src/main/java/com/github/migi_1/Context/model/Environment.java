@@ -48,9 +48,9 @@ public class Environment extends AbstractAppState {
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		    hudController.updateHUD();
-		    moveMovables();
-		    rotateRotatables();
+		hudController.updateHUD();
+		moveMovables();
+		rotateRotatables();
 	}
 
 	/**
@@ -106,7 +106,12 @@ public class Environment extends AbstractAppState {
 		    movables.add(entity);
 		}
 	}
-
+	
+        /**
+         * SOMEONE PLEASE EXPLAIN THIS, THIS ISN'T MINE.
+         * @param rotatable 
+         *                  STILL NOT MINE
+         */
 	public void addRotatable(IRotatable rotatable) {
 		rotatables.add(rotatable);
 	}

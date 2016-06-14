@@ -175,17 +175,13 @@ public class Carrier extends Entity implements IKillable {
      */
     public void handleAttack(Direction direction) {
         for(EnemySpot enemySpot : enemySpots) {
-            System.out.println("enemyspot has " + enemySpot.getDirection().toString());
-            System.out.println("attack has " + direction.toString());
             if(direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
                 if (enemy == null) {
                      hitMissMessenger.sendHitMiss(false, position);
-                     System.out.println(direction.toString() + " missed");
                 }
                 else {
                     hitMissMessenger.sendHitMiss(true, position);
-                    System.out.println(direction.toString() + " hit");
                     enemy.takeDamage(1);
                     if (enemy.getHealth() == 0) {
                         enemySpot.setOccupied(false);

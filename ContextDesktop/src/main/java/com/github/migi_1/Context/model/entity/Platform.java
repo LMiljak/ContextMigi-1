@@ -24,7 +24,7 @@ import com.jme3.scene.Spatial;
  */
 public class Platform extends Entity implements IRotatable {
 
-    private static final String PATHNAME = "Models/testPlatform.j3o";
+    private static final String PATHNAME = "Models/platform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
     private CarrierAssigner carrierAssigner;

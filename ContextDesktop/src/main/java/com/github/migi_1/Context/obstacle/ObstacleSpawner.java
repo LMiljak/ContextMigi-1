@@ -42,7 +42,7 @@ public class ObstacleSpawner {
         this.commander = environment.getCommander();
         this.location = commander.getModel().getLocalTranslation();
         this.obstacleList = new ArrayList<Obstacle>();
-        this.obstacleFactory = new StaticObstacleFactory();
+        this.obstacleFactory = new MovingObstacleFactory(environment);
         this.leftBound = getBound(environment.getLeftBound());
         this.rightBound = getBound(environment.getRightBound());
     }

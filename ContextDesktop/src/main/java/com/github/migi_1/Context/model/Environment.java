@@ -102,7 +102,9 @@ public class Environment extends AbstractAppState {
 	 */
 	public void addEntity(Entity entity) {
 		addDisplayable(entity);
-		movables.add(entity);
+		if (!(movables.contains(entity))) {
+		    movables.add(entity);
+		}
 	}
 	
         /**
@@ -134,7 +136,7 @@ public class Environment extends AbstractAppState {
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
-	
+
 	private void rotateRotatables() {
 		for (IRotatable rotatable : rotatables) {
 			rotatable.getRotateBehaviour().updateRotateVector();

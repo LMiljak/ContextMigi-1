@@ -131,6 +131,10 @@ public class ObstacleSpawner {
         return boundingBox.getCenter().z;
     }
 
+    /**
+     * Return all obstacles that need to be deleted.
+     * @return List of obstacles to be deleted.
+     */
     public LinkedList<Obstacle> deleteObstacles() {
         LinkedList<Obstacle> temp = (LinkedList<Obstacle>) deleteList.clone();
         deleteList = new LinkedList<Obstacle>();

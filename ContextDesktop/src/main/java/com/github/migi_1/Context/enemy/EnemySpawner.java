@@ -2,6 +2,7 @@ package com.github.migi_1.Context.enemy;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 import com.github.migi_1.Context.model.LevelPiece;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -35,8 +36,8 @@ public class EnemySpawner {
     public EnemySpawner(Commander commander, ArrayList<Carrier> carriers) {
         this.carriers = carriers;
         enemies = new LinkedList<Enemy>();
-        deleteList = new LinkedList<Enemy>();        
-        commanderLocation = commander.getModel().getLocalTranslation(); 
+        deleteList = new LinkedList<Enemy>();
+        commanderLocation = commander.getModel().getLocalTranslation();
         currentLevelPiece = 0;
         lastLevelPiece = -1;
         enemyFactory = new EnemyFactory(carriers);
@@ -51,14 +52,14 @@ public class EnemySpawner {
      * @return list of new enemies to add to the game.
      */
     public LinkedList<Enemy> generateEnemies() {
-        currentLevelPiece = -Math.floor(commanderLocation.x 
+        currentLevelPiece = -Math.floor(commanderLocation.x
                 / ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent());
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
         if (enemies.size() < MAX_NUM_ENEMIES) {
             if (currentLevelPiece != lastLevelPiece) {
-                lastLevelPiece = currentLevelPiece;              
+                lastLevelPiece = currentLevelPiece;
 
-                double random = Math.random();
+                double random = new Random().nextDouble();
                 if (random > 0.35 && random < 0.6) {
                     newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
                 } else if (random > 0.70 && random < 0.90) {
@@ -68,11 +69,11 @@ public class EnemySpawner {
                     newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
                     newEnemies.add(enemyFactory.createEnemy2(currentLevelPiece));
                     newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
-                }            
+                }
             }
         }
         enemies.addAll(newEnemies);
-        return newEnemies;        
+        return newEnemies;
     }
 
     /**
@@ -86,19 +87,37 @@ public class EnemySpawner {
             if (enemy.getHealth() <= 0) {
                 deleteList.add(enemy);
             }
-            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) 
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation)
                     > ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3) {
                 deleteList.add(enemy);
             }
         }
         return deleteList;
     }
-    
+
     /**
      * Return the carriers.
      * @return the carriers the enemySpawner uses.
      */
     public ArrayList<Carrier> getCarriers() {
         return carriers;
+    }
+
+    /**
+     * Getter for the enemies list.
+     * Used in testing.
+     * @return the enemies list.
+     */
+    public LinkedList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    /**
+     * Setter for the enemies list.
+     * Used in testing ONLY.
+     * @param newEnemies the new enemies list.
+     */
+    public void setEnemies(LinkedList<Enemy> newEnemies) {
+        enemies = newEnemies;
     }
 }

@@ -248,11 +248,9 @@ public class MainActivity extends AndroidHarness {
     public void hitMiss(boolean hit) {
         if (hit) {
             // Sound effect hit
-            Log.d("attack", "successful");
         }
         else {
             // Sound effect miss
-            Log.d("attack", "missed");
             setCooldown(true);
             
             timer = new Timer();

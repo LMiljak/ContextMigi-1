@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp;
 
+import android.util.Log;
 import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -33,6 +34,7 @@ public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     public void messageReceived(Object source, HitMissMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
+            Log.d("attack", "messageReceived");
             main.hitMiss(message.getHit());
         }
     }

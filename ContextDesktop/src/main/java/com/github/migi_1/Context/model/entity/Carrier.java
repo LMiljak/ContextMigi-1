@@ -212,9 +212,11 @@ public class Carrier extends Entity implements IKillable {
         Enemy enemy = enemySpot.getEnemy();
         if (enemy == null) {
             hitMissMessenger.sendHitMiss(false, position);
+            System.out.println("miss");
         }
         else {
             hitMissMessenger.sendHitMiss(true, position);
+            System.out.println("hit");
             enemy.takeDamage(1);
             if (enemy.getHealth() == 0) {
                 enemySpot.setOccupied(false);

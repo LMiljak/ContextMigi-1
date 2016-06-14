@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import com.github.migi_1.ContextApp.client.ClientHub;
 import com.jme3.app.AndroidHarness;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -43,8 +46,13 @@ public class MainActivity extends AndroidHarness {
     private ClientWrapper client;
     private ArrayList<ImageView> images;
     
+    private Timer timer;
+    private TimerTask timerTask;
+    
     private boolean cooldown;
     private boolean eventStarted;
+    
+    final Handler handler = new Handler();
 
     /**
      * Configure the game instance that is launched and start the logger.
@@ -246,7 +254,10 @@ public class MainActivity extends AndroidHarness {
             // Sound effect miss
             Log.d("attack", "missed");
             setCooldown(true);
-            setCooldown(false);
+            
+            timer = new Timer();
+            initializeTimerTask();
+            timer.schedule(timerTask, 2000);
         }
     }
     
@@ -281,6 +292,26 @@ public class MainActivity extends AndroidHarness {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+    
+    /**
+     * Initializes the TimerTask, which will set cooldown back to false.
+     */
+    public void initializeTimerTask() {
+         
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                 
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setCooldown(false);
+                    }
+                }); 
+                
+            }
+        };
     }
     
 }

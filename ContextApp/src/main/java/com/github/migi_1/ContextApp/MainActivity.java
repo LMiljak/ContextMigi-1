@@ -1,13 +1,10 @@
 package com.github.migi_1.ContextApp;
 
-<<<<<<< HEAD
 import static android.content.Context.AUDIO_SERVICE;
-=======
 
 import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
 
 import android.content.Intent;
->>>>>>> master
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;

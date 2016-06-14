@@ -14,10 +14,13 @@ import com.jme3.math.Vector3f;
  */
 public class EnemyFactory {
     
+    private static final float SPAWN_HEIGHT = -17.5f;
+    
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
     private float levelPieceWidth;
     private ArrayList<Carrier> carriers;
+    
     
     /**
      * Constructor of the EnemyFactory.
@@ -38,7 +41,7 @@ public class EnemyFactory {
      */
     public Enemy createEnemy1(double currentLevelPiece) {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
-                carriers.get(0).getModel().getLocalTranslation().y,
+                SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers); 
         enemy.getModel().rotate(0, (float) Math.PI, 0);
@@ -52,7 +55,7 @@ public class EnemyFactory {
      */
     public Enemy createEnemy2(double currentLevelPiece) {
         Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
+                + levelPieceLength * 1 / 2, SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);        
         enemy.getModel().rotate(0, (float) Math.PI, 0);
@@ -66,7 +69,7 @@ public class EnemyFactory {
      */
     public Enemy createEnemy3(double currentLevelPiece) {
         return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
+                + levelPieceLength * 1 / 2, SPAWN_HEIGHT,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers); 
     }

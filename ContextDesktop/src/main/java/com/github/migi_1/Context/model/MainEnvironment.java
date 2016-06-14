@@ -274,7 +274,7 @@ public class MainEnvironment extends Environment {
             addDisplayable(levelPiece);
         }
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
@@ -429,7 +429,7 @@ public class MainEnvironment extends Environment {
 
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
 
     }

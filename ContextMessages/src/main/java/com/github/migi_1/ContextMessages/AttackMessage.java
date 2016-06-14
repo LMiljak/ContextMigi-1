@@ -11,7 +11,7 @@ import com.jme3.network.serializing.Serializable;
 public class AttackMessage extends AbstractMessage {
     
     private PlatformPosition position;
-    private String direction;
+    private Direction direction;
     
     /**
 	 * Public empty constructor used by the JME3 networking
@@ -26,7 +26,7 @@ public class AttackMessage extends AbstractMessage {
      * @param direction 
      *              the direction the player is attacking in.
      */
-    public AttackMessage(PlatformPosition position, String direction) {
+    public AttackMessage(PlatformPosition position, Direction direction) {
         this.position = position;
         this.direction = direction;
     }
@@ -43,7 +43,7 @@ public class AttackMessage extends AbstractMessage {
      * Returns the direction the player is attacking in.
      * @return direction String
      */
-    public String getDirection() {
+    public Direction getDirection() {
         return direction;
     }
     

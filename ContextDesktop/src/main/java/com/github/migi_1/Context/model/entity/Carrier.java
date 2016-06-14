@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.HitMissMessenger;
+import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.math.Vector3f;
@@ -171,56 +171,27 @@ public class Carrier extends Entity implements IKillable {
     /**
      * Executes an attack using a player's position and direction of attack.
      * @param direction
-     * 			the direction of the attack (String)
+     * 			the direction of the attack
      */
-    public void handleAttack(String direction) {
-        switch (direction) {
-            case "left":
-                if (side.equals("left")) {
-                    attack(2);
+    public void handleAttack(Direction direction) {
+        for(EnemySpot enemySpot : enemySpots) {
+            if(direction.equals(enemySpot.getDirection())) {
+                Enemy enemy = enemySpot.getEnemy();
+                if (enemy == null) {
+                     hitMissMessenger.sendHitMiss(false, position);
+                     System.out.println(direction.toString() + " missed");
                 }
                 else {
-                    attack(0);
+                    hitMissMessenger.sendHitMiss(true, position);
+                    System.out.println(direction.toString() + " hit");
+                    enemy.takeDamage(1);
+                    if (enemy.getHealth() == 0) {
+                        enemySpot.setOccupied(false);
+                        enemySpot.setEnemy(null);
+                    }
                 }
-                break;
-            case "middle":
-                attack(1);
-                break;
-            case "right":
-                if (side.equals("left")) {
-                    attack(0);
-                }
-                else {
-                    attack(1);
-                }
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-    
-    /**
-     * This function checks whether or not the player hits an enemy and
-     * performs an attack when it does.
-     * It also sends a HitMissMessage to the player.
-     * @param direction 
-     *              the direction of the attack, represented by an integer
-     *              (see function handleAttack)
-     */
-    public void attack(int direction) {
-        EnemySpot enemySpot = enemySpots.get(direction);
-        Enemy enemy = enemySpot.getEnemy();
-        if (enemy == null) {
-            hitMissMessenger.sendHitMiss(false, position);
-        }
-        else {
-            hitMissMessenger.sendHitMiss(true, position);
-            enemy.takeDamage(1);
-            if (enemy.getHealth() == 0) {
-                enemySpot.setOccupied(false);
-                enemySpot.setEnemy(null);
             }
-        }
+        }  
     }
 
 }

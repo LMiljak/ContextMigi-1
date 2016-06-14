@@ -3,6 +3,7 @@ package com.github.migi_1.Context.server;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.ContextMessages.AttackMessage;
+import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
@@ -43,7 +44,7 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
     public void messageReceived(Object source, AttackMessage message) {
         PlatformPosition pos = message.getPosition();
         if (position.equals(pos)) {
-            String dir = message.getDirection();
+            Direction dir = message.getDirection();
             carrier.handleAttack(dir);
         }
     }

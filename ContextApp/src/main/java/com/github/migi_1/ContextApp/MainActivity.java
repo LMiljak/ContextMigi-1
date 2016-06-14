@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextApp.client.ClientHub;
+import com.github.migi_1.ContextMessages.Direction;
 import com.jme3.app.AndroidHarness;
 import java.util.ArrayList;
 import java.util.Random;
@@ -164,7 +165,7 @@ public class MainActivity extends AndroidHarness {
      * @param name 
      *              message to be logged
      */
-    public void setButtonClick(Button button, final String name) {
+    public void setButtonClick(Button button, final Direction direction) {
 
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -172,7 +173,7 @@ public class MainActivity extends AndroidHarness {
             public void onClick(View v) {
                 
                 if (!cooldown) {
-                    atkMessenger.sendAttack(posHolder.getPosition(), name);
+                    atkMessenger.sendAttack(posHolder.getPosition(), direction);
                 }
                     
             }

@@ -2,6 +2,7 @@ package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.github.migi_1.ContextMessages.Direction;
 import com.jme3.math.Vector3f;
 
 /**
@@ -18,13 +19,6 @@ public class EnemySpot {
     private Carrier carrier;
     private Commander commander;
     private Enemy enemy;
-    
-    /**
-     * Directions in which the enemy spots can face.
-     */
-    public enum Direction {
-        NORTH, SOUTH, EAST, WEST
-    };
     
     /**
      * Constructor of the EnemySpot.

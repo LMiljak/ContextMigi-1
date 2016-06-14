@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.obstacle;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
@@ -27,6 +28,8 @@ public class ObstacleSpawner {
     /** ArrayList of all geometry pieces. **/
     private ArrayList<Obstacle> obstacleList;
 
+    private LinkedList<Obstacle> deleteList;
+
     private Commander commander;
 
 
@@ -42,6 +45,7 @@ public class ObstacleSpawner {
         this.commander = environment.getCommander();
         this.location = commander.getModel().getLocalTranslation();
         this.obstacleList = new ArrayList<Obstacle>();
+        this.deleteList = new LinkedList<Obstacle>();
         this.obstacleFactory = new MovingObstacleFactory(environment);
         this.leftBound = getBound(environment.getLeftBound());
         this.rightBound = getBound(environment.getRightBound());
@@ -54,10 +58,10 @@ public class ObstacleSpawner {
     public ArrayList<Obstacle> updateObstacles() {
 
         //call removeDamageDealer when an obstacle is too far away
-        ArrayList<Obstacle> deleteList = new ArrayList<Obstacle>();
         for (Obstacle obs : obstacleList) {
             if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
                 deleteList.add(obs);
+                System.out.println("hallo");
 
             }
         }
@@ -126,5 +130,12 @@ public class ObstacleSpawner {
      */
     private float getBound(BoundingBox boundingBox) {
         return boundingBox.getCenter().z;
+    }
+
+    public LinkedList<Obstacle> deleteObstacles() {
+        System.out.println(deleteList.size());
+        LinkedList<Obstacle> temp = (LinkedList<Obstacle>) deleteList.clone();
+        deleteList = new LinkedList<Obstacle>();
+        return temp;
     }
 }

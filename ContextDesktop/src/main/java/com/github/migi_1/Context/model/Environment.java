@@ -184,5 +184,14 @@ public class Environment extends AbstractAppState {
         this.audioController = audioController;
     }
 
+    public Collection<IMovable> getMovables() {
+        return movables;
+    }
+
+    public void setMovables(Collection<IMovable> movables) {
+        this.movables = movables;
+    }
+
+
 
 }

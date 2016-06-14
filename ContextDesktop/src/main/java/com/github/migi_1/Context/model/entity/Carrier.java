@@ -90,8 +90,8 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
-    	if (getHealth() <= 0) {
-    		onKilled();
+        if (getHealth() <= 0) {
+            onKilled();
         }
     }
 
@@ -99,7 +99,7 @@ public class Carrier extends Entity implements IKillable {
      * Gets the position of this Carrier under the Platform.
      *
      * @return
-     * 		The position of this Carrier under the Platform.
+     *      The position of this Carrier under the Platform.
      */
     public PlatformPosition getPosition() {
         return position;

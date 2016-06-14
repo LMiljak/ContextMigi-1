@@ -76,5 +76,13 @@ public class AudioController {
     }
 
 
+    /**
+     * Setter for the background music.
+     * Used in testing only.
+     * @param newBackgroundMusic the new background music.
+     */
+    public void setBackgroundMusic(AudioNode newBackgroundMusic) {
+        backgroundMusic = newBackgroundMusic;
+    }
 
 }

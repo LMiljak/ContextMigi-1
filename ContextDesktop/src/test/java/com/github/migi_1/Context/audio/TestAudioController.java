@@ -1,7 +1,7 @@
 package com.github.migi_1.Context.audio;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -31,6 +31,7 @@ public class TestAudioController {
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
     private Node rootNode;
+    private AudioNode backGroundMusic;
 
     @Before
     public void setUp() {
@@ -39,11 +40,14 @@ public class TestAudioController {
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         rootNode = Mockito.mock(Node.class);
+        backGroundMusic = Mockito.mock(AudioNode.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
 
+        Mockito.doNothing().when(backGroundMusic).play();
         Mockito.when(main.getRootNode()).thenReturn(rootNode);
-        audioController = new AudioController(main);
+        audioController = Mockito.spy(new AudioController(main));
+        audioController.setBackgroundMusic(backGroundMusic);
     }
 
     @Test
@@ -54,8 +58,19 @@ public class TestAudioController {
     }
 
     @Test
-    public void getBackGroundMusicTest() {
-        assertEquals(AudioNode.class, audioController.getBackgroundMusic().getClass());
+    public void getAndSetBackgroundMusicTest() {
+        AudioNode oldBGMusic = audioController.getBackgroundMusic();
+        audioController.setBackgroundMusic(new AudioNode());
+        assertNotEquals(oldBGMusic, audioController.getBackgroundMusic());
+    }
+
+    @Test
+    public void muteTest() {
+        assertFalse(audioController.isPlaying());
+        audioController.mute();
+        assertTrue(audioController.isPlaying());
+        audioController.mute();
+        assertFalse(audioController.isPlaying());
     }
 
 }

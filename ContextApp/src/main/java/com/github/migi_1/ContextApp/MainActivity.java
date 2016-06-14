@@ -1,5 +1,7 @@
 package com.github.migi_1.ContextApp;
 
+import static android.content.Context.AUDIO_SERVICE;
+
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
@@ -37,6 +39,8 @@ public class MainActivity extends AndroidHarness {
         
     private int[] soundIds;
     private boolean cooldown;
+    
+    AudioManager audioManager;
         
     /**
      * Configure the game instance that is launched and start the logger.
@@ -69,7 +73,7 @@ public class MainActivity extends AndroidHarness {
         application = (Main) getJmeApplication();
         application.setDisplayFps(false);
         application.setDisplayStatView(false);
-
+        
         // Start the sensor manager.
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Set the view.
@@ -91,7 +95,6 @@ public class MainActivity extends AndroidHarness {
         }
         // Set the UI.
         setUI();
-        
     }
     
     /**
@@ -108,17 +111,9 @@ public class MainActivity extends AndroidHarness {
     }
     
     public void play(int sfx) {
-        createSoundPool();
-        
-        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        float volume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float volume = (float) audioManager.getStreamVolume(audioManager.STREAM_MUSIC);
         if (soundPool != null) {
             soundPool.play(soundIds[sfx], volume, volume, 1, 0, 1.f);
-        }
-        
-        // release the SoundPool
-        if (soundPool != null) {
-            soundPool.release();
         }
     }
     
@@ -128,6 +123,9 @@ public class MainActivity extends AndroidHarness {
     @Override  
     protected void onResume() {  
         super.onResume();
+        
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        createSoundPool();
 
         client.startClient();
         client.getClient().addMessageListener(posHolder);
@@ -160,6 +158,11 @@ public class MainActivity extends AndroidHarness {
 
         // clear the position
         posHolder.clearPosition();
+        
+        // release the SoundPool
+        if (soundPool != null) {
+            soundPool.release();
+        }
             
         super.onStop();  
     } 
@@ -247,7 +250,6 @@ public class MainActivity extends AndroidHarness {
      * Creates the SoundPool, allows for volume control and adds sfx.
      */
     public void createSoundPool() {
-        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         soundPool = new SoundPool(10, audioManager.STREAM_MUSIC, 0);
         setVolumeControlStream(audioManager.STREAM_MUSIC);
         soundIds = new int[3];

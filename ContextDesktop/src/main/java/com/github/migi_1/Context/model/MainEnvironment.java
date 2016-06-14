@@ -451,7 +451,6 @@ public class MainEnvironment extends Environment {
         }
 
         for (Obstacle obstacle : obstacleSpawner.deleteObstacles()) {
-            System.out.println("hoi");
             removeDisplayable(obstacle);
         }
     }

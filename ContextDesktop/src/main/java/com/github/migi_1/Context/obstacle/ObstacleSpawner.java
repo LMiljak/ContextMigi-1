@@ -61,7 +61,6 @@ public class ObstacleSpawner {
         for (Obstacle obs : obstacleList) {
             if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
                 deleteList.add(obs);
-                System.out.println("hallo");
 
             }
         }
@@ -133,7 +132,6 @@ public class ObstacleSpawner {
     }
 
     public LinkedList<Obstacle> deleteObstacles() {
-        System.out.println(deleteList.size());
         LinkedList<Obstacle> temp = (LinkedList<Obstacle>) deleteList.clone();
         deleteList = new LinkedList<Obstacle>();
         return temp;

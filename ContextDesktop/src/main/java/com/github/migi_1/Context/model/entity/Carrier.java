@@ -1,17 +1,15 @@
 package com.github.migi_1.Context.model.entity;
 
-
-
-import com.github.migi_1.Context.enemy.Enemy;
 import java.util.ArrayList;
 
+import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.HitMissMessenger;
+import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
 import com.jme3.math.Vector3f;
@@ -40,23 +38,22 @@ public class Carrier extends Entity implements IKillable {
 
     private PlatformPosition position;
     private String side;
-    
+
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
-    
+
     /**
      * Constructor of the carrier.
      * @param relativeLocation location relative to the commander
      * @param position The position of the carrier under the platform.
      * @param environment The environment to follow
      */
-    public Carrier(Vector3f relativeLocation, PlatformPosition position, 
+    public Carrier(Vector3f relativeLocation, PlatformPosition position,
             MainEnvironment environment) {
         super();
 
         enemySpots = new ArrayList<EnemySpot>();
-
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
@@ -80,16 +77,16 @@ public class Carrier extends Entity implements IKillable {
         }
         this.environment = environment;
         createEnemyLocations();
-        
+
     }
 
     private void createEnemyLocations() {
         enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
         if (position.getzFactor() == 1) {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.WEST));
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.EAST));
         }
         enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
 
@@ -105,7 +102,7 @@ public class Carrier extends Entity implements IKillable {
         health = h;
         healthMessenger.sendHealth(getHealth(), getPosition());
     }
-    
+
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
@@ -116,7 +113,7 @@ public class Carrier extends Entity implements IKillable {
 
     /**
      * Gets the position of this Carrier under the Platform.
-     * 
+     *
      * @return
      * 		The position of this Carrier under the Platform.
      */
@@ -132,6 +129,13 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+    }
+
+    /**
+     * This function sends the health value to the right android app.
+     */
+    public void sendHealth() {
+        // TODO
     }
 
     /**
@@ -155,7 +159,7 @@ public class Carrier extends Entity implements IKillable {
     public void setEnemySpots(ArrayList<EnemySpot> enemySpots) {
         this.enemySpots = enemySpots;
     }
-    
+
     /**
      * Getter for healthMessenger.
      * @return healthMessenger HealthMessenger
@@ -167,44 +171,25 @@ public class Carrier extends Entity implements IKillable {
     /**
      * Executes an attack using a player's position and direction of attack.
      * @param direction
-     * 			the direction of the attack (String)
+     * 			the direction of the attack
      */
-    public void handleAttack(String direction) {
-        switch (direction) {
-            case "left":
-                if (side.equals("left")) {
-                    attack(2);
+    public void handleAttack(Direction direction) {
+        for(EnemySpot enemySpot : enemySpots) {
+            if(direction.equals(enemySpot.getDirection())) {
+                Enemy enemy = enemySpot.getEnemy();
+                if (enemy == null) {
+                     hitMissMessenger.sendHitMiss(false, position);
                 }
                 else {
-                    attack(0);
+                    hitMissMessenger.sendHitMiss(true, position);
+                    enemy.takeDamage(1);
+                    if (enemy.getHealth() == 0) {
+                        enemySpot.setOccupied(false);
+                        enemySpot.setEnemy(null);
+                    }
                 }
-                break;
-            case "middle":
-                attack(1);
-                break;
-            case "right":
-                if (side.equals("left")) {
-                    attack(0);
-                }
-                else {
-                    attack(1);
-                }
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-    
-    public void attack(int direction) {
-        EnemySpot enemySpot = enemySpots.get(direction);
-        if (!enemySpot.isOccupied()) {
-            hitMissMessenger.sendHitMiss(false, position);
-        }
-        else {
-            hitMissMessenger.sendHitMiss(true, position);
-            Enemy enemy = enemySpot.getEnemy();
-            enemy.takeDamage(1);
-        }
+            }
+        }  
     }
 
 }

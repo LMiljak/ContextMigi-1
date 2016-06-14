@@ -35,20 +35,7 @@ public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     public void messageReceived(Object source, HitMissMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
-            if (message.getHit() == true) {
-                main.play(2);
-            }
-            else {
-                main.play(1);
-                try {
-                    main.setCooldown(true);
-                    Thread.sleep(3000);
-                    main.setCooldown(false);
-                    Log.d("CarriedAway", "Cooldown succesful");
-                } catch (InterruptedException ex) {
-                    Log.d("CarriedAway", "Can't use cooldown");
-                }
-            }
+            main.hitMiss(message.getHit());
         }
     }
     

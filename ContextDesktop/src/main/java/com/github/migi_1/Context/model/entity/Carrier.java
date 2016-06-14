@@ -83,10 +83,10 @@ public class Carrier extends Entity implements IKillable {
     private void createEnemyLocations() {
         enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
         if (position.getzFactor() == 1) {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.WEST));
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.EAST));
         }
         enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
 
@@ -175,6 +175,8 @@ public class Carrier extends Entity implements IKillable {
      */
     public void handleAttack(Direction direction) {
         for(EnemySpot enemySpot : enemySpots) {
+            System.out.println("enemyspot has " + enemySpot.getDirection().toString());
+            System.out.println("attack has " + direction.toString());
             if(direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
                 if (enemy == null) {

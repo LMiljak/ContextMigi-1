@@ -39,7 +39,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     }
 
     /**
-     * Finds the spot the enemy will walk to. 
+     * Finds the spot the enemy will walk to.
      * The spot is randomly chosen from all spots of the carriers which are still unoccupied.
      * The spot becomes occupied as soon as the enemy starts walking towards it to prevent 2 enemies from
      * walking to the same spot.
@@ -76,26 +76,25 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      * If the enemy has a moveVector (if not all spots are occupied already) and it is within range
      * of this spot, the enemy will move towards it with a certain STARTING_SPEED in the x and z direction.
      * As soon as the distance on the x as is less than the STARTING_SPEED it will move on that spot equal to
-     * that distance to prevent the enemy from overshooting that threshold. Overshooting results in 
-     * stuttering of the enemy when it has reached the target spot. It also sets the atSpot to true when 
+     * that distance to prevent the enemy from overshooting that threshold. Overshooting results in
+     * stuttering of the enemy when it has reached the target spot. It also sets the atSpot to true when
      * the enemy has reached the generated targetSpot at createTargetSpot.
      */
     @Override
     public void updateMoveVector() {
-        if (targetSpot != null) { 
-            if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) {                
+        if (targetSpot != null) {
+            if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) {
                 handleXmovement();
                 handleZmovement();
-            } 
+            }
             reachedSpot();
-
-        }  
+        }
     }
 
     private void handleXmovement() {
         if (targetSpot.getLocation().x > localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < startingSpeed) {                
-                moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);                
+            if (targetSpot.getLocation().subtract(localTranslation).x < startingSpeed) {
+                moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
             } else {
                 moveVector.setX(startingSpeed);
             }
@@ -109,28 +108,26 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     }
 
     private void handleZmovement() {
-        if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < 0.05f) {   
+        if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < 0.05f) {
             moveVector.setZ(0);
         }
         else if (targetSpot.getLocation().z > localTranslation.getZ()) {
             if (targetSpot.getLocation().subtract(localTranslation).z < startingSpeed) {
-                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);  
+                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);
             } else {
                 moveVector.setZ(startingSpeed);
             }
-        } else if (targetSpot.getLocation().z < localTranslation.getZ()) { 
+        } else if (targetSpot.getLocation().z < localTranslation.getZ()) {
             if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < startingSpeed) {
-                moveVector.setZ(-Math.abs(targetSpot.getLocation().subtract(localTranslation).z));  
+                moveVector.setZ(-Math.abs(targetSpot.getLocation().subtract(localTranslation).z));
             } else {
                 moveVector.setZ(-startingSpeed);
             }
         }
-
     }
 
-
     private void reachedSpot() {
-        if (targetSpot.getLocation().distance(localTranslation) < startingSpeed 
+        if (targetSpot.getLocation().distance(localTranslation) < startingSpeed
                 && !atSpot) {
             targetSpot.setEnemy(enemy);
             startingSpeed *= 3;
@@ -169,7 +166,8 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      /**
       * @param moveVector the moveVector to set
       */
-     public void setMoveVector(Vector3f moveVector) {
+     @Override
+    public void setMoveVector(Vector3f moveVector) {
          this.moveVector = moveVector;
      }
 
@@ -179,10 +177,5 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      public float getSpeed() {
          return startingSpeed;
      }
-
-
-
-
-
 }
 

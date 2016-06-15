@@ -49,6 +49,11 @@ public class LobbyEnvironment extends Environment {
     	updatePlayerText();
     }
     
+    /**
+     * Checks if the CarrierAssigner has assigned a carrier
+     * to a position and updates the position in the HUD if 
+     * that's the case.
+     */
     private void updatePlayerText() {
     	for (PlatformPosition position : PlatformPosition.values()) {
     		String address = carrierAssigner.getAddress(position);

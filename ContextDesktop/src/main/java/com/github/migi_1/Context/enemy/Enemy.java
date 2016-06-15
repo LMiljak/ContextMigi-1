@@ -17,7 +17,7 @@ import com.jme3.scene.Spatial;
  */
 public class Enemy extends Entity implements IKillable {
 
-    private static final String PATH_NAME = "Models/ninja.j3o";
+    private static final String PATH_NAME = "Models/slime.j3o";
     private int health;
     private float currentTime = 0;
     private static final float ATTACK_THRESHOLD = 3;
@@ -38,7 +38,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2.0f);
     }
 
     @Override
@@ -48,9 +48,9 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public void setHealth(int health) {
-        this.health = health;        
+        this.health = health;
     }
-    
+
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
@@ -69,7 +69,7 @@ public class Enemy extends Entity implements IKillable {
     }
 
     /**
-     * Attack the carrier for 1 damage every 3 seconds. Can only attack if the 
+     * Attack the carrier for 1 damage every 3 seconds. Can only attack if the
      * enemy is at a spot next to a carrier.
      * @param tpf deltatime required for calulating when to attack again.
      */
@@ -90,14 +90,14 @@ public class Enemy extends Entity implements IKillable {
     public void setSpot(EnemySpot spot) {
         this.spot = spot;
     }
-    
+
     /**
      * Getter for the enemy's EnemySpot.
-     * @return 
+     * @return
      *          The EnemySpot from which the enemy attacks a carrier
      */
     public EnemySpot getSpot() {
         return spot;
     }
-    
+
 }

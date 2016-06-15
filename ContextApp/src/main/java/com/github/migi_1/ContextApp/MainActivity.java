@@ -130,15 +130,21 @@ public class MainActivity extends AndroidHarness {
     
     @Override
     protected void onStop() {
+        super.onStop();
+    }
+    
+    @Override
+    protected void onDestroy() {
         // clear the position
         posHolder.clearPosition();
         
+        // release the soundPool
         if (soundPool != null) {
             soundPool.release();
         }
         
-        super.onStop();
-    } 
+        super.onDestroy();
+    }
     
     /**
      * Shows a 'toast' giving the player instructions on how to get the app to 

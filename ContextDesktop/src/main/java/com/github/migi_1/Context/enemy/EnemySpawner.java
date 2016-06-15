@@ -92,7 +92,8 @@ public class EnemySpawner {
     public LinkedList<Enemy> deleteEnemies() {
         for (Enemy enemy : enemies) {
             if (enemy.getHealth() <= 0) {
-                deleteList.add(enemy);                
+                deleteList.add(enemy);    
+                enemy.getSpot().setOccupied(false);
             }
             if (enemy.getModel().getLocalTranslation().distance(commanderLocation) 
                     > ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3

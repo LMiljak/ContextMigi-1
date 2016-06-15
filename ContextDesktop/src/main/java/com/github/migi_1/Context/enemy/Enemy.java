@@ -38,7 +38,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2f);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Enemy extends Entity implements IKillable {
     public void setHealth(int health) {
         this.health = health;
     }
-    
+
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
@@ -90,14 +90,14 @@ public class Enemy extends Entity implements IKillable {
     public void setSpot(EnemySpot spot) {
         this.spot = spot;
     }
-    
+
     /**
      * Getter for the enemy's EnemySpot.
-     * @return 
+     * @return
      *          The EnemySpot from which the enemy attacks a carrier
      */
     public EnemySpot getSpot() {
         return spot;
     }
-    
+
 }

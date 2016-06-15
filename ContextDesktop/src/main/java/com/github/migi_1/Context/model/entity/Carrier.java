@@ -105,7 +105,7 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void takeDamage(int damage) {
-        setHealth(getHealth() - damage);
+    	setHealth(getHealth() - damage);
     	if (getHealth() <= 0) {
     		onKilled();
         }
@@ -174,8 +174,8 @@ public class Carrier extends Entity implements IKillable {
      * 			the direction of the attack
      */
     public void handleAttack(Direction direction) {
-        for(EnemySpot enemySpot : enemySpots) {
-            if(direction.equals(enemySpot.getDirection())) {
+        for (EnemySpot enemySpot : enemySpots) {
+            if (direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
                 if (enemy == null) {
                      hitMissMessenger.sendHitMiss(false, position);

@@ -1,7 +1,5 @@
 package com.github.migi_1.ContextApp;
 
-import android.media.SoundPool;
-import android.util.Log;
 import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;

@@ -12,7 +12,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,10 +56,11 @@ public class MainActivity extends AndroidHarness {
     
     private Timer timer;
     private TimerTask timerTask;
-      
-    final Handler handler = new Handler();
     
     AudioManager audioManager;
+    
+    private final Handler handler = new Handler();
+
 
     /**
      * Configure the game instance that is launched and start the logger.
@@ -74,8 +74,6 @@ public class MainActivity extends AndroidHarness {
 
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
-        
-        images = new ArrayList<ImageView>();
     }
 
     @Override  
@@ -104,6 +102,8 @@ public class MainActivity extends AndroidHarness {
             }
         }
         
+        setContentView(R.layout.android_ingame);
+        
         // set cooldown to false
         setCooldown(false);
 
@@ -117,10 +117,6 @@ public class MainActivity extends AndroidHarness {
     @Override  
     public void onResume() {
         super.onResume();
-        
-        images.add((ImageView) findViewById(R.id.Heart_1));
-        images.add((ImageView) findViewById(R.id.Heart_2));
-        images.add((ImageView) findViewById(R.id.Heart_3));
 
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
@@ -161,11 +157,16 @@ public class MainActivity extends AndroidHarness {
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
+        images = new ArrayList<ImageView>();
+        
+        images.add((ImageView) findViewById(R.id.Heart_1));
+        images.add((ImageView) findViewById(R.id.Heart_2));
+        images.add((ImageView) findViewById(R.id.Heart_3));
+        
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
-        
-        setContentView(R.layout.android_ingame);
+        healthListener = new HealthMessageHandler(this);
 
         startBugEventListener = new StartBugEventMessageListener(this);
         
@@ -179,7 +180,7 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param name 
+     * @param direction 
      *              message to be logged
      */
     public void setButtonClick(Button button, final Direction direction) {
@@ -324,34 +325,41 @@ public class MainActivity extends AndroidHarness {
     * @param health the amount of health that has to be displayed in grey
     *      and red hearts.
     */
-    public void setHealth(int health) {
+    public void setHealth(final int health) {
         
         play(0);
-        
-        switch (health) {
-            case 0:
-                images.get(1).setImageResource(R.drawable.heart_grey);
-                images.get(2).setImageResource(R.drawable.heart_grey);
-                images.get(3).setImageResource(R.drawable.heart_grey);
-                break;
-            case 1:
-                images.get(1).setImageResource(R.drawable.heart_red);
-                images.get(2).setImageResource(R.drawable.heart_grey);
-                images.get(3).setImageResource(R.drawable.heart_grey);
-                break;
-            case 2:
-                images.get(1).setImageResource(R.drawable.heart_red);
-                images.get(2).setImageResource(R.drawable.heart_red);
-                images.get(3).setImageResource(R.drawable.heart_grey);
-                break;
-            case 3:
-                images.get(1).setImageResource(R.drawable.heart_red);
-                images.get(2).setImageResource(R.drawable.heart_red);
-                images.get(3).setImageResource(R.drawable.heart_red);
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                switch (health) {
+                    case 0:
+                        images.get(0).setImageResource(R.drawable.heart_grey);
+                        images.get(1).setImageResource(R.drawable.heart_grey);
+                        images.get(2).setImageResource(R.drawable.heart_grey);
+                        break;
+                    case 1:
+                        images.get(0).setImageResource(R.drawable.heart_red);
+                        images.get(1).setImageResource(R.drawable.heart_grey);
+                        images.get(2).setImageResource(R.drawable.heart_grey);
+                        break;
+                    case 2:
+                        images.get(0).setImageResource(R.drawable.heart_red);
+                        images.get(1).setImageResource(R.drawable.heart_red);
+                        images.get(2).setImageResource(R.drawable.heart_grey);
+                        break;
+                    case 3:
+                        images.get(0).setImageResource(R.drawable.heart_red);
+                        images.get(1).setImageResource(R.drawable.heart_red);
+                        images.get(2).setImageResource(R.drawable.heart_red);
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            }
+            
+        });
+       
     }
     
     /**

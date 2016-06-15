@@ -3,6 +3,8 @@ package com.github.migi_1.Context.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.migi_1.Context.audio.AudioController;
+import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
@@ -28,6 +30,8 @@ public class Environment extends AbstractAppState {
 	private boolean paused;
 	private Application app;
 
+    private AudioController audioController;
+
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
@@ -37,6 +41,8 @@ public class Environment extends AbstractAppState {
 		this.movables = new ArrayList<>();
 		this.rotatables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
+		
+		this.audioController = new AudioController(app);
 	}
 
 	@Override
@@ -100,12 +106,11 @@ public class Environment extends AbstractAppState {
 		    movables.add(entity);
 		}
 	}
-	
-        /**
-         * SOMEONE PLEASE EXPLAIN THIS, THIS ISN'T MINE.
-         * @param rotatable 
-         *                  STILL NOT MINE
-         */
+
+	/**
+	 * Adds a rotatable to the world.
+	 * @param rotatable the rotatable object.
+	 */
 	public void addRotatable(IRotatable rotatable) {
 		rotatables.add(rotatable);
 	}
@@ -164,6 +169,23 @@ public class Environment extends AbstractAppState {
         this.assetManager.clearCache();
         this.rootNode.detachAllChildren();
         ((Main) this.app).getGuiNode().detachAllChildren();
+        audioController.getBackgroundMusic().pause();
+    }
+
+    /**
+     * Getter for the AudioController.
+     * @return The AudioController.
+     */
+    public AudioController getAudioController() {
+        return audioController;
+    }
+
+    /**
+     * Setter for the AudioController.
+     * @param audioController AudioController to set
+     */
+    public void setAudioController(AudioController audioController) {
+        this.audioController = audioController;
     }
 
 }

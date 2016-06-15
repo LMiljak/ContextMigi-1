@@ -103,8 +103,8 @@ public class HUDController {
      */
     private void updateCheckpointElementHUD() {
         //Get the current location of the commander in the world.
-        Vector3f commanderLoc = main.getEnv().getCommander().getModel().getLocalTranslation();
 
+        Vector3f commanderLoc = main.getEnv().getCommander().getModel().getLocalTranslation();
         /**
          * Check if the commander location is at a checkpoint, so that the HUD has to be updated.
          * Since the commander won't be exactly at the checkpoint,

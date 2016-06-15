@@ -1,10 +1,11 @@
 package com.github.migi_1.Context.model;
 
-import com.github.migi_1.Context.audio.AudioController;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
+
+import jmevr.app.VRApplication;
 
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
@@ -38,8 +39,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
-import jmevr.app.VRApplication;
-
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
@@ -60,12 +59,10 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -3.5f, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-3f, -3.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
-    private HUDController hudController;
-    private AudioController audioController;
     //This value is the time in milliseconds (1 second = 1000 ms).
     private static final long LOWER_BOUND_EVENT_TIME = 20000;
 
@@ -99,6 +96,8 @@ public class MainEnvironment extends Environment {
     private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
 
+    private HUDController hudController;
+    
     private long randomEventTime;
 
     /**
@@ -119,8 +118,6 @@ public class MainEnvironment extends Environment {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         
-	audioController = new AudioController(app);
-        hudController = new HUDController(app);
         this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
@@ -130,6 +127,8 @@ public class MainEnvironment extends Environment {
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
         scoreController = new ScoreController();
         results = new HashMap<Entity, CollisionResults>();
+        
+        this.hudController = new HUDController(app);
 
         //creates the lights
         initLights();
@@ -154,11 +153,11 @@ public class MainEnvironment extends Environment {
             super.update(tpf);
             checkRandomEvent();
 
-            hudController.updateHUD();
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
             updateTestWorld();
+            hudController.updateHUD();
         }
     }
 
@@ -335,8 +334,8 @@ public class MainEnvironment extends Environment {
      */
     public Carrier createCarrier(PlatformPosition position) {
         float x, y, z;
-        y = RELATIVE_CARRIER_LOCATION.y;
         x = RELATIVE_CARRIER_LOCATION.x;
+        y = RELATIVE_CARRIER_LOCATION.y;
         z = RELATIVE_CARRIER_LOCATION.z;
 
         z *= position.getzFactor();
@@ -473,6 +472,10 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
         }
+
+        for (Obstacle obstacle : obstacleSpawner.deleteObstacles()) {
+            removeDisplayable(obstacle);
+        }
     }
 
     private void updateEnemies(float tpf) {
@@ -512,7 +515,6 @@ public class MainEnvironment extends Environment {
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
         super.cleanup();
-        audioController.getBackgroundMusic().pause();
     }
 
     /**
@@ -562,21 +564,5 @@ public class MainEnvironment extends Environment {
      */
     public BoundingBox getRightBound() {
         return boundingBoxWallRight;
-    }
-    
-    /**
-     * Getter for the AudioController.
-     * @return The AudioController.
-     */
-    public AudioController getAudioController() {
-        return audioController;
-    }
-
-    /**
-     * Setter for the AudioController.
-     * @param audioController AudioController to set
-     */
-    public void setAudioController(AudioController audioController) {
-        this.audioController = audioController;
     }
 }

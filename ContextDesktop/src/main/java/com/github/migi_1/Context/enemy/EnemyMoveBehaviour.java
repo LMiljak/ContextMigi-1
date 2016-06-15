@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.EnemySpot;
+import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.jme3.math.Vector3f;
 
@@ -14,11 +15,11 @@ import com.jme3.math.Vector3f;
  * @author Damian
  *
  */
-public class EnemyMoveBehaviour extends MoveBehaviour {
+public class EnemyMoveBehaviour extends EntityMoveBehaviour {
 
     private static final float DISTANCE_THRESHOLD = 120;
     private Vector3f moveVector;
-    private float startingSpeed = 0.5f;
+    private float speed = 0.5f;
     private Vector3f localTranslation;
     private EnemySpot targetSpot;
     private Enemy enemy;
@@ -80,7 +81,8 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      * the enemy has reached the generated targetSpot at createTargetSpot.
      */
     @Override
-    public void updateMoveVector() {        
+    public void updateMoveVector() {  
+        speed += getAcceleratingFactor();
         if (targetSpot != null) { 
             if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) { 
                 handleXmovement();
@@ -93,16 +95,16 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
     private void handleXmovement() {
         if (targetSpot.getLocation().x > localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < startingSpeed) {                
+            if (targetSpot.getLocation().subtract(localTranslation).x < speed) {                
                 moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);                
             } else {
-                moveVector.setX(startingSpeed);
+                moveVector.setX(speed);
             }
         } else if (targetSpot.getLocation().x < localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < -startingSpeed) {
+            if (targetSpot.getLocation().subtract(localTranslation).x < -speed) {
                 moveVector.setX(-targetSpot.getLocation().subtract(localTranslation).x);
             } else {
-                moveVector.setX(-startingSpeed);
+                moveVector.setX(-speed);
             }
         }
     }
@@ -112,16 +114,16 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
             moveVector.setZ(0);
         }
         else if (targetSpot.getLocation().z > localTranslation.getZ()) {
-            if (targetSpot.getLocation().subtract(localTranslation).z < startingSpeed) {
+            if (targetSpot.getLocation().subtract(localTranslation).z < speed) {
                 moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);  
             } else {
-                moveVector.setZ(startingSpeed);
+                moveVector.setZ(speed);
             }
         } else if (targetSpot.getLocation().z < localTranslation.getZ()) { 
-            if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < startingSpeed) {
+            if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < speed) {
                 moveVector.setZ(-Math.abs(targetSpot.getLocation().subtract(localTranslation).z));  
             } else {
-                moveVector.setZ(-startingSpeed);
+                moveVector.setZ(-speed);
             }
         }
 
@@ -129,12 +131,12 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
 
 
     private void reachedSpot() {
-        if (targetSpot.getLocation().distance(localTranslation) < startingSpeed 
+        if (targetSpot.getLocation().distance(localTranslation) < speed 
                 && !atSpot) {
             targetSpot.setEnemy(enemy);
             enemy.setSpot(targetSpot);
             enemy.rotateCorrectly();
-            startingSpeed *= 3;
+            speed *= 3;
             atSpot = true;
         }
     }
@@ -178,7 +180,13 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      * @return the STARTING_SPEED
      */
     public float getSpeed() {
-        return startingSpeed;
+        return speed;
+    }
+
+    @Override
+    public void collided() {
+        // TODO Auto-generated method stub
+        
     }
 
 

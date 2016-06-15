@@ -102,7 +102,6 @@ public class Enemy extends Entity implements IKillable {
     public void rotateCorrectly() {                
         getModel().rotate(getModel().getLocalRotation().inverse());
         double angle = 0;
-        System.out.println(getSpot().getDirection().name());
         if (getSpot().getDirection().ordinal() == 1) {
             angle = 0.5;
         } else if (getSpot().getDirection().ordinal() == 2) {
@@ -110,8 +109,6 @@ public class Enemy extends Entity implements IKillable {
         } else if (getSpot().getDirection().ordinal() == 3) {
             angle = 1;
         }
-        
-        System.out.println("direction: " + spot.getDirection().name() + " " + spot.getDirection().ordinal() + " " + angle);
         getModel().rotate(0, (float) (angle * Math.PI), 0);
     }
 

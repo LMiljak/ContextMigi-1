@@ -1,6 +1,9 @@
 package com.github.migi_1.Context.main;
 
+import java.util.HashMap;
+
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
@@ -15,9 +18,14 @@ import com.jme3.system.AppSettings;
  * @author Marcel
  *
  */
+/**
+ * @author luka_
+ *
+ */
 public class LobbyHUDController {
 
-    private BitmapText title, player1, player2, player3, player4, instruction;
+    private BitmapText title, instruction;
+    private HashMap<PlatformPosition, BitmapText> players = new HashMap<>(4);
     
     private Main main;
     private AssetManager assetManager;
@@ -49,24 +57,26 @@ public class LobbyHUDController {
     private void addPlayers() {
         BitmapFont menuFont = assetManager.loadFont("Interface/Fonts/myfont2.fnt");
         
-        player1 = setPlayer(menuFont, player1);
-        setTextPosition(player1, 0.5f, 0.65f);
-        main.getGuiNode().attachChild(player1);
+        float textPosition = 0.65f;
+        final float distanceBetweenText = 0.05f;
         
-        player2 = setPlayer(menuFont, player2);
-        setTextPosition(player2, 0.5f, 0.6f);
-        main.getGuiNode().attachChild(player2);
-        
-        player3 = setPlayer(menuFont, player3);
-        setTextPosition(player3, 0.5f, 0.55f);
-        main.getGuiNode().attachChild(player3);
-        
-        player4 = setPlayer(menuFont, player4);
-        setTextPosition(player4, 0.5f, 0.5f);
-        main.getGuiNode().attachChild(player4);
-        
+        for (PlatformPosition position : PlatformPosition.values()) {
+        	BitmapText player = new BitmapText(menuFont);
+            player.setSize(menuFont.getCharSet().getRenderedSize());
+            player.setColor(ColorRGBA.White);
+            setTextPosition(player, 0.5f, textPosition);
+            player.setText("|");
+        	
+        	players.put(position, player);
+        	main.getGuiNode().attachChild(player);
+        	
+        	textPosition -= distanceBetweenText;
+        }
     }
     
+    /**
+     * Adds the "press space to start" instruction.
+     */
     private void addInstruction() {
         BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
         instruction = new BitmapText(titleFont, false);
@@ -78,12 +88,16 @@ public class LobbyHUDController {
         main.getGuiNode().attachChild(instruction);
     }
     
-    public BitmapText setPlayer(BitmapFont font, BitmapText player) {
-        player = new BitmapText(font, false);
-        player.setSize(font.getCharSet().getRenderedSize());
-        player.setColor(ColorRGBA.White);
-        player.setText("|");
-        return player;
+    /**
+     * Sets the text for a certain player.
+     * 
+     * @param position
+     * 		The position the player has assigned.
+     * @param text
+     * 		The text.
+     */
+    public void setPlayerText(PlatformPosition position, String text) {
+    	players.get(position).setText(text);
     }
     
     /**
@@ -101,13 +115,6 @@ public class LobbyHUDController {
         float width = widthFactor * settings.getWidth() - 0.5f * text.getLineWidth();
         float height = heightFactor * settings.getHeight();
         text.setLocalTranslation(width, height, 0);
-    }
-
-    /**
-     * Update the players.
-     */
-    public void updateHUD() {
-        
     }
 
 }

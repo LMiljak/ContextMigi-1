@@ -12,6 +12,7 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -83,6 +84,7 @@ public class MainEnvironment extends Environment {
 
     private boolean flyCamActive;
 
+    private CarrierAssigner carrierAssigner;
     private LevelGenerator levelGenerator;
     private EnemySpawner enemySpawner;
 
@@ -99,6 +101,10 @@ public class MainEnvironment extends Environment {
 
     private long randomEventTime;
 
+    public MainEnvironment(CarrierAssigner carrierAssigner) {
+    	this.carrierAssigner = carrierAssigner;
+    }
+    
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -273,7 +279,7 @@ public class MainEnvironment extends Environment {
         createWallBoundingBoxes();
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        platform = new Platform(PLATFORM_LOCATION, this);
+        platform = new Platform(PLATFORM_LOCATION, this, carrierAssigner);
         commander = new Commander(COMMANDER_LOCATION, platform);
         obstacleSpawner = new ObstacleSpawner(this);
 
@@ -287,7 +293,11 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
         }
-
+        for (PlatformPosition position : PlatformPosition.values()) {
+        	Carrier carrier = createCarrier(position);
+        	addEntity(carrier);
+        }
+        
         addEntity(platform);
         addRotatable(platform);
         addEntity(commander);

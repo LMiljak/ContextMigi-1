@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.PositionMessage;
@@ -18,23 +17,15 @@ import com.jme3.network.Server;
  */
 public class CarrierAssigner implements ConnectionListener {
 
-	private Platform platform;
-	private MainEnvironment environment;
-	private HashMap<PlatformPosition, String> addressCarrierMap = new HashMap<>(4);
+	private HashMap<PlatformPosition, HostedConnection> carrierAddressMap = new HashMap<>(4);
 
 	/**
 	 * Constructor for CarrierAssigner.
 	 *
-	 * @param platform
-	 * 		The platform to which the carriers should be assigned to.
 	 * @param server
 	 * 		The server to which the clients can connect.
-	 * @param environment
-	 * 		The environment in which the carrier should be located.
 	 */
-	public CarrierAssigner(Platform platform, ServerWrapper server, MainEnvironment environment) {
-		this.platform = platform;
-		this.environment = environment;
+	public CarrierAssigner(ServerWrapper server) {
 		server.getServer().addConnectionListener(this);
 	}
 
@@ -47,12 +38,9 @@ public class CarrierAssigner implements ConnectionListener {
 	@Override
 	public void connectionAdded(Server server, HostedConnection conn) {
 		for (PlatformPosition position : PlatformPosition.values()) {
-			if (addressCarrierMap.get(position) == null) {
-				Carrier carrier = environment.createCarrier(position);
-
-				addressCarrierMap.put(position, conn.getAddress());
-				platform.addCarrier(carrier);
-				environment.addEntity(carrier);
+			if (carrierAddressMap.get(position) == null) {
+				carrierAddressMap.put(position, conn);
+				
 				conn.send(new PositionMessage(position));
 
 				Logger.getGlobal().log(Level.INFO, "Given position " + position + " to " + conn.getAddress());
@@ -63,7 +51,10 @@ public class CarrierAssigner implements ConnectionListener {
 
 	@Override
 	public void connectionRemoved(Server server, HostedConnection conn) {
-		addressCarrierMap.remove(conn.getAddress());
+		Logger.getGlobal().log(Level.INFO, conn.getAddress() + " has disconnected");
+		for (PlatformPosition position : PlatformPosition.values()) {
+			carrierAddressMap.remove(position, conn);
+		}
 	}
 
 	/**
@@ -75,11 +66,11 @@ public class CarrierAssigner implements ConnectionListener {
 	 * 		The found ip address. Empty String if there is no address on that position.
 	 */
 	public String getAddress(PlatformPosition carrierPosition) {
-		String res = addressCarrierMap.get(carrierPosition);
-		if (res == null) {
+		HostedConnection conn = carrierAddressMap.get(carrierPosition);
+		if (conn == null) {
 			return "";
 		} else {
-			return res;
+			return conn.getAddress();
 		}
 	}
 }

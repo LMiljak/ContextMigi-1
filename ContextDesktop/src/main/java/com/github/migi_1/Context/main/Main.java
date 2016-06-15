@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.LobbyEnvironment;
-import com.github.migi_1.Context.screens.MainMenu;
 import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
@@ -93,8 +93,9 @@ public class Main extends VRApplication {
         
         launchServer();
 
-        lobbyState = new LobbyEnvironment();
-        environmentState = new MainEnvironment();
+        CarrierAssigner carrierAssigner = new CarrierAssigner(server);
+        lobbyState = new LobbyEnvironment(carrierAssigner);
+        environmentState = new MainEnvironment(carrierAssigner);
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(lobbyState);
         inLobby = true;
@@ -245,7 +246,7 @@ public class Main extends VRApplication {
     }
     
     /**
-     * Getter for inLobby
+     * Getter for inLobby.
      * @return a boolean value that tells whether or not the program is in the lobby.
      */
     public boolean getInLobby() {

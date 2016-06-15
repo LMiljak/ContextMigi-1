@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.main.LobbyHUDController;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
@@ -16,14 +18,24 @@ public class LobbyEnvironment extends Environment {
     
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Black;
     
-    private Application app;
     private LobbyHUDController lobbyHUDController;
+    
+    private CarrierAssigner carrierAssigner;
+    
+    /**
+     * Constructor for LobbyEnvironment.
+     * 
+     * @param carrierAssigner
+     * 		The CarrierAssigner (the same on the MainEnvironment should also get).
+     */
+    public LobbyEnvironment(CarrierAssigner carrierAssigner) {
+    	this.carrierAssigner = carrierAssigner;
+    }
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         
-        this.app = app;
         viewPort = app.getViewPort();
 
         lobbyHUDController = new LobbyHUDController(app);
@@ -32,8 +44,20 @@ public class LobbyEnvironment extends Environment {
     
     @Override
     public void update(float tpf) {
-        lobbyHUDController.updateHUD();
-
+    	super.update(tpf);
+    	
+    	updatePlayerText();
+    }
+    
+    private void updatePlayerText() {
+    	for (PlatformPosition position : PlatformPosition.values()) {
+    		String address = carrierAssigner.getAddress(position);
+    		if (!address.isEmpty()) {
+    			lobbyHUDController.setPlayerText(position, address);
+    		} else {
+    			lobbyHUDController.setPlayerText(position, "|");
+    		}
+    	}
     }
     
     @Override

@@ -102,6 +102,10 @@ public class MainActivity extends AndroidHarness {
             }
         }
         
+        atkMessenger = new AttackMessenger(this);
+        mbFunctions = new MakeButtonFunctions(this);
+        mbFunctions.setButtons(position);
+        
         setContentView(R.layout.android_ingame);
         
         // set cooldown to false
@@ -109,6 +113,8 @@ public class MainActivity extends AndroidHarness {
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, getClient());
+        
+        setUI();
     }
     
    /**
@@ -124,8 +130,6 @@ public class MainActivity extends AndroidHarness {
                 SensorManager.SENSOR_DELAY_FASTEST);
 
         eventStarted = false;
-        
-        setUI();
     }
     
     @Override
@@ -163,8 +167,6 @@ public class MainActivity extends AndroidHarness {
         images.add((ImageView) findViewById(R.id.Heart_2));
         images.add((ImageView) findViewById(R.id.Heart_3));
         
-        atkMessenger = new AttackMessenger(this);
-        mbFunctions = new MakeButtonFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
         healthListener = new HealthMessageHandler(this);
 
@@ -172,8 +174,6 @@ public class MainActivity extends AndroidHarness {
         
         TextView textView = (TextView) findViewById(R.id.Location);
         textView.setText(position.getPosition());
-
-        mbFunctions.setButtons(position);
     }
 
     /**

@@ -52,7 +52,7 @@ public class MainActivity extends AndroidHarness {
     private boolean cooldown;
     private boolean eventStarted;
     
-    final Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     /**
      * Configure the game instance that is launched and start the logger.
@@ -162,7 +162,7 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param name 
+     * @param direction 
      *              message to be logged
      */
     public void setButtonClick(Button button, final Direction direction) {
@@ -267,7 +267,7 @@ public class MainActivity extends AndroidHarness {
     */
     public void setHealth(final int health) {
         
-        runOnUiThread( new Runnable() {
+        runOnUiThread(new Runnable() {
             
             @Override
             public void run() {

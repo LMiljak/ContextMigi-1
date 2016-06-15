@@ -101,6 +101,12 @@ public class MainEnvironment extends Environment {
 
     private long randomEventTime;
 
+    /**
+     * Constructor for MainEnvironment.
+     * 
+     * @param carrierAssigner
+     * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
+     */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
     	this.carrierAssigner = carrierAssigner;
     }

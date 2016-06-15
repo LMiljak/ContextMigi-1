@@ -3,7 +3,6 @@ package com.github.migi_1.Context.model.entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;

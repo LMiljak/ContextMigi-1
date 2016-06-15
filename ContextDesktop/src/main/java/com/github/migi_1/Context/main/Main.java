@@ -3,18 +3,22 @@ package com.github.migi_1.Context.main;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
-import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
+import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
+import com.github.migi_1.Context.server.StopEventMessageHandler;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+
+import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
@@ -38,7 +42,7 @@ public class Main extends VRApplication {
 
     private ServerWrapper server;
 
-    private AttackMessageHandler attackMessageHandler;
+    private boolean bugEventRunning = false;
 
 
     /**
@@ -84,10 +88,11 @@ public class Main extends VRApplication {
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
+
         this.getStateManager().attachAll(mainMenuState);
 
-        // Probably not the right spot, but I'll put this here for now.
-        attackMessageHandler = new AttackMessageHandler(this);
+        new EnableSprayToVRMessageHandler(this);
+        new StopEventMessageHandler(this);
     }
 
     /**
@@ -126,10 +131,38 @@ public class Main extends VRApplication {
      * Steers the platform depending on the orientation of an accelerometer.
      *
      * @param orientation
-     * 		The acceleration force along the z axis (including gravity).
+     *      The acceleration force along the z axis (including gravity).
      */
     public void handleAccelerometerMessage(float orientation) {
         environmentState.steer(orientation);
+    }
+
+    /**
+     * Sends the enable spray message.
+     * Method called in the EnableSprayToVRMessageHandler
+     * @param pos the position the spray should be activated on.
+     */
+    public void handleEnableSprayMessage(PlatformPosition pos) {
+        Server sendServer = server.getServer();
+        EnableSprayToAppMessage enableSprayMsg = new EnableSprayToAppMessage(pos);
+        if (sendServer.isRunning()) {
+            //Send a message which enables the spray on the send location.
+            //This happens in the app.
+            sendServer.broadcast(enableSprayMsg);
+        }
+    }
+
+    /**
+     * Sends the stop bug event message.
+     * Method called in the StopEventMessageHandler.
+     */
+    public void handleStopBugEvent() {
+        Server sendServer = server.getServer();
+        StopAllEventsMessage stopMsg = new StopAllEventsMessage();
+        if (sendServer.isRunning() && bugEventRunning) {
+            sendServer.broadcast(stopMsg);
+            bugEventRunning = false;
+        }
     }
 
     /**
@@ -142,13 +175,14 @@ public class Main extends VRApplication {
 
     /**
      * Returns the environment state.
-     * @return the env
+     * @return the environment
      */
     public MainEnvironment getEnv() {
         return environmentState;
     }
 
     /**
+     * Returns the rootnode.
      * @return
      * 		The root node.
      */
@@ -158,6 +192,7 @@ public class Main extends VRApplication {
     }
 
     /**
+     * Returns the GUInode.
      * @return The GUI node.
      */
     @Override
@@ -167,7 +202,7 @@ public class Main extends VRApplication {
 
     /**
      * Returns the only instance of main.
-     * @return main.
+     * @return the main instance.
      */
     public static Main getInstance() {
         return main;
@@ -189,17 +224,6 @@ public class Main extends VRApplication {
      */
     public ServerWrapper getServer() {
     	return server;
-    }
-
-    /**
-     * Executes an attack using a player's position and direction of attack.
-     * @param pos
-     * 			the PlatformPosition of the attacking player
-     * @param dir
-     * 			the direction of the attack (String)
-     */
-    public void handleAttack(PlatformPosition pos, String dir) {
-        // TODO: EXECUTE ATTACKS
     }
 
     /**
@@ -236,5 +260,22 @@ public class Main extends VRApplication {
      */
     public void setMainMenuState(MainMenu newMainMenuState) {
         mainMenuState = newMainMenuState;
+    }
+
+    /**
+     * Checks if the bug event is running.
+     * @return true when running.
+     */
+    public boolean isBugEventRunning() {
+        return bugEventRunning;
+    }
+
+    /**
+     * Sets whether or not the bug event is running.
+     * @param isRunning the new state of the bug event (true/false).
+     */
+    public void setBugEventRunning(boolean isRunning) {
+        bugEventRunning = isRunning;
+
     }
 }

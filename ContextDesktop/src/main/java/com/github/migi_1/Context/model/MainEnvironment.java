@@ -3,6 +3,7 @@ package com.github.migi_1.Context.model;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import jmevr.app.VRApplication;
 
@@ -19,6 +20,7 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bounding.BoundingBox;
@@ -27,6 +29,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
@@ -53,9 +56,17 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -3.5f, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-3f, -3.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
+
+    //This value is the time in milliseconds (1 second = 1000 ms).
+    private static final long LOWER_BOUND_EVENT_TIME = 20000;
+
+    //This value is in milliseconds.
+    //It sort of sets the upper bound of the event time,
+    //using formula: LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME.
+    private static final int RANGE_EVENT_TIME = 10000;
 
     private Application app;
     private Platform platform;
@@ -80,6 +91,8 @@ public class MainEnvironment extends Environment {
 
     private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
+
+    private long randomEventTime;
 
     /**
      * First method that is called after the state has been created.
@@ -111,6 +124,8 @@ public class MainEnvironment extends Environment {
         //Init the camera
         initCameras();
 
+        //Start the random event timer.
+        setNewRandomEventTime();
         setPaused(true);
     }
 
@@ -118,6 +133,7 @@ public class MainEnvironment extends Environment {
     public void update(float tpf) {
         if (!isPaused()) {
             super.update(tpf);
+            checkRandomEvent();
 
             updateEnemies(tpf);
             checkObstacleCollision();
@@ -177,6 +193,35 @@ public class MainEnvironment extends Environment {
     }
 
     /**
+     * Checks every update if a random event should start.
+     */
+    private void checkRandomEvent() {
+        //Time for a random event!
+        if (System.currentTimeMillis() > randomEventTime) {
+            StartBugEventMessage startMessage = new StartBugEventMessage();
+            Server server = getMain().getServer().getServer();
+            //Message is send when:
+            //The server is running.
+            //There is no other bug event currently running
+            //There are 4 people connected.
+            if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
+                getMain().setBugEventRunning(true);
+                server.broadcast(startMessage);
+            }
+            setNewRandomEventTime();
+        }
+    }
+
+    /**
+     * Sets the randomEvent time to
+     * LOWER_BOUND_EVENT_TIME to (LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME)
+     * seconds from the current time.
+     */
+    private void setNewRandomEventTime() {
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(RANGE_EVENT_TIME) + LOWER_BOUND_EVENT_TIME;
+    }
+
+    /**
      * Initializes all lights of the scene.
      */
     private void initLights() {
@@ -217,7 +262,6 @@ public class MainEnvironment extends Environment {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
         createWallBoundingBoxes();
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
@@ -225,13 +269,12 @@ public class MainEnvironment extends Environment {
         commander = new Commander(COMMANDER_LOCATION, platform);
         obstacleSpawner = new ObstacleSpawner(this);
 
-
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
@@ -268,8 +311,8 @@ public class MainEnvironment extends Environment {
      */
     public Carrier createCarrier(PlatformPosition position) {
         float x, y, z;
-        y = RELATIVE_CARRIER_LOCATION.y;
         x = RELATIVE_CARRIER_LOCATION.x;
+        y = RELATIVE_CARRIER_LOCATION.y;
         z = RELATIVE_CARRIER_LOCATION.z;
 
         z *= position.getzFactor();
@@ -386,7 +429,7 @@ public class MainEnvironment extends Environment {
 
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
 
     }
@@ -405,6 +448,10 @@ public class MainEnvironment extends Environment {
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
+        }
+
+        for (Obstacle obstacle : obstacleSpawner.deleteObstacles()) {
+            removeDisplayable(obstacle);
         }
     }
 

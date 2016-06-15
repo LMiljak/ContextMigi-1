@@ -48,9 +48,9 @@ public class Environment extends AbstractAppState {
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		    hudController.updateHUD();
-		    moveMovables();
-		    rotateRotatables();
+		hudController.updateHUD();
+		moveMovables();
+		rotateRotatables();
 	}
 
 	/**
@@ -101,10 +101,16 @@ public class Environment extends AbstractAppState {
 	 * 		The entity to add.
 	 */
 	public void addEntity(Entity entity) {
-		addDisplayable(entity);		
-		movables.add(entity);
+		addDisplayable(entity);
+		if (!(movables.contains(entity))) {
+		    movables.add(entity);
+		}
 	}
-	
+
+	/**
+	 * Adds a rotatable to the world.
+	 * @param rotatable the rotatable object.
+	 */
 	public void addRotatable(IRotatable rotatable) {
 		rotatables.add(rotatable);
 	}
@@ -129,7 +135,7 @@ public class Environment extends AbstractAppState {
 			movable.move(movable.getMoveBehaviour().getMoveVector());
 		}
 	}
-	
+
 	private void rotateRotatables() {
 		for (IRotatable rotatable : rotatables) {
 			rotatable.getRotateBehaviour().updateRotateVector();
@@ -181,6 +187,5 @@ public class Environment extends AbstractAppState {
     public void setAudioController(AudioController audioController) {
         this.audioController = audioController;
     }
-
 
 }

@@ -8,8 +8,8 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MultiMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.PlatformRotateBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
 import com.github.migi_1.Context.utility.AverageVectorAggregator;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.utility.SummingVectorAggregator;
@@ -24,24 +24,24 @@ import com.jme3.scene.Spatial;
  */
 public class Platform extends Entity implements IRotatable {
 
-    private static final String PATHNAME = "Models/testPlatform.j3o";
+    private static final String PATHNAME = "Models/platform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
     private CarrierAssigner carrierAssigner;
     private RotateBehaviour rotateBehaviour;
-    
+
     /**
      * Constructor of the platform.
-     * 
+     *
      * @param startLocation
      * 		location where the carrier will be initialised
      * @param environment
      * 		The environment that contains this platform.
-     * 
+     *
      */
     public Platform(Vector3f startLocation, MainEnvironment environment) {
         super();
-        
+
         this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
 
         ArrayList<AccelerometerMoveBehaviour> carrierBehaviours = new ArrayList<>(4);
@@ -50,8 +50,8 @@ public class Platform extends Entity implements IRotatable {
         			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(position)))
         	);
         }
-        		
-        
+
+
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(
@@ -67,7 +67,7 @@ public class Platform extends Entity implements IRotatable {
         		)
         	)
         );
-        
+
         this.rotateBehaviour = new PlatformRotateBehaviour(carrierBehaviours, getModel().getLocalRotation());
     }
 
@@ -75,17 +75,17 @@ public class Platform extends Entity implements IRotatable {
      * Adds a Carrier to this Platform.
      * If there already is a Carrier on the position of the new Carrier,
      * the old one gets removed.
-     * 
+     *
      * @param carrier
      * 		The carrier to add.
      */
     public void addCarrier(Carrier carrier) {
     	carriers.put(carrier.getPosition(), carrier);
     }
-    
+
     /**
      * Gets a carrier of this platform.
-     * 
+     *
      * @param position
      * 		The position of the carrier under the platform.
      * @return
@@ -95,10 +95,10 @@ public class Platform extends Entity implements IRotatable {
     public Carrier getCarrier(PlatformPosition position) {
     	return carriers.get(position);
     }
-    
+
     /**
      * Checks if the platform is fully being carried by four carriers.
-     * 
+     *
      * @return
      * 		True iff the platform is carried by four carriers.
      */
@@ -110,10 +110,10 @@ public class Platform extends Entity implements IRotatable {
     public Spatial getDefaultModel() {
         return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
-    
+
     /**
      * Returns all carriers currently in the game.
-     * @return 
+     * @return
      *    Carriers in the game. If none, it will return null.
      */
     public ArrayList<Carrier> getCarriers() {

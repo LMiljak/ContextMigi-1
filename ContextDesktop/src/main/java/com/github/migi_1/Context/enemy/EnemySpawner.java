@@ -77,39 +77,39 @@ public class EnemySpawner {
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
             }    
         }
-    
-    enemies.addAll(newEnemies);
-    return newEnemies;
-}
 
-/**
- * Creates a list of enemies to delete. Enemies which need to be deleted are
- * enemies which have no health and enemies which have fallen too far behind
- * the commander.
- *
- * @return List of enemies to delete from the game.
- */
-public LinkedList<Enemy> deleteEnemies() {
-    for (Enemy enemy : enemies) {
-        if (enemy.getHealth() <= 0) {
-            deleteList.add(enemy);
-        }
-        if (enemy.getModel().getLocalTranslation().distance(
-                commanderLocation) > ((BoundingBox) (new LevelPiece())
-                        .getModel().getWorldBound()).getXExtent() * 3) {
-            deleteList.add(enemy);
-        }
+        enemies.addAll(newEnemies);
+        return newEnemies;
     }
-    enemies.removeAll(deleteList);
-    return deleteList;
-}
 
-/**
- * Return the carriers.
- *
- * @return the carriers the enemySpawner uses.
- */
-public ArrayList<Carrier> getCarriers() {
-    return carriers;
-}
+    /**
+     * Creates a list of enemies to delete. Enemies which need to be deleted are
+     * enemies which have no health and enemies which have fallen too far behind
+     * the commander.
+     *
+     * @return List of enemies to delete from the game.
+     */
+    public LinkedList<Enemy> deleteEnemies() {
+        for (Enemy enemy : enemies) {
+            if (enemy.getHealth() <= 0) {
+                deleteList.add(enemy);                
+            }
+            if (enemy.getModel().getLocalTranslation().distance(
+                    commanderLocation) > ((BoundingBox) (new LevelPiece())
+                            .getModel().getWorldBound()).getXExtent() * 3) {
+                deleteList.add(enemy);
+            }
+        }
+        enemies.removeAll(deleteList);
+        return deleteList;
+    }
+
+    /**
+     * Return the carriers.
+     *
+     * @return the carriers the enemySpawner uses.
+     */
+    public ArrayList<Carrier> getCarriers() {
+        return carriers;
+    }
 }

@@ -33,7 +33,7 @@ public class Carrier extends Entity implements IKillable {
     private HealthMessenger healthMessenger;
     private AttackMessageHandler attackMessageHandler;
     private HitMissMessenger hitMissMessenger;
-    
+
     private int health;
 
     private PlatformPosition position;
@@ -105,9 +105,9 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void takeDamage(int damage) {
-    	setHealth(getHealth() - damage);
-    	if (getHealth() <= 0) {
-    		onKilled();
+        setHealth(getHealth() - damage);
+        if (getHealth() <= 0) {
+            onKilled();
         }
     }
 
@@ -167,7 +167,7 @@ public class Carrier extends Entity implements IKillable {
     public HealthMessenger getHealthMessenger() {
         return healthMessenger;
     }
-    
+
     /**
      * Executes an attack using a player's position and direction of attack.
      * @param direction
@@ -178,14 +178,13 @@ public class Carrier extends Entity implements IKillable {
             if (direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
                 if (enemy == null) {
-                     hitMissMessenger.sendHitMiss(false, position);
+                    hitMissMessenger.sendHitMiss(false, position);
                 }
                 else {
                     hitMissMessenger.sendHitMiss(true, position);
                     enemy.takeDamage(1);
-                    if (enemy.getHealth() == 0) {
+                    if (enemy.getHealth() <= 0) { 
                         enemySpot.setOccupied(false);
-                        enemySpot.setEnemy(null);
                     }
                 }
             }

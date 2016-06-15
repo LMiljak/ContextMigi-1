@@ -56,10 +56,9 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         }
 
         if (spots.size() != 0) {
-            int random = new Random().nextInt(spots.size());
-            EnemySpot enemySpot = spots.get(random);
-            enemySpot.setOccupied(true);
-            return enemySpot;
+            int random = new Random().nextInt(spots.size());            
+            spots.get(random).setOccupied(true);
+            return spots.get(random);
         } else {
             return null;
         }
@@ -133,6 +132,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         if (targetSpot.getLocation().distance(localTranslation) < startingSpeed 
                 && !atSpot) {
             targetSpot.setEnemy(enemy);
+            enemy.setSpot(targetSpot);
             startingSpeed *= 3;
             atSpot = true;
         }

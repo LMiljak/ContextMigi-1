@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class TestEnemy extends TestEntity {
     private Enemy testEnemy;
     private EnemySpot targetSpot;
     private ArrayList<Carrier> carriers;
-    
+
     /**
      * Initialises all mock objects, static class responses and initialises the tested object.
      */
@@ -55,28 +57,28 @@ public class TestEnemy extends TestEntity {
            // Mockito.when(carriers[i].getId()).thenReturn(i);
             Mockito.when(carriers.get(i).getModel()).thenReturn(model);
             Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-        }     
-        
+        }
+
         targetSpot = Mockito.mock(EnemySpot.class);
         Mockito.when(targetSpot.getCarrier()).thenReturn(carriers.get(0));
         Mockito.doNothing().when(targetSpot).setOccupied(false);
-        
+
         moveBehaviour = Mockito.mock(EnemyMoveBehaviour.class);
-        Mockito.when(moveBehaviour.getTargetSpot()).thenReturn(targetSpot);         
+        Mockito.when(moveBehaviour.getTargetSpot()).thenReturn(targetSpot);
         Mockito.when(moveBehaviour.isAtSpot()).thenReturn(true);
-        
+
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-        
+
         testEnemy = new Enemy(new Vector3f(5, 0, 0), carriers);
 
         testEnemy.setMoveBehaviour(moveBehaviour);
         setEntity(testEnemy);
 
     }
-    
+
     /**
      * Tests the takeDamage method.
      */
@@ -96,6 +98,18 @@ public class TestEnemy extends TestEntity {
     }
 
     /**
+     * Tests the onKilled method when the enemy has a spot.
+     */
+    @Test
+    public void onKilled_HasSpot_Test() {
+        assertNull(testEnemy.getSpot());
+        testEnemy.setSpot(targetSpot);
+        assertNotNull(testEnemy.getSpot());
+        testEnemy.onKilled();
+        assertNull(testEnemy.getSpot());
+    }
+
+    /**
      * Tests the setHealth method.
      */
     @Test
@@ -103,13 +117,23 @@ public class TestEnemy extends TestEntity {
         testEnemy.setHealth(42);
         assertEquals(testEnemy.getHealth(), 42);
     }
-    
+
     /**
      * Tests the attack method.
      */
     @Test
-    public void testAttack() {
+    public void attackTest() {
         testEnemy.attack(1000);
         Mockito.verify(carriers.get(0), Mockito.times(1)).takeDamage(1);
+    }
+
+    /**
+     * Tests the setSpot method.
+     */
+    @Test
+    public void setSpotTest() {
+        EnemySpot oldSpot = testEnemy.getSpot();
+        testEnemy.setSpot(targetSpot);
+        assertNotEquals(oldSpot, testEnemy.getSpot());
     }
 }

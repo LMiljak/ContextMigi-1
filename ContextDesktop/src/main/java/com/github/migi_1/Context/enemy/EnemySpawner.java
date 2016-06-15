@@ -66,12 +66,12 @@ public class EnemySpawner {
                 && currentLevelPiece != lastLevelPiece) {
             lastLevelPiece = currentLevelPiece;
             double random = Math.random();
-            if (random > 0.60 && random < 0.75) {
+            if (random > 0.70 && random < 0.85) {
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
-            } else if (random > 0.75 && random < 0.90) {
+            } else if (random > 0.85 && random < 0.95) {
                 newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
-            } else {
+            } else if (random > 0.95){
                 newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
                 newEnemies.add(enemyFactory.createEnemy2(currentLevelPiece));
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));

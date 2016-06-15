@@ -8,17 +8,22 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.github.migi_1.ContextApp.client.ClientHub;
 import android.widget.Toast;
 
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextApp.client.ClientHub;
+import com.github.migi_1.ContextMessages.Direction;
 import com.jme3.app.AndroidHarness;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -26,22 +31,34 @@ import java.util.logging.LogManager;
  * This class contains the main activity that is started you run the project.
  */
 public class MainActivity extends AndroidHarness {
+
     private Main application;
     private SensorManager mSensorManager;
     private AccelerometerSensor accelerometerSensor;
     private PositionHolder posHolder;
     private AttackMessenger atkMessenger;
-    private HeartsUpdateFunctions huFunctions;
+    private HealthMessageHandler healthListener;
+    private HitMissMessageHandler hitMissListener;
     private MakeButtonFunctions mbFunctions;
     private PlatformPosition position;
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
+    private ArrayList<ImageView> images;
+    
+    private Timer timer;
+    private TimerTask timerTask;
+    
+    private boolean cooldown;
     private boolean eventStarted;
+    
+    private final Handler handler = new Handler();
+
     /**
      * Configure the game instance that is launched and start the logger.
      */
     public MainActivity() {
+
         // Set the application class to run
         appClass = "com.github.migi_1.ContextApp.Main";
 
@@ -74,6 +91,10 @@ public class MainActivity extends AndroidHarness {
             }
         }
         
+        setContentView(R.layout.android_ingame);
+        
+        // set cooldown to false
+        setCooldown(false);
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, getClient());
@@ -85,7 +106,6 @@ public class MainActivity extends AndroidHarness {
     @Override  
     public void onResume() {
         super.onResume();
-        setContentView(R.layout.android_ingame);
 
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor, 
@@ -119,11 +139,19 @@ public class MainActivity extends AndroidHarness {
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
+        images = new ArrayList<ImageView>();
+        
+        images.add((ImageView) findViewById(R.id.Heart_1));
+        images.add((ImageView) findViewById(R.id.Heart_2));
+        images.add((ImageView) findViewById(R.id.Heart_3));
+        
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
-        huFunctions = new HeartsUpdateFunctions(this);
-        startBugEventListener = new StartBugEventMessageListener(this);
+        hitMissListener = new HitMissMessageHandler(this);
+        healthListener = new HealthMessageHandler(this);
 
+        startBugEventListener = new StartBugEventMessageListener(this);
+        
         TextView textView = (TextView) findViewById(R.id.Location);
         textView.setText(position.getPosition());
 
@@ -134,16 +162,20 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param name 
+     * @param direction 
      *              message to be logged
      */
-    public void setButtonClick(Button button, final String name) {
+    public void setButtonClick(Button button, final Direction direction) {
 
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                atkMessenger.sendAttack(posHolder.getPosition(), name);
+                
+                if (!cooldown) {
+                    atkMessenger.sendAttack(posHolder.getPosition(), direction);
+                }
+                    
             }
         });
     }
@@ -166,14 +198,6 @@ public class MainActivity extends AndroidHarness {
      */
     public PositionHolder getPosHolder() {
         return posHolder;
-    }
-
-    /**
-     * Returns the app's instance of the HeartsUpdateFunctions class.
-     * @return huFunctions HeartsUpdateFunctions
-     */
-    public HeartsUpdateFunctions getHUFunctions() {
-        return huFunctions;
     }
 
     /**
@@ -206,4 +230,95 @@ public class MainActivity extends AndroidHarness {
         int randomNumber = new Random().nextInt(4);
         return PlatformPosition.values()[randomNumber];
     }
+    
+    /**
+     * Setter for cooldown.
+     * @param cooldown 
+     *              Boolean that determines whether or not a player can use attacks.
+     */
+    public void setCooldown(boolean cooldown) {
+        this.cooldown = cooldown;
+    }
+    
+    /**
+     * Checks whether or not the carrier's attack has hit or not and calls the 
+     * functions corresponding to the boolean value.
+     * @param hit 
+     *          whether or not the attack was successful
+     */
+    public void hitMiss(boolean hit) {
+        if (hit) {
+            // Sound effect hit
+        }
+        else {
+            // Sound effect miss
+            setCooldown(true);
+            
+            timer = new Timer();
+            initializeTimerTask();
+            timer.schedule(timerTask, 2000);
+        }
+    }
+    
+    /**
+    * Calls functions to make the hearts the right colour.
+    * @param health the amount of health that has to be displayed in grey
+    *      and red hearts.
+    */
+    public void setHealth(final int health) {
+        
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                switch (health) {
+                    case 0:
+                        images.get(0).setImageResource(R.drawable.heart_grey);
+                        images.get(1).setImageResource(R.drawable.heart_grey);
+                        images.get(2).setImageResource(R.drawable.heart_grey);
+                        break;
+                    case 1:
+                        images.get(0).setImageResource(R.drawable.heart_red);
+                        images.get(1).setImageResource(R.drawable.heart_grey);
+                        images.get(2).setImageResource(R.drawable.heart_grey);
+                        break;
+                    case 2:
+                        images.get(0).setImageResource(R.drawable.heart_red);
+                        images.get(1).setImageResource(R.drawable.heart_red);
+                        images.get(2).setImageResource(R.drawable.heart_grey);
+                        break;
+                    case 3:
+                        images.get(0).setImageResource(R.drawable.heart_red);
+                        images.get(1).setImageResource(R.drawable.heart_red);
+                        images.get(2).setImageResource(R.drawable.heart_red);
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            }
+            
+        });
+        
+    }
+    
+    /**
+     * Initializes the TimerTask, which will set cooldown back to false.
+     */
+    public void initializeTimerTask() {
+         
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                 
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setCooldown(false);
+                    }
+                }); 
+                
+            }
+        };
+    }
+    
 }

@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.screens.MainMenu;
-import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -89,10 +88,9 @@ public class Main extends VRApplication {
         mainMenuState = new MainMenu();
         environmentState = new MainEnvironment();
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
+
         this.getStateManager().attachAll(mainMenuState);
 
-        // Probably not the right spot, but I'll put this here for now.
-        new AttackMessageHandler(this);
         new EnableSprayToVRMessageHandler(this);
         new StopEventMessageHandler(this);
     }
@@ -226,17 +224,6 @@ public class Main extends VRApplication {
      */
     public ServerWrapper getServer() {
     	return server;
-    }
-
-    /**
-     * Executes an attack using a player's position and direction of attack.
-     * @param pos
-     * 			the PlatformPosition of the attacking player
-     * @param dir
-     * 			the direction of the attack (String)
-     */
-    public void handleAttack(PlatformPosition pos, String dir) {
-        // TODO: EXECUTE ATTACKS
     }
 
     /**

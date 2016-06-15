@@ -1,7 +1,9 @@
 package com.github.migi_1.Context.server;
 
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.ContextMessages.AttackMessage;
+import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
@@ -11,15 +13,23 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 public class AttackMessageHandler extends MessageListener<AttackMessage> {
     
     private Main main;
+    private Carrier carrier;
+    private PlatformPosition position;
     
     /**
      * Creates an AttackMessageHandler.
      * @param main
-     * 			the main application by which this function is called
+     * 			the main application in which this function is called
+     * @param carrier
+     *                  the carrier by which this function is called
+     * @param position
+     *                  the position of the carrier
      */
     @SuppressWarnings("unchecked")
-	public AttackMessageHandler(Main main) {
+    public AttackMessageHandler(Main main, Carrier carrier, PlatformPosition position) {
         this.main = main;
+        this.carrier = carrier;
+        this.position = position;
         main.getServer().getServer().addMessageListener(this);
     }
     
@@ -33,9 +43,10 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
     @Override
     public void messageReceived(Object source, AttackMessage message) {
         PlatformPosition pos = message.getPosition();
-        String dir = message.getDirection();
-        
-        main.handleAttack(pos, dir);
+        if (position.equals(pos)) {
+            Direction dir = message.getDirection();
+            carrier.handleAttack(dir);
+        }
     }
     
     @Override

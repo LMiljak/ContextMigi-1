@@ -47,17 +47,17 @@ public class MainActivity extends AndroidHarness {
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
+    
     private SoundPool soundPool;
-        
+    private AudioManager audioManager;    
     private int[] soundIds;
+    
     private boolean cooldown;
     private boolean eventStarted;
     private ArrayList<ImageView> images;
     
     private Timer timer;
-    private TimerTask timerTask;
-    
-    AudioManager audioManager;
+    private TimerTask timerTask;  
     
     private final Handler handler = new Handler();
 
@@ -281,7 +281,7 @@ public class MainActivity extends AndroidHarness {
      * Unloads the sfx from the SoundPool.
      */
     public void unload() {
-        for(int id = 0; id < soundIds.length; id ++) {
+        for (int id = 0; id < soundIds.length; id++) {
             soundPool.unload(soundIds[id]);
         }
     }
@@ -297,7 +297,7 @@ public class MainActivity extends AndroidHarness {
         soundIds[2] = soundPool.load(this, R.raw.hit, 1);
     }
     
-    /*
+    /**
      * Setter for cooldown
      * @param cooldown 
      *              Boolean that determines whether or not a player can use attacks.

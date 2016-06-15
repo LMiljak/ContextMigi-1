@@ -2,12 +2,16 @@ package com.github.migi_1.Context.model.entity;
 
 import java.util.ArrayList;
 
+import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.model.entity.EnemySpot.Direction;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.Context.server.AttackMessageHandler;
+import com.github.migi_1.Context.server.HitMissMessenger;
+import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -27,10 +31,13 @@ public class Carrier extends Entity implements IKillable {
 
     private Main main;
     private HealthMessenger healthMessenger;
-
+    private AttackMessageHandler attackMessageHandler;
+    private HitMissMessenger hitMissMessenger;
+    
     private int health;
 
     private PlatformPosition position;
+    private String side;
 
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
@@ -57,8 +64,17 @@ public class Carrier extends Entity implements IKillable {
         health = INITIAL_HEALTH;
         main = environment.getMain();
         healthMessenger = new HealthMessenger(main);
+        attackMessageHandler = new AttackMessageHandler(main, this, position);
+        hitMissMessenger = new HitMissMessenger(main);
 
         this.position = position;
+        if (position.equals(PlatformPosition.FRONTRIGHT) 
+                || position.equals(PlatformPosition.BACKRIGHT)) {
+            side = "right";
+        }
+        else {
+            side = "left";
+        }
         this.environment = environment;
         createEnemyLocations();
 
@@ -67,10 +83,10 @@ public class Carrier extends Entity implements IKillable {
     private void createEnemyLocations() {
         enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
         if (position.getzFactor() == 1) {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.WEST));
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.EAST));
         }
         enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
 
@@ -150,6 +166,30 @@ public class Carrier extends Entity implements IKillable {
      */
     public HealthMessenger getHealthMessenger() {
         return healthMessenger;
+    }
+    
+    /**
+     * Executes an attack using a player's position and direction of attack.
+     * @param direction
+     * 			the direction of the attack
+     */
+    public void handleAttack(Direction direction) {
+        for(EnemySpot enemySpot : enemySpots) {
+            if(direction.equals(enemySpot.getDirection())) {
+                Enemy enemy = enemySpot.getEnemy();
+                if (enemy == null) {
+                     hitMissMessenger.sendHitMiss(false, position);
+                }
+                else {
+                    hitMissMessenger.sendHitMiss(true, position);
+                    enemy.takeDamage(1);
+                    if (enemy.getHealth() == 0) {
+                        enemySpot.setOccupied(false);
+                        enemySpot.setEnemy(null);
+                    }
+                }
+            }
+        }  
     }
 
 }

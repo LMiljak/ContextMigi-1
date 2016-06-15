@@ -3,6 +3,7 @@ package com.github.migi_1.Context.enemy;
 import java.util.ArrayList;
 
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
@@ -20,6 +21,7 @@ public class Enemy extends Entity implements IKillable {
     private int health;
     private float currentTime = 0;
     private static final float ATTACK_THRESHOLD = 3;
+    private EnemySpot spot;
 
     /**
      * Constructor of the Enemy.
@@ -48,10 +50,22 @@ public class Enemy extends Entity implements IKillable {
     public void setHealth(int health) {
         this.health = health;        
     }
+    
+    @Override
+    public void takeDamage(int damage) {
+        setHealth(getHealth() - damage);
+    	if (getHealth() <= 0) {
+    		onKilled();
+    	}
+    }
 
     @Override
     public void onKilled() {
-
+        if (spot != null) {
+            spot.setEnemy(null);
+            spot.setOccupied(false);
+            spot = null;
+        }
     }
 
     /**
@@ -69,7 +83,21 @@ public class Enemy extends Entity implements IKillable {
         }
     }
 
-
-
-
+    /**
+     * Setter for the enemy's EnemySpot.
+     * @param spot the spot where the enemy attacks a carrier from
+     */
+    public void setSpot(EnemySpot spot) {
+        this.spot = spot;
+    }
+    
+    /**
+     * Getter for the enemy's EnemySpot.
+     * @return 
+     *          The EnemySpot from which the enemy attacks a carrier
+     */
+    public EnemySpot getSpot() {
+        return spot;
+    }
+    
 }

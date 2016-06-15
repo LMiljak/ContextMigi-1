@@ -11,6 +11,7 @@ import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToVRMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
+import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
@@ -28,16 +29,17 @@ public class ServerWrapper {
 	/** The message the server should be able to handle. */
 	private static final List<Class<? extends AbstractMessage>> MESSAGE_TYPES
 		= Arrays.asList(
-                AccelerometerMessage.class,
-                EnableSprayToAppMessage.class,
-                EnableSprayToVRMessage.class,
-                StartBugEventMessage.class,
-                StopEventToVRMessage.class,
-                StopAllEventsMessage.class,
-                PositionMessage.class,
-                HealthMessage.class,
-                AttackMessage.class
-				);
+                        AccelerometerMessage.class,
+                        EnableSprayToAppMessage.class,
+                        EnableSprayToVRMessage.class,
+                        StartBugEventMessage.class,
+                        StopEventToVRMessage.class,
+                        StopAllEventsMessage.class,
+                        PositionMessage.class,
+                        HealthMessage.class,
+                        AttackMessage.class,
+                        HitMissMessage.class
+                );
 
 	/** The port on which the server is running. */
 	private static final int PORT = 4321;

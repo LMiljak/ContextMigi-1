@@ -1,22 +1,24 @@
 package com.github.migi_1.ContextApp;
 
-import com.github.migi_1.ContextMessages.HealthMessage;
+import android.util.Log;
+import com.github.migi_1.ContextMessages.HitMissMessage;
 import com.github.migi_1.ContextMessages.MessageListener;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
- * Responsible for receiving AccelerometerMessages and processing them.
+ * This class handles HitMissMessages and gives the player cooldown depending
+ * on whether their attack hit or not.
  */
-public class HealthMessageHandler extends MessageListener<HealthMessage> {
+public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     
     private MainActivity main;
     
     /**
-     * Creates and registers a new HealthMessageHandler.
+     * Creates and registers a new HitMissMessageHandler.
      * @param main
      * 		The instance of the application.
      */
-    public HealthMessageHandler(MainActivity main) {
+    public HitMissMessageHandler(MainActivity main) {
         this.main = main;
         main.getClient().getClient().addMessageListener(this);
     }
@@ -29,19 +31,20 @@ public class HealthMessageHandler extends MessageListener<HealthMessage> {
      *              the message itself
      */
     @Override
-    public void messageReceived(Object source, HealthMessage message) {
+    public void messageReceived(Object source, HitMissMessage message) {
         PlatformPosition position = message.getPos();
         if (position == main.getPosHolder().getPosition()) {
-            main.setHealth(message.getHealth());
+            main.hitMiss(message.getHit());
         }
     }
     
     /**
-     * Returns the HealthMessage class.
-     * @return HealthMessage.class Class<HealthMessage>
+     * Returns the HitMissMessage class.
+     * @return HitMissMessage.class Class<HealthMessage>
      */
     @Override
-    public Class<HealthMessage> getMessageClass() {
-        return HealthMessage.class;
+    public Class<HitMissMessage> getMessageClass() {
+        return HitMissMessage.class;
     }
+    
 }

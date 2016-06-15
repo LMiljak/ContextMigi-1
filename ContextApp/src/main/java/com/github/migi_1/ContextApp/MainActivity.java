@@ -85,6 +85,8 @@ public class MainActivity extends AndroidHarness {
         //instantiate the application
         application = (Main) getJmeApplication();
 
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        createSoundPool();
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -109,22 +111,12 @@ public class MainActivity extends AndroidHarness {
         accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
     
-    public void play(int sfx) {
-        float volume = (float) audioManager.getStreamVolume(audioManager.STREAM_MUSIC);
-        if (soundPool != null) {
-            soundPool.play(soundIds[sfx], volume, volume, 1, 0, 1.f);
-        }
-    }
-    
    /**
     * This method runs the app is resumed.
     */
     @Override  
     public void onResume() {
         super.onResume();
-        
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        createSoundPool();
         
         images.add((ImageView) findViewById(R.id.Heart_1));
         images.add((ImageView) findViewById(R.id.Heart_2));
@@ -145,7 +137,6 @@ public class MainActivity extends AndroidHarness {
         // clear the position
         posHolder.clearPosition();
         
-        // release the SoundPool
         if (soundPool != null) {
             soundPool.release();
         }
@@ -264,6 +255,36 @@ public class MainActivity extends AndroidHarness {
         soundPool = new SoundPool(10, audioManager.STREAM_MUSIC, 0);
         setVolumeControlStream(audioManager.STREAM_MUSIC);
         soundIds = new int[3];
+        load();
+    }
+    
+    /**
+     * Plays a sound effect with the SoundPool.
+     * @param sfx 
+     *          the position of the sound effect in the soundIds array
+     */
+    public void play(int sfx) {
+        float volume = (float) audioManager.getStreamVolume(audioManager.STREAM_MUSIC);
+        if (soundPool != null) {
+            soundPool.play(soundIds[sfx], volume, volume, 1, 0, 1.f);
+        }
+    }
+    
+    /**
+     * Unloads the sfx from the SoundPool.
+     */
+    public void unload() {
+        for(int id = 0; id < soundIds.length; id ++) {
+            soundPool.unload(soundIds[id]);
+        }
+    }
+    
+    /**
+     * Loads all sfx into the SoundPool.
+     */
+    public void load() {
+        unload();
+        
         soundIds[0] = soundPool.load(this, R.raw.gethit, 1);
         soundIds[1] = soundPool.load(this, R.raw.miss, 1);
         soundIds[2] = soundPool.load(this, R.raw.hit, 1);
@@ -285,11 +306,11 @@ public class MainActivity extends AndroidHarness {
      *          whether or not the attack was successful
      */
     public void hitMiss(boolean hit) {
+        play(1);
         if (hit) {
             play(2);
         }
         else {
-            play(1);
             setCooldown(true);
             
             timer = new Timer();

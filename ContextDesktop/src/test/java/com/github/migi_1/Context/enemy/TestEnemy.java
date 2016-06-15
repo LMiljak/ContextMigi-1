@@ -71,7 +71,7 @@ public class TestEnemy extends TestEntity {
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
         
         testEnemy = new Enemy(new Vector3f(5, 0, 0), carriers);
-
+        testEnemy.setSpot(targetSpot);
         testEnemy.setMoveBehaviour(moveBehaviour);
         setEntity(testEnemy);
 
@@ -92,7 +92,7 @@ public class TestEnemy extends TestEntity {
     @Test
     public void onKilledTest() {
         testEnemy.onKilled();
-        assertNull(testEnemy.getSpot());
+        assertNull(testEnemy.getSpot().getEnemy());
     }
 
     /**

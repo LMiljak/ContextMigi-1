@@ -91,6 +91,8 @@ public class MainActivity extends AndroidHarness {
             }
         }
         
+        setContentView(R.layout.android_ingame);
+        
         // set cooldown to false
         setCooldown(false);
 
@@ -137,8 +139,6 @@ public class MainActivity extends AndroidHarness {
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
-        setContentView(R.layout.android_ingame);
-        
         images = new ArrayList<ImageView>();
         
         images.add((ImageView) findViewById(R.id.Heart_1));

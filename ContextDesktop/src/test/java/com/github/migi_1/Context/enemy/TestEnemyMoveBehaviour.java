@@ -3,6 +3,8 @@ package com.github.migi_1.Context.enemy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -82,7 +84,7 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
     public void testCreateTargetSpot1() {
         Mockito.when(enemySpots.get(0).isOccupied()).thenReturn(false);
         enemyMoveBehaviour = new EnemyMoveBehaviour(enemy, carriers);
-        assertTrue(enemyMoveBehaviour.getTargetSpot() != null);
+        assertNotNull(enemyMoveBehaviour.getTargetSpot());
     }
 
     /**
@@ -92,7 +94,7 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
     public void testCreateTargetSpot2() {
         Mockito.when(enemySpots.get(0).isOccupied()).thenReturn(true);
         enemyMoveBehaviour = new EnemyMoveBehaviour(enemy, carriers);
-        assertTrue(enemyMoveBehaviour.getTargetSpot() == null);
+        assertNull(enemyMoveBehaviour.getTargetSpot());
     }
 
     /**

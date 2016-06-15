@@ -106,12 +106,11 @@ public class Environment extends AbstractAppState {
 		    movables.add(entity);
 		}
 	}
-	
-        /**
-         * SOMEONE PLEASE EXPLAIN THIS, THIS ISN'T MINE.
-         * @param rotatable 
-         *                  STILL NOT MINE
-         */
+
+	/**
+	 * Adds a rotatable to the world.
+	 * @param rotatable the rotatable object.
+	 */
 	public void addRotatable(IRotatable rotatable) {
 		rotatables.add(rotatable);
 	}
@@ -188,6 +187,5 @@ public class Environment extends AbstractAppState {
     public void setAudioController(AudioController audioController) {
         this.audioController = audioController;
     }
-
 
 }

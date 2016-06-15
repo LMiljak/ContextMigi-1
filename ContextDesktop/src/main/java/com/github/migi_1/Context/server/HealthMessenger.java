@@ -31,10 +31,12 @@ public class HealthMessenger {
     public void sendHealth(int health, PlatformPosition pos) {
         HealthMessage message = new HealthMessage(health, pos);
         
-        ServerWrapper serverWrapper = main.getServer();
-        Server server = serverWrapper.getServer();
-        if (server != null) {
-            server.broadcast(message);
-        } 
+        if (health >= 0) {
+            ServerWrapper serverWrapper = main.getServer();
+            Server server = serverWrapper.getServer();
+            if (server != null) {
+                server.broadcast(message);
+            } 
+        }
     }
 }

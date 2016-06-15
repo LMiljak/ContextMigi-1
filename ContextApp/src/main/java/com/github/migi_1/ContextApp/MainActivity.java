@@ -21,7 +21,6 @@ import com.github.migi_1.ContextApp.client.ClientHub;
 import com.github.migi_1.ContextMessages.Direction;
 import com.jme3.app.AndroidHarness;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -210,6 +209,8 @@ public class MainActivity extends AndroidHarness {
 
     /**
      * Starts the bug event. 
+     * @param bugPosition the initial position of the bug.
+     * @param sprayPosition the initial position of the spray.
      */
     public void startBugEvent(PlatformPosition bugPosition, PlatformPosition sprayPosition) {
         if (!eventStarted) {

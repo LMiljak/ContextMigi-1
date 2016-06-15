@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 /**
  * Sensor that receives information about the accelerometer of the Android device.
@@ -47,7 +46,6 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
             float zforce = se.values[2];
 
             // log the sensor values
-//            Log.d("main", xforce + " " + yforce + " " + zforce);
             //Sending the information to the Server.
             sendSensorInformation(xforce, yforce, zforce);
     }

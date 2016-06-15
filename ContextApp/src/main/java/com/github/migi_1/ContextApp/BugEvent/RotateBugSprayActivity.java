@@ -2,7 +2,6 @@ package com.github.migi_1.ContextApp.BugEvent;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -121,9 +120,7 @@ public class RotateBugSprayActivity extends Activity {
             
             @Override
             public void run() {
-                Log.d("rotate", "ENABLE SPRAY BUTTON MESSAGE");
                 spray.setVisibility(View.VISIBLE);
-                Log.d("rotate", "SPRAY ENABLED? " + (spray.getVisibility() == View.VISIBLE));
             }
         });
     }
@@ -219,13 +216,8 @@ public class RotateBugSprayActivity extends Activity {
         //Get the initial positions for the bug and spray. 
         PlatformPosition bugPosition = (PlatformPosition) getIntent().getExtras().get("BugPosition");
         PlatformPosition sprayPosition = (PlatformPosition) getIntent().getExtras().get("SprayPosition");
-
-        Log.d("rotate", bugPosition.getPosition());
-        Log.d("rotate", sprayPosition.getPosition());
         
         //Set the positions to visible when the given position is the current position. 
-        Log.d("rotate", "Bug set? " + (position == bugPosition));
-        Log.d("rotate", "Spray set? " + (position == sprayPosition));
         if (position == bugPosition) {
             bug.setVisibility(View.VISIBLE);
         }

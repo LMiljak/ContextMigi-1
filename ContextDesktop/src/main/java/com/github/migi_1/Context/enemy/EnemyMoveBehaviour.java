@@ -16,7 +16,7 @@ import com.jme3.math.Vector3f;
  */
 public class EnemyMoveBehaviour extends MoveBehaviour {
 
-    private static final float DISTANCE_THRESHOLD = 50;
+    private static final float DISTANCE_THRESHOLD = 120;
     private Vector3f moveVector;
     private float startingSpeed = 0.5f;
     private Vector3f localTranslation;

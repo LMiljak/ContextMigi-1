@@ -58,7 +58,6 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         if (spots.size() != 0) {
             int random = new Random().nextInt(spots.size());
             spots.get(random).setOccupied(true);
-            System.out.println(spots.get(random).getLocation().x);
             return spots.get(random);
         } else {
             return null;

@@ -7,6 +7,8 @@ import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.Direction;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -50,19 +52,19 @@ public class Enemy extends Entity implements IKillable {
     public void setHealth(int health) {
         this.health = health;        
     }
-    
+
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
-    	if (getHealth() <= 0) {
-    		onKilled();
-    	}
+        if (getHealth() <= 0) {
+            onKilled();
+        }
     }
 
     @Override
     public void onKilled() {
-            spot.setEnemy(null);
-            spot.setOccupied(false);
+        spot.setEnemy(null);
+        spot.setOccupied(false);
     }
 
     /**
@@ -87,7 +89,7 @@ public class Enemy extends Entity implements IKillable {
     public void setSpot(EnemySpot spot) {
         this.spot = spot;
     }
-    
+
     /**
      * Getter for the enemy's EnemySpot.
      * @return 
@@ -96,5 +98,21 @@ public class Enemy extends Entity implements IKillable {
     public EnemySpot getSpot() {
         return spot;
     }
-    
+
+    public void rotateCorrectly() {                
+        getModel().rotate(getModel().getLocalRotation().inverse());
+        double angle = 0;
+        System.out.println(getSpot().getDirection().name());
+        if (getSpot().getDirection().ordinal() == 1) {
+            angle = 0.5;
+        } else if (getSpot().getDirection().ordinal() == 2) {
+            angle = 0.5;
+        } else if (getSpot().getDirection().ordinal() == 3) {
+            angle = 1;
+        }
+        
+        System.out.println("direction: " + spot.getDirection().name() + " " + spot.getDirection().ordinal() + " " + angle);
+        getModel().rotate(0, (float) (angle * Math.PI), 0);
+    }
+
 }

@@ -133,6 +133,7 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
                 && !atSpot) {
             targetSpot.setEnemy(enemy);
             enemy.setSpot(targetSpot);
+            enemy.rotateCorrectly();
             startingSpeed *= 3;
             atSpot = true;
         }

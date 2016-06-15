@@ -27,11 +27,11 @@ public class ScoreController {
         writer = new ScoreWriter();
 
         try {
+            System.out.println(reader.getClass());
             scores = reader.read(SCORE_FILE);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**

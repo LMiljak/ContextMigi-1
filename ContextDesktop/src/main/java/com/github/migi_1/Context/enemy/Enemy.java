@@ -38,7 +38,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2f);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2.0f);
     }
 
     @Override

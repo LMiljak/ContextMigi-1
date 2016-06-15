@@ -297,8 +297,6 @@ public class Main extends VRApplication {
     public void setEnvState(MainEnvironment newEnvState) {
         environmentState = newEnvState;
     }
-
-    // TESTS NEED TO BE ALTERED, SINCE THE MENU IS GOING TO BE REPLACED.
     
     /**
      * Sets the current lobby state.

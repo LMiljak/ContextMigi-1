@@ -107,6 +107,10 @@ public class Environment extends AbstractAppState {
 		}
 	}
 
+	/**
+	 * Adds a rotatable to the world.
+	 * @param rotatable the rotatable object.
+	 */
 	public void addRotatable(IRotatable rotatable) {
 		rotatables.add(rotatable);
 	}

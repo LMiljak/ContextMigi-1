@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
@@ -36,6 +34,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
+import jmevr.app.VRApplication;
+
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
@@ -56,7 +56,7 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-3f, -3.5f, 6f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-6f, -3.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 

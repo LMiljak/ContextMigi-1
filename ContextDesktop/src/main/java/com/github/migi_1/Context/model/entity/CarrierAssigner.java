@@ -82,4 +82,12 @@ public class CarrierAssigner implements ConnectionListener {
 			return res;
 		}
 	}
+
+	/**
+	 * Getter for the address carrier map.
+	 * @return the hashmap for the adresses of the carriers.
+	 */
+	public HashMap<PlatformPosition, String> getAddressCarrierMap() {
+	    return addressCarrierMap;
+	}
 }

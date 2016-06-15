@@ -279,6 +279,11 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
         }
+
+        addEntity(platform);
+        addRotatable(platform);
+        addEntity(commander);
+        addRotatable(commander);
     }
 
     private void createWallBoundingBoxes() {

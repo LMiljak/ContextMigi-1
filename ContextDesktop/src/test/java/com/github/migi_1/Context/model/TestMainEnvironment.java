@@ -138,7 +138,7 @@ public class TestMainEnvironment {
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
-        env = PowerMockito.spy(new MainEnvironment());
+        env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
     }
 
     /**

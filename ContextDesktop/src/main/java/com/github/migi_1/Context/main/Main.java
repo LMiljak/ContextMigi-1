@@ -100,8 +100,6 @@ public class Main extends VRApplication {
         this.getStateManager().attach(lobbyState);
         inLobby = true;
 
-        // Probably not the right spot, but I'll put this here for now.
-        new AttackMessageHandler(this);
         new EnableSprayToVRMessageHandler(this);
         new StopEventMessageHandler(this);
     }
@@ -271,17 +269,6 @@ public class Main extends VRApplication {
         environmentState.cleanup();
         this.getStateManager().attach(lobbyState);
         this.getStateManager().detach(environmentState);
-    }
-
-    /**
-     * Executes an attack using a player's position and direction of attack.
-     * @param pos
-     * 			the PlatformPosition of the attacking player
-     * @param dir
-     * 			the direction of the attack (String)
-     */
-    public void handleAttack(PlatformPosition pos, String dir) {
-        // TODO: EXECUTE ATTACKS
     }
 
     /**

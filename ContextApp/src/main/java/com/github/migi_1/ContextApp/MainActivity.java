@@ -91,7 +91,6 @@ public class MainActivity extends AndroidHarness {
         getClient().getClient().addMessageListener(posHolder);
                 
         while (true) {
-            Log.d("CarriedAway", "Waiting for position message");
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
                 break;
@@ -146,7 +145,7 @@ public class MainActivity extends AndroidHarness {
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
-        images = new ArrayList<ImageView>();
+        images = new ArrayList<>();
         
         images.add((ImageView) findViewById(R.id.Heart_1));
         images.add((ImageView) findViewById(R.id.Heart_2));

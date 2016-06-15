@@ -1,10 +1,14 @@
 package com.github.migi_1.Context.model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import jmevr.app.VRApplication;
 
+import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -16,14 +20,16 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
+import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
@@ -50,9 +56,17 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -5, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-3f, -3.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
+
+    //This value is the time in milliseconds (1 second = 1000 ms).
+    private static final long LOWER_BOUND_EVENT_TIME = 20000;
+
+    //This value is in milliseconds.
+    //It sort of sets the upper bound of the event time,
+    //using formula: LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME.
+    private static final int RANGE_EVENT_TIME = 10000;
 
     private Application app;
     private Platform platform;
@@ -65,13 +79,20 @@ public class MainEnvironment extends Environment {
     private boolean flyCamActive;
 
     private LevelGenerator levelGenerator;
+    private EnemySpawner enemySpawner;
+
+    private LinkedList<Enemy> enemies;
 
 
     private HashMap<Entity, CollisionResults> results;
 
     private ObstacleSpawner obstacleSpawner;
+    private BoundingBox boundingBoxWallLeft;
 
+    private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
+
+    private long randomEventTime;
 
     /**
      * First method that is called after the state has been created.
@@ -80,7 +101,7 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
@@ -88,9 +109,7 @@ public class MainEnvironment extends Environment {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-
         scoreController = new ScoreController();
-
         results = new HashMap<Entity, CollisionResults>();
 
         //creates the lights
@@ -104,22 +123,30 @@ public class MainEnvironment extends Environment {
 
         //Init the camera
         initCameras();
-        
+
+        //Start the random event timer.
+        setNewRandomEventTime();
         setPaused(true);
     }
 
     @Override
     public void update(float tpf) {
-        super.update(tpf);
+        if (!isPaused()) {
+            super.update(tpf);
+            checkRandomEvent();
 
-        checkCollision();
-        updateTestWorld();
+            updateEnemies(tpf);
+            checkObstacleCollision();
+            checkPathCollision();
+            updateTestWorld();
+        }
     }
+
 
     /**
      * Handle collision checking.
      */
-    private void checkCollision() {
+    private void checkObstacleCollision() {
         //add collision check for all obstacles
 
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
@@ -148,6 +175,50 @@ public class MainEnvironment extends Environment {
             entry.setValue(new CollisionResults());
         }
 
+    }
+
+    private void checkPathCollision() {
+        for (Carrier carrier : platform.getCarriers()) {
+            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
+                commander.move(new Vector3f(0, 0, -0.3f));
+                platform.move(new Vector3f(0, 0, -0.3f));
+                carrier.move(new Vector3f(0, 0, -0.3f));
+            }
+            else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+                commander.move(new Vector3f(0, 0, 0.3f));
+                platform.move(new Vector3f(0, 0, 0.3f));
+                carrier.move(new Vector3f(0, 0, 0.3f));
+            }
+        }
+    }
+
+    /**
+     * Checks every update if a random event should start.
+     */
+    private void checkRandomEvent() {
+        //Time for a random event!
+        if (System.currentTimeMillis() > randomEventTime) {
+            StartBugEventMessage startMessage = new StartBugEventMessage();
+            Server server = getMain().getServer().getServer();
+            //Message is send when:
+            //The server is running.
+            //There is no other bug event currently running
+            //There are 4 people connected.
+            if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
+                getMain().setBugEventRunning(true);
+                server.broadcast(startMessage);
+            }
+            setNewRandomEventTime();
+        }
+    }
+
+    /**
+     * Sets the randomEvent time to
+     * LOWER_BOUND_EVENT_TIME to (LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME)
+     * seconds from the current time.
+     */
+    private void setNewRandomEventTime() {
+        randomEventTime = System.currentTimeMillis() + new Random().nextInt(RANGE_EVENT_TIME) + LOWER_BOUND_EVENT_TIME;
     }
 
     /**
@@ -191,50 +262,68 @@ public class MainEnvironment extends Environment {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-
+        createWallBoundingBoxes();
+        enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, this);
-        commander = new Commander(COMMANDER_LOCATION, platform.getMoveBehaviour());
-        obstacleSpawner = new ObstacleSpawner(commander);
+        commander = new Commander(COMMANDER_LOCATION, platform);
+        obstacleSpawner = new ObstacleSpawner(this);
 
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
         }
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
         }
 
         addEntity(platform);
+        addRotatable(platform);
         addEntity(commander);
+        addRotatable(commander);
+    }
+
+    private void createWallBoundingBoxes() {
+        Path path = new Path();
+        boundingBoxWallLeft = new BoundingBox(
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                        + ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
+
+        boundingBoxWallRight = new BoundingBox(
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                        -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
+                        Float.MAX_VALUE,
+                        100f, 1f);
     }
 
     /**
      * Creates a carrier.
-     * 
+     *
      * @param position
      * 		The position under the platform to place the carrier.
      * @return
      * 		The created carrier.
      */
     public Carrier createCarrier(PlatformPosition position) {
-		float x, y, z;
-		y = RELATIVE_CARRIER_LOCATION.y;
-		x = RELATIVE_CARRIER_LOCATION.x;
-		z = RELATIVE_CARRIER_LOCATION.z;
+        float x, y, z;
+        x = RELATIVE_CARRIER_LOCATION.x;
+        y = RELATIVE_CARRIER_LOCATION.y;
+        z = RELATIVE_CARRIER_LOCATION.z;
 
-		z *= position.getzFactor();
-		x *= position.getxFactor();
-		
-		Vector3f relativeLocation = new Vector3f(x, y, z);
-		
-		Carrier newCarrier = new Carrier(relativeLocation, position, this);
-		results.put(newCarrier, new CollisionResults());
-		
-		return newCarrier;
+        z *= position.getzFactor();
+        x *= position.getxFactor();
+
+        Vector3f relativeLocation = new Vector3f(x, y, z);
+
+        Carrier newCarrier = new Carrier(relativeLocation, position, this);
+        results.put(newCarrier, new CollisionResults());
+
+        return newCarrier;
     }
 
     /**
@@ -244,14 +333,14 @@ public class MainEnvironment extends Environment {
     public Commander getCommander() {
         return commander;
     }
-    
+
     /**
      * Gets the platform.
      * @return
      * 		The retrieved platform.
      */
     public Platform getPlatform() {
-    	return platform;
+        return platform;
     }
 
 
@@ -261,7 +350,7 @@ public class MainEnvironment extends Environment {
      */
     private void initCameras() {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
-        flyObs.getModel().setLocalTranslation(new Vector3f(-12f, 0f, -16f));
+        flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
 
         commander.makeObserver();
@@ -321,7 +410,9 @@ public class MainEnvironment extends Environment {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
         removeDisplayables(loc);
+        flyObs.move(new Vector3f(-0.2f, 0, 0));
     }
+
     /**
      * Responsible for adding everything that needs displaying to the rootnode.
      * @param loc
@@ -338,7 +429,7 @@ public class MainEnvironment extends Environment {
 
         //update the Obstacles
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            addDisplayable(staticObstacle);
+            addEntity(staticObstacle);
         }
 
     }
@@ -357,6 +448,30 @@ public class MainEnvironment extends Environment {
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
+        }
+
+        for (Obstacle obstacle : obstacleSpawner.deleteObstacles()) {
+            removeDisplayable(obstacle);
+        }
+    }
+
+    private void updateEnemies(float tpf) {
+        if (enemySpawner == null || enemySpawner.getCarriers().size() == 0) {
+            enemySpawner = new EnemySpawner(commander, platform.getCarriers());
+        } else {
+            for (Enemy enemy : enemySpawner.generateEnemies()) {
+                addEntity(enemy);
+                enemies.add(enemy);
+            }
+
+            for (Enemy enemy : enemySpawner.deleteEnemies()) {
+                removeEntity(enemy);
+                enemies.remove(enemy);
+            }
+
+            for (Enemy enemy : enemies) {
+                enemy.attack(tpf);
+            }
         }
     }
 
@@ -394,7 +509,7 @@ public class MainEnvironment extends Environment {
     public float getSteering() {
         return steering;
     }
-    
+
     /**
      * Returns the main application.
      * @return (Main) app.
@@ -410,5 +525,21 @@ public class MainEnvironment extends Environment {
      */
     public void setResults(HashMap<Entity, CollisionResults> newResults) {
         results = newResults;
+    }
+
+    /**
+     * Getter for the left bounding box.
+     * @return the left bounding box
+     */
+    public BoundingBox getLeftBound() {
+        return boundingBoxWallLeft;
+    }
+
+    /**
+     * Getter for the right bounding box.
+     * @return the right bounding box
+     */
+    public BoundingBox getRightBound() {
+        return boundingBoxWallRight;
     }
 }

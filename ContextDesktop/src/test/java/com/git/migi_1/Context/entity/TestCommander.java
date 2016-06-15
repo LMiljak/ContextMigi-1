@@ -10,8 +10,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.model.entity.Commander;
+import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.utility.Filter;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
@@ -32,25 +34,25 @@ public class TestCommander extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
+    private Filter<String> filter;
 
 
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Before
     public void setUp() {
-
-    	try {
+        filter = Mockito.mock(Filter.class);
+        try {
             PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
-                .withNoArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
- 			
- 	} catch (Exception e) {
+            .withArguments(filter).thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
+        } catch (Exception e) {
             e.printStackTrace();
- 	}
+        }
 
-    	
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
@@ -60,7 +62,7 @@ public class TestCommander extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
 
-        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(MoveBehaviour.class));
+        testCommander = new Commander(new Vector3f(0, 0, 0), Mockito.mock(Platform.class));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCommander);

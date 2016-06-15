@@ -9,14 +9,14 @@ public enum PlatformPosition {
 	FRONTRIGHT(-1, -1, "Location: front/right"),
 	BACKLEFT(1, 1, "Location: back/left"),
 	BACKRIGHT(1, -1, "Location: back/right");
-	
+
 	private int xFactor;
 	private int zFactor;
         private String position;
-	
+
 	/**
 	 * Constructor for PlatformPosition.
-	 * 
+	 *
 	 * @param xFactor
 	 * 		-1 if it's in the front, 1 if it's in the back.
 	 * @param zFactor
@@ -46,7 +46,7 @@ public enum PlatformPosition {
 	public int getzFactor() {
 		return zFactor;
 	}
-        
+
         /**
          * @return location
          *              The location of the carrier.
@@ -54,5 +54,5 @@ public enum PlatformPosition {
         public String getPosition() {
                 return position;
         }
-	
+
 }

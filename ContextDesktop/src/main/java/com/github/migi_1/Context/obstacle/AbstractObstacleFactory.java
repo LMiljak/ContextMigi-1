@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.obstacle;
 
 
+
 /**
  * This class defines what functions all factories that create Obstacles must implement.
  * @author Marcel

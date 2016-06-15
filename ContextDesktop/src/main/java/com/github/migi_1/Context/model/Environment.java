@@ -48,9 +48,9 @@ public class Environment extends AbstractAppState {
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		    hudController.updateHUD();
-		    moveMovables();
-		    rotateRotatables();
+		hudController.updateHUD();
+		moveMovables();
+		rotateRotatables();
 	}
 
 	/**

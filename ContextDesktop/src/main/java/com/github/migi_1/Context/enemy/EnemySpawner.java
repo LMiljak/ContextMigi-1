@@ -100,6 +100,7 @@ public class EnemySpawner {
                 deleteList.add(enemy);
             }
         }
+        enemies.removeAll(deleteList);
         return deleteList;
     }
 

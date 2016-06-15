@@ -1,6 +1,7 @@
 package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
@@ -58,6 +59,7 @@ public class TestEnemy extends TestEntity {
         
         targetSpot = Mockito.mock(EnemySpot.class);
         Mockito.when(targetSpot.getCarrier()).thenReturn(carriers.get(0));
+        Mockito.doNothing().when(targetSpot).setOccupied(false);
         
         moveBehaviour = Mockito.mock(EnemyMoveBehaviour.class);
         Mockito.when(moveBehaviour.getTargetSpot()).thenReturn(targetSpot);         
@@ -90,6 +92,7 @@ public class TestEnemy extends TestEntity {
     @Test
     public void onKilledTest() {
         testEnemy.onKilled();
+        assertNull(testEnemy.getSpot());
     }
 
     /**

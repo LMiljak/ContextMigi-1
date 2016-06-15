@@ -129,11 +129,6 @@ public class MainActivity extends AndroidHarness {
     }
     
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-    
-    @Override
     protected void onDestroy() {
         // clear the position
         posHolder.clearPosition();
@@ -298,7 +293,7 @@ public class MainActivity extends AndroidHarness {
     }
     
     /**
-     * Setter for cooldown
+     * Setter for cooldown.
      * @param cooldown 
      *              Boolean that determines whether or not a player can use attacks.
      */

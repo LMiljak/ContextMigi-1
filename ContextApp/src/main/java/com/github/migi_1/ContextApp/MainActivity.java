@@ -211,24 +211,15 @@ public class MainActivity extends AndroidHarness {
     /**
      * Starts the bug event. 
      */
-    public void startBugEvent() {
+    public void startBugEvent(PlatformPosition bugPosition, PlatformPosition sprayPosition) {
         if (!eventStarted) {
             eventStarted = true;
             Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
             nextScreen.putExtra("Position", position);
-            nextScreen.putExtra("BugPosition", getRandomPosition());
-            nextScreen.putExtra("SprayPosition", getRandomPosition());
+            nextScreen.putExtra("BugPosition", bugPosition);
+            nextScreen.putExtra("SprayPosition", sprayPosition);
             startActivity(nextScreen);
         }
-    }
-
-    /**
-     * Retuns a random position. 
-     * @return a random platform position.
-     */
-    private PlatformPosition getRandomPosition() {
-        int randomNumber = new Random().nextInt(4);
-        return PlatformPosition.values()[randomNumber];
     }
     
     /**

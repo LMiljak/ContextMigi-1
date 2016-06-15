@@ -148,6 +148,7 @@ public class Main extends VRApplication {
         if (sendServer.isRunning()) {
             //Send a message which enables the spray on the send location.
             //This happens in the app.
+            System.out.println("Enabling message on: " + enableSprayMsg.getPosition());
             sendServer.broadcast(enableSprayMsg);
         }
     }

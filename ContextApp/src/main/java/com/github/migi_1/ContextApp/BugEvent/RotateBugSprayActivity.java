@@ -2,6 +2,7 @@ package com.github.migi_1.ContextApp.BugEvent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +23,6 @@ public class RotateBugSprayActivity extends Activity {
     private float x1, x2, y1, y2;
     private ClientHub clientHub = ClientHub.getInstance();
     private ClientWrapper clientEvent;
-    private StopAllEventsMessageListener stopEventListener;
-    private EnableSprayAppMessageHandler enableSprayListener;
     private PlatformPosition position;
 
     @Override
@@ -118,7 +117,15 @@ public class RotateBugSprayActivity extends Activity {
      * Enables the sprayButton for the current screen.
      */
     public void enableSprayButton() {
-        spray.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                Log.d("rotate", "ENABLE SPRAY BUTTON MESSAGE");
+                spray.setVisibility(View.VISIBLE);
+                Log.d("rotate", "SPRAY ENABLED? " + (spray.getVisibility() == View.VISIBLE));
+            }
+        });
     }
 
     /**
@@ -206,22 +213,25 @@ public class RotateBugSprayActivity extends Activity {
         //Add the spray text and the bug button. 
         spray = (TextView) findViewById(R.id.eventBug_spray);
         bug = (Button) findViewById(R.id.eventBug_bug);
-        //This is for testing only,
-        //After pr, we want this to be set to view.GONE
-        spray.setVisibility(View.VISIBLE);
-        bug.setVisibility(View.VISIBLE);
+        spray.setVisibility(View.GONE);
+        bug.setVisibility(View.GONE);
 
         //Get the initial positions for the bug and spray. 
         PlatformPosition bugPosition = (PlatformPosition) getIntent().getExtras().get("BugPosition");
         PlatformPosition sprayPosition = (PlatformPosition) getIntent().getExtras().get("SprayPosition");
 
+        Log.d("rotate", bugPosition.getPosition());
+        Log.d("rotate", sprayPosition.getPosition());
+        
         //Set the positions to visible when the given position is the current position. 
-//        if (position == bugPosition) {
-//            bug.setVisibility(View.VISIBLE);
-//        }
-//        if (position == sprayPosition) {
-//            spray.setVisibility(View.VISIBLE);
-//        }
+        Log.d("rotate", "Bug set? " + (position == bugPosition));
+        Log.d("rotate", "Spray set? " + (position == sprayPosition));
+        if (position == bugPosition) {
+            bug.setVisibility(View.VISIBLE);
+        }
+        if (position == sprayPosition) {
+            spray.setVisibility(View.VISIBLE);
+        }
 
         //Add a listener for the bug button. 
         bug.setOnClickListener(new View.OnClickListener() {

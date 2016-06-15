@@ -198,18 +198,29 @@ public class MainEnvironment extends Environment {
     private void checkRandomEvent() {
         //Time for a random event!
         if (System.currentTimeMillis() > randomEventTime) {
-            StartBugEventMessage startMessage = new StartBugEventMessage();
+            StartBugEventMessage startMessage = new StartBugEventMessage(getRandomPosition(), getRandomPosition());
             Server server = getMain().getServer().getServer();
             //Message is send when:
             //The server is running.
             //There is no other bug event currently running
             //There are 4 people connected.
             if (server.isRunning() && !getMain().isBugEventRunning() && server.getConnections().size() > 0) {
+                System.out.println("bug: " + startMessage.getBugPosition());
+                System.out.println("spray: " + startMessage.getSprayPosition());
                 getMain().setBugEventRunning(true);
                 server.broadcast(startMessage);
             }
             setNewRandomEventTime();
         }
+    }
+
+    /**
+     * Retuns a random position.
+     * @return a random platform position.
+     */
+    private PlatformPosition getRandomPosition() {
+        int randomNumber = new Random().nextInt(4);
+        return PlatformPosition.values()[randomNumber];
     }
 
     /**

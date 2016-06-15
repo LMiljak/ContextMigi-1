@@ -1,6 +1,7 @@
 package com.github.migi_1.ContextApp;
 
 import com.github.migi_1.ContextMessages.MessageListener;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 
 /**
@@ -22,7 +23,7 @@ public class StartBugEventMessageListener extends MessageListener<StartBugEventM
     
     @Override
     public void messageReceived(Object source, StartBugEventMessage message) {
-        main.startBugEvent();
+        main.startBugEvent(message.getBugPosition(), PlatformPosition.FRONTLEFT);
     }
 
     @Override

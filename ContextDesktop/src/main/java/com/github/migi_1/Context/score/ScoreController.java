@@ -46,6 +46,4 @@ public class ScoreController {
             e.printStackTrace();
         }
     }
-
-
 }

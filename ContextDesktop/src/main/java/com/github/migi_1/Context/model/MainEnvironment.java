@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
@@ -33,8 +35,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -448,6 +448,10 @@ public class MainEnvironment extends Environment {
         //delete path when it is too far back
         for (Path path : levelGenerator.deletePathPieces(loc)) {
             removeDisplayable(path);
+        }
+
+        for (Obstacle obstacle : obstacleSpawner.deleteObstacles()) {
+            removeDisplayable(obstacle);
         }
     }
 

@@ -301,6 +301,7 @@ public class MainEnvironment extends Environment {
         for (PlatformPosition position : PlatformPosition.values()) {
         	Carrier carrier = createCarrier(position);
         	addEntity(carrier);
+        	platform.addCarrier(carrier);
         }
         
         addEntity(platform);

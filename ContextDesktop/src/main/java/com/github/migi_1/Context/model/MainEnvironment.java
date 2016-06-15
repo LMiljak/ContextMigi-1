@@ -284,6 +284,19 @@ public class MainEnvironment extends Environment {
         addRotatable(platform);
         addEntity(commander);
         addRotatable(commander);
+
+        Carrier c1 = createCarrier(PlatformPosition.FRONTLEFT);
+        Carrier c2 = createCarrier(PlatformPosition.FRONTRIGHT);
+        Carrier c3 = createCarrier(PlatformPosition.BACKLEFT);
+        Carrier c4 = createCarrier(PlatformPosition.BACKRIGHT);
+        addEntity(c1);
+        addEntity(c2);
+        addEntity(c3);
+        addEntity(c4);
+        platform.addCarrier(c1);
+        platform.addCarrier(c2);
+        platform.addCarrier(c3);
+        platform.addCarrier(c4);
     }
 
     private void createWallBoundingBoxes() {

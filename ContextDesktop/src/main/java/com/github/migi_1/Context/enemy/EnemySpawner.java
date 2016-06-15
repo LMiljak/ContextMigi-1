@@ -58,12 +58,10 @@ public class EnemySpawner {
      * @return list of new enemies to add to the game.
      */
     public LinkedList<Enemy> generateEnemies() {
-        currentLevelPiece = -Math.floor(commanderLocation.x
-                / ((BoundingBox) (new LevelPiece()).getModel().getWorldBound())
-                .getXExtent());
+        currentLevelPiece = -Math.floor(commanderLocation.x 
+                / ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent());
         LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
-        if ((enemies.size() < MAX_NUM_ENEMIES)
-                && currentLevelPiece != lastLevelPiece) {
+        if ((enemies.size() < MAX_NUM_ENEMIES) && currentLevelPiece != lastLevelPiece) {
             lastLevelPiece = currentLevelPiece;
             double random = Math.random();
             if (random > 0.70 && random < 0.85) {
@@ -71,7 +69,7 @@ public class EnemySpawner {
             } else if (random > 0.85 && random < 0.95) {
                 newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
-            } else if (random > 0.95){
+            } else if (random > 0.95) {
                 newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));
                 newEnemies.add(enemyFactory.createEnemy2(currentLevelPiece));
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
@@ -97,7 +95,7 @@ public class EnemySpawner {
             }
             if (enemy.getModel().getLocalTranslation().distance(commanderLocation) 
                     > ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3
-                    && enemy.getModel().getLocalTranslation().x > commanderLocation.x){
+                    && enemy.getModel().getLocalTranslation().x > commanderLocation.x) {
 
                 deleteList.add(enemy);
                 if (enemy.getSpot() != null) {

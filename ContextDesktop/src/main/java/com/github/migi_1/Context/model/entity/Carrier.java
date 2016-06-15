@@ -11,7 +11,6 @@ import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.HitMissMessenger;
 import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -31,13 +30,14 @@ public class Carrier extends Entity implements IKillable {
 
     private Main main;
     private HealthMessenger healthMessenger;
+    
+    @SuppressWarnings("unused")
     private AttackMessageHandler attackMessageHandler;
     private HitMissMessenger hitMissMessenger;
 
     private int health;
 
     private PlatformPosition position;
-    private String side;
 
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
@@ -68,13 +68,6 @@ public class Carrier extends Entity implements IKillable {
         hitMissMessenger = new HitMissMessenger(main);
 
         this.position = position;
-        if (position.equals(PlatformPosition.FRONTRIGHT) 
-                || position.equals(PlatformPosition.BACKRIGHT)) {
-            side = "right";
-        }
-        else {
-            side = "left";
-        }
         this.environment = environment;
         createEnemyLocations();
 

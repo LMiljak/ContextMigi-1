@@ -7,8 +7,6 @@ import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.github.migi_1.ContextMessages.Direction;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -98,12 +96,19 @@ public class Enemy extends Entity implements IKillable {
     public EnemySpot getSpot() {
         return spot;
     }
-
+    
+    /**
+     * Makes the enemy rotate so it faces the carrier.
+     * 
+     * NOTE:
+     * Angles are hardcoded right now, but this could easily be changed when the 
+     * positions/directions are correcly refactored.
+     */
     public void rotateCorrectly() {                
         getModel().rotate(getModel().getLocalRotation().inverse());
         double angle = 0;
         if (getSpot().getDirection().ordinal() == 1) {
-            angle = 0.5;
+            angle = 1.5;
         } else if (getSpot().getDirection().ordinal() == 2) {
             angle = 0.5;
         } else if (getSpot().getDirection().ordinal() == 3) {

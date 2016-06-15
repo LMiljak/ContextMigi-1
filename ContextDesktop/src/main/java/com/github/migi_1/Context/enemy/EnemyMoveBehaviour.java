@@ -7,7 +7,6 @@ import java.util.Random;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
-import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.jme3.math.Vector3f;
 
 /**
@@ -188,10 +187,6 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
         // TODO Auto-generated method stub
         
     }
-
-
-
-
 
 }
 

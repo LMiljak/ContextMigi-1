@@ -61,7 +61,6 @@ public class Carrier extends Entity implements IKillable {
         this.position = position;
         this.environment = environment;
         createEnemyLocations();
-
     }
 
     private void createEnemyLocations() {
@@ -73,7 +72,6 @@ public class Carrier extends Entity implements IKillable {
             enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.WEST));
         }
         enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
-
     }
 
     @Override
@@ -151,5 +149,4 @@ public class Carrier extends Entity implements IKillable {
     public HealthMessenger getHealthMessenger() {
         return healthMessenger;
     }
-
 }

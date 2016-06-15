@@ -56,8 +56,9 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
         }
 
         if (spots.size() != 0) {
-            int random = new Random().nextInt(spots.size());            
+            int random = new Random().nextInt(spots.size());
             spots.get(random).setOccupied(true);
+            System.out.println(spots.get(random).getLocation().x);
             return spots.get(random);
         } else {
             return null;
@@ -80,9 +81,9 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
      * the enemy has reached the generated targetSpot at createTargetSpot.
      */
     @Override
-    public void updateMoveVector() {
+    public void updateMoveVector() {        
         if (targetSpot != null) { 
-            if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) {                
+            if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) { 
                 handleXmovement();
                 handleZmovement();
             } 
@@ -141,44 +142,44 @@ public class EnemyMoveBehaviour extends MoveBehaviour {
     /**
      * @return the atSpot
      */
-     public boolean isAtSpot() {
-         return atSpot;
-     }
+    public boolean isAtSpot() {
+        return atSpot;
+    }
 
-     /**
-      * @return the targetSpot
-      */
-     public EnemySpot getTargetSpot() {
-         return targetSpot;
-     }
+    /**
+     * @return the targetSpot
+     */
+    public EnemySpot getTargetSpot() {
+        return targetSpot;
+    }
 
-     /**
-      * @param targetSpot the targetSpot to set
-      */
-     public void setTargetSpot(EnemySpot targetSpot) {
-         this.targetSpot = targetSpot;
-     }
+    /**
+     * @param targetSpot the targetSpot to set
+     */
+    public void setTargetSpot(EnemySpot targetSpot) {
+        this.targetSpot = targetSpot;
+    }
 
-     /**
-      * @param atSpot the atSpot to set
-      */
-     public void setAtSpot(boolean atSpot) {
-         this.atSpot = atSpot;
-     }
+    /**
+     * @param atSpot the atSpot to set
+     */
+    public void setAtSpot(boolean atSpot) {
+        this.atSpot = atSpot;
+    }
 
-     /**
-      * @param moveVector the moveVector to set
-      */
-     public void setMoveVector(Vector3f moveVector) {
-         this.moveVector = moveVector;
-     }
+    /**
+     * @param moveVector the moveVector to set
+     */
+    public void setMoveVector(Vector3f moveVector) {
+        this.moveVector = moveVector;
+    }
 
-     /**
-      * @return the STARTING_SPEED
-      */
-     public float getSpeed() {
-         return startingSpeed;
-     }
+    /**
+     * @return the STARTING_SPEED
+     */
+    public float getSpeed() {
+        return startingSpeed;
+    }
 
 
 

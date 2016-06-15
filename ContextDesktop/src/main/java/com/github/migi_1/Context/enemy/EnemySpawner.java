@@ -94,11 +94,16 @@ public class EnemySpawner {
             if (enemy.getHealth() <= 0) {
                 deleteList.add(enemy);                
             }
-            if (enemy.getModel().getLocalTranslation().distance(
-                    commanderLocation) > ((BoundingBox) (new LevelPiece())
-                            .getModel().getWorldBound()).getXExtent() * 3) {
+            if (enemy.getModel().getLocalTranslation().distance(commanderLocation) 
+                    > ((BoundingBox) (new LevelPiece()).getModel().getWorldBound()).getXExtent() * 3
+                    && enemy.getModel().getLocalTranslation().x > commanderLocation.x){
+
                 deleteList.add(enemy);
+                if (enemy.getSpot() != null) {
+                    enemy.getSpot().setOccupied(false);
+                }
             }
+            
         }
         enemies.removeAll(deleteList);
         return deleteList;

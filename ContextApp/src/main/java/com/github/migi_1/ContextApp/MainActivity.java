@@ -47,10 +47,8 @@ public class MainActivity extends AndroidHarness {
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
-    
-    private SoundPool soundPool;
-    private AudioManager audioManager;    
-    private int[] soundIds;
+    private AudioManager audioManager;
+    private SfxPlayer sfxPlayer;
     
     private boolean cooldown;
     private boolean eventStarted;
@@ -84,7 +82,7 @@ public class MainActivity extends AndroidHarness {
         application = (Main) getJmeApplication();
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        createSoundPool();
+        sfxPlayer = new SfxPlayer(this, audioManager);
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -133,10 +131,7 @@ public class MainActivity extends AndroidHarness {
         // clear the position
         posHolder.clearPosition();
         
-        // release the soundPool
-        if (soundPool != null) {
-            soundPool.release();
-        }
+        sfxPlayer.release();
         
         super.onDestroy();
     }
@@ -251,48 +246,6 @@ public class MainActivity extends AndroidHarness {
     }
     
     /**
-     * Creates the SoundPool, allows for volume control and adds sfx.
-     */
-    public void createSoundPool() {
-        soundPool = new SoundPool(10, audioManager.STREAM_MUSIC, 0);
-        setVolumeControlStream(audioManager.STREAM_MUSIC);
-        soundIds = new int[3];
-        load();
-    }
-    
-    /**
-     * Plays a sound effect with the SoundPool.
-     * @param sfx 
-     *          the position of the sound effect in the soundIds array
-     */
-    public void play(int sfx) {
-        float volume = (float) audioManager.getStreamVolume(audioManager.STREAM_MUSIC);
-        if (soundPool != null) {
-            soundPool.play(soundIds[sfx], volume, volume, 1, 0, 1.f);
-        }
-    }
-    
-    /**
-     * Unloads the sfx from the SoundPool.
-     */
-    public void unload() {
-        for (int id = 0; id < soundIds.length; id++) {
-            soundPool.unload(soundIds[id]);
-        }
-    }
-    
-    /**
-     * Loads all sfx into the SoundPool.
-     */
-    public void load() {
-        unload();
-        
-        soundIds[0] = soundPool.load(this, R.raw.gethit, 1);
-        soundIds[1] = soundPool.load(this, R.raw.miss, 1);
-        soundIds[2] = soundPool.load(this, R.raw.hit, 1);
-    }
-    
-    /**
      * Setter for cooldown.
      * @param cooldown 
      *              Boolean that determines whether or not a player can use attacks.
@@ -308,9 +261,9 @@ public class MainActivity extends AndroidHarness {
      *          whether or not the attack was successful
      */
     public void hitMiss(boolean hit) {
-        play(1);
+        sfxPlayer.play(1);
         if (hit) {
-            play(2);
+            sfxPlayer.play(2);
         }
         else {
             setCooldown(true);
@@ -328,7 +281,7 @@ public class MainActivity extends AndroidHarness {
     */
     public void setHealth(final int health) {
         
-        play(0);
+        sfxPlayer.play(0);
         runOnUiThread(new Runnable() {
             
             @Override

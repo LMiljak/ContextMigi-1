@@ -13,14 +13,7 @@ import com.jme3.system.AppSettings;
 
 
 /**
- * This class controls the score and displays it.
- *
- * @author Marcel
- *
- */
-/**
- * @author luka_
- *
+ * Controls the GUI elements of the LobbyEnvironment.
  */
 public class LobbyHUDController {
 

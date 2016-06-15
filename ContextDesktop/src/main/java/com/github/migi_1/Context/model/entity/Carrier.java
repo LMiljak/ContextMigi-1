@@ -105,7 +105,7 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void takeDamage(int damage) {
-        setHealth(getHealth() - damage);
+    	setHealth(getHealth() - damage);
     	if (getHealth() <= 0) {
     		onKilled();
         }

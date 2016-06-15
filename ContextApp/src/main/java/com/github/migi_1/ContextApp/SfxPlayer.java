@@ -13,6 +13,14 @@ public class SfxPlayer {
     private AudioManager audioManager;
     private int[] soundIds;
     
+    /**
+     * Creates an SfxPlayer.
+     * @param main
+     *          the instance of the activity that calls this function
+     * @param audioManager 
+     *          the audiomanager from the main activity which is used for
+     *          the soundpool which plays the sound effects.
+     */
     public SfxPlayer(MainActivity main, AudioManager audioManager) {
         
         this.main = main;

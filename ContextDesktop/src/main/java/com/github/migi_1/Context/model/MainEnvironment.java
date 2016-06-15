@@ -56,7 +56,7 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-2, -3.5f, 3);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-3f, -3.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -311,8 +311,8 @@ public class MainEnvironment extends Environment {
      */
     public Carrier createCarrier(PlatformPosition position) {
         float x, y, z;
-        y = RELATIVE_CARRIER_LOCATION.y;
         x = RELATIVE_CARRIER_LOCATION.x;
+        y = RELATIVE_CARRIER_LOCATION.y;
         z = RELATIVE_CARRIER_LOCATION.z;
 
         z *= position.getzFactor();

@@ -45,7 +45,6 @@ public class EnemyFactory {
                 SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers); 
-        enemy.getModel().rotate(0, (float) Math.PI, 0);
         return enemy;
     }
 
@@ -61,7 +60,7 @@ public class EnemyFactory {
                 SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);        
-        enemy.getModel().rotate(0, (float) Math.PI, 0);
+
         return enemy;
     }
 
@@ -71,13 +70,16 @@ public class EnemyFactory {
      * @return the created enemy.
      */
     public Enemy createEnemy3(double currentLevelPiece) {
-        return new Enemy(new Vector3f(
+        Enemy enemy = new Enemy(new Vector3f(
                 -(((int) currentLevelPiece + 2) * levelPieceLength)
                 + levelPieceLength * 1 / 2,
                 SPAWN_HEIGHT,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers); 
+        enemy.getModel().rotate(0, (float) Math.PI, 0);
+        return enemy;
     }
+
 
 
 

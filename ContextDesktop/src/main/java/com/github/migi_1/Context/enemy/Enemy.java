@@ -109,11 +109,13 @@ public class Enemy extends Entity implements IKillable {
         getModel().rotate(getModel().getLocalRotation().inverse());
         double angle = 0;
         if (getSpot().getDirection().ordinal() == 1) {
-            angle = 1.5;
-        } else if (getSpot().getDirection().ordinal() == 2) {
-            angle = 0.5;
-        } else if (getSpot().getDirection().ordinal() == 3) {
             angle = 1;
+        } else if (getSpot().getDirection().ordinal() == 2) {
+            angle = 0;
+        } else if (getSpot().getDirection().ordinal() == 3) {
+            angle = 0.5;
+        } else {
+            angle = 1.5;
         }
         getModel().rotate(0, (float) (angle * Math.PI), 0);
     }

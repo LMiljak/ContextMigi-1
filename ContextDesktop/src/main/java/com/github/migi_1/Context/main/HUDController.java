@@ -186,7 +186,9 @@ public class HUDController {
      * Show the game over screen.
      */
     public void gameOver() {
-        gameOverScore.setText(Integer.toString(Math.round(gameScore)));
+        float height = (float) (settings.getHeight() / 1.5);
+        gameOverScore.setText("Score: " + Integer.toString(Math.round(gameScore)));
+        gameOverScore.setLocalTranslation((settings.getWidth() - gameOverScore.getLineWidth()) / 2, height, 1);
         main.getGuiNode().attachChild(gameOver);
         main.getGuiNode().attachChild(gameOverText);
         main.getGuiNode().attachChild(gameOverScore);

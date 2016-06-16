@@ -38,7 +38,7 @@ public class TestEnemy extends TestEntity {
     private Enemy testEnemy;
     private EnemySpot targetSpot;
     private ArrayList<Carrier> carriers;
-    
+
     /**
      * Initialises all mock objects, static class responses and initialises the tested object.
      */
@@ -55,28 +55,29 @@ public class TestEnemy extends TestEntity {
            // Mockito.when(carriers[i].getId()).thenReturn(i);
             Mockito.when(carriers.get(i).getModel()).thenReturn(model);
             Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
-        }     
-        
+        }
+
         targetSpot = Mockito.mock(EnemySpot.class);
         Mockito.when(targetSpot.getCarrier()).thenReturn(carriers.get(0));
         Mockito.doNothing().when(targetSpot).setOccupied(false);
-        
+
         moveBehaviour = Mockito.mock(EnemyMoveBehaviour.class);
-        Mockito.when(moveBehaviour.getTargetSpot()).thenReturn(targetSpot);         
+        Mockito.when(moveBehaviour.getTargetSpot()).thenReturn(targetSpot);
         Mockito.when(moveBehaviour.isAtSpot()).thenReturn(true);
-        
+
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
-        
-        testEnemy = new Enemy(new Vector3f(5, 0, 0), carriers);
+        Mockito.when(model.scale(Mockito.anyFloat())).thenReturn(model);
 
+        testEnemy = new Enemy(new Vector3f(5, 0, 0), carriers);
+        testEnemy.setSpot(targetSpot);
         testEnemy.setMoveBehaviour(moveBehaviour);
         setEntity(testEnemy);
 
     }
-    
+
     /**
      * Tests the takeDamage method.
      */
@@ -92,7 +93,7 @@ public class TestEnemy extends TestEntity {
     @Test
     public void onKilledTest() {
         testEnemy.onKilled();
-        assertNull(testEnemy.getSpot());
+        assertNull(testEnemy.getSpot().getEnemy());
     }
 
     /**
@@ -103,7 +104,7 @@ public class TestEnemy extends TestEntity {
         testEnemy.setHealth(42);
         assertEquals(testEnemy.getHealth(), 42);
     }
-    
+
     /**
      * Tests the attack method.
      */

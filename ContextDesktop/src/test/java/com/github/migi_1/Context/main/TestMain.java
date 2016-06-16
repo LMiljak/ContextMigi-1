@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.main;
 
+import com.github.migi_1.Context.model.LobbyEnvironment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -16,7 +17,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.screens.MainMenu;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
@@ -92,7 +92,7 @@ public class TestMain {
         //Verify the inputs are all added.
         Mockito.verify(main).getInputManager();
         //Verify the main menu state is added to the statemanager.
-        assertNotNull(main.getStateManager().getState(MainMenu.class));
+        assertNotNull(main.getStateManager().getState(LobbyEnvironment.class));
         //Verify the MainEnvironment state is created.
         assertNotNull(main.getEnv());
         //Verify the MainEnvironment state is not yet added to the statemanager.
@@ -156,9 +156,9 @@ public class TestMain {
      */
     @Test
     public void testGetMainMenu() {
-        MainMenu mainMenuState = Mockito.mock(MainMenu.class);
-        main.setMainMenuState(mainMenuState);
-        assertEquals(mainMenuState, main.getMainMenu());
+        LobbyEnvironment lobbyState = Mockito.mock(LobbyEnvironment.class);
+        main.setLobby(lobbyState);
+        assertEquals(lobbyState, main.getLobby());
     }
 
     /**

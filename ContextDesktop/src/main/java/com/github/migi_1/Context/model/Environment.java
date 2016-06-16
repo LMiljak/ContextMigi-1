@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.github.migi_1.Context.audio.AudioController;
-import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
@@ -27,10 +26,10 @@ public class Environment extends AbstractAppState {
 	private AssetManager assetManager;
 	private Collection<IMovable> movables;
 	private Collection<IRotatable> rotatables;
-	private HUDController hudController;
-	private AudioController audioController;
 	private boolean paused;
 	private Application app;
+
+    private AudioController audioController;
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -41,21 +40,15 @@ public class Environment extends AbstractAppState {
 		this.movables = new ArrayList<>();
 		this.rotatables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-		hudController = new HUDController(app);
-		audioController = new AudioController(app);
+
+		this.audioController = new AudioController(app);
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		if (!paused) {
-		    hudController.updateHUD();
-		    moveMovables();
-	        rotateRotatables();
-		}
-		else {
-		    hudController.gameOver();
-		}
+		moveMovables();
+		rotateRotatables();
 	}
 
 	/**

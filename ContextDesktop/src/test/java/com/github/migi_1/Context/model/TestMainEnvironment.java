@@ -131,6 +131,8 @@ public class TestMainEnvironment {
         Mockito.when(path.getModel()).thenReturn(model);
         Mockito.when(model.center()).thenReturn(model);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+        Mockito.when(model.scale(Mockito.anyFloat())).thenReturn(model);
+        Mockito.when(model.rotate(Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat())).thenReturn(model);
         Mockito.when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
@@ -138,7 +140,7 @@ public class TestMainEnvironment {
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
-        env = PowerMockito.spy(new MainEnvironment());
+        env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
     }
 
     /**
@@ -216,7 +218,7 @@ public class TestMainEnvironment {
     public void updateTestWorldTest() throws Exception {
         env.initialize(stateManager, app);
         Whitebox.invokeMethod(env, "updateTestWorld");
-        //Verify that everything is still in the right place.
+        // Verify that everything is still in the right place.
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.<Spatial>any());
     }

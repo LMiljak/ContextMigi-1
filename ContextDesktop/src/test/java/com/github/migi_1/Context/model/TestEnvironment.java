@@ -183,10 +183,7 @@ public class TestEnvironment {
 	    //Verify that when paused,
         //The HUDcontroller is not updated.
 	    environment.update(0);
-<<<<<<< HEAD
 	    Mockito.verify(hudController, Mockito.times(1)).gameOver();
-=======
 	    Mockito.verify(hudController, times(2)).updateHUD();
->>>>>>> master
 	}
 }

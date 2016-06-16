@@ -25,7 +25,7 @@ public class MovingObstacle extends Obstacle {
      */
     public MovingObstacle(BoundingBox leftBound, BoundingBox rightBound) {
         super();
-        setModel(getDefaultModel());
+        setModel(getDefaultModel().scale(3.0f).rotate(0, 4.75f, 0));
         setMoveBehaviour(new MovingObstacleMoveBehaviour(this, leftBound, rightBound));
         getModel().move(new Vector3f(0, -2.0f, 0));
         health = 1;
@@ -55,7 +55,7 @@ public class MovingObstacle extends Obstacle {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME).scale(3.0f).rotate(0, 4.75f, 0);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
     }
 
 }

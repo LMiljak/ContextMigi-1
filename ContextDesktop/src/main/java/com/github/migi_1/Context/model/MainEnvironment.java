@@ -171,6 +171,8 @@ public class MainEnvironment extends Environment {
         }
         if (count >= 2) {
             hudController.gameOver();
+            setPaused(true);
+            setGameOver(true);
         }
     }
 

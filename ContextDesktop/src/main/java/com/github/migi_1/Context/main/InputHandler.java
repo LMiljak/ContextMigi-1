@@ -15,7 +15,7 @@ import com.jme3.math.Vector3f;
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
-                                "up", "down", "steer_left", "steer_right", "start", 
+                                "up", "down", "steer_left", "steer_right", "start",
                                 "pause", "menu", "restart", "mute"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
                                KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
@@ -66,7 +66,7 @@ public final class InputHandler {
                         main.toMainEnvironment();
                     }
                 } else if (name.equals("pause") && keyPressed) {
-                    if (!main.getEnv().isPaused()) {
+                    if (!main.getEnv().isPaused() || main.getEnv().isGameOver()) {
                         main.getEnv().setPaused(true);
                         main.getEnv().getAudioController().getBackgroundMusic().pause();
                     }

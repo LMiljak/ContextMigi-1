@@ -30,13 +30,14 @@ public class ScoreReader {
 
         //read all score objects
         if (lines.hasNext()) {
+            System.out.println("hasnext");
             lines.next();
             String tag = lines.next();
             while (tag.equals("<score>")) {
+                System.out.println("tag equals score");
                 scores.add(Score.read(lines));
                 tag = lines.next();
             }
-
         }
         return scores;
     }

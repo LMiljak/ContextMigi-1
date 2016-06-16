@@ -30,7 +30,6 @@ import android.widget.Toast;
  */
 public class MainActivity extends AndroidHarness {
 
-    private Main application;
     private SensorManager mSensorManager;
     private AccelerometerSensor accelerometerSensor;
     private PositionHolder posHolder;
@@ -60,9 +59,6 @@ public class MainActivity extends AndroidHarness {
      */
     public MainActivity() {
 
-        // Set the application class to run
-        appClass = "com.github.migi_1.ContextApp.Main";
-
         posHolder = PositionHolder.getInstance();
 
         // Start the log manager
@@ -72,9 +68,6 @@ public class MainActivity extends AndroidHarness {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //instantiate the application
-        application = (Main) getJmeApplication();
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         sfxPlayer = new SfxPlayer(this, audioManager);
@@ -193,18 +186,6 @@ public class MainActivity extends AndroidHarness {
 
             }
         });
-    }
-
-    /**
-     * Gets the instance of this Application.
-     *
-     * @return
-     *      The instance of this Application.
-     */
-    public Main getMain() {
-
-        return application;
-
     }
 
     /**

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.concurrent.Executors;
 
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.screens.MainMenu;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
+import com.github.migi_1.Context.model.LobbyEnvironment;
+import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -12,6 +14,7 @@ import com.github.migi_1.Context.server.StopEventMessageHandler;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
@@ -27,11 +30,12 @@ import jmevr.app.VRApplication;
  */
 
 public class Main extends VRApplication {
-    //the main menu state
-    private MainMenu mainMenuState;
 
     //the game state
     private MainEnvironment environmentState;
+    
+    //the game's lobby
+    private LobbyEnvironment lobbyState;
 
     //the main application
     private static Main main;
@@ -41,6 +45,10 @@ public class Main extends VRApplication {
     private static AppSettings settings;
 
     private ServerWrapper server;
+
+    private AttackMessageHandler attackMessageHandler;
+    
+    private boolean inLobby;
 
     private boolean bugEventRunning = false;
 
@@ -82,14 +90,15 @@ public class Main extends VRApplication {
     public void simpleInitApp() {
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
-
+        
         launchServer();
 
-        mainMenuState = new MainMenu();
-        environmentState = new MainEnvironment();
+        CarrierAssigner carrierAssigner = new CarrierAssigner(server);
+        lobbyState = new LobbyEnvironment(carrierAssigner);
+        environmentState = new MainEnvironment(carrierAssigner);
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
-
-        this.getStateManager().attachAll(mainMenuState);
+        this.getStateManager().attach(lobbyState);
+        inLobby = true;
 
         new EnableSprayToVRMessageHandler(this);
         new StopEventMessageHandler(this);
@@ -169,8 +178,8 @@ public class Main extends VRApplication {
      * Returns the main menu state.
      * @return the mainMenu
      */
-    public MainMenu getMainMenu() {
-        return mainMenuState;
+    public LobbyEnvironment getLobby() {
+        return lobbyState;
     }
 
     /**
@@ -180,7 +189,7 @@ public class Main extends VRApplication {
     public MainEnvironment getEnv() {
         return environmentState;
     }
-
+    
     /**
      * Returns the rootnode.
      * @return
@@ -225,6 +234,42 @@ public class Main extends VRApplication {
     public ServerWrapper getServer() {
     	return server;
     }
+    
+    /**
+     * Sets the boolean inLobby.
+     * @param inLobby used to check whether or not the program is in the lobby.
+     */
+    public void setInLobby(boolean inLobby) {
+        this.inLobby = inLobby;
+    }
+    
+    /**
+     * Getter for inLobby.
+     * @return a boolean value that tells whether or not the program is in the lobby.
+     */
+    public boolean getInLobby() {
+        return inLobby;
+    }
+    
+    /**
+     * Makes the game switch to the level.
+     */
+    public void toMainEnvironment() {
+        setInLobby(false);
+        lobbyState.cleanup();
+        this.getStateManager().attach(environmentState);
+        this.getStateManager().detach(lobbyState);
+    }
+    
+    /**
+     * Makes the game switch to the lobby.
+     */
+    public void toLobby() {
+        setInLobby(true);
+        environmentState.cleanup();
+        this.getStateManager().attach(lobbyState);
+        this.getStateManager().detach(environmentState);
+    }
 
     /**
      * Sets the current main.
@@ -234,7 +279,7 @@ public class Main extends VRApplication {
     public static void setMain(Main newMain) {
         main = newMain;
     }
-
+    
     /**
      * Sets the current inputHandler.
      * Used for testing ONLY.
@@ -252,14 +297,14 @@ public class Main extends VRApplication {
     public void setEnvState(MainEnvironment newEnvState) {
         environmentState = newEnvState;
     }
-
+    
     /**
-     * Sets the current mainmenu state.
+     * Sets the current lobby state.
      * Used for testing ONLY.
-     * @param newMainMenuState the new main menu state.
+     * @param newLobbyState the new lobby state.
      */
-    public void setMainMenuState(MainMenu newMainMenuState) {
-        mainMenuState = newMainMenuState;
+    public void setLobby(LobbyEnvironment newLobbyState) {
+        lobbyState = newLobbyState;
     }
 
     /**

@@ -80,9 +80,9 @@ public class TestInputHandler {
     @Test
     public void initInputTest() {
         //Verify all keys are mapped correctly.
-        Mockito.verify(inputManager, Mockito.times(14)).addMapping(Mockito.anyString(), Mockito.any());
+        Mockito.verify(inputManager, Mockito.times(15)).addMapping(Mockito.anyString(), Mockito.any());
         //Verify all listeners are bound.
-        Mockito.verify(inputManager, Mockito.times(14)).addListener(Mockito.any(), Mockito.anyString());
+        Mockito.verify(inputManager, Mockito.times(15)).addListener(Mockito.any(), Mockito.anyString());
     }
 
     /**
@@ -349,14 +349,5 @@ public class TestInputHandler {
     public void testMute() {
         inputHandler.getActionListener().onAction("mute", true, 0f);
         Mockito.verify(audioController).mute();
-    }
-
-    /**
-     * Verifies the return to main menu action.
-     */
-    @Test
-    public void testActivateMain() {
-        inputHandler.getActionListener().onAction("menu", true, 0f);
-        Mockito.verify(envState).cleanup();
     }
 }

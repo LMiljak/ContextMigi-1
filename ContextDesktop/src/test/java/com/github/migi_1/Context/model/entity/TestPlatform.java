@@ -65,8 +65,9 @@ public class TestPlatform extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
         Mockito.when(model.getLocalRotation()).thenReturn(new Quaternion(0, 0, 0, 0));
-
-        platform = new Platform(new Vector3f(0, 0, 0), Mockito.mock(MainEnvironment.class));
+        platform = new Platform(new Vector3f(0, 0, 0),
+        		Mockito.mock(MainEnvironment.class),
+        		Mockito.mock(CarrierAssigner.class));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(platform);

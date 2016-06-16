@@ -1,9 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,28 +33,17 @@ public class TestCarrierAssigner {
         Mockito.when(serverWrapper.getServer()).thenReturn(server);
         Mockito.when(connection.getAddress()).thenReturn(ipAdress);
 
-        carrierAssigner = new CarrierAssigner(platform, serverWrapper, mainEnv);
+        carrierAssigner = new CarrierAssigner(serverWrapper);
     }
 
     @Test
     public void connectionAddedTest() {
         assertEquals("", carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
         carrierAssigner.connectionAdded(server, connection);
-        Mockito.verify(platform).addCarrier(Mockito.any());
-        Mockito.verify(mainEnv).addEntity(Mockito.any());
         Mockito.verify(connection).send(Mockito.any());
         assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
     }
 
-    @Test
-    public void connectionRemovedTest() {
-        assertTrue(carrierAssigner.getAddressCarrierMap().isEmpty());
-        carrierAssigner.connectionAdded(server, connection);
-        assertFalse(carrierAssigner.getAddressCarrierMap().isEmpty());
-        assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
-        carrierAssigner.connectionRemoved(server, connection);
-        assertNull(carrierAssigner.getAddressCarrierMap().get(ipAdress));
-    }
 
     @Test
     public void getAdressTest() {

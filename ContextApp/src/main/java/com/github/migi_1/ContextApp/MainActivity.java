@@ -86,6 +86,12 @@ public class MainActivity extends AndroidHarness {
 
         setContentView(R.layout.android_searching);
 
+        while (true) {
+            if (clientHub.getClientWrapper().getClient() != null) {
+                break;
+            }
+        }
+
         clientHub.getClientWrapper().startClient();
 
         getClient().getClient().addMessageListener(posHolder);
@@ -153,8 +159,7 @@ public class MainActivity extends AndroidHarness {
      * Sets the UI of the android app in-game, including buttons and images.
      */
     public void setUI() {
-        images = new ArrayList<ImageView>();
-
+        images = new ArrayList<>();
         images.add((ImageView) findViewById(R.id.Heart_1));
         images.add((ImageView) findViewById(R.id.Heart_2));
         images.add((ImageView) findViewById(R.id.Heart_3));

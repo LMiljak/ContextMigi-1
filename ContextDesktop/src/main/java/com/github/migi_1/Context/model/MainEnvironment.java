@@ -13,10 +13,12 @@ import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
+import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
+import com.github.migi_1.ContextMessages.AccelerometerMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
@@ -94,6 +96,12 @@ public class MainEnvironment extends Environment {
 
     private long randomEventTime;
 
+    private float ySpeed = -2;
+
+    private float check;
+
+    private float decay = 0.01f;
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -139,9 +147,34 @@ public class MainEnvironment extends Environment {
             checkObstacleCollision();
             checkPathCollision();
             updateTestWorld();
+            checkJumping();
         }
     }
 
+
+    private void checkJumping() {   
+        if (platform.getCarrierBehaviours().get(0).isJumping()) {
+            System.out.println("jumping!"); 
+
+            if (ySpeed >=  -0.5f + 2 * decay && platform.getCarrierBehaviours().get(0).isJumping()) {
+                ySpeed -= decay;
+                check -= decay;
+            } else {
+                ySpeed = 0;
+                platform.getCarrierBehaviours().get(0).setJumping(false);
+            }
+
+            platform.move(new Vector3f(0, ySpeed, 0));
+            commander.move(new Vector3f(0, ySpeed, 0));
+            for (Carrier carrier : platform.getCarriers()) {
+                carrier.move(new Vector3f(0, ySpeed, 0));
+            }
+        } else {
+            ySpeed = 0.5f;
+            check = 0.5f;
+        }
+
+    }
 
     /**
      * Handle collision checking.

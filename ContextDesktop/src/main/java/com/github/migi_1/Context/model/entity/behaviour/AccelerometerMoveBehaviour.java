@@ -24,7 +24,7 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
     private static final float MAX_SPEED = 1.0f;
 
     private Filter<String> ipFilter;
-    private boolean jumping;
+    private boolean jumping = false;
     private float decay = 0.02f;
     private float ySpeed = -2;
     private float check = 0;
@@ -55,34 +55,20 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
             //Check if the filter allows this address   
             if (ipFilter.filter(((HostedConnection) source).getAddress())) {             
                 jump(message);
-                
-                System.out.println(ySpeed);
+
                 float zSpeed = message.getY_force(); //Y on the gyroscope is Z on JMonkey
                 zSpeed *= FACTOR;
                 zSpeed = Math.min(zSpeed, MAX_SPEED);
                 zSpeed = Math.max(zSpeed, -MAX_SPEED);
-                
-                check += ySpeed;
-                System.out.println("check = " + check);
-                super.setMoveVector(new Vector3f(0, ySpeed, zSpeed));
+
+                super.setMoveVector(new Vector3f(0, 0, zSpeed));
             }
         }
     }
-    
+
     public void jump(AccelerometerMessage message) {
         if (message.getZ_force() > 17 && !jumping) {
             jumping = true;
-            System.out.println("jump!"); 
-            ySpeed = 1f;
-            check = 1f;
-        } 
-
-        if ((ySpeed >= -1f + 2 * decay + offset ||  ySpeed >= -1f + 2 * decay - offset) && jumping) {
-            ySpeed -= decay;
-            check -= decay;
-        } else {
-            ySpeed = 0;
-            jumping = false;
         }
     }
 
@@ -90,6 +76,22 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
     public void updateMoveVector() {
 
     }
+
+    /**
+     * @return the jumping
+     */
+    public boolean isJumping() {
+        return jumping;
+    }
+
+    /**
+     * @param jumping the jumping to set
+     */
+    public void setJumping(boolean jumping) {
+        this.jumping = jumping;
+    }
+    
+    
 
 
 

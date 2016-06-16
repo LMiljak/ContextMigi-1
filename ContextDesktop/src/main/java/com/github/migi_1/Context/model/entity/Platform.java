@@ -29,6 +29,7 @@ public class Platform extends Entity implements IRotatable {
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
     private CarrierAssigner carrierAssigner;
     private RotateBehaviour rotateBehaviour;
+    private  ArrayList<AccelerometerMoveBehaviour> carrierBehaviours;
 
     /**
      * Constructor of the platform.
@@ -44,7 +45,7 @@ public class Platform extends Entity implements IRotatable {
 
         this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
 
-        ArrayList<AccelerometerMoveBehaviour> carrierBehaviours = new ArrayList<>(4);
+        carrierBehaviours = new ArrayList<>(4);
         for (PlatformPosition position : PlatformPosition.values()) {
         	carrierBehaviours.add(
         			new AccelerometerMoveBehaviour(ip -> ip.equals(carrierAssigner.getAddress(position)))
@@ -128,6 +129,15 @@ public class Platform extends Entity implements IRotatable {
 	public RotateBehaviour getRotateBehaviour() {
 		return rotateBehaviour;
 	}
+
+    /**
+     * @return the carrierBehaviours
+     */
+    public ArrayList<AccelerometerMoveBehaviour> getCarrierBehaviours() {
+        return carrierBehaviours;
+    }
+	
+	
 
 
 

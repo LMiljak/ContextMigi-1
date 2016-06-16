@@ -27,7 +27,7 @@ public class MovingObstacle extends Obstacle {
         super();
         setModel(getDefaultModel().scale(7.0f).rotate(0, 4.75f, 0));
         setMoveBehaviour(new MovingObstacleMoveBehaviour(this, leftBound, rightBound));
-        getModel().move(new Vector3f(0, -2.0f, 0));
+        getModel().move(new Vector3f(0, -7.0f, 0));
         health = 1;
     }
 

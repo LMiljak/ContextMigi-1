@@ -57,8 +57,8 @@ public class MainEnvironment extends Environment {
     private static final Vector3f WORLD_LOCATION = new Vector3f(300, -20, 0);
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
-    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-4f, -3.5f, 6f);
+    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -10, -1f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-4f, -7.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 

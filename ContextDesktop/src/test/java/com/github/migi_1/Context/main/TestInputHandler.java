@@ -65,6 +65,7 @@ public class TestInputHandler {
         when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         inputHandler = new InputHandler(main);
         inputHandler.initInputs(main);
+        inputHandler.setInMenu(false);
     }
 
     /**
@@ -212,7 +213,7 @@ public class TestInputHandler {
     @Test
     public void testPauseNotPaused() {
         //Verify the game is not paused.
-        assertFalse(envState.isPaused());
+        assertFalse(envState.isPaused());        
         inputHandler.getActionListener().onAction("pause", true, 0f);
         //Only verifying that in a real scenario, the game would be paused now.
         Mockito.verify(envState).setPaused(true);
@@ -274,6 +275,7 @@ public class TestInputHandler {
      */
     @Test
     public void testExit() {
+        inputHandler.setInMenu(true);
         Mockito.verify(main, Mockito.never()).destroy();
         inputHandler.getActionListener().onAction("exit", false, 0f);
         Mockito.verify(main, Mockito.never()).destroy();

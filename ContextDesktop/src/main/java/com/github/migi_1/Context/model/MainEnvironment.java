@@ -201,12 +201,18 @@ public class MainEnvironment extends Environment {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
                 commander.move(new Vector3f(0, 0, -0.3f));
                 platform.move(new Vector3f(0, 0, -0.3f));
-                carrier.move(new Vector3f(0, 0, -0.3f));
+                for (Carrier carr : platform.getCarriers()) {
+                	carr.move(new Vector3f(0, 0, -0.3f));
+                }
+                break;
             }
             else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
                 commander.move(new Vector3f(0, 0, 0.3f));
                 platform.move(new Vector3f(0, 0, 0.3f));
-                carrier.move(new Vector3f(0, 0, 0.3f));
+                for (Carrier carr : platform.getCarriers()) {
+                	carr.move(new Vector3f(0, 0, 0.3f));
+                }
+                break;
             }
         }
     }

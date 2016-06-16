@@ -170,7 +170,7 @@ public class MainEnvironment extends Environment {
             }
         }
         if (count >= 2) {
-            System.out.println("game over");
+            hudController.gameOver();
         }
     }
 

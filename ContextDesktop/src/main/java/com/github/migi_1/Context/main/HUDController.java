@@ -79,7 +79,12 @@ public class HUDController {
         hudText.setLocalTranslation(width, height, 0);
     }
 
+    /**
+     * Make a game over screen visible.
+     */
     private void createGameOverScreen() {
+
+        //Create the blue background plane.
         Material mat = new Material(ProjectAssetManager.getInstance().getAssetManager(),
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", new ColorRGBA(0, 1, 1, 0.5f));
@@ -92,6 +97,7 @@ public class HUDController {
         gameOver.setLocalTranslation(leftBound, upperBound, 0);
         gameOver.setMaterial(mat);
 
+        //Create the text that says "Game Over!"
         gameOverText =  new BitmapText(gameOverFont, false);
         gameOverText.setSize(gameOverFont.getCharSet().getRenderedSize());
         gameOverText.setColor(ColorRGBA.White);
@@ -99,6 +105,7 @@ public class HUDController {
         gameOverText.setLocalTranslation((settings.getWidth() - gameOverText.getLineWidth()) / 2,
                 settings.getHeight() - upperBound, 1);
 
+        //Print the score.
         gameOverScore =  new BitmapText(gameOverFont, false);
         gameOverScore.setSize(gameOverFont.getCharSet().getRenderedSize());
         gameOverScore.setColor(ColorRGBA.White);

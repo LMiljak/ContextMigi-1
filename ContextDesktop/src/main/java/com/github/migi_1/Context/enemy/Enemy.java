@@ -32,7 +32,6 @@ public class Enemy extends Entity implements IKillable {
     public Enemy(Vector3f startLocation, ArrayList<Carrier> carriers) {
         super();
         setModel(getDefaultModel().scale(2.0f));
-        getModel();
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new EnemyMoveBehaviour(this, carriers));
         health = 1;

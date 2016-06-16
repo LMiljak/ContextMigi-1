@@ -2,8 +2,10 @@ package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +41,7 @@ public class TestEnemySpawner {
     private LevelPiece levelPiece;
     private BoundingBox boundingBox;
     private Carrier carrier;
+    private Enemy enemy;
 
     @Before
     public void setUp() throws Exception {
@@ -49,10 +52,12 @@ public class TestEnemySpawner {
         carrier = Mockito.mock(Carrier.class);
         carriers = new ArrayList<Carrier>(4);
         commander = Mockito.mock(Commander.class);
+        enemy = Mockito.mock(Enemy.class);
         levelPiece = Mockito.mock(LevelPiece.class);
         model = Mockito.mock(Spatial.class);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         PowerMockito.whenNew(LevelPiece.class).withNoArguments().thenReturn(levelPiece);
+        PowerMockito.whenNew(Enemy.class).withArguments(Vector3f.ZERO, carriers).thenReturn(enemy);
 
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
@@ -81,4 +86,12 @@ public class TestEnemySpawner {
         assertEquals(ArrayList.class, carriers.getClass());
     }
 
+    @Test
+    public void getAndSetEnemiesTest() {
+        LinkedList<Enemy> oldEnemies = enemySpawner.getEnemies();
+        LinkedList<Enemy> newEnemies = new LinkedList<Enemy>();
+        newEnemies.add(enemy);
+        enemySpawner.setEnemies(newEnemies);
+        assertNotEquals(oldEnemies, enemySpawner.getEnemies());
+    }
 }

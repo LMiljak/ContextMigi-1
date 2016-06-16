@@ -20,6 +20,7 @@ import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.score.Score;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
@@ -172,6 +173,9 @@ public class MainEnvironment extends Environment {
         if (count >= 2) {
             hudController.gameOver();
             setPaused(true);
+            if (!isGameOver()) {
+                scoreController.addScore(new Score("placeholder", (int) hudController.getGameScore()));
+            }
             setGameOver(true);
         }
     }

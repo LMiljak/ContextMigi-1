@@ -193,4 +193,22 @@ public class HUDController {
 
     }
 
+    /**
+     * Getter for the game score.
+     * @return the game score
+     */
+    public float getGameScore() {
+        return gameScore;
+    }
+
+    /**
+     * Setter for the game score.
+     * @param gameScore score to set
+     */
+    public void setGameScore(float gameScore) {
+        this.gameScore = gameScore;
+    }
+
+
+
 }

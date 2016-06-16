@@ -17,6 +17,7 @@ import com.github.migi_1.ContextMessages.StopEventToVRMessage;
  * The randomEvent bug activity class.
  */
 public class RotateBugSprayActivity extends Activity {
+    private TextView title;
     private TextView spray;
     private Button bug;
     private float x1, x2, y1, y2;
@@ -28,7 +29,8 @@ public class RotateBugSprayActivity extends Activity {
     protected void onResume() {
         super.onResume();
         position = (PlatformPosition) getIntent().getExtras().get("Position");
-
+        title = (TextView) findViewById(R.id.eventBug_title);
+        updateTitle();
         setUI();
     }
 
@@ -121,6 +123,7 @@ public class RotateBugSprayActivity extends Activity {
             @Override
             public void run() {
                 spray.setVisibility(View.VISIBLE);
+                updateTitle();
             }
         });
     }
@@ -129,9 +132,44 @@ public class RotateBugSprayActivity extends Activity {
      * Disables the sprayButton for the current screen. 
      */
     public void disableSprayButton() {
-        spray.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                spray.setVisibility(View.GONE);
+                updateTitle();
+            }
+        });
     }
-
+    
+    /**
+     * Update the title of the app.
+     */
+    private void updateTitle() {
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                String titleText = "";
+                if (spray.getVisibility() == View.VISIBLE) {
+                    if (bug.getVisibility() == View.VISIBLE) {
+                        titleText = "Press the bug";
+                    } else {
+                        titleText = "Swipe the spray towards the bug";
+                    }
+                } else {
+                    if(bug.getVisibility() == View.VISIBLE) {
+                        titleText = "Get the spray to here!";
+                    } else {
+                        titleText = "BUG EVENT";
+                    }
+                }
+                title.setText(titleText);
+            }
+        });
+        
+    }
+    
     /**
      * Stop the bug event.
      */
@@ -212,7 +250,6 @@ public class RotateBugSprayActivity extends Activity {
         bug = (Button) findViewById(R.id.eventBug_bug);
         spray.setVisibility(View.GONE);
         bug.setVisibility(View.GONE);
-
         //Get the initial positions for the bug and spray. 
         PlatformPosition bugPosition = (PlatformPosition) getIntent().getExtras().get("BugPosition");
         PlatformPosition sprayPosition = (PlatformPosition) getIntent().getExtras().get("SprayPosition");

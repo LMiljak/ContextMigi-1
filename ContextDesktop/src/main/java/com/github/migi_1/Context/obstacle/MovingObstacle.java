@@ -14,7 +14,7 @@ import com.jme3.scene.Spatial;
 public class MovingObstacle extends Obstacle {
 
     /** File location of model. **/
-    private static final String PATHNAME = "Models/testCube2.j3o";
+    private static final String PATHNAME = "Models/slimeObstacle.j3o";
 
     private int health;
 
@@ -55,7 +55,7 @@ public class MovingObstacle extends Obstacle {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME).scale(3.0f);
     }
 
 }

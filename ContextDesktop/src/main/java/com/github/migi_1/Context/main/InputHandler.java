@@ -91,6 +91,7 @@ public final class InputHandler {
                         main.toMainEnvironment();
                     }
                 } else if (name.equals("exit") && keyPressed) {
+                    System.out.println("dasasd");
                     main.destroy();
                 }
 
@@ -257,6 +258,22 @@ public final class InputHandler {
     public ActionListener getActionListener() {
         return actionListener;
     }
+
+    /**
+     * @return the inMenu
+     */
+    public boolean isInMenu() {
+        return inMenu;
+    }
+
+    /**
+     * @param inMenu the inMenu to set
+     */
+    public void setInMenu(boolean inMenu) {
+        this.inMenu = inMenu;
+    }
+    
+    
 
 
 }

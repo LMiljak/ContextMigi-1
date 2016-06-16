@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
@@ -36,6 +34,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 
+import jmevr.app.VRApplication;
+
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
@@ -56,7 +56,7 @@ public class MainEnvironment extends Environment {
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
     private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -14, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-3f, -3.5f, 6f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-4f, -3.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -198,7 +198,7 @@ public class MainEnvironment extends Environment {
     private void checkRandomEvent() {
         //Time for a random event!
         if (System.currentTimeMillis() > randomEventTime) {
-            StartBugEventMessage startMessage = new StartBugEventMessage();
+            StartBugEventMessage startMessage = new StartBugEventMessage(getRandomPosition(), getRandomPosition());
             Server server = getMain().getServer().getServer();
             //Message is send when:
             //The server is running.
@@ -210,6 +210,15 @@ public class MainEnvironment extends Environment {
             }
             setNewRandomEventTime();
         }
+    }
+
+    /**
+     * Retuns a random position.
+     * @return a random platform position.
+     */
+    private PlatformPosition getRandomPosition() {
+        int randomNumber = new Random().nextInt(4);
+        return PlatformPosition.values()[randomNumber];
     }
 
     /**

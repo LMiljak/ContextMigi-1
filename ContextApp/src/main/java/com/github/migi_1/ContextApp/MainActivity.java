@@ -1,15 +1,22 @@
 package com.github.migi_1.ContextApp;
 
-import static android.content.Context.AUDIO_SERVICE;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
+import com.github.migi_1.ContextApp.client.ClientHub;
+import com.github.migi_1.ContextApp.client.ClientWrapper;
+import com.github.migi_1.ContextMessages.Direction;
+import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.jme3.app.AndroidHarness;
 
 import android.content.Intent;
-
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -17,17 +24,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.migi_1.ContextMessages.PlatformPosition;
-import com.github.migi_1.ContextApp.client.ClientWrapper;
-import com.github.migi_1.ContextApp.client.ClientHub;
-import com.github.migi_1.ContextMessages.Direction;
-import com.jme3.app.AndroidHarness;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 /**
  * This class contains the main activity that is started you run the project.
@@ -48,14 +44,14 @@ public class MainActivity extends AndroidHarness {
     private ClientWrapper client;
     private AudioManager audioManager;
     private SfxPlayer sfxPlayer;
-    
+
     private boolean cooldown;
     private boolean eventStarted;
     private ArrayList<ImageView> images;
-    
+
     private Timer timer;
-    private TimerTask timerTask;  
-    
+    private TimerTask timerTask;
+
     private final Handler handler = new Handler();
 
 
@@ -73,7 +69,7 @@ public class MainActivity extends AndroidHarness {
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
     }
 
-    @Override  
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -86,63 +82,63 @@ public class MainActivity extends AndroidHarness {
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        setContentView(R.layout.android_searching); 
+        setContentView(R.layout.android_searching);
 
         while (true) {
             if (clientHub.getClientWrapper().getClient() != null) {
                 break;
             }
         }
-        
+
         clientHub.getClientWrapper().startClient();
-        
+
         getClient().getClient().addMessageListener(posHolder);
-                
+
         while (true) {
             if (posHolder.getPosition() != null) {
                 position = posHolder.getPosition();
                 break;
             }
         }
-        
+
         setContentView(R.layout.android_ingame);
-        
+
         // set cooldown to false
         setCooldown(false);
 
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
-    
+
    /**
     * This method runs the app is resumed.
     */
-    @Override  
+    @Override
     public void onResume() {
         super.onResume();
 
         // register the lister for the accelerometer
-        mSensorManager.registerListener(accelerometerSensor, 
+        mSensorManager.registerListener(accelerometerSensor,
                 mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
 
         eventStarted = false;
-        
+
         setUI();
     }
-    
+
     @Override
     protected void onDestroy() {
         // clear the position
         posHolder.clearPosition();
-        
+
         sfxPlayer.release();
-        
+
         super.onDestroy();
     }
-    
+
     /**
-     * Shows a 'toast' giving the player instructions on how to get the app to 
+     * Shows a 'toast' giving the player instructions on how to get the app to
      * work with the game and closes the app.
      */
     public void alert() {
@@ -159,18 +155,18 @@ public class MainActivity extends AndroidHarness {
      */
     public void setUI() {
         images = new ArrayList<>();
-        
+
         images.add((ImageView) findViewById(R.id.Heart_1));
         images.add((ImageView) findViewById(R.id.Heart_2));
         images.add((ImageView) findViewById(R.id.Heart_3));
-        
+
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
         healthListener = new HealthMessageHandler(this);
 
         startBugEventListener = new StartBugEventMessageListener(this);
-        
+
         TextView textView = (TextView) findViewById(R.id.Location);
         textView.setText(position.getPosition());
 
@@ -181,7 +177,7 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-     * @param direction 
+     * @param direction
      *              message to be logged
      */
     public void setButtonClick(Button button, final Direction direction) {
@@ -190,18 +186,18 @@ public class MainActivity extends AndroidHarness {
 
             @Override
             public void onClick(View v) {
-                
+
                 if (!cooldown) {
                     atkMessenger.sendAttack(posHolder.getPosition(), direction);
                 }
-                    
+
             }
         });
     }
 
     /**
      * Gets the instance of this Application.
-     * 
+     *
      * @return
      *      The instance of this Application.
      */
@@ -228,7 +224,7 @@ public class MainActivity extends AndroidHarness {
     }
 
     /**
-     * Starts the bug event. 
+     * Starts the bug event.
      * @param bugPosition the initial position of the bug.
      * @param sprayPosition the initial position of the spray.
      */
@@ -242,20 +238,20 @@ public class MainActivity extends AndroidHarness {
             startActivity(nextScreen);
         }
     }
-    
+
     /**
      * Setter for cooldown.
-     * @param cooldown 
+     * @param cooldown
      *              Boolean that determines whether or not a player can use attacks.
      */
     public void setCooldown(boolean cooldown) {
         this.cooldown = cooldown;
     }
-    
+
     /**
-     * Checks whether or not the carrier's attack has hit or not and calls the 
+     * Checks whether or not the carrier's attack has hit or not and calls the
      * functions corresponding to the boolean value.
-     * @param hit 
+     * @param hit
      *          whether or not the attack was successful
      */
     public void hitMiss(boolean hit) {
@@ -265,23 +261,23 @@ public class MainActivity extends AndroidHarness {
         }
         else {
             setCooldown(true);
-            
+
             timer = new Timer();
             initializeTimerTask();
             timer.schedule(timerTask, 2000);
         }
     }
-    
+
     /**
     * Calls functions to make the hearts the right colour.
     * @param health the amount of health that has to be displayed in grey
     *      and red hearts.
     */
     public void setHealth(final int health) {
-        
+
         sfxPlayer.play(0);
         runOnUiThread(new Runnable() {
-            
+
             @Override
             public void run() {
                 switch (health) {
@@ -309,29 +305,29 @@ public class MainActivity extends AndroidHarness {
                         throw new IllegalArgumentException();
                 }
             }
-            
+
         });
-       
+
     }
-    
+
     /**
      * Initializes the TimerTask, which will set cooldown back to false.
      */
     public void initializeTimerTask() {
-         
+
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                 
+
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         setCooldown(false);
                     }
-                }); 
-                
+                });
+
             }
         };
     }
-    
+
 }

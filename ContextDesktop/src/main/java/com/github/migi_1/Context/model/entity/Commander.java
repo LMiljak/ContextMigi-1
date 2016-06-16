@@ -16,12 +16,12 @@ import com.jme3.scene.Spatial;
 public class Commander extends Camera implements IRotatable {
 
     //String of the path to the commander model
-    private static final String PATHNAME = "Models/ninja.j3o";
+    private static final String PATHNAME = "Models/emptyCommander.j3o";
     private RotateBehaviour rotateBehaviour;
 
     /**
      * Constructor of the commander.
-     * @param startLocation 
+     * @param startLocation
      * 		startLocation location where the Commander will be initialised
      * @param platform
      * 		The platform on which the Commander is standing.
@@ -30,7 +30,7 @@ public class Commander extends Camera implements IRotatable {
         super();
         setModel(getDefaultModel());
         getModel().setLocalTranslation(startLocation);
-        
+
         setMoveBehaviour(platform.getMoveBehaviour());
         rotateBehaviour = platform.getRotateBehaviour();
     }

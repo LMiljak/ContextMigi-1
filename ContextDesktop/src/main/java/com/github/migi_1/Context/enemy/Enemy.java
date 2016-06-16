@@ -7,6 +7,7 @@ import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -106,8 +107,10 @@ public class Enemy extends Entity implements IKillable {
      * positions/directions are correcly refactored.
      */
     public void rotateCorrectly() {
-        getModel().rotate(getModel().getLocalRotation().inverse());
+        Quaternion spat = getModel().getLocalRotation().inverse();
+        getModel().rotate(spat);
         double angle = 0;
+        System.out.println(getSpot().getDirection().ordinal());
         if (getSpot().getDirection().ordinal() == 1) {
             angle = 1;
         } else if (getSpot().getDirection().ordinal() == 2) {

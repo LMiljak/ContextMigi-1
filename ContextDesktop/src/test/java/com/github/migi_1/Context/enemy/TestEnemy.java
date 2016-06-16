@@ -18,7 +18,9 @@ import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.TestEntity;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.Direction;
 import com.jme3.asset.AssetManager;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -28,7 +30,7 @@ import com.jme3.scene.Spatial;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class, AssetManager.class})
+@PrepareForTest({ProjectAssetManager.class, AssetManager.class, Direction.class, Enemy.class})
 public class TestEnemy extends TestEntity {
 
     private ProjectAssetManager pAssetManager;
@@ -38,6 +40,8 @@ public class TestEnemy extends TestEntity {
     private Enemy testEnemy;
     private EnemySpot targetSpot;
     private ArrayList<Carrier> carriers;
+    private Quaternion quaternion;
+    private Direction direction;
 
     /**
      * Initialises all mock objects, static class responses and initialises the tested object.
@@ -45,6 +49,8 @@ public class TestEnemy extends TestEntity {
     @Override
     @Before
     public void setUp() {
+        quaternion = new Quaternion(0, 0, 0, 0);
+        direction = PowerMockito.mock(Direction.class);
 
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
@@ -70,12 +76,17 @@ public class TestEnemy extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
         Mockito.when(model.scale(Mockito.anyFloat())).thenReturn(model);
+        Mockito.when(model.rotate(Mockito.any())).thenReturn(model);
+        Mockito.when(model.getLocalRotation()).thenReturn(quaternion);
 
-        testEnemy = new Enemy(new Vector3f(5, 0, 0), carriers);
+        testEnemy = Mockito.spy(new Enemy(new Vector3f(5, 0, 0), carriers));
         testEnemy.setSpot(targetSpot);
         testEnemy.setMoveBehaviour(moveBehaviour);
         setEntity(testEnemy);
 
+        Mockito.when(testEnemy.getModel()).thenReturn(model);
+        Mockito.when(testEnemy.getSpot()).thenReturn(targetSpot);
+        Mockito.when(targetSpot.getDirection()).thenReturn(direction);
     }
 
     /**
@@ -112,5 +123,49 @@ public class TestEnemy extends TestEntity {
     public void testAttack() {
         testEnemy.attack(1000);
         Mockito.verify(carriers.get(0), Mockito.times(1)).takeDamage(1);
+    }
+
+    /**
+     * Tests the rotateCorrectly method.
+     * Ordinal 0.
+     */
+    @Test
+    public void rotateCorrectly_ord0_Test() {
+        Mockito.when(direction.ordinal()).thenReturn(0);
+        testEnemy.rotateCorrectly();
+        Mockito.verify(model).rotate(0, (float) (Math.PI * 1.5), 0);
+    }
+
+    /**
+     * Tests the rotateCorrectly method.
+     * Ordinal 1.
+     */
+    @Test
+    public void rotateCorrectly_ord1_Test() {
+        Mockito.when(direction.ordinal()).thenReturn(1);
+        testEnemy.rotateCorrectly();
+        Mockito.verify(model).rotate(0, (float) (Math.PI), 0);
+    }
+
+    /**
+     * Tests the rotateCorrectly method.
+     * Ordinal 2.
+     */
+    @Test
+    public void rotateCorrectly_ord2_Test() {
+        Mockito.when(direction.ordinal()).thenReturn(2);
+        testEnemy.rotateCorrectly();
+        Mockito.verify(model).rotate(0, 0, 0);
+    }
+
+    /**
+     * Tests the rotateCorrectly method.
+     * Ordinal 3.
+     */
+    @Test
+    public void rotateCorrectly_ord3_Test() {
+        Mockito.when(direction.ordinal()).thenReturn(3);
+        testEnemy.rotateCorrectly();
+        Mockito.verify(model).rotate(0, (float) (Math.PI * 0.5), 0);
     }
 }

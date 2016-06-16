@@ -67,9 +67,7 @@ public final class InputHandler {
                     }
                     else {
                         main.getEnv().setPaused(false);
-                        System.out.println("paused false");
                         if (main.getEnv().getAudioController().isPlaying()) {
-                            System.out.println("isPlaying");
                             main.getEnv().getAudioController().getBackgroundMusic().play();
                         }
                     }

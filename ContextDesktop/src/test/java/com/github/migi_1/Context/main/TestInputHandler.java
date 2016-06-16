@@ -41,6 +41,7 @@ public class TestInputHandler {
     private Main main;
     private AudioNode backgroundMusic;
     private AudioController audioController;
+    private AppStateManager stateManager;
 
     /**
      * Setup for this test class.
@@ -54,6 +55,7 @@ public class TestInputHandler {
         vec = mock(Vector3f.class);
         audioController = mock(AudioController.class);
         backgroundMusic = mock(AudioNode.class);
+        stateManager = mock(AppStateManager.class);
         PowerMockito.mockStatic(VRApplication.class);
         BDDMockito.given(VRApplication.getFinalObserverRotation()).willReturn(quat);
         BDDMockito.given(quat.getRotationColumn(Mockito.anyInt())).willReturn(vec);
@@ -63,6 +65,9 @@ public class TestInputHandler {
         when(main.getEnv()).thenReturn(envState);
         when(envState.getFlyCamActive()).thenReturn(true);
         when(envState.getAudioController()).thenReturn(audioController);
+        when(main.getStateManager()).thenReturn(stateManager);
+        when(stateManager.attach(Mockito.any())).thenReturn(true);
+        when(stateManager.detach(Mockito.any())).thenReturn(true);
 
         when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         inputHandler = new InputHandler(main);
@@ -335,5 +340,23 @@ public class TestInputHandler {
         Mockito.verify(envState, Mockito.never()).steer(0.0f);
         inputHandler.getActionListener().onAction("steer_right", false, 0f);
         Mockito.verify(envState).steer(1.0f);
+    }
+
+    /**
+     * Verifies muting of the game sound.
+     */
+    @Test
+    public void testMute() {
+        inputHandler.getActionListener().onAction("mute", true, 0f);
+        Mockito.verify(audioController).mute();
+    }
+
+    /**
+     * Verifies the return to main menu action.
+     */
+    @Test
+    public void testActivateMain() {
+        inputHandler.getActionListener().onAction("menu", true, 0f);
+        Mockito.verify(envState).cleanup();
     }
 }

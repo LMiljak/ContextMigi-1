@@ -20,6 +20,7 @@ public class HUDController {
 
     private static final int CHECKPOINT_DISTANCE = 200;
     private static final float DISPLAY_DISTANCE = 20f;
+    private static final float SCREEN_RATIO = 0.75f;
 
     private float gameScore;
     private BitmapText hudText;
@@ -59,8 +60,8 @@ public class HUDController {
         hudText.setSize(guiFont.getCharSet().getRenderedSize() * 4);
         hudText.setColor(ColorRGBA.White);
         hudText.setText("0");
-        float width = (settings.getWidth() - hudText.getLineWidth()) * 0.75f;
-        float height = settings.getHeight() * 0.75f;
+        float width = (settings.getWidth() - hudText.getLineWidth()) * SCREEN_RATIO;
+        float height = settings.getHeight() * SCREEN_RATIO;
         hudText.setLocalTranslation(width, height, 0);
     }
 
@@ -73,7 +74,7 @@ public class HUDController {
         checkpointAlertText.setColor(ColorRGBA.Red);
         checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
 
-        checkpointAlertText.setLocalTranslation(settings.getWidth() * 0.25f, settings.getHeight() * 0.75f, 0);
+        checkpointAlertText.setLocalTranslation(settings.getWidth() * (1 - SCREEN_RATIO), settings.getHeight() * SCREEN_RATIO, 0);
     }
 
     /**
@@ -92,8 +93,8 @@ public class HUDController {
         hudText.setText(Integer.toString(Math.round(gameScore)));
         if (Math.round(gameScore) >= threshold) {
             threshold *= 10;
-            float width = (settings.getWidth() - hudText.getLineWidth()) * 0.75f;
-            float height = settings.getHeight() * 0.75f;
+            float width = (settings.getWidth() - hudText.getLineWidth()) * SCREEN_RATIO;
+            float height = settings.getHeight() * SCREEN_RATIO;
             hudText.setLocalTranslation(width, height, 0);
         }
     }

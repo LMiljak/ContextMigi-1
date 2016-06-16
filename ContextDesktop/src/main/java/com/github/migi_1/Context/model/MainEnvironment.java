@@ -198,19 +198,14 @@ public class MainEnvironment extends Environment {
 
     private void checkPathCollision() {
         for (Carrier carrier : platform.getCarriers()) {
-            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
-                commander.move(new Vector3f(0, 0, -0.3f));
-                platform.move(new Vector3f(0, 0, -0.3f));
+            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
+            		|| boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+            	Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
+            	
+                commander.move(antiMoveVector);
+                platform.move(antiMoveVector);
                 for (Carrier carr : platform.getCarriers()) {
-                	carr.move(new Vector3f(0, 0, -0.3f));
-                }
-                break;
-            }
-            else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-                commander.move(new Vector3f(0, 0, 0.3f));
-                platform.move(new Vector3f(0, 0, 0.3f));
-                for (Carrier carr : platform.getCarriers()) {
-                	carr.move(new Vector3f(0, 0, 0.3f));
+                	carr.move(antiMoveVector);
                 }
                 break;
             }

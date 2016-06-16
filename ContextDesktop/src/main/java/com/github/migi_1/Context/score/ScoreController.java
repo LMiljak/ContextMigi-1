@@ -49,6 +49,10 @@ public class ScoreController {
         }
     }
 
+    /**
+     * Return the high score.
+     * @return the high score
+     */
     public int getHighScore() {
         System.out.println(Arrays.toString(scores.toArray()));
         int highest = 0;

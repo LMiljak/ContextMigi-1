@@ -181,7 +181,6 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
     @Override
     public void collided() {
         // TODO Auto-generated method stub
-
     }
 }
 

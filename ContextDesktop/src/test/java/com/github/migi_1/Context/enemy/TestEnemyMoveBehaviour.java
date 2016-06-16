@@ -174,9 +174,38 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
     }
 
     @Test
+    public void testUpdateMoveVector_MovementHandling2() {
+        Mockito.when(enemySpot.getLocation()).thenReturn(new Vector3f(-110, -110, -110));
+        enemyMoveBehaviour.updateMoveVector();
+        try {
+            PowerMockito.verifyPrivate(enemyMoveBehaviour).invoke("handleXmovement");
+            PowerMockito.verifyPrivate(enemyMoveBehaviour).invoke("handleZmovement");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testUpdateMoveVectorTargetSpotNull() {
         enemyMoveBehaviour.setTargetSpot(null);
         enemyMoveBehaviour.updateMoveVector();
         Mockito.verify(enemyMoveBehaviour, Mockito.times(2));
+    }
+
+    @Test
+    public void testReachedSpot() throws Exception {
+        Mockito.when(enemySpot.getLocation()).thenReturn(Vector3f.ZERO);
+        Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+        enemyMoveBehaviour = Mockito.spy(new EnemyMoveBehaviour(enemy, carriers));
+        enemyMoveBehaviour.setAtSpot(false);
+        Whitebox.invokeMethod(enemyMoveBehaviour, "reachedSpot");
+        Mockito.verify(enemySpot).setEnemy(Mockito.any());
+        Mockito.verify(enemy).rotateCorrectly();
+    }
+
+    @Test
+    public void testCollided() {
+        enemyMoveBehaviour.collided();
+        Mockito.verify(enemyMoveBehaviour);
     }
 }

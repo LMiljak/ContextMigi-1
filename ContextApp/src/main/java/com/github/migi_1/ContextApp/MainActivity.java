@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp;
 
+import static android.content.Context.AUDIO_SERVICE;
 
 import com.github.migi_1.ContextApp.BugEvent.RotateBugSprayActivity;
 
@@ -7,6 +8,8 @@ import android.content.Intent;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -44,15 +47,18 @@ public class MainActivity extends AndroidHarness {
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
-    private ArrayList<ImageView> images;
-    
-    private Timer timer;
-    private TimerTask timerTask;
+    private AudioManager audioManager;
+    private SfxPlayer sfxPlayer;
     
     private boolean cooldown;
     private boolean eventStarted;
+    private ArrayList<ImageView> images;
+    
+    private Timer timer;
+    private TimerTask timerTask;  
     
     private final Handler handler = new Handler();
+
 
     /**
      * Configure the game instance that is launched and start the logger.
@@ -74,6 +80,9 @@ public class MainActivity extends AndroidHarness {
 
         //instantiate the application
         application = (Main) getJmeApplication();
+
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        sfxPlayer = new SfxPlayer(this, audioManager);
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -124,9 +133,14 @@ public class MainActivity extends AndroidHarness {
     }
     
     @Override
-    protected void onStop() {
-        super.onStop();
-    } 
+    protected void onDestroy() {
+        // clear the position
+        posHolder.clearPosition();
+        
+        sfxPlayer.release();
+        
+        super.onDestroy();
+    }
     
     /**
      * Shows a 'toast' giving the player instructions on how to get the app to 
@@ -253,11 +267,11 @@ public class MainActivity extends AndroidHarness {
      *          whether or not the attack was successful
      */
     public void hitMiss(boolean hit) {
+        sfxPlayer.play(1);
         if (hit) {
-            // Sound effect hit
+            sfxPlayer.play(2);
         }
         else {
-            // Sound effect miss
             setCooldown(true);
             
             timer = new Timer();
@@ -273,6 +287,7 @@ public class MainActivity extends AndroidHarness {
     */
     public void setHealth(final int health) {
         
+        sfxPlayer.play(0);
         runOnUiThread(new Runnable() {
             
             @Override
@@ -304,7 +319,7 @@ public class MainActivity extends AndroidHarness {
             }
             
         });
-        
+       
     }
     
     /**

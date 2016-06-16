@@ -57,9 +57,9 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 			Vector3f res = new Vector3f(
 					//Using cos for the proper rotation, the amplitude is how hard the platform
 					//is rotating. For the x-rotation, we use time*2 as it seemed to give a nicer effect.
-					(float) (Math.cos(time * 2) * amplitude), 
+					(float) (Math.cos(time) * amplitude), 
 					0.0f,
-					(float) (Math.cos(time) * amplitude)
+					0.0f
 				);
 			
 			super.setRotateVector(res);

@@ -15,18 +15,18 @@ import com.jme3.math.Vector3f;
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
-                                "up", "down", "steer_left", "steer_right", "start", 
-                                "pause", "menu", "restart", "mute"};
+            "up", "down", "steer_left", "steer_right", "start", 
+            "pause", "menu", "restart", "mute"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
-                               KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
-                               KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_SPACE, KeyInput.KEY_P,
-                               KeyInput.KEY_E, KeyInput.KEY_R, KeyInput.KEY_M};
+            KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
+            KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_SPACE, KeyInput.KEY_P,
+            KeyInput.KEY_E, KeyInput.KEY_R, KeyInput.KEY_M};
 
     private boolean forwards, back, left, right, up, down = false;
     private Main main;
     private ActionListener actionListener;
     private InputManager inputManager;
-
+    private boolean inMenu = true;
     /**
      * Constructor for the InputHandler.
      * @param main the Main menu from which the input needs to be handled.
@@ -55,37 +55,43 @@ public final class InputHandler {
         inputManager = main.getInputManager();
         addMappings();
         actionListener = new ActionListener() {
+
+
             @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
-                if (name.equals("exit") && keyPressed) {
-                    main.destroy();
-                } else if (name.equals("cam_switch") && keyPressed) {
-                    main.getEnv().swapCamera();
+                if (!inMenu) {
+                    if (name.equals("cam_switch") && keyPressed) {
+                        main.getEnv().swapCamera();
+                    } else if (name.equals("pause") && keyPressed) {
+                        if (!main.getEnv().isPaused()) {
+                            main.getEnv().setPaused(true);
+                            main.getEnv().getAudioController().getBackgroundMusic().pause();
+                        }
+                        else {
+                            main.getEnv().setPaused(false);
+                            if (main.getEnv().getAudioController().isPlaying()) {
+                                main.getEnv().getAudioController().getBackgroundMusic().play();
+                            }
+                        }
+                    } else if (name.equals("menu") && keyPressed) {
+                        if (!main.getInLobby()) {
+                            inMenu = true;
+                            main.toLobby();
+                        }
+                    } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
+                        main.getEnv().cleanup();
+                        main.getEnv().initialize(main.getStateManager(), main);
+                    } else if (name.equals("mute") && keyPressed) {
+                        main.getEnv().getAudioController().mute();
+
+                    }
                 } else if (name.equals("start") && keyPressed) {
                     if (main.getInLobby()) {
+                        inMenu = false;
                         main.toMainEnvironment();
                     }
-                } else if (name.equals("pause") && keyPressed) {
-                    if (!main.getEnv().isPaused()) {
-                        main.getEnv().setPaused(true);
-                        main.getEnv().getAudioController().getBackgroundMusic().pause();
-                    }
-                    else {
-                        main.getEnv().setPaused(false);
-                        if (main.getEnv().getAudioController().isPlaying()) {
-                            main.getEnv().getAudioController().getBackgroundMusic().play();
-                        }
-                    }
-                } else if (name.equals("menu") && keyPressed) {
-                    if (!main.getInLobby()) {
-                        main.toLobby();
-                    }
-                } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
-                    main.getEnv().cleanup();
-                    main.getEnv().initialize(main.getStateManager(), main);
-                } else if (name.equals("mute") && keyPressed) {
-                    main.getEnv().getAudioController().mute();
-
+                } else if (name.equals("exit") && keyPressed) {
+                    main.destroy();
                 }
 
                 //Controls that only work with flycam.
@@ -132,12 +138,12 @@ public final class InputHandler {
                 main.getEnv().steer(-1.f);
             }
             else if (name.equals("steer_right")) {
-               main.getEnv().steer(1.f);
-           }
-       }
-       if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {
-           main.getEnv().steer(0.f);
-       }
+                main.getEnv().steer(1.f);
+            }
+        }
+        if (!keyPressed && (name.equals("steer_left") || name.equals("steer_right"))) {
+            main.getEnv().steer(0.f);
+        }
     }
 
     /**
@@ -174,25 +180,25 @@ public final class InputHandler {
      */
     private void checkMovements(String name, boolean keyPressed) {
         switch (name) {
-            case "forwards":
-                forwards = keyPressed;
-                break;
-            case "backwards":
-                back = keyPressed;
-                break;
-            case "left":
-                left = keyPressed;
-                break;
-            case "right":
-                right = keyPressed;
-                break;
-            case "up":
-                up = keyPressed;
-                break;
-            case "down":
-                down = keyPressed;
-                break;
-            default: //Do nothing when an unknown button is pressed.
+        case "forwards":
+            forwards = keyPressed;
+            break;
+        case "backwards":
+            back = keyPressed;
+            break;
+        case "left":
+            left = keyPressed;
+            break;
+        case "right":
+            right = keyPressed;
+            break;
+        case "up":
+            up = keyPressed;
+            break;
+        case "down":
+            down = keyPressed;
+            break;
+        default: //Do nothing when an unknown button is pressed.
         }
     }
 
@@ -251,4 +257,6 @@ public final class InputHandler {
     public ActionListener getActionListener() {
         return actionListener;
     }
+
+
 }

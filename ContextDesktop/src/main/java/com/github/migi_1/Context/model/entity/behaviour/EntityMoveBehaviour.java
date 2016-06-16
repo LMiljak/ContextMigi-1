@@ -7,7 +7,7 @@ package com.github.migi_1.Context.model.entity.behaviour;
  */
 public abstract class EntityMoveBehaviour extends MoveBehaviour {
 
-    private static final float ACCELERATION_FACTOR = 0.00001f;
+    private static final float ACCELERATION_FACTOR = 0.000001f;
 
     /**
      * Called when a collision has taken place.

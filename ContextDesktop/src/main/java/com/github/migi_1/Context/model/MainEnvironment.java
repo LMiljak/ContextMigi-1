@@ -200,7 +200,7 @@ public class MainEnvironment extends Environment {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
             		|| boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
             	Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
-            	
+
                 commander.move(antiMoveVector);
                 platform.move(antiMoveVector);
                 for (Carrier carr : platform.getCarriers()) {

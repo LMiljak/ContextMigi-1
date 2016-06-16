@@ -2,6 +2,7 @@ package com.github.migi_1.ContextApp.BugEvent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -30,8 +31,8 @@ public class RotateBugSprayActivity extends Activity {
         super.onResume();
         position = (PlatformPosition) getIntent().getExtras().get("Position");
         title = (TextView) findViewById(R.id.eventBug_title);
-        updateTitle();
         setUI();
+        updateTitle();
     }
 
     @Override
@@ -146,27 +147,21 @@ public class RotateBugSprayActivity extends Activity {
      * Update the title of the app.
      */
     private void updateTitle() {
-        runOnUiThread(new Runnable() {
-            
-            @Override
-            public void run() {
-                String titleText = "";
-                if (spray.getVisibility() == View.VISIBLE) {
-                    if (bug.getVisibility() == View.VISIBLE) {
-                        titleText = "Press the bug";
-                    } else {
-                        titleText = "Swipe the spray towards the bug";
-                    }
-                } else {
-                    if(bug.getVisibility() == View.VISIBLE) {
-                        titleText = "Get the spray to here!";
-                    } else {
-                        titleText = "BUG EVENT";
-                    }
-                }
-                title.setText(titleText);
+        String titleText = "";
+        if (spray.getVisibility() == View.VISIBLE) {
+            if (bug.getVisibility() == View.VISIBLE) {
+                titleText = "Press the bug";
+            } else {
+                titleText = "Swipe the spray towards the bug";
             }
-        });
+        } else {
+            if(bug.getVisibility() == View.VISIBLE) {
+                titleText = "Get the spray to here!";
+            } else {
+                titleText = "BUG EVENT";
+            }
+        }
+        title.setText(titleText);
         
     }
     

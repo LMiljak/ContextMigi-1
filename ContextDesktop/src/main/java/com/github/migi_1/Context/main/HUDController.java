@@ -59,8 +59,8 @@ public class HUDController {
         hudText.setSize(guiFont.getCharSet().getRenderedSize() * 4);
         hudText.setColor(ColorRGBA.White);
         hudText.setText("0");
-        float width = settings.getWidth() - hudText.getLineWidth();
-        float height = settings.getHeight();
+        float width = (settings.getWidth() - hudText.getLineWidth()) * 0.75f;
+        float height = settings.getHeight() * 0.75f;
         hudText.setLocalTranslation(width, height, 0);
     }
 
@@ -92,8 +92,8 @@ public class HUDController {
         hudText.setText(Integer.toString(Math.round(gameScore)));
         if (Math.round(gameScore) >= threshold) {
             threshold *= 10;
-            float width = settings.getWidth() - hudText.getLineWidth();
-            float height = settings.getHeight();
+            float width = (settings.getWidth() - hudText.getLineWidth()) * 0.75f;
+            float height = settings.getHeight() * 0.75f;
             hudText.setLocalTranslation(width, height, 0);
         }
     }

@@ -2,6 +2,7 @@ package com.github.migi_1.Context.score;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class handles the writing and reading of files.
@@ -23,6 +24,7 @@ public class ScoreController {
      * Constructor.
      */
     public ScoreController() {
+
         reader = new ScoreReader();
         writer = new ScoreWriter();
 
@@ -48,7 +50,14 @@ public class ScoreController {
     }
 
     public int getHighScore() {
-        return 42;
+        System.out.println(Arrays.toString(scores.toArray()));
+        int highest = 0;
+        for (Score score: scores) {
+            if (score.getScore() > highest) {
+                highest = score.getScore();
+            }
+        }
+        return highest;
     }
 
 

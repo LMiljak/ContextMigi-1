@@ -43,6 +43,6 @@ public class ScoreWriter {
 
         //write scores to file
         Files.write(Paths.get(infile), strings, StandardCharsets.UTF_8,
-                StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                StandardOpenOption.CREATE);
     }
 }

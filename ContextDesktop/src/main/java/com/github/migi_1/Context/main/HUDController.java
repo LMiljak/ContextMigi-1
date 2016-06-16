@@ -73,7 +73,7 @@ public class HUDController {
         checkpointAlertText.setColor(ColorRGBA.Red);
         checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
 
-        checkpointAlertText.setLocalTranslation(0, settings.getHeight(), 0);
+        checkpointAlertText.setLocalTranslation(settings.getWidth() * 0.25f, settings.getHeight() * 0.75f, 0);
     }
 
     /**

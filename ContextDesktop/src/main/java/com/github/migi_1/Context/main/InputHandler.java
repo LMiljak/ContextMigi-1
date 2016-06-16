@@ -90,7 +90,8 @@ public final class InputHandler {
                         inMenu = false;
                         main.toMainEnvironment();
                     }
-                } else if (name.equals("exit") && keyPressed) {
+                }  
+                if (name.equals("exit") && keyPressed) {
                     main.destroy();
                 }
 
@@ -271,8 +272,8 @@ public final class InputHandler {
     public void setInMenu(boolean inMenu) {
         this.inMenu = inMenu;
     }
-    
-    
+
+
 
 
 }

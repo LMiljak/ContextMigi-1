@@ -2,8 +2,8 @@ package com.github.migi_1.Context.main;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import jmevr.app.VRApplication;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +21,8 @@ import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+
+import jmevr.app.VRApplication;
 
 /**
  * Test suite for the InputHandler.
@@ -45,22 +47,22 @@ public class TestInputHandler {
      */
     @Before
     public void setUp() {
-        main = Mockito.mock(Main.class);
-        inputManager = Mockito.mock(InputManager.class);
-        envState = Mockito.mock(MainEnvironment.class);
+        main = mock(Main.class);
+        inputManager = mock(InputManager.class);
+        envState = mock(MainEnvironment.class);
         quat = PowerMockito.mock(Quaternion.class);
-        vec = Mockito.mock(Vector3f.class);
-        audioController = Mockito.mock(AudioController.class);
-        backgroundMusic = Mockito.mock(AudioNode.class);
+        vec = mock(Vector3f.class);
+        audioController = mock(AudioController.class);
+        backgroundMusic = mock(AudioNode.class);
         PowerMockito.mockStatic(VRApplication.class);
         BDDMockito.given(VRApplication.getFinalObserverRotation()).willReturn(quat);
         BDDMockito.given(quat.getRotationColumn(Mockito.anyInt())).willReturn(vec);
         BDDMockito.given(vec.mult(Mockito.anyFloat())).willReturn(vec);
 
-        Mockito.when(main.getInputManager()).thenReturn(inputManager);
-        Mockito.when(main.getEnv()).thenReturn(envState);
-        Mockito.when(envState.getFlyCamActive()).thenReturn(true);
-        Mockito.when(envState.getAudioController()).thenReturn(audioController);
+        when(main.getInputManager()).thenReturn(inputManager);
+        when(main.getEnv()).thenReturn(envState);
+        when(envState.getFlyCamActive()).thenReturn(true);
+        when(envState.getAudioController()).thenReturn(audioController);
 
         when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         inputHandler = new InputHandler(main);
@@ -211,11 +213,13 @@ public class TestInputHandler {
      */
     @Test
     public void testPauseNotPaused() {
+        Mockito.when(audioController.isPlaying()).thenReturn(true);
         //Verify the game is not paused.
         assertFalse(envState.isPaused());
         inputHandler.getActionListener().onAction("pause", true, 0f);
         //Only verifying that in a real scenario, the game would be paused now.
         Mockito.verify(envState).setPaused(true);
+        Mockito.verify(backgroundMusic).pause();
     }
 
     /**
@@ -224,12 +228,14 @@ public class TestInputHandler {
     @Test
     public void testPausePaused() {
         //To simulate the game is paused.
+        Mockito.when(audioController.isPlaying()).thenReturn(true);
         Mockito.when(envState.isPaused()).thenReturn(true);
-        //Trivial assert that the game is actually paused.
+        //Trivial assert that the game is not paused.
         assertTrue(envState.isPaused());
         inputHandler.getActionListener().onAction("pause", true, 0f);
         //Only verifying that in a real scenario, the game would unpause now.
         Mockito.verify(envState).setPaused(false);
+        Mockito.verify(backgroundMusic).play();
     }
 
     /**

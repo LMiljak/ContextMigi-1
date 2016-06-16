@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.jme3.network.Server;
 
@@ -65,12 +64,4 @@ public abstract class TestServerState {
 	 */
 	@Test
 	public abstract void testOnDeactivate();
-
-	/**
-	 * Tests the hashCode method.
-	 */
-	@Test
-	public void testHashCode() {
-	    assertEquals(Mockito.anyInt(), serverState.hashCode());
-	}
 }

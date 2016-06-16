@@ -223,7 +223,7 @@ public class MainEnvironment extends Environment {
     private void checkRandomEvent() {
         //Time for a random event!
         if (System.currentTimeMillis() > randomEventTime) {
-            StartBugEventMessage startMessage = new StartBugEventMessage();
+            StartBugEventMessage startMessage = new StartBugEventMessage(getRandomPosition(), getRandomPosition());
             Server server = getMain().getServer().getServer();
             //Message is send when:
             //The server is running.
@@ -235,6 +235,15 @@ public class MainEnvironment extends Environment {
             }
             setNewRandomEventTime();
         }
+    }
+
+    /**
+     * Retuns a random position.
+     * @return a random platform position.
+     */
+    private PlatformPosition getRandomPosition() {
+        int randomNumber = new Random().nextInt(4);
+        return PlatformPosition.values()[randomNumber];
     }
 
     /**

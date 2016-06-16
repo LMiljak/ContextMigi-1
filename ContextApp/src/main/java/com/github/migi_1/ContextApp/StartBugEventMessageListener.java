@@ -22,7 +22,7 @@ public class StartBugEventMessageListener extends MessageListener<StartBugEventM
     
     @Override
     public void messageReceived(Object source, StartBugEventMessage message) {
-        main.startBugEvent();
+        main.startBugEvent(message.getBugPosition(), message.getSprayPosition());
     }
 
     @Override

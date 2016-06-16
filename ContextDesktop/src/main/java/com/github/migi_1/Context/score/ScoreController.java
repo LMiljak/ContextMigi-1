@@ -47,5 +47,9 @@ public class ScoreController {
         }
     }
 
+    public int getHighScore() {
+        return 42;
+    }
+
 
 }

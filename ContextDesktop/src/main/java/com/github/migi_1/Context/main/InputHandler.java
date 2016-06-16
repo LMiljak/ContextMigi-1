@@ -91,6 +91,9 @@ public final class InputHandler {
                         main.toMainEnvironment();
                     }
                 }
+                if (name.equals("exit") && keyPressed) {
+                    main.destroy();
+                }
 
                 //Controls that only work with flycam.
                 if (main.getEnv().getFlyCamActive()) {

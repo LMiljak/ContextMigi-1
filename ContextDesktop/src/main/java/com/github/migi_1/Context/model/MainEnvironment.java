@@ -324,8 +324,9 @@ public class MainEnvironment extends Environment {
                         Float.MAX_VALUE,
                         100f, 1f);
 
+        final float offset = -10;
         boundingBoxWallRight = new BoundingBox(
-                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z + offset
                         -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);

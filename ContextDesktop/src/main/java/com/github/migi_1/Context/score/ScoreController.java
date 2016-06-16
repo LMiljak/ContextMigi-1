@@ -23,6 +23,7 @@ public class ScoreController {
      * Constructor.
      */
     public ScoreController() {
+
         reader = new ScoreReader();
         writer = new ScoreWriter();
 
@@ -45,6 +46,20 @@ public class ScoreController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Return the high score.
+     * @return the high score
+     */
+    public int getHighScore() {
+        int highest = 0;
+        for (Score score: scores) {
+            if (score.getScore() > highest) {
+                highest = score.getScore();
+            }
+        }
+        return highest;
     }
 
 

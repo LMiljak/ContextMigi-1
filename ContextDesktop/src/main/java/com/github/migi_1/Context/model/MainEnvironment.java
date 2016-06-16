@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -35,8 +37,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -155,11 +155,24 @@ public class MainEnvironment extends Environment {
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
+            checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
         }
     }
 
+
+    private void checkGameOver() {
+        int count = 0;
+        for (Carrier carrier: enemySpawner.getCarriers()) {
+            if (carrier.getHealth() <= 0) {
+                count++;
+            }
+        }
+        if (count >= 2) {
+            System.out.println("game over");
+        }
+    }
 
     /**
      * Handle collision checking.
@@ -200,7 +213,7 @@ public class MainEnvironment extends Environment {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
             		|| boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
             	Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
-            	
+
                 commander.move(antiMoveVector);
                 platform.move(antiMoveVector);
                 for (Carrier carr : platform.getCarriers()) {

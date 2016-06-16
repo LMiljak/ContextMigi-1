@@ -7,8 +7,8 @@ import java.util.Random;
 
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
@@ -20,7 +20,6 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -64,12 +63,12 @@ public class MainEnvironment extends Environment {
     private static final float COMMANDER_ROTATION = -1.5f;
 
     //This value is the time in milliseconds (1 second = 1000 ms).
-    private static final long LOWER_BOUND_EVENT_TIME = 20000;
+    private static final long LOWER_BOUND_EVENT_TIME = 90000;
 
     //This value is in milliseconds.
     //It sort of sets the upper bound of the event time,
     //using formula: LOWER_BOUND_EVENT_TIME + RANGE_EVENT_TIME.
-    private static final int RANGE_EVENT_TIME = 10000;
+    private static final int RANGE_EVENT_TIME = 30000;
 
     private Application app;
     private Platform platform;
@@ -97,19 +96,19 @@ public class MainEnvironment extends Environment {
     private ScoreController scoreController;
 
     private HUDController hudController;
-    
+
     private long randomEventTime;
 
     /**
      * Constructor for MainEnvironment.
-     * 
+     *
      * @param carrierAssigner
      * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
     	this.carrierAssigner = carrierAssigner;
     }
-    
+
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -117,17 +116,17 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        
+
         this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
         flyCamActive = false;
-        
+
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
         scoreController = new ScoreController();
         results = new HashMap<Entity, CollisionResults>();
-        
+
         this.hudController = new HUDController(app);
 
         //creates the lights
@@ -318,7 +317,7 @@ public class MainEnvironment extends Environment {
         	addEntity(carrier);
         	platform.addCarrier(carrier);
         }
-        
+
         addEntity(platform);
         addRotatable(platform);
         addEntity(commander);

@@ -138,7 +138,7 @@ public class TestMainEnvironment {
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
-        env = PowerMockito.spy(new MainEnvironment());
+        env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
     }
 
     /**
@@ -216,7 +216,7 @@ public class TestMainEnvironment {
     public void updateTestWorldTest() throws Exception {
         env.initialize(stateManager, app);
         Whitebox.invokeMethod(env, "updateTestWorld");
-        //Verify that everything is still in the right place.
+        // Verify that everything is still in the right place.
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.<Spatial>any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.<Spatial>any());
     }

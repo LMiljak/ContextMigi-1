@@ -8,8 +8,10 @@ import java.util.Random;
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.Main;
+import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
+import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -18,6 +20,7 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -78,6 +81,7 @@ public class MainEnvironment extends Environment {
 
     private boolean flyCamActive;
 
+    private CarrierAssigner carrierAssigner;
     private LevelGenerator levelGenerator;
     private EnemySpawner enemySpawner;
 
@@ -92,8 +96,20 @@ public class MainEnvironment extends Environment {
     private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
 
+    private HUDController hudController;
+    
     private long randomEventTime;
 
+    /**
+     * Constructor for MainEnvironment.
+     * 
+     * @param carrierAssigner
+     * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
+     */
+    public MainEnvironment(CarrierAssigner carrierAssigner) {
+    	this.carrierAssigner = carrierAssigner;
+    }
+    
     /**
      * First method that is called after the state has been created.
      * Handles all initialization of parameters needed for the Environment.
@@ -101,16 +117,18 @@ public class MainEnvironment extends Environment {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-
+        
         this.app = app;
         viewPort = app.getViewPort();
         flyObs = new Camera();
         steering = 0.f;
         flyCamActive = false;
-
+        
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
         scoreController = new ScoreController();
         results = new HashMap<Entity, CollisionResults>();
+        
+        this.hudController = new HUDController(app);
 
         //creates the lights
         initLights();
@@ -139,6 +157,7 @@ public class MainEnvironment extends Environment {
             checkObstacleCollision();
             checkPathCollision();
             updateTestWorld();
+            hudController.updateHUD();
         }
     }
 
@@ -182,12 +201,18 @@ public class MainEnvironment extends Environment {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())) {
                 commander.move(new Vector3f(0, 0, -0.3f));
                 platform.move(new Vector3f(0, 0, -0.3f));
-                carrier.move(new Vector3f(0, 0, -0.3f));
+                for (Carrier carr : platform.getCarriers()) {
+                	carr.move(new Vector3f(0, 0, -0.3f));
+                }
+                break;
             }
             else if (boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
                 commander.move(new Vector3f(0, 0, 0.3f));
                 platform.move(new Vector3f(0, 0, 0.3f));
-                carrier.move(new Vector3f(0, 0, 0.3f));
+                for (Carrier carr : platform.getCarriers()) {
+                	carr.move(new Vector3f(0, 0, 0.3f));
+                }
+                break;
             }
         }
     }
@@ -274,7 +299,7 @@ public class MainEnvironment extends Environment {
         createWallBoundingBoxes();
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        platform = new Platform(PLATFORM_LOCATION, this);
+        platform = new Platform(PLATFORM_LOCATION, this, carrierAssigner);
         commander = new Commander(COMMANDER_LOCATION, platform);
         obstacleSpawner = new ObstacleSpawner(this);
 
@@ -288,7 +313,12 @@ public class MainEnvironment extends Environment {
         for (Path path : levelGenerator.getPathPieces(COMMANDER_LOCATION)) {
             addDisplayable(path);
         }
-
+        for (PlatformPosition position : PlatformPosition.values()) {
+        	Carrier carrier = createCarrier(position);
+        	addEntity(carrier);
+        	platform.addCarrier(carrier);
+        }
+        
         addEntity(platform);
         addRotatable(platform);
         addEntity(commander);
@@ -303,8 +333,9 @@ public class MainEnvironment extends Environment {
                         Float.MAX_VALUE,
                         100f, 1f);
 
+        final float offset = -10;
         boundingBoxWallRight = new BoundingBox(
-                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
+                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z + offset
                         -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
                         Float.MAX_VALUE,
                         100f, 1f);

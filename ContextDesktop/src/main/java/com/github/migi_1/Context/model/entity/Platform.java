@@ -3,7 +3,6 @@ package com.github.migi_1.Context.model.entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AcceleratingMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
@@ -27,7 +26,6 @@ public class Platform extends Entity implements IRotatable {
     private static final String PATHNAME = "Models/platform.j3o";
     private static final Vector3f MOVE_VECTOR = new Vector3f(-0.2f, 0, 0);
     private HashMap<PlatformPosition, Carrier> carriers = new HashMap<>(4);
-    private CarrierAssigner carrierAssigner;
     private RotateBehaviour rotateBehaviour;
 
     /**
@@ -37,12 +35,11 @@ public class Platform extends Entity implements IRotatable {
      * 		location where the carrier will be initialised
      * @param environment
      * 		The environment that contains this platform.
-     *
+     * @param carrierAssigner
+     * 		The carrierAssigner that contains the addresses of each carrier.
      */
-    public Platform(Vector3f startLocation, MainEnvironment environment) {
+    public Platform(Vector3f startLocation, MainEnvironment environment, CarrierAssigner carrierAssigner) {
         super();
-
-        this.carrierAssigner = new CarrierAssigner(this, Main.getInstance().getServer(), environment);
 
         ArrayList<AccelerometerMoveBehaviour> carrierBehaviours = new ArrayList<>(4);
         for (PlatformPosition position : PlatformPosition.values()) {

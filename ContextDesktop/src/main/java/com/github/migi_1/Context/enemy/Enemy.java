@@ -20,7 +20,7 @@ public class Enemy extends Entity implements IKillable {
     private static final String PATH_NAME = "Models/slime.j3o";
     private int health;
     private float currentTime = 0;
-    private static final float ATTACK_THRESHOLD = 3;
+    private static final float ATTACK_THRESHOLD = 8;
     private EnemySpot spot;
 
     /**

@@ -14,7 +14,7 @@ import com.jme3.scene.Spatial;
 public class MovingObstacle extends Obstacle {
 
     /** File location of model. **/
-    private static final String PATHNAME = "Models/testCube2.j3o";
+    private static final String PATHNAME = "Models/slimeObstacle.j3o";
 
     private int health;
 
@@ -25,7 +25,7 @@ public class MovingObstacle extends Obstacle {
      */
     public MovingObstacle(BoundingBox leftBound, BoundingBox rightBound) {
         super();
-        setModel(getDefaultModel());
+        setModel(getDefaultModel().scale(7.0f).rotate(0, 4.75f, 0));
         setMoveBehaviour(new MovingObstacleMoveBehaviour(this, leftBound, rightBound));
         getModel().move(new Vector3f(0, -2.0f, 0));
         health = 1;

@@ -131,6 +131,8 @@ public class TestMainEnvironment {
         Mockito.when(path.getModel()).thenReturn(model);
         Mockito.when(model.center()).thenReturn(model);
         Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(0, 0, 0));
+        Mockito.when(model.scale(Mockito.anyFloat())).thenReturn(model);
+        Mockito.when(model.rotate(Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat())).thenReturn(model);
         Mockito.when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);

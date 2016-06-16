@@ -42,16 +42,15 @@ public class MainActivity extends AndroidHarness {
     private ClientHub clientHub = ClientHub.getInstance();
     private StartBugEventMessageListener startBugEventListener;
     private ClientWrapper client;
+    private AudioManager audioManager;
+    private SfxPlayer sfxPlayer;
+
+    private boolean cooldown;
+    private boolean eventStarted;
     private ArrayList<ImageView> images;
 
     private Timer timer;
     private TimerTask timerTask;
-
-    private boolean cooldown;
-    private boolean eventStarted;
-
-    private AudioManager audioManager;
-    private SfxPlayer sfxPlayer;
 
     private final Handler handler = new Handler();
 
@@ -160,6 +159,7 @@ public class MainActivity extends AndroidHarness {
      */
     public void setUI() {
         images = new ArrayList<>();
+
         images.add((ImageView) findViewById(R.id.Heart_1));
         images.add((ImageView) findViewById(R.id.Heart_2));
         images.add((ImageView) findViewById(R.id.Heart_3));
@@ -278,6 +278,7 @@ public class MainActivity extends AndroidHarness {
     *      and red hearts.
     */
     public void setHealth(final int health) {
+
         sfxPlayer.play(0);
         runOnUiThread(new Runnable() {
 

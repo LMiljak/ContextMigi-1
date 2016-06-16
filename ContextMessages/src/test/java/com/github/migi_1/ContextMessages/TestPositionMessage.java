@@ -11,7 +11,7 @@ import org.junit.Test;
 public class TestPositionMessage {
 
 	private PositionMessage positionMessage;
-	
+
 	/**
 	 * Initialises the positionMessage field.
 	 */
@@ -19,7 +19,7 @@ public class TestPositionMessage {
 	public void setUp() {
 		this.positionMessage = new PositionMessage(PlatformPosition.BACKRIGHT);
 	}
-	
+
 	/**
 	 * Tests the getPosition method.
 	 */
@@ -27,5 +27,14 @@ public class TestPositionMessage {
 	public void testGetPosition() {
 		assertEquals(PlatformPosition.BACKRIGHT, positionMessage.getPosition());
 	}
-	
+
+	/**
+	 * Tests the constructors.
+	 */
+	@Test
+    public void constructorTest() {
+        assertEquals(PositionMessage.class, new PositionMessage().getClass());
+        assertEquals(PositionMessage.class, new PositionMessage(PlatformPosition.FRONTRIGHT).getClass());
+    }
+
 }

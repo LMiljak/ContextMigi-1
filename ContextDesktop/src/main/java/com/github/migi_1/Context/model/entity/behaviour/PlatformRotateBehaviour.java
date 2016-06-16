@@ -18,7 +18,7 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 	private final Quaternion initialRotation;
 	private Quaternion rotation;
 	
-	private final float baseAmplitude = 0.05f;
+	private final float baseAmplitude = 0.01f;
 	private final int speed = 200;
 	private float disSimilarity = 0.0f;
 	private float time = 0f;
@@ -57,9 +57,9 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 			Vector3f res = new Vector3f(
 					//Using cos for the proper rotation, the amplitude is how hard the platform
 					//is rotating. For the x-rotation, we use time*2 as it seemed to give a nicer effect.
-					(float) (Math.cos(time * 2) * amplitude), 
+					(float) (Math.cos(time) * amplitude), 
 					0.0f,
-					(float) (Math.cos(time) * amplitude)
+					0.0f
 				);
 			
 			super.setRotateVector(res);

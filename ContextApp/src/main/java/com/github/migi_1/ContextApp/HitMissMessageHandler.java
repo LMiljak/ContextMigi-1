@@ -6,7 +6,7 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 
 /**
  * This class handles HitMissMessages and gives the player cooldown depending
- * on whether their attack hit or not.
+ * on whether their attack hit or not and plays the right sound effect.
  */
 public class HitMissMessageHandler extends MessageListener<HitMissMessage> {
     

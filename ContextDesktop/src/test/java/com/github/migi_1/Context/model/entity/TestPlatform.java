@@ -13,8 +13,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -41,18 +39,18 @@ public class TestPlatform extends TestEntity {
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     @Before
     public void setUp() throws Exception {
     	try {
  			PowerMockito.whenNew(AccelerometerMoveBehaviour.class)
- 				.withAnyArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));	
+ 				.withAnyArguments().thenReturn(Mockito.mock(AccelerometerMoveBehaviour.class));
 		} catch (Exception e) {
 		        e.printStackTrace();
 		}
-    	
+
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
@@ -67,7 +65,7 @@ public class TestPlatform extends TestEntity {
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
         Mockito.when(model.getLocalRotation()).thenReturn(new Quaternion(0, 0, 0, 0));
-        
+
         platform = new Platform(new Vector3f(0, 0, 0), Mockito.mock(MainEnvironment.class));
 
         setMoveBehaviour(moveBehaviour);

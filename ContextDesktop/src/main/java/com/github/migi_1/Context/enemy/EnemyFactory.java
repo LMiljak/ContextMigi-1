@@ -12,6 +12,8 @@ import com.jme3.math.Vector3f;
  */
 public class EnemyFactory {
 
+    private static final float SPAWN_HEIGHT = -17.5f;
+
     private BoundingBox levelPieceBoundingBox;
     private float levelPieceLength;
     private float levelPieceWidth;
@@ -35,11 +37,11 @@ public class EnemyFactory {
      * @return the created enemy.
      */
     public Enemy createEnemy1(double currentLevelPiece) {
-        Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength),
-                carriers.get(0).getModel().getLocalTranslation().y,
+        Enemy enemy =  new Enemy(new Vector3f(
+                -(((int) currentLevelPiece + 2) * levelPieceLength),
+                SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);
-        enemy.getModel().rotate(0, (float) Math.PI, 0);
         return enemy;
     }
 
@@ -49,11 +51,12 @@ public class EnemyFactory {
      * @return the created enemy.
      */
     public Enemy createEnemy2(double currentLevelPiece) {
-        Enemy enemy =  new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
+        Enemy enemy =  new Enemy(new Vector3f(
+                -(((int) currentLevelPiece + 2) * levelPieceLength)
+                + levelPieceLength * 1 / 2,
+                SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);
-        enemy.getModel().rotate(0, (float) Math.PI, 0);
         return enemy;
     }
 
@@ -63,9 +66,13 @@ public class EnemyFactory {
      * @return the created enemy.
      */
     public Enemy createEnemy3(double currentLevelPiece) {
-        return new Enemy(new Vector3f(-(((int) currentLevelPiece + 2) * levelPieceLength)
-                + levelPieceLength * 1 / 2, carriers.get(0).getModel().getLocalTranslation().y,
+        Enemy enemy = new Enemy(new Vector3f(
+                -(((int) currentLevelPiece + 2) * levelPieceLength)
+                + levelPieceLength * 1 / 2,
+                SPAWN_HEIGHT,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
                 carriers);
+        enemy.getModel().rotate(0, (float) Math.PI, 0);
+        return enemy;
     }
 }

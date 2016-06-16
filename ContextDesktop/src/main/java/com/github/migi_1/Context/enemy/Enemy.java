@@ -17,7 +17,7 @@ import com.jme3.scene.Spatial;
  */
 public class Enemy extends Entity implements IKillable {
 
-    private static final String PATH_NAME = "Models/ninja.j3o";
+    private static final String PATH_NAME = "Models/slime.j3o";
     private int health;
     private float currentTime = 0;
     private static final float ATTACK_THRESHOLD = 3;
@@ -38,7 +38,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2.0f);
     }
 
     @Override
@@ -54,18 +54,15 @@ public class Enemy extends Entity implements IKillable {
     @Override
     public void takeDamage(int damage) {
         setHealth(getHealth() - damage);
-    	if (getHealth() <= 0) {
-    		onKilled();
-    	}
+        if (getHealth() <= 0) {
+            onKilled();
+        }
     }
 
     @Override
     public void onKilled() {
-        if (spot != null) {
-            spot.setEnemy(null);
-            spot.setOccupied(false);
-            spot = null;
-        }
+        spot.setEnemy(null);
+        spot.setOccupied(false);
     }
 
     /**
@@ -99,4 +96,28 @@ public class Enemy extends Entity implements IKillable {
     public EnemySpot getSpot() {
         return spot;
     }
+
+
+    /**
+     * Makes the enemy rotate so it faces the carrier.
+     *
+     * NOTE:
+     * Angles are hardcoded right now, but this could easily be changed when the
+     * positions/directions are correcly refactored.
+     */
+    public void rotateCorrectly() {
+        getModel().rotate(getModel().getLocalRotation().inverse());
+        double angle = 0;
+        if (getSpot().getDirection().ordinal() == 1) {
+            angle = 1;
+        } else if (getSpot().getDirection().ordinal() == 2) {
+            angle = 0;
+        } else if (getSpot().getDirection().ordinal() == 3) {
+            angle = 0.5;
+        } else {
+            angle = 1.5;
+        }
+        getModel().rotate(0, (float) (angle * Math.PI), 0);
+    }
+
 }

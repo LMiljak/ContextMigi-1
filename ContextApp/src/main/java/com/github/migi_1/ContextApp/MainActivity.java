@@ -1,8 +1,6 @@
 package com.github.migi_1.ContextApp;
 
-
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -18,6 +16,7 @@ import com.jme3.app.AndroidHarness;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -25,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 /**
  * This class contains the main activity that is started you run the project.
  */
@@ -50,7 +50,11 @@ public class MainActivity extends AndroidHarness {
     private boolean cooldown;
     private boolean eventStarted;
 
+    private AudioManager audioManager;
+    private SfxPlayer sfxPlayer;
+
     private final Handler handler = new Handler();
+
 
     /**
      * Configure the game instance that is launched and start the logger.
@@ -73,6 +77,9 @@ public class MainActivity extends AndroidHarness {
 
         //instantiate the application
         application = (Main) getJmeApplication();
+
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        sfxPlayer = new SfxPlayer(this, audioManager);
 
         //start the sensor manager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -120,8 +127,13 @@ public class MainActivity extends AndroidHarness {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        // clear the position
+        posHolder.clearPosition();
+
+        sfxPlayer.release();
+
+        super.onDestroy();
     }
 
     /**
@@ -164,11 +176,7 @@ public class MainActivity extends AndroidHarness {
      * Makes sure buttonpresses are logged and processed.
      * @param button
      *              the button to which a clicklistener is set
-<<<<<<< HEAD
-     * @param name
-=======
      * @param direction
->>>>>>> master
      *              message to be logged
      */
     public void setButtonClick(Button button, final Direction direction) {
@@ -216,25 +224,18 @@ public class MainActivity extends AndroidHarness {
 
     /**
      * Starts the bug event.
+     * @param bugPosition the initial position of the bug.
+     * @param sprayPosition the initial position of the spray.
      */
-    public void startBugEvent() {
+    public void startBugEvent(PlatformPosition bugPosition, PlatformPosition sprayPosition) {
         if (!eventStarted) {
             eventStarted = true;
             Intent nextScreen = new Intent(getApplicationContext(), RotateBugSprayActivity.class);
             nextScreen.putExtra("Position", position);
-            nextScreen.putExtra("BugPosition", getRandomPosition());
-            nextScreen.putExtra("SprayPosition", getRandomPosition());
+            nextScreen.putExtra("BugPosition", bugPosition);
+            nextScreen.putExtra("SprayPosition", sprayPosition);
             startActivity(nextScreen);
         }
-    }
-
-    /**
-     * Retuns a random position.
-     * @return a random platform position.
-     */
-    private PlatformPosition getRandomPosition() {
-        int randomNumber = new Random().nextInt(4);
-        return PlatformPosition.values()[randomNumber];
     }
 
     /**
@@ -253,11 +254,11 @@ public class MainActivity extends AndroidHarness {
      *          whether or not the attack was successful
      */
     public void hitMiss(boolean hit) {
+        sfxPlayer.play(1);
         if (hit) {
-            // Sound effect hit
+            sfxPlayer.play(2);
         }
         else {
-            // Sound effect miss
             setCooldown(true);
 
             timer = new Timer();
@@ -272,7 +273,7 @@ public class MainActivity extends AndroidHarness {
     *      and red hearts.
     */
     public void setHealth(final int health) {
-
+        sfxPlayer.play(0);
         runOnUiThread(new Runnable() {
 
             @Override

@@ -30,13 +30,14 @@ public class Carrier extends Entity implements IKillable {
 
     private Main main;
     private HealthMessenger healthMessenger;
+
+    @SuppressWarnings("unused")
     private AttackMessageHandler attackMessageHandler;
     private HitMissMessenger hitMissMessenger;
 
     private int health;
 
     private PlatformPosition position;
-    private String side;
 
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
@@ -67,13 +68,6 @@ public class Carrier extends Entity implements IKillable {
         hitMissMessenger = new HitMissMessenger(main);
 
         this.position = position;
-        if (position.equals(PlatformPosition.FRONTRIGHT)
-                || position.equals(PlatformPosition.BACKRIGHT)) {
-            side = "right";
-        }
-        else {
-            side = "left";
-        }
         this.environment = environment;
         createEnemyLocations();
     }
@@ -102,9 +96,9 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void takeDamage(int damage) {
-    	setHealth(getHealth() - damage);
-    	if (getHealth() <= 0) {
-    		onKilled();
+        setHealth(getHealth() - damage);
+        if (getHealth() <= 0) {
+            onKilled();
         }
     }
 
@@ -175,15 +169,11 @@ public class Carrier extends Entity implements IKillable {
             if (direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
                 if (enemy == null) {
-                     hitMissMessenger.sendHitMiss(false, position);
+                    hitMissMessenger.sendHitMiss(false, position);
                 }
                 else {
                     hitMissMessenger.sendHitMiss(true, position);
                     enemy.takeDamage(1);
-                    if (enemy.getHealth() == 0) {
-                        enemySpot.setOccupied(false);
-                        enemySpot.setEnemy(null);
-                    }
                 }
             }
         }

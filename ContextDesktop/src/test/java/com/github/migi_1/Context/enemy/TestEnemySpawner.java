@@ -2,10 +2,8 @@ package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +20,6 @@ import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bounding.BoundingBox;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -77,14 +74,6 @@ public class TestEnemySpawner {
     }
 
     @Test
-    public void generateEnemiesTest() {
-        LinkedList<Enemy> enemies = enemySpawner.generateEnemies();
-        assertFalse(enemies.isEmpty());
-        //Verify the first enemy is not rotates (so createEnemy3 has succeeded).
-        assertNotEquals(Quaternion.ZERO, enemies.getFirst().getModel().getLocalRotation());
-    }
-
-    @Test
     public void getCarriersTest() {
         ArrayList<Carrier> carriers = enemySpawner.getCarriers();
         assertFalse(carriers.isEmpty());
@@ -92,21 +81,4 @@ public class TestEnemySpawner {
         assertEquals(ArrayList.class, carriers.getClass());
     }
 
-    @Test
-    public void deleteEnemiesTest() {
-        enemySpawner.generateEnemies();
-        LinkedList<Enemy> enemies = enemySpawner.getEnemies();
-        enemies.getFirst().setHealth(0);
-        enemySpawner.setEnemies(enemies);
-        LinkedList<Enemy> deletedEnemies = enemySpawner.deleteEnemies();
-        assertFalse(deletedEnemies.isEmpty());
-    }
-
-    @Test
-    public void deleteEnemiesTooFarAwayTest() {
-        Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(100, 100, 100));
-        enemySpawner.generateEnemies();
-        LinkedList<Enemy> deletedEnemies = enemySpawner.deleteEnemies();
-        assertFalse(deletedEnemies.isEmpty());
-    }
 }

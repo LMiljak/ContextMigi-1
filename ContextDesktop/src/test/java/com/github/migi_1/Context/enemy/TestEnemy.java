@@ -1,8 +1,6 @@
 package com.github.migi_1.Context.enemy;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -71,9 +69,10 @@ public class TestEnemy extends TestEntity {
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(assetManager.loadModel(Mockito.anyString())).thenReturn(model);
+        Mockito.when(model.scale(Mockito.anyFloat())).thenReturn(model);
 
         testEnemy = new Enemy(new Vector3f(5, 0, 0), carriers);
-
+        testEnemy.setSpot(targetSpot);
         testEnemy.setMoveBehaviour(moveBehaviour);
         setEntity(testEnemy);
 
@@ -94,19 +93,7 @@ public class TestEnemy extends TestEntity {
     @Test
     public void onKilledTest() {
         testEnemy.onKilled();
-        assertNull(testEnemy.getSpot());
-    }
-
-    /**
-     * Tests the onKilled method when the enemy has a spot.
-     */
-    @Test
-    public void onKilled_HasSpot_Test() {
-        assertNull(testEnemy.getSpot());
-        testEnemy.setSpot(targetSpot);
-        assertNotNull(testEnemy.getSpot());
-        testEnemy.onKilled();
-        assertNull(testEnemy.getSpot());
+        assertNull(testEnemy.getSpot().getEnemy());
     }
 
     /**
@@ -122,18 +109,8 @@ public class TestEnemy extends TestEntity {
      * Tests the attack method.
      */
     @Test
-    public void attackTest() {
+    public void testAttack() {
         testEnemy.attack(1000);
         Mockito.verify(carriers.get(0), Mockito.times(1)).takeDamage(1);
-    }
-
-    /**
-     * Tests the setSpot method.
-     */
-    @Test
-    public void setSpotTest() {
-        EnemySpot oldSpot = testEnemy.getSpot();
-        testEnemy.setSpot(targetSpot);
-        assertNotEquals(oldSpot, testEnemy.getSpot());
     }
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 
 /**
@@ -20,7 +19,7 @@ public abstract class TestEntity {
 
     /**
      * Initialise attributes.
-     * @throws Exception 
+     * @throws Exception
      */
     @Before
     public abstract void setUp() throws Exception;

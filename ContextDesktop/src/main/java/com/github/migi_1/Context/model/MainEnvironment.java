@@ -253,6 +253,8 @@ public class MainEnvironment extends Environment {
      * Initializes all lights of the scene.
      */
     private void initLights() {
+        ((VRApplication) app).setBackgroundColors(new ColorRGBA(0, 0, 255, 1));
+        
         sun = new DirectionalLight();
         sun2 = new DirectionalLight();
 

@@ -540,6 +540,9 @@ public class MainEnvironment extends Environment {
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
+        for (Carrier carrier : enemySpawner.getCarriers()) {
+            carrier.setHealth(3);
+        }
         super.cleanup();
     }
 

@@ -31,7 +31,8 @@ public class Enemy extends Entity implements IKillable {
      */
     public Enemy(Vector3f startLocation, ArrayList<Carrier> carriers) {
         super();
-        setModel(getDefaultModel());
+        setModel(getDefaultModel().scale(2.0f));
+        getModel();
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new EnemyMoveBehaviour(this, carriers));
         health = 1;
@@ -39,7 +40,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2.0f);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME);
     }
 
     @Override
@@ -122,5 +123,4 @@ public class Enemy extends Entity implements IKillable {
         }
         getModel().rotate(0, (float) (angle * Math.PI), 0);
     }
-
 }

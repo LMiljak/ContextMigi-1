@@ -55,7 +55,7 @@ public class MovingObstacle extends Obstacle {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME).scale(3.0f);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATHNAME).scale(3.0f).rotate(0, 4.75f, 0);
     }
 
 }

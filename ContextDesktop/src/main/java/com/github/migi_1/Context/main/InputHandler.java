@@ -91,7 +91,6 @@ public final class InputHandler {
                         main.toMainEnvironment();
                     }
                 } else if (name.equals("exit") && keyPressed) {
-                    System.out.println("dasasd");
                     main.destroy();
                 }
 

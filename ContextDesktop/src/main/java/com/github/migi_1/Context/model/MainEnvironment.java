@@ -549,6 +549,7 @@ public class MainEnvironment extends Environment {
                 carrier.setHealth(3);
             }
         }
+        enemySpawner = null;
         super.cleanup();
     }
 

@@ -188,10 +188,18 @@ public class Environment extends AbstractAppState {
         this.audioController = audioController;
     }
 
+    /**
+     * Getter for whether it is game over.
+     * @return true if game over
+     */
     public boolean isGameOver() {
         return gameOver;
     }
 
+    /**
+     * Set whether or not it is game over.
+     * @param gameOver true if game over
+     */
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }

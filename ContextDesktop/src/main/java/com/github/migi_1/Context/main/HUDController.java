@@ -80,14 +80,15 @@ public class HUDController {
     }
 
     private void createGameOverScreen() {
-        Material mat = new Material(ProjectAssetManager.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        Material mat = new Material(ProjectAssetManager.getInstance().getAssetManager(),
+                "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", new ColorRGBA(0, 1, 1, 0.5f));
         float width = (float) (settings.getWidth() / 1.5);
         float height = (float) (settings.getHeight() / 1.5);
 
         gameOver = new Geometry("Rect", new Quad(width, height));
-        float leftBound = (settings.getWidth() - width)/ 2;
-        float upperBound = (settings.getHeight() - height)/ 2;
+        float leftBound = (settings.getWidth() - width) / 2;
+        float upperBound = (settings.getHeight() - height) / 2;
         gameOver.setLocalTranslation(leftBound, upperBound, 0);
         gameOver.setMaterial(mat);
 
@@ -95,7 +96,8 @@ public class HUDController {
         gameOverText.setSize(gameOverFont.getCharSet().getRenderedSize());
         gameOverText.setColor(ColorRGBA.White);
         gameOverText.setText("Game Over!");
-        gameOverText.setLocalTranslation((settings.getWidth() - gameOverText.getLineWidth()) / 2, settings.getHeight() - upperBound, 1);
+        gameOverText.setLocalTranslation((settings.getWidth() - gameOverText.getLineWidth()) / 2,
+                settings.getHeight() - upperBound, 1);
 
         gameOverScore =  new BitmapText(gameOverFont, false);
         gameOverScore.setSize(gameOverFont.getCharSet().getRenderedSize());
@@ -112,7 +114,8 @@ public class HUDController {
         checkpointAlertText.setColor(ColorRGBA.Red);
         checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
 
-        checkpointAlertText.setLocalTranslation(settings.getWidth() * (1 - SCREEN_RATIO), settings.getHeight() * SCREEN_RATIO, 0);
+        checkpointAlertText.setLocalTranslation(settings.getWidth() * (1 - SCREEN_RATIO),
+                settings.getHeight() * SCREEN_RATIO, 0);
     }
 
     /**
@@ -179,6 +182,9 @@ public class HUDController {
         gameScore += add;
     }
 
+    /**
+     * Show the game over screen.
+     */
     public void gameOver() {
         gameOverScore.setText(Integer.toString(Math.round(gameScore)));
         main.getGuiNode().attachChild(gameOver);

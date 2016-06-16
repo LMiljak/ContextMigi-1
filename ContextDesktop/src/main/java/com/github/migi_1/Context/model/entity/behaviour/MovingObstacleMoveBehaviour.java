@@ -19,6 +19,8 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
 
     private final Vector3f baseVector = new Vector3f(0, 0, 0.05f);
 
+    private float movingObstacleWidth;
+
     /**
      * Constructor.
      * @param movingObstacle MovingObstacle to follow.
@@ -30,17 +32,18 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
         this.leftBound = getBound(leftBound);
         this.rightBound = getBound(rightBound);
         this.movingObstacle = movingObstacle;
+        this.movingObstacleWidth = ((BoundingBox) movingObstacle.getModel().getWorldBound()).getXExtent();
     }
 
     @Override
     public void updateMoveVector() {
 
         //if exceeding bounds to the left, go to the right
-        if (movingObstacle.getModel().getLocalTranslation().z > leftBound) {
+        if (movingObstacle.getModel().getLocalTranslation().z > leftBound - movingObstacleWidth) {
             setMoveVector(baseVector.mult(-1));
         }
         //if exceeding bounds to the right, go to the left
-        if (movingObstacle.getModel().getLocalTranslation().z < rightBound) {
+        if (movingObstacle.getModel().getLocalTranslation().z < rightBound + movingObstacleWidth) {
             setMoveVector(baseVector);
         }
     }

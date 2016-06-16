@@ -110,7 +110,7 @@ public class TestLevelGenerator {
         levelPieces.add(levelPiece);
         levelPieces.add(levelPiece);
         levelPieces.add(levelPiece);
-        localTranslation = new Vector3f(101.0f, 0.0f, 0.0f);
+        localTranslation = new Vector3f(600.0f, 0.0f, 0.0f);
 
         levelGenerator.setLevelPieces(levelPieces);
 
@@ -136,7 +136,7 @@ public class TestLevelGenerator {
         levelGenerator.getLevelPieces(vec);
         localTranslation = new Vector3f(-121.0f, 0.0f, 0.0f);
         //Ensure 1 level piece gets deleted when the player is far away.
-        assertEquals(5, levelGenerator.deleteLevelPieces(localTranslation).size());
+        assertEquals(0, levelGenerator.deleteLevelPieces(localTranslation).size());
         //Make sure that the number of levelpieces gets back up to the regular amount.
         assertEquals(levelGenerator.getLevelPieces(vec).size(), levelGenerator.getNumberOfLevelPieces());
     }

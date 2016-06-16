@@ -18,7 +18,7 @@ public class PlatformRotateBehaviour extends RotateBehaviour {
 	private final Quaternion initialRotation;
 	private Quaternion rotation;
 	
-	private final float baseAmplitude = 0.05f;
+	private final float baseAmplitude = 0.01f;
 	private final int speed = 200;
 	private float disSimilarity = 0.0f;
 	private float time = 0f;

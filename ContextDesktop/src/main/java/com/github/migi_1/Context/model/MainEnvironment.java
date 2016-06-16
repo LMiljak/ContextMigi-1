@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -35,8 +37,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -253,7 +253,7 @@ public class MainEnvironment extends Environment {
      * Initializes all lights of the scene.
      */
     private void initLights() {
-        ((VRApplication) app).setBackgroundColors(new ColorRGBA(0, 0, 255, 1));
+        ((VRApplication) app).setBackgroundColors(ColorRGBA.Blue);
         
         sun = new DirectionalLight();
         sun2 = new DirectionalLight();
@@ -578,4 +578,13 @@ public class MainEnvironment extends Environment {
     public BoundingBox getRightBound() {
         return boundingBoxWallRight;
     }
+
+    /**
+     * @param app the app to set
+     */
+    public void setApp(Application app) {
+        this.app = app;
+    }
+    
+    
 }

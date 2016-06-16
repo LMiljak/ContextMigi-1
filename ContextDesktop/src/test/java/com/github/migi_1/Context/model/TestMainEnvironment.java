@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
+import jmevr.app.VRApplication;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +37,7 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
@@ -140,7 +143,9 @@ public class TestMainEnvironment {
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
+        PowerMockito.suppress(PowerMockito.method(MainEnvironment.class, "initLights"));
         env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
+        //env.setApp(app);
     }
 
     /**

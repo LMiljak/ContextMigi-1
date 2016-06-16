@@ -166,7 +166,7 @@ public class MainEnvironment extends Environment {
     private void checkGameOver() {
         int count = 0;
         for (Carrier carrier: enemySpawner.getCarriers()) {
-            if (carrier.getHealth() <= 0) {
+            if (carrier.isDead()) {
                 count++;
             }
         }

@@ -526,7 +526,6 @@ public class MainEnvironment extends Environment {
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
         enemySpawner = null;
-        platform = null;
         super.cleanup();
     }
 

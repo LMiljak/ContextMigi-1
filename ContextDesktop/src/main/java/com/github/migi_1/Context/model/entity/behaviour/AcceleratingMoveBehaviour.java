@@ -13,7 +13,7 @@ public class AcceleratingMoveBehaviour extends EntityMoveBehaviour {
      * @param moveVector the starting move vector.
      */
     public AcceleratingMoveBehaviour(Vector3f moveVector) {
-        setMoveVector(moveVector.clone());
+        setMoveVector(moveVector);
     }
 
     @Override

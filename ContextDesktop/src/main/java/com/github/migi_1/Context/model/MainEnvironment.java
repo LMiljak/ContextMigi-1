@@ -273,6 +273,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         commander = new Commander(COMMANDER_LOCATION, platform);
         
         collisionHandler = new CollisionHandler(commander, platform, obstacleSpawner, this);
+        collisionHandler.createWallBoundingBoxes();
         obstacleSpawner = new ObstacleSpawner(this);
         collisionHandler.setObstacleSpawner(obstacleSpawner);
         

@@ -183,9 +183,7 @@ public class MainEnvironment extends Environment {
         }
     }
 
-    /**
-     * Handle collision checking.
-     */
+    
     
 
     /**
@@ -275,10 +273,7 @@ public class MainEnvironment extends Environment {
         platform = new Platform(PLATFORM_LOCATION, this, carrierAssigner);
         commander = new Commander(COMMANDER_LOCATION, platform);
         
-        ArrayList<Entity> list = new ArrayList<Entity>();
-        list.add(platform);
-        list.add(commander);
-        collisionHandler = new CollisionHandler(list, obstacleSpawner, this);
+        collisionHandler = new CollisionHandler(commander, platform, obstacleSpawner, this);
         collisionHandler.createWallBoundingBoxes();
         obstacleSpawner = new ObstacleSpawner(this);
         collisionHandler.setObstacleSpawner(obstacleSpawner);

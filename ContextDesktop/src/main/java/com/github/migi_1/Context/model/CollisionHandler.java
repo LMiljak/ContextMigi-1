@@ -1,6 +1,5 @@
 package com.github.migi_1.Context.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -15,6 +14,12 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Vector3f;
 
+/**
+ * This class handles all collisions, these include collisions with static and 
+ * moving obstacles and collisions with the boundingboxes on the sides of the path.
+ * @author Damian
+ *
+ */
 public class CollisionHandler {
 
     private BoundingBox boundingBoxWallLeft;
@@ -24,15 +29,26 @@ public class CollisionHandler {
     private Commander commander;
     private ObstacleSpawner obstacleSpawner;
     private Environment environment;
-
-    public CollisionHandler(ArrayList<Entity> list, ObstacleSpawner obstacleSpawner, MainEnvironment environment) {
-        this.platform = (Platform) list.get(0);
-        this.commander = (Commander) list.get(1);
+    
+    /**
+     * Constructor for the CollisionHandler.
+     * @param commander commander of the game, needed for location checking.
+     * @param platform platform of the game, needed for location checking.
+     * @param obstacleSpawner used to check where the obstacles are.
+     * @param environment used to create boundingBoxes.
+     */
+    public CollisionHandler(Commander commander, Platform platform,
+            ObstacleSpawner obstacleSpawner, MainEnvironment environment) {        
+        this.commander = commander;
+        this.platform = platform;
         this.obstacleSpawner = obstacleSpawner;
         this.environment = environment;
         results = new HashMap<Entity, CollisionResults>();
     }
-
+    
+    /**
+     * Creates the bounding boxes on the left and right side of the path.
+     */
     public void createWallBoundingBoxes() {
         Path path = new Path();
         boundingBoxWallLeft = new BoundingBox(
@@ -48,7 +64,11 @@ public class CollisionHandler {
                         Float.MAX_VALUE,
                         100f, 1f);
     }
-
+    
+    /**
+     * Handles collision checking of the obstacles. Makes the carriers take 1 damage when
+     * the collide with any kind of obstacle.
+     */
     public void checkObstacleCollision() {
         //add collision check for all obstacles
         for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
@@ -81,7 +101,12 @@ public class CollisionHandler {
         }
 
     }
-
+    
+    /**
+     * Checks the collision of the carriers with edges of the path.
+     * Moves the commander/carriers and platform in the opposite direction of where they were moving
+     * in the z direction by a vector the size of their previous speed.
+     */
     public void checkPathCollision() {
         for (Carrier carrier : platform.getCarriers()) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())

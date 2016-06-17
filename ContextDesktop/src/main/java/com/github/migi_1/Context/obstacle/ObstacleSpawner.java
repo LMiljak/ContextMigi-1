@@ -74,11 +74,13 @@ public class ObstacleSpawner {
             movingObstacle.scale(0.3f);
             
             Obstacle staticObstacle = staticObstacleFactory.produce();
+            staticObstacle.scale(2);
             
             location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
 
             movingObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
             staticObstacle.move(location.add(new Vector3f(getDistanceToNextObstacle() / 4, 0, getZLocation())));
+            
             obstacleList.add(movingObstacle);
             obstacleList.add(staticObstacle);
             
@@ -93,7 +95,7 @@ public class ObstacleSpawner {
      */
     private float getDistanceToNextObstacle() {
     	final Random rand = new Random();
-    	final float minimumDistance = 30.f;
+    	final float minimumDistance = 60.f;
     	final float maximumDistance = 180.f;
     	
     	final float result = rand.nextFloat() * (maximumDistance - minimumDistance) + minimumDistance;

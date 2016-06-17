@@ -43,7 +43,10 @@ public class TestMultiMoveBehaviour {
 		assertTrue(behaviour.getBehaviours().contains(subBehaviour2));
 		assertEquals(2, behaviour.getBehaviours().size());
 	}
-
+	
+	/**
+	 * Tests the updateMoveVector of the MultiMoveBehaviour.
+	 */
 	@Test
 	public void updateMoveVectorTest() {
 	    behaviour.updateMoveVector();

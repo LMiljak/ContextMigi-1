@@ -91,13 +91,19 @@ public class TestPlatform extends TestEntity {
     public void getDefaultModelTest() {
         assertEquals(platform.getDefaultModel(), model);
     }
-
+    
+    /**
+     * Tests the addCarrier method.
+     */
     @Test
     public void addCarrierTest() {
         platform.addCarrier(Mockito.mock(Carrier.class));
         Mockito.verify(carriers).put(Mockito.any(), Mockito.any());
     }
-
+    
+    /**
+     * Tests the getter for the carrier attribute.
+     */
     @Test
     public void getCarrierTest() {
         Carrier carrier = Mockito.mock(Carrier.class);
@@ -105,17 +111,26 @@ public class TestPlatform extends TestEntity {
         platform.addCarrier(carrier);
         platform.getCarrier(PlatformPosition.FRONTLEFT);
     }
-
+    
+    /**
+     * Tests if the platform has all 4 carriers.
+     */
     @Test
     public void isFullTest() {
         assertFalse(platform.isFull());
     }
-
+    
+    /**
+     * Tests the getCarriers method, which returns all carriers.
+     */
     @Test
     public void getCarriersTest() {
         assertTrue(platform.getCarriers().isEmpty());
     }
-
+    
+    /**
+     * Tests the getter for the getMoveBehaviour.
+     */
     @Test
     public void getRotateBehaviourTest() {
         assertEquals(PlatformRotateBehaviour.class, platform.getRotateBehaviour().getClass());

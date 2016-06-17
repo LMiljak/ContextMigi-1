@@ -168,8 +168,8 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     }
 
     /**
-     * Tests if the carrier move behaviour stays correct
-     * when the carrier overshoots the platform
+     * Tests if the carrier move behaviour stays in the correct
+     * position when the carrier overshoots the platform.
      */
     @Test
     public void updateMoveVector_overshot_Test() {

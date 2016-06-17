@@ -18,6 +18,11 @@ import com.github.migi_1.Context.utility.DistanceVectorAggregator;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 
+/**
+ * Tests everything that has to do with the PlatformRotateBehaviour.
+ * @author Nils
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({DistanceVectorAggregator.class, PlatformRotateBehaviour.class})
 public class TestPlatformRotateBehaviour {
@@ -27,6 +32,10 @@ public class TestPlatformRotateBehaviour {
     private AccelerometerMoveBehaviour moveBehaviour;
     private DistanceVectorAggregator aggregator;
 
+    /**
+     * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
+     */
     @Before
     public void setUp() throws Exception {
         aggregator = Mockito.mock(DistanceVectorAggregator.class);
@@ -37,14 +46,20 @@ public class TestPlatformRotateBehaviour {
         collection.add(moveBehaviour);
         rotateBehaviour = new PlatformRotateBehaviour(collection, Quaternion.ZERO);
     }
-
+    
+    /**
+     * Tests the if the updateRotateVector doesn't update the rotateVector, when no time is applied.
+     */
     @Test
     public void updateRotateVectorTest() {
         float disSimilarity = rotateBehaviour.getDisSimilarityAttribute();
         rotateBehaviour.updateRotateVector();
         assertEquals(disSimilarity, rotateBehaviour.getDisSimilarityAttribute(), 0f);
     }
-
+    
+    /**
+     * Test if the updateVector gets updated when a time of 10 is applied.
+     */
     @Test
     public void updateRotateVectorOutOfTimeTest() {
         float disSimilarity = rotateBehaviour.getDisSimilarityAttribute();

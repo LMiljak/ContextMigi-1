@@ -6,8 +6,14 @@ import org.mockito.Mockito;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.ContextMessages.PlatformPosition;
+import com.jme3.network.AbstractMessage;
 import com.jme3.network.Server;
 
+/**
+ * Tests everything that has to with the HitMistMessenger.
+ * @author Nils
+ *
+ */
 public class TestHitMisMessenger {
 
     private HitMissMessenger hitMissMessenger;
@@ -15,6 +21,10 @@ public class TestHitMisMessenger {
     private ServerWrapper serverWrapper;
     private Server server;
 
+    /**
+     * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
+     */
     @Before
     public void setUp() throws Exception {
         main = Mockito.mock(Main.class);
@@ -28,9 +38,13 @@ public class TestHitMisMessenger {
         hitMissMessenger = new HitMissMessenger(main);
     }
 
+    /**
+     * Tests the message is broadcasted when the hitMiss method is called. 
+     */
     @Test
     public void sendHitMissTest() {
         hitMissMessenger.sendHitMiss(true, PlatformPosition.FRONTLEFT);
+        Mockito.verify(server, Mockito.times(1)).broadcast(Mockito.any(AbstractMessage.class));
     }
 
 }

@@ -52,6 +52,7 @@ public class TestCarrier extends TestEntity {
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @Before
     public void setUp() {

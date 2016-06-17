@@ -23,7 +23,10 @@ public class TestStaticMoveBehaviour extends TestMoveBehaviour {
         setMoveBehaviour(behaviour);
         setMoveVector(getMoveVector());
     }
-
+    
+    /**
+     * Tests the updateMovevector of the StaticMoveBehaviour.
+     */
     @Test
     public void updateMoveVectorTest() {
         behaviour.updateMoveVector();

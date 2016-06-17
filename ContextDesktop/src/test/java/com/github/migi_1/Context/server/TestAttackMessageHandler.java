@@ -12,6 +12,11 @@ import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.Server;
 
+/**
+ * Tests everything that has to with the AttackMessageHandler class.
+ * @author Nils
+ *
+ */
 public class TestAttackMessageHandler {
 
     private AttackMessageHandler attackMessageHandler;
@@ -22,6 +27,10 @@ public class TestAttackMessageHandler {
     private Server server;
     private AttackMessage attackMessage;
 
+    /**
+     * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
+     */
     @Before
     public void setUp() throws Exception {
         attackMessage = Mockito.mock(AttackMessage.class);
@@ -37,6 +46,10 @@ public class TestAttackMessageHandler {
         attackMessageHandler = new AttackMessageHandler(main, carrier, position);
     }
 
+    /**
+     * Tests when a message has been received which is meant for a different player,
+     * no direction was received.
+     */
     @Test
     public void messageReceived_DifferentPosition_Test() {
         Mockito.when(attackMessage.getPosition()).thenReturn(PlatformPosition.FRONTRIGHT);
@@ -44,6 +57,9 @@ public class TestAttackMessageHandler {
         Mockito.verify(attackMessage, Mockito.times(0)).getDirection();
     }
 
+    /**
+     * Tests when a message is received for the correct player, the direction is receiced..
+     */
     @Test
     public void messageReceived_SamePosition_Test() {
         Mockito.when(attackMessage.getPosition()).thenReturn(PlatformPosition.BACKLEFT);
@@ -51,6 +67,9 @@ public class TestAttackMessageHandler {
         Mockito.verify(attackMessage).getDirection();
     }
 
+    /**
+     * Tests the getter for the MessageClass.
+     */
     @Test
     public void getMessageClassTest() {
         assertEquals(AttackMessage.class, attackMessageHandler.getMessageClass());

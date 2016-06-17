@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jme3.math.Vector3f;
+
 /**
  * Test suite for the AccelerometerMessage class.
  */
@@ -21,7 +23,7 @@ public class TestAccelerometerMessage {
 	 */
 	@Before
 	public void setUp() {
-		message = new AccelerometerMessage(xForce, yForce, zForce);
+		message = new AccelerometerMessage(new Vector3f(xForce, yForce, zForce));
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class TestAccelerometerMessage {
 	 */
 	@Test
 	public void testGetX_Force() {
-		assertEquals(xForce, message.getX_force(), 0.0F);
+		assertEquals(xForce, message.getForces().x, 0.0F);
 	}
 
 	/**
@@ -37,7 +39,7 @@ public class TestAccelerometerMessage {
 	 */
 	@Test
 	public void testGetY_Force() {
-		assertEquals(yForce, message.getY_force(), 0.0F);
+		assertEquals(yForce, message.getForces().y, 0.0F);
 	}
 
 	/**
@@ -45,7 +47,7 @@ public class TestAccelerometerMessage {
 	 */
 	@Test
 	public void testGetZ_Force() {
-		assertEquals(zForce, message.getZ_force(), 0.0F);
+		assertEquals(zForce, message.getForces().z, 0.0F);
 	}
 
 	/**

@@ -52,21 +52,21 @@ public class TestEnvironment {
 	public void setUp() throws Exception {
 		this.environment = new Environment();
 
-		hudController = Mockito.mock(HUDController.class);
-		audioController = Mockito.mock(AudioController.class);
+		hudController = mock(HUDController.class);
+		audioController = mock(AudioController.class);
 		AppStateManager manager = mock(AppStateManager.class);
 		ProjectAssetManager projectAssetManager = mock(ProjectAssetManager.class);
 		PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
         PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
 		when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
-		this.assetManager = Mockito.mock(AssetManager.class);
+		this.assetManager = mock(AssetManager.class);
 		when(projectAssetManager.getAssetManager()).thenReturn(assetManager);
 
 		Main app = mock(Main.class);
 		this.root = mock(Node.class);
 		when(app.getRootNode()).thenReturn(root);
-		AudioNode backgroundMusic = Mockito.mock(AudioNode.class);
+		AudioNode backgroundMusic = mock(AudioNode.class);
 		when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
 		this.environment.initialize(manager, app);
 	}

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import com.jme3.math.Vector3f;
 
 /**
  * Sensor that receives information about the accelerometer of the Android device.
@@ -43,22 +44,18 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
 
             // log the sensor values
             //Sending the information to the Server.
-            sendSensorInformation(xforce, yforce, zforce);
+            sendSensorInformation(new Vector3f(xforce, yforce, zforce));
     }
 
     /**
      * Sends information about the accelerometer to the Server.
      * 
-     * @param xforce
-     *      Acceleration force along the x axis (including gravity).
-     * @param yforce
-     *      Acceleration force along the y axis (including gravity).
-     * @param zforce
-     *      Acceleration force along the z axis (including gravity).
+     * @param forces
+     *      The acceleration forces across each dimension.
      */
 
-    private void sendSensorInformation(float xforce, float yforce, float zforce) {
-        AccelerometerMessage message = new AccelerometerMessage(xforce, yforce, zforce);
+    private void sendSensorInformation(Vector3f forces) {
+        AccelerometerMessage message = new AccelerometerMessage(forces);
         Client c = client.getClient();
         if (c.isStarted() && !act.isImmobilised()) {
             client.getClient().send(message);

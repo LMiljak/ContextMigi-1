@@ -47,7 +47,7 @@ public class AccelerometerMoveBehaviour extends MoveBehaviour implements Message
 			
 			if (ipFilter.filter(((HostedConnection) source).getAddress())) { //Check if the filter allows this address
 				
-				float zSpeed = message.getY_force(); //Y on the gyroscope is Z on JMonkey
+				float zSpeed = message.getForces().y; //Y on the gyroscope is Z on JMonkey
 				zSpeed *= FACTOR;
 				zSpeed = Math.min(zSpeed, MAX_SPEED);
 				zSpeed = Math.max(zSpeed, -MAX_SPEED);

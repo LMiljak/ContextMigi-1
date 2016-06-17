@@ -19,8 +19,8 @@ public class StartBugEventMessage extends AbstractMessage {
 
     /**
      * The actual constructor used for messaging.
-     * @param bugPosition the bug position in the event
-     * @param sprayPosition the spray position in the event.
+     * @param bugPos the bug position in the event
+     * @param sprayPos the spray position in the event.
      */
     public StartBugEventMessage(PlatformPosition bugPos,
             PlatformPosition sprayPos) {

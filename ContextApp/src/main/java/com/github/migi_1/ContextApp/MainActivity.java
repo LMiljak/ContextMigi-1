@@ -164,6 +164,7 @@ public class MainActivity extends AndroidHarness {
         mbFunctions = new MakeButtonFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
         healthListener = new HealthMessageHandler(this);
+        new ImmobilisedMessageHandler(this);
 
         startBugEventListener = new StartBugEventMessageListener(this);
 

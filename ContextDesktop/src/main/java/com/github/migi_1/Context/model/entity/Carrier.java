@@ -126,7 +126,7 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-        immobalisedTimer.schedule(new ImmobilisedTimerTask(this), IMMOBILISATION_TIME);
+        immobalisedTimer.schedule(new ImmobilisedTimerTask(), IMMOBILISATION_TIME);
         ImmobilisedMessage message = new ImmobilisedMessage(true, position);
         ServerWrapper serverWrapper = main.getServer();
         Server server = serverWrapper.getServer();
@@ -203,23 +203,18 @@ public class Carrier extends Entity implements IKillable {
      *
      */
     class ImmobilisedTimerTask extends TimerTask {
-
-        private Carrier carrier;
-
-        /**
-         * Constructor.
-         * @param carrier the target carrier
-         */
-        public ImmobilisedTimerTask(Carrier carrier) {
-            this.carrier = carrier;
-        }
-
         /**
          * When the carrier is not immobilised anymore, give his health back.
          */
         @Override
         public void run() {
-            carrier.setHealth(3);
+            setHealth(3);
+            ImmobilisedMessage message = new ImmobilisedMessage(false, position);
+            ServerWrapper serverWrapper = main.getServer();
+            Server server = serverWrapper.getServer();
+            if (server.isRunning()) {
+                server.broadcast(message);
+            }
         }
 
     }

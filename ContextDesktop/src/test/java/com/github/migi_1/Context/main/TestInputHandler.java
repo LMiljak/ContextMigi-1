@@ -245,7 +245,7 @@ public class TestInputHandler {
     }
 
     /**
-     *
+     * Tests if the restarting functions correctly.
      */
     @Test
     public void testRestart() {
@@ -363,7 +363,7 @@ public class TestInputHandler {
     }
 
     /**
-     * Verifies the start workds
+     * Verifies the start works.
      */
     @Test
     public void testStartButton() {

@@ -27,7 +27,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 
 /**
- * Test suite for the HUDController class
+ * Test suite for the HUDController class.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AppSettings.class, HUDController.class})
@@ -48,7 +48,7 @@ public class TestHUDController {
     private Material material;
 
     /**
-     * Setup for the testsuite
+     * Setup for the testsuite.
      * @throws Exception when the BitmapText with any arguments is not
      */
     @Before

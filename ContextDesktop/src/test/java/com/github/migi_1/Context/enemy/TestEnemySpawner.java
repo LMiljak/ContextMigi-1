@@ -42,7 +42,11 @@ public class TestEnemySpawner {
     private BoundingBox boundingBox;
     private Carrier carrier;
     private Enemy enemy;
-
+    
+    /**
+     * Sets up everything needed for the tests. Happens before every test.
+     * @exception Exception Any Exception if any occur.   
+     */
     @Before
     public void setUp() throws Exception {
         PowerMockito.mockStatic(ProjectAssetManager.class);
@@ -77,7 +81,10 @@ public class TestEnemySpawner {
 
         enemySpawner = new EnemySpawner(commander, carriers);
     }
-
+    
+    /**
+     * Tests if the getCarrier method returns 4 carriers.
+     */
     @Test
     public void getCarriersTest() {
         ArrayList<Carrier> carriers = enemySpawner.getCarriers();
@@ -85,7 +92,10 @@ public class TestEnemySpawner {
         assertEquals(4, carriers.size());
         assertEquals(ArrayList.class, carriers.getClass());
     }
-
+    
+    /**
+     * Tests if the enemySpawner actually creates enemies.
+     */
     @Test
     public void getAndSetEnemiesTest() {
         LinkedList<Enemy> oldEnemies = enemySpawner.getEnemies();

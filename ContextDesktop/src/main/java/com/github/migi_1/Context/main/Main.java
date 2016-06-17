@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import com.github.migi_1.Context.model.LobbyEnvironment;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -44,8 +43,6 @@ public class Main extends VRApplication {
     private static AppSettings settings;
 
     private ServerWrapper server;
-
-    private AttackMessageHandler attackMessageHandler;
 
     private boolean inLobby;
 

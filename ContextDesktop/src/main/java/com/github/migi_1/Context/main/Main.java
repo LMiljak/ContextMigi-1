@@ -3,9 +3,9 @@ package com.github.migi_1.Context.main;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
+import com.github.migi_1.Context.model.LobbyEnvironment;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.model.LobbyEnvironment;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -14,7 +14,6 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
-
 import com.jme3.input.KeyInput;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
@@ -33,7 +32,7 @@ public class Main extends VRApplication implements KeyInputListener {
 
     //the game state
     private MainEnvironment environmentState;
-    
+
     //the game's lobby
     private LobbyEnvironment lobbyState;
 
@@ -45,7 +44,7 @@ public class Main extends VRApplication implements KeyInputListener {
     private static AppSettings settings;
 
     private ServerWrapper server;
-    
+
     private boolean inLobby;
 
     private boolean bugEventRunning = false;
@@ -89,7 +88,6 @@ public class Main extends VRApplication implements KeyInputListener {
         inputHandler = InputHandler.getInstance();
         inputHandler.initialise(main);
         inputHandler.register(this, KeyInput.KEY_SPACE);
-        
         launchServer();
 
         CarrierAssigner carrierAssigner = new CarrierAssigner(server);
@@ -177,7 +175,7 @@ public class Main extends VRApplication implements KeyInputListener {
     public MainEnvironment getEnv() {
         return environmentState;
     }
-    
+
     /**
      * Returns the rootnode.
      * @return
@@ -222,7 +220,7 @@ public class Main extends VRApplication implements KeyInputListener {
     public ServerWrapper getServer() {
     	return server;
     }
-    
+
     /**
      * Sets the boolean inLobby.
      * @param inLobby used to check whether or not the program is in the lobby.
@@ -230,7 +228,7 @@ public class Main extends VRApplication implements KeyInputListener {
     public void setInLobby(boolean inLobby) {
         this.inLobby = inLobby;
     }
-    
+
     /**
      * Getter for inLobby.
      * @return a boolean value that tells whether or not the program is in the lobby.
@@ -238,7 +236,7 @@ public class Main extends VRApplication implements KeyInputListener {
     public boolean getInLobby() {
         return inLobby;
     }
-    
+
     /**
      * Makes the game switch to the level.
      */
@@ -250,7 +248,7 @@ public class Main extends VRApplication implements KeyInputListener {
             this.getStateManager().attach(environmentState);
         }
     }
-    
+
     /**
      * Makes the game switch to the lobby.
      */
@@ -271,7 +269,7 @@ public class Main extends VRApplication implements KeyInputListener {
     public static void setMain(Main newMain) {
         main = newMain;
     }
-    
+
     /**
      * Sets the current inputHandler.
      * Used for testing ONLY.
@@ -289,7 +287,7 @@ public class Main extends VRApplication implements KeyInputListener {
     public void setEnvState(MainEnvironment newEnvState) {
         environmentState = newEnvState;
     }
-    
+
     /**
      * Sets the current lobby state.
      * Used for testing ONLY.
@@ -313,7 +311,15 @@ public class Main extends VRApplication implements KeyInputListener {
      */
     public void setBugEventRunning(boolean isRunning) {
         bugEventRunning = isRunning;
+    }
 
+    /**
+     * Sets the serverwrapper.
+     * Used in testing ONLY.
+     * @param newServerWrapper the new serverWrapper
+     */
+    protected void setServerWrapper(ServerWrapper newServerWrapper) {
+        server = newServerWrapper;
     }
 
 	@Override

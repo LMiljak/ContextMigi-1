@@ -32,7 +32,6 @@ public class ScoreController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -61,6 +60,4 @@ public class ScoreController {
         }
         return highest;
     }
-
-
 }

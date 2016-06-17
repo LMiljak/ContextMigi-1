@@ -1,7 +1,7 @@
 package com.github.migi_1.Context.main;
 
-import com.github.migi_1.Context.model.LobbyEnvironment;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -16,11 +16,14 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import com.github.migi_1.Context.model.LobbyEnvironment;
 import com.github.migi_1.Context.model.MainEnvironment;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
-import com.jme3.network.serializing.Serializable;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -30,7 +33,6 @@ import com.jme3.system.AppSettings;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
-@Serializable
 public class TestMain {
 
     private Main main;
@@ -38,22 +40,39 @@ public class TestMain {
     private InputHandler inputHandler;
     private ProjectAssetManager pAssetManager;
     private AssetManager assetManager;
+    private ServerWrapper serverWrapper;
+    private Server server;
+    private MainEnvironment mainEnv;
+    private LobbyEnvironment lobbyEnv;
 
     /**
      * Setup for the testsuite.
      * This method is called every time a test is started.
+     * @throws Exception when a newly created object has other arguments.
      */
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         main = Mockito.spy(new Main());
+        mainEnv = Mockito.mock(MainEnvironment.class);
+        lobbyEnv = Mockito.mock(LobbyEnvironment.class);
         inputManager = Mockito.mock(InputManager.class);
         inputHandler = Mockito.mock(InputHandler.class);
+        serverWrapper = Mockito.mock(ServerWrapper.class);
+        server = Mockito.mock(Server.class);
         Mockito.when(main.getInputManager()).thenReturn(inputManager);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
+        Mockito.when(main.getServer()).thenReturn(serverWrapper);
+        Mockito.doNothing().when(mainEnv).cleanup();
+        Mockito.doNothing().when(lobbyEnv).cleanup();
+        Mockito.when(serverWrapper.getServer()).thenReturn(server);
+        main.setServerWrapper(serverWrapper);
+        main.setEnvState(mainEnv);
+        main.setLobby(lobbyEnv);
+        Mockito.when(server.isRunning()).thenReturn(true);
         Main.setMain(main);
     }
 
@@ -175,5 +194,54 @@ public class TestMain {
         //Verify this also works with a "regular" main
         Main newMain = new Main();
         assertEquals(newMain.getSettings().getClass(), main.getSettings().getClass());
+    }
+
+    /**
+     * Tests if enabling the spray message functions correctly.
+     */
+    @Test
+    public void testHandleEnableSprayMessage() {
+        main.handleEnableSprayMessage(PlatformPosition.FRONTLEFT);
+        Mockito.verify(server).broadcast(Mockito.any());
+    }
+
+    /**
+     * Tests if stopping the bug event functions correctly.
+     */
+    @Test
+    public void testHandleStopBugEvent() {
+        main.setBugEventRunning(true);
+        main.handleStopBugEvent();
+        Mockito.verify(server).broadcast(Mockito.any());
+    }
+
+    /**
+     * Tests setter and getter of inLobby boolean.
+     */
+    @Test
+    public void testGetAndSetInLobby() {
+        assertFalse(main.getInLobby());
+        main.setInLobby(true);
+        assertTrue(main.getInLobby());
+    }
+
+    /**
+     * tests getter and setter for the bugEventRunning boolean.
+     */
+    @Test
+    public void testGetAndSetBugEventRunning() {
+        assertFalse(main.isBugEventRunning());
+        main.setBugEventRunning(true);
+        assertTrue(main.isBugEventRunning());
+    }
+
+    /**
+     * Test going to the lobby functions correctly.
+     */
+    @Test
+    public void testToLobby() {
+        main.toLobby();
+        //Verify the lobby is entered.
+        Mockito.verify(main).setInLobby(true);
     }
 }

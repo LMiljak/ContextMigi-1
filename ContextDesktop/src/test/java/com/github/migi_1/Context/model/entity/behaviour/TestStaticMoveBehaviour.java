@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model.entity.behaviour;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test class for the StaticMoveBehaviour class.
@@ -9,14 +11,27 @@ import org.junit.Before;
  */
 public class TestStaticMoveBehaviour extends TestMoveBehaviour {
 
+    private StaticMoveBehaviour behaviour;
+
     /**
      * Initialise the tested object.
      */
     @Override
     @Before
     public void setUp() {
-        setMoveBehaviour(new StaticMoveBehaviour());
+        behaviour = Mockito.spy(new StaticMoveBehaviour());
+        setMoveBehaviour(behaviour);
         setMoveVector(getMoveVector());
+    }
+    
+    /**
+     * Tests the updateMovevector of the StaticMoveBehaviour.
+     */
+    @Test
+    public void updateMoveVectorTest() {
+        behaviour.updateMoveVector();
+        Mockito.verify(behaviour).updateMoveVector();
+        Mockito.verifyNoMoreInteractions(behaviour);
     }
 
 }

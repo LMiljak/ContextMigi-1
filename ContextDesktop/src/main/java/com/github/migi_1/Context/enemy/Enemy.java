@@ -7,6 +7,7 @@ import com.github.migi_1.Context.model.entity.EnemySpot;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IKillable;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -30,7 +31,7 @@ public class Enemy extends Entity implements IKillable {
      */
     public Enemy(Vector3f startLocation, ArrayList<Carrier> carriers) {
         super();
-        setModel(getDefaultModel());
+        setModel(getDefaultModel().scale(2.0f));
         getModel().setLocalTranslation(startLocation);
         setMoveBehaviour(new EnemyMoveBehaviour(this, carriers));
         health = 1;
@@ -38,7 +39,7 @@ public class Enemy extends Entity implements IKillable {
 
     @Override
     public Spatial getDefaultModel() {
-        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME).scale(2.0f);
+        return ProjectAssetManager.getInstance().getAssetManager().loadModel(PATH_NAME);
     }
 
     @Override
@@ -97,16 +98,17 @@ public class Enemy extends Entity implements IKillable {
         return spot;
     }
 
-    
+
     /**
      * Makes the enemy rotate so it faces the carrier.
-     * 
+     *
      * NOTE:
-     * Angles are hardcoded right now, but this could easily be changed when the 
+     * Angles are hardcoded right now, but this could easily be changed when the
      * positions/directions are correcly refactored.
      */
-    public void rotateCorrectly() {                
-        getModel().rotate(getModel().getLocalRotation().inverse());
+    public void rotateCorrectly() {
+        Quaternion spat = getModel().getLocalRotation().inverse();
+        getModel().rotate(spat);
         double angle = 0;
         if (getSpot().getDirection().ordinal() == 1) {
             angle = 1;
@@ -119,5 +121,4 @@ public class Enemy extends Entity implements IKillable {
         }
         getModel().rotate(0, (float) (angle * Math.PI), 0);
     }
-
 }

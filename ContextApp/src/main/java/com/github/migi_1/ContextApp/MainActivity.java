@@ -65,6 +65,7 @@ public class MainActivity extends Activity {
 
         // Start the log manager
         LogManager.getLogManager().getLogger("").setLevel(Level.INFO);
+        images = new ArrayList<ImageView>();
     }
 
     @Override
@@ -114,6 +115,9 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        images.add((ImageView) findViewById(R.id.Heart_1));
+        images.add((ImageView) findViewById(R.id.Heart_2));
+        images.add((ImageView) findViewById(R.id.Heart_3));
 
         // register the lister for the accelerometer
         mSensorManager.registerListener(accelerometerSensor,
@@ -297,7 +301,6 @@ public class MainActivity extends Activity {
             }
 
         });
-
     }
 
     /**

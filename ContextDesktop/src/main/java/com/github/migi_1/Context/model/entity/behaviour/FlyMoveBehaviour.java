@@ -19,7 +19,7 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 	 * Constructor for FlyMoveBehaviour.
 	 */
 	public FlyMoveBehaviour() {
-		int[] keys = {KeyInput.KEY_W, KeyInput.KEY_S, 
+		int[] keys = {KeyInput.KEY_W, KeyInput.KEY_S,
 				KeyInput.KEY_LSHIFT, KeyInput.KEY_LCONTROL};
 		for (int key : keys) {
 			InputHandler.getInstance().register(this, key);
@@ -103,5 +103,21 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 		
 		setMoveVector(result);
 	}
+
+	/**
+	 * Getter for forwards.
+	 * @return true when forwards is true
+	 */
+	public boolean isForwards() {
+	    return forwards;
+	}
+
+	/**
+     * Getter for backwards.
+     * @return true when back is true
+     */
+    public boolean isBack() {
+        return back;
+    }
 
 }

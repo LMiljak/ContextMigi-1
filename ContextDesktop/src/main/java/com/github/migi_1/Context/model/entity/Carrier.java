@@ -29,7 +29,7 @@ public class Carrier extends Entity implements IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final int INITIAL_HEALTH = 3;
-    private static final long  IMMOBALIZATION_TIME = 1000;
+    private static final long  IMMOBILISATION_TIME = 1000;
 
     private Main main;
     private HealthMessenger healthMessenger;
@@ -46,7 +46,7 @@ public class Carrier extends Entity implements IKillable {
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
 
-    private Timer immobalizedTimer;
+    private Timer immobalisedTimer;
 
     /**
      * Constructor of the carrier.
@@ -75,7 +75,7 @@ public class Carrier extends Entity implements IKillable {
 
         this.position = position;
         this.environment = environment;
-        this.immobalizedTimer = new Timer();
+        this.immobalisedTimer = new Timer();
         createEnemyLocations();
 
     }
@@ -123,7 +123,7 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-        immobalizedTimer.schedule(new ImmobalizedTimerTask(this), IMMOBALIZATION_TIME);
+        immobalisedTimer.schedule(new ImmobilisedTimerTask(this), IMMOBILISATION_TIME);
     }
 
     @Override
@@ -193,7 +193,7 @@ public class Carrier extends Entity implements IKillable {
      * @author Marcel
      *
      */
-    class ImmobalizedTimerTask extends TimerTask {
+    class ImmobilisedTimerTask extends TimerTask {
 
         private Carrier carrier;
 
@@ -201,7 +201,7 @@ public class Carrier extends Entity implements IKillable {
          * Constructor.
          * @param carrier the target carrier
          */
-        public ImmobalizedTimerTask(Carrier carrier) {
+        public ImmobilisedTimerTask(Carrier carrier) {
             this.carrier = carrier;
         }
 

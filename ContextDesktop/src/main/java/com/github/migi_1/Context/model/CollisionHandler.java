@@ -44,12 +44,13 @@ public class CollisionHandler {
         this.obstacleSpawner = obstacleSpawner;
         this.environment = environment;
         results = new HashMap<Entity, CollisionResults>();
+        createWallBoundingBoxes();
     }
     
     /**
      * Creates the bounding boxes on the left and right side of the path.
      */
-    public void createWallBoundingBoxes() {
+    private void createWallBoundingBoxes() {
         Path path = new Path();
         boundingBoxWallLeft = new BoundingBox(
                 new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z

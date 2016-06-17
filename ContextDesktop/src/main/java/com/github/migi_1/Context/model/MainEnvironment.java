@@ -2,7 +2,6 @@ package com.github.migi_1.Context.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import jmevr.app.VRApplication;
@@ -19,7 +18,6 @@ import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.FlyCamera;
 import com.github.migi_1.Context.model.entity.Platform;
-import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.Score;
@@ -94,14 +92,13 @@ public class MainEnvironment extends Environment implements KeyInputListener {
     private HashMap<Entity, CollisionResults> results;
 
     private ObstacleSpawner obstacleSpawner;
-    private BoundingBox boundingBoxWallLeft;
-
-    private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
 
     private HUDController hudController;
 
     private long randomEventTime;
+
+    private CollisionHandler collisionHandler;
 
     /**
      * Constructor for MainEnvironment.
@@ -132,9 +129,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-        scoreController = new ScoreController();
-        results = new HashMap<Entity, CollisionResults>();
-
+        scoreController = new ScoreController();          
         this.hudController = new HUDController(app);
 
         //creates the lights
@@ -161,11 +156,11 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             checkRandomEvent();
 
             updateEnemies(tpf);
-            checkObstacleCollision();
-            checkPathCollision();
             checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
+            collisionHandler.checkObstacleCollision();
+            collisionHandler.checkPathCollision();
         }
     }
 
@@ -187,58 +182,8 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         }
     }
 
-    /**
-     * Handle collision checking.
-     */
-    private void checkObstacleCollision() {
-        //add collision check for all obstacles
-
-        for (Obstacle staticObstacle : obstacleSpawner.updateObstacles()) {
-            for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
-                staticObstacle.collideWith(entry.getKey().getModel().getWorldBound(), entry.getValue());
-            }
-        }
-
-        //check whether a collision has taken place.
-        //only one object can collide each update, to prevent two objects from taking damage.
-        Boolean collided  = false;
-        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
-            if (entry.getValue().size() > 0 && !collided) {
-                collided = true;
-                for (Carrier carrier : platform.getCarriers()) {
-                    carrier.takeDamage(1);
-                }
-                removeDisplayable(obstacleSpawner.removeDamageDealer());
-                entry.setValue(new CollisionResults());
-                if (entry.getKey().getMoveBehaviour() instanceof EntityMoveBehaviour) {
-                    ((EntityMoveBehaviour) entry.getKey().getMoveBehaviour()).collided();
-                }
-
-            }
-        }
-
-        //reset all CollisionResults.
-        for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
-            entry.setValue(new CollisionResults());
-        }
-
-    }
-
-    private void checkPathCollision() {
-        for (Carrier carrier : platform.getCarriers()) {
-            if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
-                    || boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-                Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
-
-                commander.move(antiMoveVector);
-                platform.move(antiMoveVector);
-                for (Carrier carr : platform.getCarriers()) {
-                    carr.move(antiMoveVector);
-                }
-                break;
-            }
-        }
-    }
+    
+    
 
     /**
      * Checks every update if a random event should start.
@@ -321,13 +266,23 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        createWallBoundingBoxes();
+        
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, carrierAssigner);
         commander = new Commander(COMMANDER_LOCATION, platform);
+        
+        collisionHandler = new CollisionHandler(commander, platform, obstacleSpawner, this);
+        collisionHandler.createWallBoundingBoxes();
         obstacleSpawner = new ObstacleSpawner(this);
-
+        collisionHandler.setObstacleSpawner(obstacleSpawner);
+        
+        
+        results = collisionHandler.getResults();
+        
+        
+        
+        //collisionHandler.setObstacleSpawner(obstacleSpawner);
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
             addDisplayable(levelPiece);
@@ -350,21 +305,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         addRotatable(commander);
     }
 
-    private void createWallBoundingBoxes() {
-        Path path = new Path();
-        boundingBoxWallLeft = new BoundingBox(
-                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z
-                        + ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
-                        Float.MAX_VALUE,
-                        100f, 1f);
-
-        final float offset = -10;
-        boundingBoxWallRight = new BoundingBox(
-                new Vector3f(0, 0, path.getModel().center().getLocalTranslation().z + offset
-                        -  ((BoundingBox) path.getModel().getWorldBound()).getZExtent()),
-                        Float.MAX_VALUE,
-                        100f, 1f);
-    }
+   
 
     /**
      * Creates a carrier.
@@ -586,7 +527,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * @return the left bounding box
      */
     public BoundingBox getLeftBound() {
-        return boundingBoxWallLeft;
+        return collisionHandler.getBoundingBoxWallLeft();
     }
 
     /**
@@ -594,7 +535,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * @return the right bounding box
      */
     public BoundingBox getRightBound() {
-        return boundingBoxWallRight;
+        return collisionHandler.getBoundingBoxWallRight();
     }
 
     /**

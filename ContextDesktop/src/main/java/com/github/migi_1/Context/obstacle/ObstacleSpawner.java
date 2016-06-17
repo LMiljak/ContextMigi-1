@@ -87,7 +87,6 @@ public class ObstacleSpawner {
     	final float maximumDistance = 180.f;
     	
     	final float result = rand.nextFloat() * (maximumDistance - minimumDistance) + minimumDistance;
-    	System.out.println(result);
     	return result;
     }
 

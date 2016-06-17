@@ -36,6 +36,7 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
         this.localTranslation = enemy.getModel().getLocalTranslation();
         atSpot = false;
         targetSpot = createTargetSpot(carriers);
+        enemy.setSpot(targetSpot);
     }
 
     /**
@@ -57,9 +58,10 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
 
         if (spots.size() != 0) {
             int random = new Random().nextInt(spots.size());
-            spots.get(random).setOccupied(true);
+            spots.get(random).setOccupied(true);            
             return spots.get(random);
         } else {
+            System.out.println("no more spots");
             return null;
         }
     }
@@ -132,8 +134,7 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
     private void reachedSpot() {
         if (targetSpot.getLocation().distance(localTranslation) < speed 
                 && !atSpot) {
-            targetSpot.setEnemy(enemy);
-            enemy.setSpot(targetSpot);
+            targetSpot.setEnemy(enemy);            
             enemy.rotateCorrectly();
             speed *= 3;
             atSpot = true;

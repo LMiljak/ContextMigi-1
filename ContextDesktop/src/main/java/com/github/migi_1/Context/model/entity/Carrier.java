@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemyMoveBehaviour;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.AttackMessageHandler;
@@ -187,7 +188,7 @@ public class Carrier extends Entity implements IKillable {
         for (EnemySpot enemySpot : enemySpots) {
             if (direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
-                if (enemy == null) {
+                if (enemy == null || !((EnemyMoveBehaviour) enemy.getMoveBehaviour()).isAtSpot()) {
                     hitMissMessenger.sendHitMiss(false, position);
                 }
                 else {

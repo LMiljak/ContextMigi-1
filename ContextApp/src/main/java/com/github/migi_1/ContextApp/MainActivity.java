@@ -47,6 +47,7 @@ public class MainActivity extends AndroidHarness {
 
     private boolean cooldown;
     private boolean eventStarted;
+    private boolean immobilised;
     private ArrayList<ImageView> images;
 
     private Timer timer;
@@ -105,7 +106,10 @@ public class MainActivity extends AndroidHarness {
 
         // set cooldown to false
         setCooldown(false);
-
+        
+        //set immobilised to false
+        setImmobilised(false);
+        
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
@@ -330,5 +334,23 @@ public class MainActivity extends AndroidHarness {
             }
         };
     }
+
+    /**
+     * Set whether immobilised or not.
+     * @param immobilised true when immobilised
+     */
+    public void setImmobilised(boolean immobilised) {
+     this.immobilised = immobilised;
+    }
+    
+    /**
+     * Returns true when the carrier is immobilised.
+     * @return true when immobilised
+     */
+    public boolean isImmobilised() {
+        return immobilised;
+    }
+    
+    
 
 }

@@ -13,7 +13,7 @@ import com.jme3.scene.Spatial;
 public class StaticObstacle extends Obstacle {
 
     /** File location of model. **/
-    private static final String PATHNAME = "Models/testCube2.j3o";
+    private static final String PATHNAME = "Models/stone1.j3o";
 
     private int health;
 
@@ -24,7 +24,8 @@ public class StaticObstacle extends Obstacle {
         super();
         setModel(getDefaultModel());
         setMoveBehaviour(new StaticMoveBehaviour());
-        getModel().move(new Vector3f(0, -2.0f, 0));
+        getModel().move(new Vector3f(0, -8.0f, 0));
+        getModel().scale(2);
         health = 1;
     }
 

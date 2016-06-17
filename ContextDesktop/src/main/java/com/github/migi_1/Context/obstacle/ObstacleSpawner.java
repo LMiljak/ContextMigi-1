@@ -24,7 +24,8 @@ public class ObstacleSpawner {
     private Vector3f location;
 
     /** Abstract factory. **/
-    private AbstractObstacleFactory obstacleFactory;
+    private MovingObstacleFactory movingObstacleFactory;
+    private StaticObstacleFactory staticObstacleFactory;
 
     /** ArrayList of all geometry pieces. **/
     private ArrayList<Obstacle> obstacleList;
@@ -38,6 +39,8 @@ public class ObstacleSpawner {
 
     private float rightBound;
 
+    private Vector3f movingObstacleLocation;
+
     /**
      * Constructor for the obstacle spawner object.
      * @param environment needed for knowing where to spawn the obstacles.
@@ -47,7 +50,8 @@ public class ObstacleSpawner {
         this.location = commander.getModel().getLocalTranslation();
         this.obstacleList = new ArrayList<Obstacle>();
         this.deleteList = new LinkedList<Obstacle>();
-        this.obstacleFactory = new MovingObstacleFactory(environment);
+        this.movingObstacleFactory = new MovingObstacleFactory(environment);
+        this.staticObstacleFactory = new StaticObstacleFactory();
         this.leftBound = getBound(environment.getLeftBound());
         this.rightBound = getBound(environment.getRightBound());
     }
@@ -58,20 +62,26 @@ public class ObstacleSpawner {
      */
     public ArrayList<Obstacle> updateObstacles() {
         //call removeDamageDealer when an obstacle is too far away
-        for (Obstacle obs : obstacleList) {
-            if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
-                deleteList.add(obs);
+        for (Obstacle obstacle : obstacleList) {
+            if ((obstacle.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
+                deleteList.add(obstacle);
 
             }
         }
         obstacleList.removeAll(deleteList);
         while (obstacleList.size() < NUMBER_OBSTACLES) {
-            Obstacle obs = obstacleFactory.produce();
-            obs.scale(0.3f);
+            Obstacle movingObstacle = movingObstacleFactory.produce();
+            movingObstacle.scale(0.3f);
+            
+            Obstacle staticObstacle = staticObstacleFactory.produce();
+            
             location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
 
-            obs.move(location.add(new Vector3f(0, 0, getZLocation())));
-            obstacleList.add(obs);
+            movingObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
+            staticObstacle.move(location.add(new Vector3f(getDistanceToNextObstacle() / 4, 0, getZLocation())));
+            obstacleList.add(movingObstacle);
+            obstacleList.add(staticObstacle);
+            
         }
         return obstacleList;
     }
@@ -117,22 +127,6 @@ public class ObstacleSpawner {
         }
         obstacleList.remove(closest);
         return closest;
-    }
-
-    /**
-     * Sets the current obstacleFactory.
-     * @param obstacleFactory the obstacleFactory to set.
-     */
-    public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
-        this.obstacleFactory = obstacleFactory;
-    }
-
-    /**
-     * Gets the current obstacleFactory.
-     * @return the obstacleFactory.
-     */
-    public AbstractObstacleFactory getObstacleFactory() {
-        return obstacleFactory;
     }
 
     /**

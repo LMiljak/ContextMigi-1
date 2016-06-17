@@ -580,6 +580,7 @@ public class MainEnvironment extends Environment {
     }
 
     /**
+     * Sets the app.
      * @param app the app to set
      */
     public void setApp(Application app) {

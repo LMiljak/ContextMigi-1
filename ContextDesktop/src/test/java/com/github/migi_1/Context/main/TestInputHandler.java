@@ -221,7 +221,7 @@ public class TestInputHandler {
     public void testPauseNotPaused() {
         Mockito.when(audioController.isPlaying()).thenReturn(true);
         //Verify the game is not paused.
-        assertFalse(envState.isPaused());        
+        assertFalse(envState.isPaused());
         inputHandler.getActionListener().onAction("pause", true, 0f);
         //Only verifying that in a real scenario, the game would be paused now.
         Mockito.verify(envState).setPaused(true);
@@ -351,5 +351,36 @@ public class TestInputHandler {
     public void testMute() {
         inputHandler.getActionListener().onAction("mute", true, 0f);
         Mockito.verify(audioController).mute();
+    }
+
+    /**
+     * Verifies going to lobby works.
+     */
+    @Test
+    public void testMenuButton() {
+        Mockito.when(main.getInLobby()).thenReturn(false);
+        inputHandler.getActionListener().onAction("menu", true, 0f);
+        Mockito.verify(main).toLobby();
+    }
+
+    /**
+     * Verifies the start workds
+     */
+    @Test
+    public void testStartButton() {
+        Mockito.when(main.getInLobby()).thenReturn(true);
+        inputHandler.setInMenu(true);
+        inputHandler.getActionListener().onAction("start", true, 0f);
+        Mockito.verify(main).toMainEnvironment();
+    }
+
+    /**
+     * Tests the getter and setter for inMenu.
+     */
+    @Test
+    public void testGetAndSetInMenu() {
+        assertFalse(inputHandler.isInMenu());
+        inputHandler.setInMenu(true);
+        assertTrue(inputHandler.isInMenu());
     }
 }

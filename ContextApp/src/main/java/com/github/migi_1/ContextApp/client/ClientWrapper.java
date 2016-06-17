@@ -41,6 +41,7 @@ public class ClientWrapper {
             Serializer.registerClass(StartBugEventMessage.class);
             Serializer.registerClass(StopEventToVRMessage.class);
             Serializer.registerClass(StopAllEventsMessage.class);
+            Serializer.registerClass(ImmobilisedMessage.class);
         }
 	
         /**

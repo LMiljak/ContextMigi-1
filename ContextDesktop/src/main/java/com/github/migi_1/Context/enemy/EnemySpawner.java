@@ -64,7 +64,7 @@ public class EnemySpawner {
         if ((enemies.size() < MAX_NUM_ENEMIES) && currentLevelPiece != lastLevelPiece) {
             lastLevelPiece = currentLevelPiece;
             double random = Math.random();
-            if (random > 0.10 && random < 0.85) {
+            if (random > 0.70 && random < 0.85) {
                 newEnemies.add(enemyFactory.createEnemy3(currentLevelPiece));
             } else if (random > 0.85 && random < 0.95) {
                 newEnemies.add(enemyFactory.createEnemy1(currentLevelPiece));

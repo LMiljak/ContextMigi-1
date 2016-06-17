@@ -196,7 +196,7 @@ public class MainActivity extends AndroidHarness {
             @Override
             public void onClick(View v) {
 
-                if (!cooldown) {
+                if (!cooldown && !immobilised) {
                     atkMessenger.sendAttack(posHolder.getPosition(), direction);
                 }
 

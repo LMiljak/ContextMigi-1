@@ -32,7 +32,7 @@ public class Carrier extends Entity implements IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final int INITIAL_HEALTH = 3;
-    private static final long  IMMOBILISATION_TIME = 1000;
+    private static final long  IMMOBILISATION_TIME = 10000;
 
     private Main main;
     private HealthMessenger healthMessenger;

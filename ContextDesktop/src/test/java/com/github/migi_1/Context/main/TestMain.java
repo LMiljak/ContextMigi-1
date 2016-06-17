@@ -24,7 +24,6 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.network.Server;
-import com.jme3.network.serializing.Serializable;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -34,7 +33,6 @@ import com.jme3.system.AppSettings;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
-@Serializable
 public class TestMain {
 
     private Main main;
@@ -255,7 +253,7 @@ public class TestMain {
         main.setBugEventRunning(true);
         assertTrue(main.isBugEventRunning());
     }
-    
+
     /**
      * Tests going to the main environment functions correctly.
      */
@@ -265,7 +263,7 @@ public class TestMain {
         //Verify the lobby is left.
         Mockito.verify(main).setInLobby(false);
     }
-    
+
     /**
      * Test going to the lobby functions correctly.
      */

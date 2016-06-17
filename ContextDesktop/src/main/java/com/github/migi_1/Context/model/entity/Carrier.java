@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.server.HealthMessenger;
-import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.server.AttackMessageHandler;
+import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.server.HitMissMessenger;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
@@ -27,10 +27,11 @@ public class Carrier extends Entity implements IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final int INITIAL_HEALTH = 3;
+    private static final long  IMMOBALIZATION_TIME = 1000;
 
     private Main main;
     private HealthMessenger healthMessenger;
-    
+
     @SuppressWarnings("unused")
     private AttackMessageHandler attackMessageHandler;
     private HitMissMessenger hitMissMessenger;
@@ -42,6 +43,8 @@ public class Carrier extends Entity implements IKillable {
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
+
+    private boolean immobalized;
 
     /**
      * Constructor of the carrier.
@@ -70,6 +73,7 @@ public class Carrier extends Entity implements IKillable {
 
         this.position = position;
         this.environment = environment;
+        this.immobalized = false;
         createEnemyLocations();
 
     }
@@ -179,7 +183,7 @@ public class Carrier extends Entity implements IKillable {
                     enemy.takeDamage(1);
                 }
             }
-        }  
+        }
     }
 
 }

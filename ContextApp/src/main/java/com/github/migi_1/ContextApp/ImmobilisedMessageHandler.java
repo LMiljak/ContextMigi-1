@@ -15,7 +15,12 @@ public class ImmobilisedMessageHandler extends MessageListener<ImmobilisedMessag
     @Override
     public void messageReceived(Object source, ImmobilisedMessage message) {
         if (main.getPosHolder().getPosition() == message.getPosition()) {
-            
+            if (message.getImmobilised()) {
+                main.setImmobilised(true);
+            }
+            else {
+                main.setImmobilised(false);
+            }
         }
     }
 

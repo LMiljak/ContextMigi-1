@@ -25,9 +25,9 @@ public class LevelPiece implements IDisplayable {
     public LevelPiece() {
                 
         StringBuilder sb = new StringBuilder();
-        sb.append("Models/world");
-        sb.append(new Random().nextInt(DIFFERENT_WORLDS) + 1);
-        sb.append(".j3o");
+        sb.append("Models/world")
+        .append(new Random().nextInt(DIFFERENT_WORLDS) + 1)
+        .append(".j3o");
         this.model = ProjectAssetManager.getInstance().getAssetManager().loadModel(sb.toString());
     }
 

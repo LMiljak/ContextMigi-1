@@ -20,6 +20,11 @@ import com.jme3.font.BitmapText;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
+/**
+ * Tests the LobbyHUDController.
+ * @author Nils
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProjectAssetManager.class, AppSettings.class})
 public class TestLobbyHUDController {
@@ -33,7 +38,11 @@ public class TestLobbyHUDController {
     private BitmapCharacterSet charSet;
     private AppSettings settings;
     private Node guiNode;
-
+    
+    /**
+     * Sets up everything needed for the tests. Happens before every test.   
+     * @exception Exception Any Exception that is thrown.
+     */
     @Before
     public void setUp() throws Exception {
         PowerMockito.mockStatic(ProjectAssetManager.class);
@@ -61,7 +70,10 @@ public class TestLobbyHUDController {
 
         lobbyHUDController = new LobbyHUDController(main);
     }
-
+    
+    /**
+     * Tests if the text of the player is set correctly.
+     */
     @Test
     public void setPlayerTextTest() {
         String oldText =

@@ -33,5 +33,4 @@ public class TestStartBugEventMessage {
         assertEquals(StartBugEventMessage.class, new StartBugEventMessage(
                 PlatformPosition.FRONTRIGHT, PlatformPosition.FRONTRIGHT).getClass());
     }
-
 }

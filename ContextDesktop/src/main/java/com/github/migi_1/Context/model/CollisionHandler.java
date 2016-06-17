@@ -67,7 +67,7 @@ public class CollisionHandler {
     
     /**
      * Handles collision checking of the obstacles. Makes the carriers take 1 damage when
-     * the collide with any kind of obstacle.
+     * they collide with any kind of obstacle.
      */
     public void checkObstacleCollision() {
         //add collision check for all obstacles

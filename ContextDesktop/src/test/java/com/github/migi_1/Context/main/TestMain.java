@@ -107,7 +107,6 @@ public class TestMain {
         //Calling this method to instantiate the inputHandler.
         main.setInputHandler(inputHandler);
         main.simpleUpdate(0);
-        Mockito.verify(inputHandler).moveCamera(Mockito.anyFloat());
         //Verify that the environment state is not in the state manager yet.
         assertNull(main.getStateManager().getState(MainEnvironment.class));
 

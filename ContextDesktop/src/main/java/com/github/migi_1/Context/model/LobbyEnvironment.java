@@ -2,7 +2,6 @@ package com.github.migi_1.Context.model;
 
 import com.github.migi_1.Context.main.LobbyHUDController;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
-import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
@@ -23,9 +22,6 @@ public class LobbyEnvironment extends Environment {
 
     private CarrierAssigner carrierAssigner;
 
-
-    private ScoreController scoreController;
-
     /**
      * Constructor for LobbyEnvironment.
      *
@@ -44,8 +40,6 @@ public class LobbyEnvironment extends Environment {
 
         lobbyHUDController = new LobbyHUDController(app);
 
-        scoreController = new ScoreController();
-        int highScore = scoreController.getHighScore();
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
     }
 

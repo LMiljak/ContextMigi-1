@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.github.migi_1.Context.audio.AudioController;
-import com.github.migi_1.Context.main.InputHandler;
-import com.github.migi_1.Context.main.KeyInputListener;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.IDisplayable;
@@ -16,7 +14,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.input.KeyInput;
 import com.jme3.scene.Node;
 
 /**

@@ -619,6 +619,8 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 			break;
 		case KeyInput.KEY_M:
 			getAudioController().mute();
+			break;
+		default: 
 		}
 	}
 

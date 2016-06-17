@@ -13,6 +13,9 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 
 	private boolean forwards, back = false;
 	
+	/**
+	 * Constructor for FlyMoveBehaviour.
+	 */
 	public FlyMoveBehaviour() {
 		int[] keys = {KeyInput.KEY_W, KeyInput.KEY_S, 
 				KeyInput.KEY_LSHIFT, KeyInput.KEY_LCONTROL};
@@ -30,6 +33,7 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 		case KeyInput.KEY_D:
 			back = true;
 			break;
+		default:
 		}
 	}
 
@@ -42,6 +46,7 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 		case KeyInput.KEY_D:
 			back = false;
 			break;
+		default:
 		}
 	}
 

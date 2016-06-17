@@ -125,7 +125,6 @@ public class Main extends VRApplication implements KeyInputListener {
         if (getStateManager().hasState(environmentState)) {
             getStateManager().getState(MainEnvironment.class).update(tpf);
         }
-        inputHandler.moveCamera(tpf);
     }
 
     /**
@@ -323,6 +322,7 @@ public class Main extends VRApplication implements KeyInputListener {
 		case KeyInput.KEY_SPACE:
 			toMainEnvironment();
 			break;
+		default:
 		}
 	}
 

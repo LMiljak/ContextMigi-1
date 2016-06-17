@@ -54,7 +54,7 @@ public class Platform extends Entity implements IRotatable {
         setMoveBehaviour(
         	new MultiMoveBehaviour(
         		new SummingVectorAggregator(),
-        		new AcceleratingMoveBehaviour(MOVE_VECTOR), //Responsible for going forwards
+        		new AcceleratingMoveBehaviour(MOVE_VECTOR.clone()), //Responsible for going forwards
         		new MultiMoveBehaviour(//Responsible for steering
         			new AverageVectorAggregator(),
         			carrierBehaviours.get(0),

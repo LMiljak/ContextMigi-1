@@ -56,7 +56,7 @@ public final class ServerFinder {
                 ServerDiscoveryHandler onFoundServer = new ServerDiscoveryHandler() {
                     @Override
                     public void onServerDiscovery(InetAddress server) {
-                        Log.d("main", "Found a server: " + server.getHostAddress());
+                        Log.d("CarriedAway", "Found a server: " + server.getHostAddress());
                     }
                 };
 		INSTANCE.findServers(es, onFoundServer);
@@ -66,7 +66,7 @@ public final class ServerFinder {
                     public void run() {
                         (new Scanner(System.in)).nextLine();
 			INSTANCE.stop();
-			Log.d("main", "Stopping ServerFinder");
+			Log.d("CarriedAway", "Stopping ServerFinder");
                     }
                 });
 

@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -18,6 +20,7 @@ import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.score.Score;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
@@ -35,8 +38,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -106,7 +107,7 @@ public class MainEnvironment extends Environment {
      * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
-    	this.carrierAssigner = carrierAssigner;
+        this.carrierAssigner = carrierAssigner;
     }
 
     /**
@@ -155,11 +156,29 @@ public class MainEnvironment extends Environment {
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
+            checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
         }
     }
 
+
+    private void checkGameOver() {
+        int count = 0;
+        for (Carrier carrier: enemySpawner.getCarriers()) {
+            if (carrier.isDead()) {
+                count++;
+            }
+        }
+        if (count >= 2) {
+            hudController.gameOver();
+            setPaused(true);
+            if (!isGameOver()) {
+                scoreController.addScore(new Score("placeholder", (int) hudController.getGameScore()));
+            }
+            setGameOver(true);
+        }
+    }
 
     /**
      * Handle collision checking.
@@ -179,6 +198,9 @@ public class MainEnvironment extends Environment {
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
+                for (Carrier carrier : platform.getCarriers()) {
+                    carrier.takeDamage(1);
+                }
                 removeDisplayable(obstacleSpawner.removeDamageDealer());
                 entry.setValue(new CollisionResults());
                 if (entry.getKey().getMoveBehaviour() instanceof EntityMoveBehaviour) {
@@ -198,13 +220,13 @@ public class MainEnvironment extends Environment {
     private void checkPathCollision() {
         for (Carrier carrier : platform.getCarriers()) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
-            		|| boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-            	Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
+                    || boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+                Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
 
                 commander.move(antiMoveVector);
                 platform.move(antiMoveVector);
                 for (Carrier carr : platform.getCarriers()) {
-                	carr.move(antiMoveVector);
+                    carr.move(antiMoveVector);
                 }
                 break;
             }
@@ -253,6 +275,8 @@ public class MainEnvironment extends Environment {
      * Initializes all lights of the scene.
      */
     private void initLights() {
+        ((VRApplication) app).setBackgroundColors(ColorRGBA.Blue);
+        
         sun = new DirectionalLight();
         sun2 = new DirectionalLight();
 
@@ -308,9 +332,9 @@ public class MainEnvironment extends Environment {
             addDisplayable(path);
         }
         for (PlatformPosition position : PlatformPosition.values()) {
-        	Carrier carrier = createCarrier(position);
-        	addEntity(carrier);
-        	platform.addCarrier(carrier);
+            Carrier carrier = createCarrier(position);
+            addEntity(carrier);
+            platform.addCarrier(carrier);
         }
 
         addEntity(platform);
@@ -525,6 +549,11 @@ public class MainEnvironment extends Environment {
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
+        if (enemySpawner != null) {
+            for (Carrier carrier : enemySpawner.getCarriers()) {
+                carrier.setHealth(3);
+            }
+        }
         enemySpawner = null;
         super.cleanup();
     }
@@ -577,4 +606,14 @@ public class MainEnvironment extends Environment {
     public BoundingBox getRightBound() {
         return boundingBoxWallRight;
     }
+
+    /**
+     * Sets the app.
+     * @param app the app to set
+     */
+    public void setApp(Application app) {
+        this.app = app;
+    }
+    
+    
 }

@@ -15,8 +15,8 @@ import jmevr.app.VRApplication;
 public final class InputHandler {
 
     private String[] actions = {"exit", "cam_switch", "forwards", "backwards", "left", "right",
-            "up", "down", "steer_left", "steer_right", "start", 
-            "pause", "menu", "restart", "mute"};
+                                "up", "down", "steer_left", "steer_right", "start",
+                                "pause", "menu", "restart", "mute"};
     private int[] keyInputs = {KeyInput.KEY_ESCAPE, KeyInput.KEY_C, KeyInput.KEY_W, KeyInput.KEY_S,
             KeyInput.KEY_A, KeyInput.KEY_D, KeyInput.KEY_SPACE, KeyInput.KEY_LSHIFT,
             KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_SPACE, KeyInput.KEY_P,
@@ -63,7 +63,7 @@ public final class InputHandler {
                     if (name.equals("cam_switch") && keyPressed) {
                         main.getEnv().swapCamera();
                     } else if (name.equals("pause") && keyPressed) {
-                        if (!main.getEnv().isPaused()) {
+                        if (!main.getEnv().isPaused() || main.getEnv().isGameOver()) {
                             main.getEnv().setPaused(true);
                             main.getEnv().getAudioController().getBackgroundMusic().pause();
                         }
@@ -80,17 +80,17 @@ public final class InputHandler {
                         }
                     } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
                         main.getEnv().cleanup();
-                        main.getEnv().initialize(main.getStateManager(), main);
+                        inMenu = true;
+                        main.toLobby();
                     } else if (name.equals("mute") && keyPressed) {
                         main.getEnv().getAudioController().mute();
-
                     }
                 } else if (name.equals("start") && keyPressed) {
                     if (main.getInLobby()) {
                         inMenu = false;
                         main.toMainEnvironment();
                     }
-                }  
+                }
                 if (name.equals("exit") && keyPressed) {
                     main.destroy();
                 }

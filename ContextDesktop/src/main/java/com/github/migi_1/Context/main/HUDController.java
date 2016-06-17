@@ -5,8 +5,11 @@ import com.jme3.app.Application;
 import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
 
 /**
@@ -27,12 +30,21 @@ public class HUDController {
     private BitmapText checkpointAlertText;
     private int threshold = 10;
 
-    private BitmapFont guiFont;
+    private BitmapFont scoreFont;
+    private BitmapFont gameOverFont;
     private int checkpointCounter = 0;
     private boolean checkpointUpdated = false;
 
 
     private AppSettings settings;
+
+    private Application app;
+
+    private Geometry gameOver;
+
+    private BitmapText gameOverText;
+
+    private BitmapText gameOverScore;
 
     private Main main;
 
@@ -43,21 +55,23 @@ public class HUDController {
     public HUDController(Application app) {
         this.main = (Main) app;
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
-        guiFont = assetManager.loadFont("Interface/Fonts/RockwellExtraBold.fnt");
+        scoreFont = assetManager.loadFont("Interface/Fonts/ScoreFont.fnt");
+        gameOverFont = assetManager.loadFont("Interface/Fonts/GameOverFont.fnt");
         settings = main.getSettings();
 
         initScoreText();
         initCheckPointText();
 
         main.getGuiNode().attachChild(hudText);
+        createGameOverScreen();
     }
 
     /**
      * Initialise the score HUD element.
      */
     private void initScoreText() {
-        hudText = new BitmapText(guiFont, false);
-        hudText.setSize(guiFont.getCharSet().getRenderedSize() * 4);
+        hudText = new BitmapText(scoreFont, false);
+        hudText.setSize(scoreFont.getCharSet().getRenderedSize());
         hudText.setColor(ColorRGBA.White);
         hudText.setText("0");
         float width = (settings.getWidth() - hudText.getLineWidth()) * SCREEN_RATIO;
@@ -66,15 +80,49 @@ public class HUDController {
     }
 
     /**
+     * Make a game over screen visible.
+     */
+    private void createGameOverScreen() {
+
+        //Create the blue background plane.
+        Material mat = new Material(ProjectAssetManager.getInstance().getAssetManager(),
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", new ColorRGBA(0, 1, 1, 0.5f));
+        float width = (float) (settings.getWidth() / 1.5);
+        float height = (float) (settings.getHeight() / 1.5);
+
+        gameOver = new Geometry("Rect", new Quad(width, height));
+        float leftBound = (settings.getWidth() - width) / 2;
+        float upperBound = (settings.getHeight() - height) / 2;
+        gameOver.setLocalTranslation(leftBound, upperBound, 0);
+        gameOver.setMaterial(mat);
+
+        //Create the text that says "Game Over!"
+        gameOverText =  new BitmapText(gameOverFont, false);
+        gameOverText.setSize(gameOverFont.getCharSet().getRenderedSize());
+        gameOverText.setColor(ColorRGBA.White);
+        gameOverText.setText("Game Over!");
+        gameOverText.setLocalTranslation((settings.getWidth() - gameOverText.getLineWidth()) / 2,
+                settings.getHeight() - upperBound, 1);
+
+        //Print the score.
+        gameOverScore =  new BitmapText(gameOverFont, false);
+        gameOverScore.setSize(gameOverFont.getCharSet().getRenderedSize());
+        gameOverScore.setColor(ColorRGBA.White);
+        gameOverScore.setLocalTranslation(settings.getWidth() / 2, height, 1);
+    }
+
+    /**
      * Initialise the checkpoint HUD element.
      */
     private void initCheckPointText() {
-        checkpointAlertText = new BitmapText(guiFont, false);
-        checkpointAlertText.setSize(guiFont.getCharSet().getRenderedSize() * 2);
+        checkpointAlertText = new BitmapText(scoreFont, false);
+        checkpointAlertText.setSize(scoreFont.getCharSet().getRenderedSize());
         checkpointAlertText.setColor(ColorRGBA.Red);
         checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
 
-        checkpointAlertText.setLocalTranslation(settings.getWidth() * (1 - SCREEN_RATIO), settings.getHeight() * SCREEN_RATIO, 0);
+        checkpointAlertText.setLocalTranslation(settings.getWidth() * (1 - SCREEN_RATIO),
+                settings.getHeight() * SCREEN_RATIO, 0);
     }
 
     /**
@@ -168,4 +216,32 @@ public class HUDController {
         hudText = newText;
     }
 
+    /**
+     * Show the game over screen.
+     */
+    public void gameOver() {
+        float height = (float) (settings.getHeight() / 1.5);
+        gameOverScore.setText("Score: " + Integer.toString(Math.round(gameScore)));
+        gameOverScore.setLocalTranslation((settings.getWidth() - gameOverScore.getLineWidth()) / 2, height, 1);
+        main.getGuiNode().attachChild(gameOver);
+        main.getGuiNode().attachChild(gameOverText);
+        main.getGuiNode().attachChild(gameOverScore);
+
+    }
+
+    /**
+     * Getter for the game score.
+     * @return the game score
+     */
+    public float getGameScore() {
+        return gameScore;
+    }
+
+    /**
+     * Setter for the game score.
+     * @param gameScore score to set
+     */
+    public void setGameScore(float gameScore) {
+        this.gameScore = gameScore;
+    }
 }

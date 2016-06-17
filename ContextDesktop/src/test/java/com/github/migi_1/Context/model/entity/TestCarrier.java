@@ -198,7 +198,7 @@ public class TestCarrier extends TestEntity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(-2f, testCarrier.getEnemySpots().get(1).getLocation().z, 0);
+        assertEquals(-4f, testCarrier.getEnemySpots().get(1).getLocation().z, 0);
     }
 
 }

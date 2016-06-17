@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -17,9 +18,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.audio.AudioController;
+import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
+import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.Platform;
@@ -69,6 +72,7 @@ public class TestMainEnvironment {
     private Path path;
     private AudioNode backgroundMusic;
     private CarrierAssigner carrierAssigner;
+    private EnemySpawner enemySpawner;
     private Platform platform;
 
 
@@ -111,6 +115,7 @@ public class TestMainEnvironment {
         assetManager = Mockito.mock(AssetManager.class);
         carrierAssigner = Mockito.mock(CarrierAssigner.class);
         platform = Mockito.mock(Platform.class);
+        enemySpawner = Mockito.mock(EnemySpawner.class);
 
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
@@ -134,12 +139,15 @@ public class TestMainEnvironment {
         Mockito.when(model.scale(Mockito.anyFloat())).thenReturn(model);
         Mockito.when(model.rotate(Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat())).thenReturn(model);
         Mockito.when(audioController.getBackgroundMusic()).thenReturn(backgroundMusic);
+        Mockito.when(enemySpawner.getCarriers()).thenReturn(new ArrayList<Carrier>());
         ServerWrapper wrapper = Mockito.mock(ServerWrapper.class);
         PowerMockito.mockStatic(ServerWrapper.class);
         Mockito.when(app.getServer()).thenReturn(wrapper);
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
+        PowerMockito.suppress(PowerMockito.method(MainEnvironment.class, "initLights"));
+        PowerMockito.whenNew(EnemySpawner.class).withAnyArguments().thenReturn(enemySpawner);
         env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
     }
 

@@ -20,6 +20,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapCharacterSet;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -29,7 +30,7 @@ import com.jme3.system.AppSettings;
  * Test suite for the HUDController class
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ProjectAssetManager.class, AppSettings.class})
+@PrepareForTest({ProjectAssetManager.class, AppSettings.class, HUDController.class})
 public class TestHUDController {
 
     private HUDController hudController;
@@ -44,6 +45,7 @@ public class TestHUDController {
     private MainEnvironment mainEnv;
     private Commander commander;
     private Spatial model;
+    private Material material;
 
     /**
      * Setup for the testsuite
@@ -53,6 +55,7 @@ public class TestHUDController {
     public void setUp() throws Exception {
         main = Mockito.mock(Main.class);
         mainEnv = Mockito.mock(MainEnvironment.class);
+        material = Mockito.mock(Material.class);
         PowerMockito.mockStatic(AppSettings.class);
         settings = PowerMockito.mock(AppSettings.class);
         commander = Mockito.mock(Commander.class);
@@ -63,6 +66,7 @@ public class TestHUDController {
         model =  Mockito.mock(Spatial.class);
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
+        PowerMockito.whenNew(Material.class).withArguments(Mockito.any(), Mockito.anyString()).thenReturn(material);
         font = Mockito.mock(BitmapFont.class);
         characterSet = Mockito.mock(BitmapCharacterSet.class);
         Mockito.when(main.getSettings()).thenReturn(settings);

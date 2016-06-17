@@ -18,6 +18,9 @@ import com.jme3.system.AppSettings;
  */
 public class LobbyHUDController {
 
+	private static final String TITLEFONT_LOCATION = "Interface/Fonts/myfont.fnt";
+	private static final String MENUFONT_LOCATION = "Interface/Fonts/myfont2.fnt";
+	
     private BitmapText title, instruction;
     private HashMap<PlatformPosition, BitmapText> players = new HashMap<>(4);
     private BitmapFont menuFont;
@@ -33,8 +36,8 @@ public class LobbyHUDController {
     public LobbyHUDController(Application app) {
         this.main = (Main) app;
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
-        BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
-        menuFont = assetManager.loadFont("Interface/Fonts/myfont2.fnt");
+        BitmapFont titleFont = assetManager.loadFont(TITLEFONT_LOCATION);
+        menuFont = assetManager.loadFont(MENUFONT_LOCATION);
         title = new BitmapText(titleFont, false);
         title.setSize(titleFont.getCharSet().getRenderedSize());
         title.setColor(ColorRGBA.White);
@@ -65,8 +68,6 @@ public class LobbyHUDController {
      * Adds the text fields for the players.
      */
     private void addPlayers() {
-        BitmapFont menuFont = assetManager.loadFont("Interface/Fonts/myfont2.fnt");
-        
         float textPosition = 0.65f;
         final float distanceBetweenText = 0.05f;
         
@@ -88,7 +89,7 @@ public class LobbyHUDController {
      * Adds the "press space to start" instruction.
      */
     private void addInstruction() {
-        BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
+        BitmapFont titleFont = assetManager.loadFont(TITLEFONT_LOCATION);
         instruction = new BitmapText(titleFont, false);
         instruction.setSize(titleFont.getCharSet().getRenderedSize() * 0.75f);
         instruction.setColor(ColorRGBA.White);

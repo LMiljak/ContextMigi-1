@@ -10,12 +10,14 @@ import jmevr.app.VRApplication;
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.main.InputHandler;
+import com.github.migi_1.Context.main.KeyInputListener;
 import com.github.migi_1.Context.main.Main;
-import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
+import com.github.migi_1.Context.model.entity.FlyCamera;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
@@ -28,6 +30,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.KeyInput;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -43,10 +46,10 @@ import com.jme3.shadow.DirectionalLightShadowRenderer;
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
  * @author Damian
  */
-public class MainEnvironment extends Environment {
+public class MainEnvironment extends Environment implements KeyInputListener {
     private ViewPort viewPort;
 
-    private Camera flyObs;
+    private FlyCamera flyObs;
 
     private static final ColorRGBA BACKGROUNDCOLOR = ColorRGBA.Blue;
     private static final Vector3f SUNVECTOR = new Vector3f(-.5f, -.5f, -.5f);
@@ -77,8 +80,6 @@ public class MainEnvironment extends Environment {
     private DirectionalLight sun;
     private DirectionalLight sun2;
 
-    private float steering;
-
     private boolean flyCamActive;
 
     private CarrierAssigner carrierAssigner;
@@ -108,6 +109,11 @@ public class MainEnvironment extends Environment {
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
         this.carrierAssigner = carrierAssigner;
+        
+        int[] keys = {KeyInput.KEY_R, KeyInput.KEY_P, KeyInput.KEY_C, KeyInput.KEY_M};
+        for (int key : keys) {
+        	InputHandler.getInstance().register(this, key);
+        }
     }
 
     /**
@@ -120,8 +126,7 @@ public class MainEnvironment extends Environment {
 
         this.app = app;
         viewPort = app.getViewPort();
-        flyObs = new Camera();
-        steering = 0.f;
+        flyObs = new FlyCamera();
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
@@ -534,14 +539,6 @@ public class MainEnvironment extends Environment {
     }
 
     /**
-     * Update the steering direction.
-     * @param orientation This translates to the steering ange.
-     */
-    public void steer(float orientation) {
-        steering = orientation;
-    }
-
-    /**
      * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
@@ -556,22 +553,6 @@ public class MainEnvironment extends Environment {
         }
         enemySpawner = null;
         super.cleanup();
-    }
-
-    /**
-     * Setter for the flycam.
-     * @param cam the new flycam.
-     */
-    public void setFlyCam(Camera cam) {
-        flyObs = cam;
-    }
-
-    /**
-     * Returns the steering variable.
-     * @return steering.
-     */
-    public float getSteering() {
-        return steering;
     }
 
     /**
@@ -614,6 +595,27 @@ public class MainEnvironment extends Environment {
     public void setApp(Application app) {
         this.app = app;
     }
+
+	@Override
+	public void onKeyPressed(int key) {
+		switch (key) {
+		case KeyInput.KEY_C:
+			swapCamera();
+			break;
+		case KeyInput.KEY_P:
+			setPaused(!isPaused());
+			break;
+		case KeyInput.KEY_R:
+			cleanup();
+			((Main) app).toLobby();
+			break;
+		case KeyInput.KEY_M:
+			getAudioController().mute();
+		}
+	}
+
+	@Override
+	public void onKeyReleased(int key) { }
     
     
 }

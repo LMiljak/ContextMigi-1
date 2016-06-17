@@ -1,6 +1,5 @@
 package com.github.migi_1.Context.model;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -20,6 +19,7 @@ import org.powermock.reflect.Whitebox;
 import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
+import com.github.migi_1.Context.main.InputHandler;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.Camera;
 import com.github.migi_1.Context.model.entity.Carrier;
@@ -36,6 +36,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioNode;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.InputManager;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.math.Vector3f;
@@ -75,8 +76,6 @@ public class TestMainEnvironment {
     private EnemySpawner enemySpawner;
     private Platform platform;
 
-
-
     /**
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
@@ -92,8 +91,6 @@ public class TestMainEnvironment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
         entity = Mockito.mock(Entity.class);
         hudController = Mockito.mock(HUDController.class);
@@ -148,6 +145,8 @@ public class TestMainEnvironment {
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
         PowerMockito.suppress(PowerMockito.method(MainEnvironment.class, "initLights"));
         PowerMockito.whenNew(EnemySpawner.class).withAnyArguments().thenReturn(enemySpawner);
+        Mockito.when(app.getInputManager()).thenReturn(Mockito.mock(InputManager.class));
+        InputHandler.getInstance().initialise(app);
         env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
     }
 
@@ -171,28 +170,6 @@ public class TestMainEnvironment {
     }
 
     /**
-     * Test for the moveCam method.
-     */
-    @Test
-    public void moveCamTest() {
-        env.initialize(stateManager, app);
-        env.setFlyCam(cam);
-        env.moveCam(new Vector3f(-1, 1, 1));
-        Mockito.verify(model, Mockito.atLeastOnce()).move(Mockito.<Vector3f>any());
-    }
-
-    /**
-     * Test for the rotateCam method.
-     */
-    @Test
-    public void rotateCamTest() {
-        env.initialize(stateManager, app);
-        env.setFlyCam(cam);
-        env.rotateCam(new Vector3f(-1, 1, 1));
-        Mockito.verify(model, Mockito.atLeastOnce()).rotate(Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat());
-    }
-
-    /**
      * Test for the swapCamera and getFlyCamActive method.
      */
     @Test
@@ -206,19 +183,6 @@ public class TestMainEnvironment {
     }
 
     /**
-     * Test for the steer method.
-     */
-    @Test
-    public void steerTest() {
-        env.initialize(stateManager, app);
-        env.steer(-1.0f);
-        assertEquals(-1.0f, env.getSteering(), 0.0);
-        env.steer(1.0f);
-        assertEquals(1.0f, env.getSteering(), 0.0);
-    }
-
-    /**
-
      * Test for the updateTestWorld method.
      * @throws Exception when the invokeMethod() method can't find the method specified in its parameters.
      */
@@ -248,15 +212,6 @@ public class TestMainEnvironment {
         Mockito.verify(rootNode, Mockito.atLeastOnce()).attachChild(Mockito.any());
         Mockito.verify(rootNode, Mockito.times(0)).detachChild(Mockito.any());
     }
-
-    /**
-     * Tests the getCarriers method.
-     */
-    //    @Test
-    //    public void getCarriersTest() {
-    //        env.initialize(stateManager, app);
-    //        assertEquals(4, env.getCarriers().size());
-    //    }
 
     /**
      * Verifies the checkCollision method works the way it should.

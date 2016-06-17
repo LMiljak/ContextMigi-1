@@ -126,8 +126,7 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-        System.out.println("dead");
-        immobalizedTimer.schedule(new ImmobalizedTimerTask(), IMMOBALIZATION_TIME);
+        immobalizedTimer.schedule(new ImmobalizedTimerTask(this), IMMOBALIZATION_TIME);
     }
 
     @Override
@@ -194,9 +193,14 @@ public class Carrier extends Entity implements IKillable {
 
     class ImmobalizedTimerTask extends TimerTask {
 
+        private Carrier carrier;
+
+        public ImmobalizedTimerTask(Carrier carrier) {
+            this.carrier = carrier;
+        }
         @Override
         public void run() {
-            System.out.println("alive again");
+            carrier.setHealth(3);
         }
 
     }

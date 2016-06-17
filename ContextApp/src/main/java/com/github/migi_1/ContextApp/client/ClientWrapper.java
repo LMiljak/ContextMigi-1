@@ -6,6 +6,7 @@ import com.github.migi_1.ContextMessages.AttackMessage;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.HealthMessage;
 import com.github.migi_1.ContextMessages.HitMissMessage;
+import com.github.migi_1.ContextMessages.ImmobilisedMessage;
 import com.github.migi_1.ContextMessages.PositionMessage;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;

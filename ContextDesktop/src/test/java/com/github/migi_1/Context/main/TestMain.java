@@ -107,7 +107,6 @@ public class TestMain {
         //Calling this method to instantiate the inputHandler.
         main.setInputHandler(inputHandler);
         main.simpleUpdate(0);
-        Mockito.verify(inputHandler).moveCamera(Mockito.anyFloat());
         //Verify that the environment state is not in the state manager yet.
         assertNull(main.getStateManager().getState(MainEnvironment.class));
 
@@ -131,24 +130,6 @@ public class TestMain {
         main.simpleRender(renderManager);
         //Verify this method is not in use.
         Mockito.verifyZeroInteractions(renderManager);
-    }
-
-    /**
-     * Tests the handleAccelerometerMessage.
-     */
-    @Test
-    public void testHandleAccelerometerMessage() {
-        MainEnvironment mainEnvState = Mockito.mock(MainEnvironment.class);
-        main.setEnvState(mainEnvState);
-        //Check if no steering works.
-        main.handleAccelerometerMessage(0);
-        Mockito.verify(mainEnvState).steer(0);
-        //Check if steering left works.
-        main.handleAccelerometerMessage(-1);
-        Mockito.verify(mainEnvState).steer(-1);
-        //Check if steering right works.
-        main.handleAccelerometerMessage(1);
-        Mockito.verify(mainEnvState).steer(1);
     }
 
     /**

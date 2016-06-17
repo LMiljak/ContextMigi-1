@@ -12,7 +12,6 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
  */
 public class AttackMessageHandler extends MessageListener<AttackMessage> {
     
-    private Main main;
     private Carrier carrier;
     private PlatformPosition position;
     
@@ -27,7 +26,6 @@ public class AttackMessageHandler extends MessageListener<AttackMessage> {
      */
     @SuppressWarnings("unchecked")
     public AttackMessageHandler(Main main, Carrier carrier, PlatformPosition position) {
-        this.main = main;
         this.carrier = carrier;
         this.position = position;
         main.getServer().getServer().addMessageListener(this);

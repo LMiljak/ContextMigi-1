@@ -34,7 +34,6 @@ public class AudioController {
         backgroundMusic.setVolume(1);
         ((Main) app).getRootNode().attachChild(backgroundMusic);
         isPlaying = false;
-
     }
 
     /**
@@ -82,7 +81,5 @@ public class AudioController {
     public void setPlaying(boolean isPlaying) {
         this.isPlaying = isPlaying;
     }
-
-
 
 }

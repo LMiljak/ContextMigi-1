@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.model.entity;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.main.Main;
@@ -46,6 +48,8 @@ public class Carrier extends Entity implements IKillable {
 
     private boolean immobalized;
 
+    private Timer immobalizedTimer;
+
     /**
      * Constructor of the carrier.
      * @param relativeLocation location relative to the commander
@@ -74,6 +78,7 @@ public class Carrier extends Entity implements IKillable {
         this.position = position;
         this.environment = environment;
         this.immobalized = false;
+        this.immobalizedTimer = new Timer();
         createEnemyLocations();
 
     }
@@ -121,7 +126,8 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-
+        System.out.println("dead");
+        immobalizedTimer.schedule(new ImmobalizedTimerTask(), IMMOBALIZATION_TIME);
     }
 
     @Override
@@ -184,6 +190,15 @@ public class Carrier extends Entity implements IKillable {
                 }
             }
         }
+    }
+
+    class ImmobalizedTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            System.out.println("alive again");
+        }
+
     }
 
 }

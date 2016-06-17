@@ -1,5 +1,6 @@
 package com.github.migi_1.ContextApp;
 
+import android.app.Activity;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,7 +12,6 @@ import com.github.migi_1.ContextApp.client.ClientHub;
 import com.github.migi_1.ContextApp.client.ClientWrapper;
 import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-import com.jme3.app.AndroidHarness;
 
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -26,11 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This class contains the main activity that is started you run the project.
+ * This class contains the main activity that is started when you run the project.
  */
-public class MainActivity extends AndroidHarness {
+public class MainActivity extends Activity {
 
-    private Main application;
     private SensorManager mSensorManager;
     private AccelerometerSensor accelerometerSensor;
     private PositionHolder posHolder;
@@ -60,9 +59,6 @@ public class MainActivity extends AndroidHarness {
      */
     public MainActivity() {
 
-        // Set the application class to run
-        appClass = "com.github.migi_1.ContextApp.Main";
-
         posHolder = PositionHolder.getInstance();
 
         // Start the log manager
@@ -72,9 +68,6 @@ public class MainActivity extends AndroidHarness {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //instantiate the application
-        application = (Main) getJmeApplication();
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         sfxPlayer = new SfxPlayer(this, audioManager);
@@ -193,18 +186,6 @@ public class MainActivity extends AndroidHarness {
 
             }
         });
-    }
-
-    /**
-     * Gets the instance of this Application.
-     *
-     * @return
-     *      The instance of this Application.
-     */
-    public Main getMain() {
-
-        return application;
-
     }
 
     /**

@@ -44,14 +44,19 @@ public class TestMain {
     private AssetManager assetManager;
     private ServerWrapper serverWrapper;
     private Server server;
+    private MainEnvironment mainEnv;
+    private LobbyEnvironment lobbyEnv;
 
     /**
      * Setup for the testsuite.
      * This method is called every time a test is started.
+     * @throws Exception when a newly created object has other arguments.
      */
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         main = Mockito.spy(new Main());
+        mainEnv = Mockito.mock(MainEnvironment.class);
+        lobbyEnv = Mockito.mock(LobbyEnvironment.class);
         inputManager = Mockito.mock(InputManager.class);
         inputHandler = Mockito.mock(InputHandler.class);
         serverWrapper = Mockito.mock(ServerWrapper.class);
@@ -63,8 +68,12 @@ public class TestMain {
         BDDMockito.given(ProjectAssetManager.getInstance()).willReturn(pAssetManager);
         BDDMockito.given(pAssetManager.getAssetManager()).willReturn(assetManager);
         Mockito.when(main.getServer()).thenReturn(serverWrapper);
+        Mockito.doNothing().when(mainEnv).cleanup();
+        Mockito.doNothing().when(lobbyEnv).cleanup();
         Mockito.when(serverWrapper.getServer()).thenReturn(server);
         main.setServerWrapper(serverWrapper);
+        main.setEnvState(mainEnv);
+        main.setLobby(lobbyEnv);
         Mockito.when(server.isRunning()).thenReturn(true);
         Main.setMain(main);
     }

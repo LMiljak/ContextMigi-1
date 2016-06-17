@@ -330,5 +330,4 @@ public class Main extends VRApplication {
     public void setServerWrapper(ServerWrapper newServerWrapper) {
         server = newServerWrapper;
     }
-
 }

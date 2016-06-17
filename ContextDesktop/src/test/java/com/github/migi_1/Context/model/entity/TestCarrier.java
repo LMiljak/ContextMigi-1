@@ -1,6 +1,7 @@
-package com.git.migi_1.Context.entity;
+package com.github.migi_1.Context.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 
@@ -15,11 +16,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.model.entity.Carrier;
-import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.StaticMoveBehaviour;
+import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
@@ -53,6 +52,7 @@ public class TestCarrier extends TestEntity {
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @Before
     public void setUp() {
@@ -87,7 +87,8 @@ public class TestCarrier extends TestEntity {
         Mockito.when(environment.getPlatform()).thenReturn(platform);
         Mockito.when(platform.getMoveBehaviour()).thenReturn(new StaticMoveBehaviour());
 
-        testCarrier = new Carrier(new Vector3f(0, 0, 0), PlatformPosition.BACKLEFT, environment);
+        testCarrier = Mockito.spy(new Carrier(new Vector3f(0, 0, 0),
+                PlatformPosition.BACKLEFT, environment));
 
         setMoveBehaviour(moveBehaviour);
         setEntity(testCarrier);
@@ -115,11 +116,22 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
+     * Tests the take damage method when the carrier has no health.
+     */
+    @Test
+    public void takeDamageNoHealthTest() {
+        testCarrier.takeDamage(3);
+        Mockito.verify(testCarrier).onKilled();
+    }
+
+    /**
      * Tests the onKilled method.
      */
     @Test
     public void onKilledTest() {
         testCarrier.onKilled();
+        //Verify this is the only method called in this testcase by the testCarrier
+        Mockito.verify(testCarrier);
     }
 
     /**
@@ -137,6 +149,47 @@ public class TestCarrier extends TestEntity {
     @Test
     public void getPositionTest() {
         assertEquals(testCarrier.getPosition(), PlatformPosition.BACKLEFT);
+    }
+
+    /**
+     * Tests the enemySpot getter and setter.
+     */
+    @Test
+    public void getAndSetEnemySpotTest() {
+        ArrayList<EnemySpot> oldSpot = testCarrier.getEnemySpots();
+        testCarrier.setEnemySpots(new ArrayList<EnemySpot>());
+        assertNotEquals(oldSpot, testCarrier.getEnemySpots());
+    }
+
+    /**
+     * Tests the getter for the relative location.
+     */
+    @Test
+    public void getRelativeLocationTest() {
+        assertEquals(Vector3f.ZERO, testCarrier.getRelativeLocation());
+    }
+
+    /**
+     * Tests the getter for the health messenger.
+     */
+    @Test
+    public void getHealthMessengerTest() {
+        assertEquals(HealthMessenger.class, testCarrier.getHealthMessenger().getClass());
+    }
+
+    /**
+     * Tests the createEnemyLocations method for
+     * a carrier at another position.
+     */
+    @Test
+    public void createEnemyLocations_FRONTRIGHT_Test() {
+        testCarrier = new Carrier(Vector3f.ZERO, PlatformPosition.FRONTRIGHT, environment);
+        try {
+            PowerMockito.verifyPrivate(testCarrier).invoke("createEnemyLocations");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(-4f, testCarrier.getEnemySpots().get(1).getLocation().z, 0);
     }
 
 }

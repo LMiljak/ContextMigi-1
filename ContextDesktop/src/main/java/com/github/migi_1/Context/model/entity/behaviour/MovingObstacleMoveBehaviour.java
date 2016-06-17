@@ -32,7 +32,7 @@ public class MovingObstacleMoveBehaviour extends MoveBehaviour {
         this.leftBound = getBound(leftBound);
         this.rightBound = getBound(rightBound);
         this.movingObstacle = movingObstacle;
-        this.movingObstacleWidth = ((BoundingBox) movingObstacle.getModel().getWorldBound()).getXExtent();
+        this.movingObstacleWidth = ((BoundingBox) this.movingObstacle.getModel().getWorldBound()).getXExtent();
     }
 
     @Override

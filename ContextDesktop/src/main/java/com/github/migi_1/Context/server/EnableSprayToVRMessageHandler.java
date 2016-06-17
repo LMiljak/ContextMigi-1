@@ -24,7 +24,6 @@ public class EnableSprayToVRMessageHandler extends MessageListener<EnableSprayTo
 
     @Override
     public void messageReceived(Object source, EnableSprayToVRMessage message) {
-        System.out.println("Message received: " + message.getPosition());
         main.handleEnableSprayMessage(message.getPosition());
     }
 

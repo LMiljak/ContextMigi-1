@@ -17,10 +17,10 @@ public final class InputHandler {
 	private static final InputHandler INSTANCE = new InputHandler();
 
     private HashMap<Integer, Collection<KeyInputListener>> observers = new HashMap<>();
-    
+
     private ActionListener actionListener;
     private InputManager inputManager;
-    
+
     /**
      * @return
      * 		The instance of this class.
@@ -28,24 +28,24 @@ public final class InputHandler {
     public static InputHandler getInstance() {
     	return INSTANCE;
     }
-    
+
     /**
      * Initialises the InputHandler.
-     * 
+     *
      * @param main
      * 		The main application.
      */
     public void initialise(Main main) {
     	initInputs(main);
     }
-    
+
     /** Private empty constructor to prevent initialisation. */
     private InputHandler() { }
 
     /**
      * Registers a KeyInputListener. It's onKeyPressed method will be
      * called when the given key is pressed.
-     * 
+     *
      * @param observer
      * 		The observer to register.
      * @param key
@@ -55,12 +55,12 @@ public final class InputHandler {
     	if (observers.get(key) == null) {
     		observers.put(key, new LinkedList<>());
     	}
-    	
+
     	observers.get(key).add(observer);
     	inputManager.addMapping(key + "", new KeyTrigger(key));
     	inputManager.addListener(actionListener, key + "");
     }
-    
+
     /**
      * Initialises the game inputs (keys).
      *
@@ -96,7 +96,7 @@ public final class InputHandler {
             }
         };
     }
-    
+
     /**
      * Returns the actionListener of the InputHandler.
      * @return the actionListener.

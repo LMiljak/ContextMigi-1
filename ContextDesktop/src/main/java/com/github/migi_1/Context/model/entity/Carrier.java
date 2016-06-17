@@ -57,6 +57,7 @@ public class Carrier extends Entity implements IKillable {
         setModel(getDefaultModel());
         getModel().setLocalTranslation(environment.getCommander().getModel()
                 .getLocalTranslation().add(relativeLocation));
+        getModel().rotate(0, (float) Math.PI, 0);
         this.relativeLocation = relativeLocation;
 
         setMoveBehaviour(environment.getPlatform().getMoveBehaviour());

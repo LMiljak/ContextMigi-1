@@ -39,4 +39,12 @@ public interface IKillable {
      */
     void onKilled();
 
+    /**
+     * Return true when the object is killed.
+     * @return true if dead
+     */
+    default boolean isDead() {
+        return (getHealth() <= 0);
+    }
+
 }

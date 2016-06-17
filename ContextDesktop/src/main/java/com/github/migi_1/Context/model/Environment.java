@@ -27,6 +27,7 @@ public class Environment extends AbstractAppState {
 	private Collection<IMovable> movables;
 	private Collection<IRotatable> rotatables;
 	private boolean paused;
+	private boolean gameOver;
 	private Application app;
 
     private AudioController audioController;
@@ -36,18 +37,18 @@ public class Environment extends AbstractAppState {
 		super.initialize(stateManager, app);
 		this.app = app;
 		this.paused = false;
+		this.gameOver = false;
 		this.rootNode = ((Main) app).getRootNode();
 		this.movables = new ArrayList<>();
 		this.rotatables = new ArrayList<>();
 		this.assetManager = ProjectAssetManager.getInstance().getAssetManager();
-		
+
 		this.audioController = new AudioController(app);
 	}
 
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		
 		moveMovables();
 		rotateRotatables();
 	}
@@ -186,5 +187,23 @@ public class Environment extends AbstractAppState {
     public void setAudioController(AudioController audioController) {
         this.audioController = audioController;
     }
+
+    /**
+     * Getter for whether it is game over.
+     * @return true if game over
+     */
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    /**
+     * Set whether or not it is game over.
+     * @param gameOver true if game over
+     */
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+
 
 }

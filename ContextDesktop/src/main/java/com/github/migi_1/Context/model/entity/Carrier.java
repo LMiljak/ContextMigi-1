@@ -75,14 +75,14 @@ public class Carrier extends Entity implements IKillable {
     }
 
     private void createEnemyLocations() {
-        enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
+        enemySpots.add(new EnemySpot(new Vector3f(-4, 0, 0), this, environment.getCommander(), Direction.NORTH));
         if (position.getzFactor() == 1) {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 4), this, environment.getCommander(), Direction.WEST));
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -4), this, environment.getCommander(), Direction.EAST));
         }
-        enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
+        enemySpots.add(new EnemySpot(new Vector3f(4, 0, 0), this, environment.getCommander(), Direction.SOUTH));
 
     }
 

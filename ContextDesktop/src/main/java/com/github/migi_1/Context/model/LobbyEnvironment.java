@@ -71,11 +71,4 @@ public class LobbyEnvironment extends Environment {
     		}
     	}
     }
-
-    @Override
-    public void cleanup() {
-        // viewPort.clearProcessors();
-        super.cleanup();
-    }
-
 }

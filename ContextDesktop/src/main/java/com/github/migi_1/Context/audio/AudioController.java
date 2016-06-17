@@ -34,7 +34,6 @@ public class AudioController {
         backgroundMusic.setVolume(1);
         ((Main) app).getRootNode().attachChild(backgroundMusic);
         isPlaying = false;
-
     }
 
     /**

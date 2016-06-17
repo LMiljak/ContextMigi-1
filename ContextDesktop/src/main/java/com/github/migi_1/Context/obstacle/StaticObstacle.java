@@ -24,7 +24,7 @@ public class StaticObstacle extends Obstacle {
         super();
         setModel(getDefaultModel());
         setMoveBehaviour(new StaticMoveBehaviour());
-        getModel().move(new Vector3f(0, -8.0f, 0));        
+        getModel().move(new Vector3f(0, -8.0f, 0));
         health = 1;
     }
 

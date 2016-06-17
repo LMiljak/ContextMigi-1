@@ -355,15 +355,23 @@ public class MainActivity extends AndroidHarness {
         return immobilised;
     }
 
-    public void immobilise(boolean immobilised) {
-        if (immobilised) {
-            setImmobilised(true);
-            immobilisedText.setVisibility(View.VISIBLE);
-        }
-        else {
-            setImmobilised(true);
-            immobilisedText.setVisibility(View.GONE);
-        }
+    public void immobilise(final boolean immobilised) {
+        
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                if (immobilised) {
+                    setImmobilised(true);
+                    immobilisedText.setVisibility(View.VISIBLE);
+                }
+                else {
+                    setImmobilised(false);
+                    immobilisedText.setVisibility(View.GONE);
+                }
+            }
+
+        });
     }
     
     

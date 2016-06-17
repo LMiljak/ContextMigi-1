@@ -2,6 +2,7 @@ package com.github.migi_1.Context.obstacle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
@@ -56,7 +57,6 @@ public class ObstacleSpawner {
      * @return Map with all obstacles, with as key value their Geometry in the environment.
      */
     public ArrayList<Obstacle> updateObstacles() {
-
         //call removeDamageDealer when an obstacle is too far away
         for (Obstacle obs : obstacleList) {
             if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
@@ -68,13 +68,26 @@ public class ObstacleSpawner {
         while (obstacleList.size() < NUMBER_OBSTACLES) {
             Obstacle obs = obstacleFactory.produce();
             obs.scale(0.3f);
-            location = location.add(new Vector3f(-30.f, 0, 0));
+            location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
 
             obs.move(location.add(new Vector3f(0, 0, getZLocation())));
             obstacleList.add(obs);
         }
         return obstacleList;
-
+    }
+    
+    /**
+     * @return
+     * 		A random float value that represents the distance
+     * 		between two obstacles.
+     */
+    private float getDistanceToNextObstacle() {
+    	final Random rand = new Random();
+    	final float minimumDistance = 30.f;
+    	final float maximumDistance = 180.f;
+    	
+    	final float result = rand.nextFloat() * (maximumDistance - minimumDistance) + minimumDistance;
+    	return result;
     }
 
     /**

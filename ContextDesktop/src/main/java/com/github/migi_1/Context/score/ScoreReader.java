@@ -36,7 +36,6 @@ public class ScoreReader {
                 scores.add(Score.read(lines));
                 tag = lines.next();
             }
-
         }
         return scores;
     }

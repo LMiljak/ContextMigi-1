@@ -40,7 +40,7 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
     }
 
     /**
-     * Finds the spot the enemy will walk to. 
+     * Finds the spot the enemy will walk to.
      * The spot is randomly chosen from all spots of the carriers which are still unoccupied.
      * The spot becomes occupied as soon as the enemy starts walking towards it to prevent 2 enemies from
      * walking to the same spot.
@@ -58,7 +58,7 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
 
         if (spots.size() != 0) {
             int random = new Random().nextInt(spots.size());
-            spots.get(random).setOccupied(true);            
+            spots.get(random).setOccupied(true);
             return spots.get(random);
         } else {
             return null;
@@ -76,27 +76,29 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
      * If the enemy has a moveVector (if not all spots are occupied already) and it is within range
      * of this spot, the enemy will move towards it with a certain STARTING_SPEED in the x and z direction.
      * As soon as the distance on the x as is less than the STARTING_SPEED it will move on that spot equal to
-     * that distance to prevent the enemy from overshooting that threshold. Overshooting results in 
-     * stuttering of the enemy when it has reached the target spot. It also sets the atSpot to true when 
+     * that distance to prevent the enemy from overshooting that threshold. Overshooting results in
+     * stuttering of the enemy when it has reached the target spot. It also sets the atSpot to true when
      * the enemy has reached the generated targetSpot at createTargetSpot.
      */
     @Override
-    public void updateMoveVector() {  
+    public void updateMoveVector() {
         speed += getAcceleratingFactor();
-        if (targetSpot != null) { 
-            if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) { 
+        if (targetSpot != null) {
+            if (targetSpot.getLocation().distance(localTranslation) < DISTANCE_THRESHOLD) {
                 handleXmovement();
                 handleZmovement();
-            } 
+            }
             reachedSpot();
-
-        }  
+        }
     }
 
+    /**
+     * Handles the movement in the x direction.
+     */
     private void handleXmovement() {
         if (targetSpot.getLocation().x > localTranslation.getX()) {
-            if (targetSpot.getLocation().subtract(localTranslation).x < speed) {                
-                moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);                
+            if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
+                moveVector.setX(targetSpot.getLocation().subtract(localTranslation).x);
             } else {
                 moveVector.setX(speed);
             }
@@ -109,31 +111,35 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
         }
     }
 
+    /**
+     * Handles the movement in the z direction.
+     */
     private void handleZmovement() {
-        if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < 0.05f) {   
+        if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < 0.05f) {
             moveVector.setZ(0);
         }
         else if (targetSpot.getLocation().z > localTranslation.getZ()) {
             if (targetSpot.getLocation().subtract(localTranslation).z < speed) {
-                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);  
+                moveVector.setZ(targetSpot.getLocation().subtract(localTranslation).z);
             } else {
                 moveVector.setZ(speed);
             }
-        } else if (targetSpot.getLocation().z < localTranslation.getZ()) { 
+        } else if (targetSpot.getLocation().z < localTranslation.getZ()) {
             if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < speed) {
-                moveVector.setZ(-Math.abs(targetSpot.getLocation().subtract(localTranslation).z));  
+                moveVector.setZ(-Math.abs(targetSpot.getLocation().subtract(localTranslation).z));
             } else {
                 moveVector.setZ(-speed);
             }
         }
-
     }
 
-
+    /**
+     * Handles what happens when the enemy reaches an enemys spot.
+     */
     private void reachedSpot() {
-        if (targetSpot.getLocation().distance(localTranslation) < speed 
+        if (targetSpot.getLocation().distance(localTranslation) < speed
                 && !atSpot) {
-            targetSpot.setEnemy(enemy);            
+            targetSpot.setEnemy(enemy);
             enemy.rotateCorrectly();
             speed *= 3;
             atSpot = true;
@@ -141,7 +147,8 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
     }
 
     /**
-     * @return the atSpot
+     * Getter for the atSpot attribute.
+     * @return true when atSpot is true.
      */
     public boolean isAtSpot() {
         return atSpot;
@@ -171,6 +178,7 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
     /**
      * @param moveVector the moveVector to set
      */
+    @Override
     public void setMoveVector(Vector3f moveVector) {
         this.moveVector = moveVector;
     }

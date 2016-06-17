@@ -80,7 +80,6 @@ public class Carrier extends Entity implements IKillable {
         this.environment = environment;
         this.immobalisedTimer = new Timer();
         createEnemyLocations();
-
     }
 
     private void createEnemyLocations() {
@@ -92,7 +91,6 @@ public class Carrier extends Entity implements IKillable {
             enemySpots.add(new EnemySpot(new Vector3f(0, 0, -4), this, environment.getCommander(), Direction.EAST));
         }
         enemySpots.add(new EnemySpot(new Vector3f(4, 0, 0), this, environment.getCommander(), Direction.SOUTH));
-
     }
 
     @Override
@@ -118,7 +116,7 @@ public class Carrier extends Entity implements IKillable {
      * Gets the position of this Carrier under the Platform.
      *
      * @return
-     * 		The position of this Carrier under the Platform.
+     *      The position of this Carrier under the Platform.
      */
     public PlatformPosition getPosition() {
         return position;
@@ -207,7 +205,5 @@ public class Carrier extends Entity implements IKillable {
                 server.broadcast(message);
             }
         }
-
     }
-
 }

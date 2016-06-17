@@ -1,8 +1,8 @@
 package com.github.migi_1.Context.model.entity;
 
 import com.github.migi_1.Context.enemy.Enemy;
-import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.Direction;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
 
 /**
@@ -11,7 +11,7 @@ import com.jme3.math.Vector3f;
  *
  */
 public class EnemySpot {
-    
+
     private Direction direction;
     private boolean occupied;
     private Vector3f location;
@@ -19,7 +19,7 @@ public class EnemySpot {
     private Carrier carrier;
     private Commander commander;
     private Enemy enemy;
-    
+
     /**
      * Constructor of the EnemySpot.
      * @param location Location of the enemy spot relative to the carrier.
@@ -105,6 +105,5 @@ public class EnemySpot {
      */
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
-    }  
-    
+    }
 }

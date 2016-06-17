@@ -10,7 +10,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.git.migi_1.Context.entity.TestEntity;
+import com.github.migi_1.Context.model.entity.TestEntity;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
 import com.github.migi_1.Context.obstacle.StaticObstacle;
 import com.github.migi_1.Context.utility.ProjectAssetManager;

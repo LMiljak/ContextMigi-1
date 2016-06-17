@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Used on the server side to help devices on the LAN
@@ -50,7 +52,7 @@ public final class ClientFinder {
 		es.execute(() -> {
 			(new Scanner(System.in)).nextLine();
 			INSTANCE.stop();
-			System.out.println("Stopping ClientFinder");
+			Logger.getGlobal().log(Level.INFO, "Stopping ClientFinder");
 		});
 		es.shutdown();
 	}
@@ -115,7 +117,7 @@ public final class ClientFinder {
 			}
 
 		} catch (IOException e) {
-		    System.out.println(e.getStackTrace());
+		    e.printStackTrace();
 		}
 
 	}

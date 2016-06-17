@@ -85,7 +85,7 @@ public class TestAccelerometerMoveBehaviour {
     public void testMessageReceived() {
     	HostedConnection h = Mockito.mock(HostedConnection.class);
         Vector3f oldMoveVector = acceleroMoveBehaviour.getMoveVector();
-        acceleroMoveBehaviour.messageReceived(h, new AccelerometerMessage(10, 10, 10));
+        acceleroMoveBehaviour.messageReceived(h, new AccelerometerMessage(new Vector3f(10, 10, 10)));
         //Verify the moveVector is updated.
         assertNotEquals(oldMoveVector, acceleroMoveBehaviour.getMoveVector());
     }

@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.damageDealers;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +17,9 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
+import com.github.migi_1.Context.obstacle.MovingObstacleFactory;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.obstacle.StaticObstacleFactory;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
@@ -36,7 +40,7 @@ public class TestObstacleSpawner {
     private AssetManager assetManager;
     private Spatial model;
     private ObstacleSpawner obstacleSpawner;
-    private AbstractObstacleFactory obstacleFactory;
+    private StaticObstacleFactory obstacleFactory;
     private Main main;
     private ServerWrapper serverWrapper;
     private Server server;
@@ -83,13 +87,22 @@ public class TestObstacleSpawner {
     }
 
     /**
-     * Tests the setter for the ObstacleFactory.
+     * Tests the getters/setter for the StaticObstacleFactory.
      */
     @Test
-    public void setObstacleFactoryTest() {
-        AbstractObstacleFactory oldFactory = obstacleSpawner.getObstacleFactory();
-        obstacleSpawner.setObstacleFactory(obstacleFactory);
-        assertNotEquals(oldFactory, obstacleSpawner.getObstacleFactory());
+    public void getSetStaticObstacleFactory() {
+        obstacleSpawner.setStaticObstacleFactory(new StaticObstacleFactory());
+        assertEquals(StaticObstacleFactory.class, obstacleSpawner.getStaticObstacleFactory().getClass());
+        obstacleSpawner.setStaticObstacleFactory(null);
+        assertNull(obstacleSpawner.getStaticObstacleFactory());        
+    }
+    
+    @Test
+    public void getSetMovingObstacleFactory() {
+        obstacleSpawner.setMovingObstacleFactory(new MovingObstacleFactory(environment));
+        assertEquals(MovingObstacleFactory.class, obstacleSpawner.getMovingObstacleFactory().getClass());
+        obstacleSpawner.setMovingObstacleFactory(null);
+        assertNull(obstacleSpawner.getMovingObstacleFactory());        
     }
 
 }

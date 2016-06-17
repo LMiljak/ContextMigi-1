@@ -39,8 +39,6 @@ public class ObstacleSpawner {
 
     private float rightBound;
 
-    private Vector3f movingObstacleLocation;
-
     /**
      * Constructor for the obstacle spawner object.
      * @param environment needed for knowing where to spawn the obstacles.
@@ -149,4 +147,34 @@ public class ObstacleSpawner {
         deleteList = new LinkedList<Obstacle>();
         return temp;
     }
+
+    /**
+     * @return the movingObstacleFactory
+     */
+    public MovingObstacleFactory getMovingObstacleFactory() {
+        return movingObstacleFactory;
+    }
+
+    /**
+     * @param movingObstacleFactory the movingObstacleFactory to set
+     */
+    public void setMovingObstacleFactory(MovingObstacleFactory movingObstacleFactory) {
+        this.movingObstacleFactory = movingObstacleFactory;
+    }
+
+    /**
+     * @return the staticObstacleFactory
+     */
+    public StaticObstacleFactory getStaticObstacleFactory() {
+        return staticObstacleFactory;
+    }
+
+    /**
+     * @param staticObstacleFactory the staticObstacleFactory to set
+     */
+    public void setStaticObstacleFactory(StaticObstacleFactory staticObstacleFactory) {
+        this.staticObstacleFactory = staticObstacleFactory;
+    }
+    
+    
 }

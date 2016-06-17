@@ -19,6 +19,12 @@ import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+
+/**
+ * Tests everything that has to do with the LobbyEnvironment.
+ * @author Nils
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(fullyQualifiedNames = "com.github.migi_1.Context.*")
 public class TestLobbyEnvironment {
@@ -33,7 +39,11 @@ public class TestLobbyEnvironment {
     private LobbyHUDController lobbyHUDController;
     private Node rootNode;
     private ViewPort viewPort;
-
+    
+    /**
+     * Sets up everything needed for the tests. Happens before every test.   
+     * @exception Exception any Exception if it occurs.
+     */
     @Before
     public void setUp() throws Exception {
         PowerMockito.mockStatic(ProjectAssetManager.class);
@@ -58,7 +68,10 @@ public class TestLobbyEnvironment {
         lobbyEnv = new LobbyEnvironment(carrierAssigner);
         lobbyEnv.initialize(stateManager, main);
     }
-
+    
+    /**
+     * Tests setting the player text with an empty adress.
+     */
     @Test
     public void update_EmptyAdress_Test() {
         lobbyEnv.update(0);
@@ -67,7 +80,10 @@ public class TestLobbyEnvironment {
         Mockito.verify(lobbyHUDController).setPlayerText(PlatformPosition.BACKLEFT, "|");
         Mockito.verify(lobbyHUDController).setPlayerText(PlatformPosition.BACKRIGHT, "|");
     }
-
+    
+    /**
+     * Tests setting the player text with a non-empty adress.
+     */
     @Test
     public void update_NonEmptyAdress_Test() {
         Mockito.when(carrierAssigner.getAddress(Mockito.any())).thenReturn("adress");

@@ -191,13 +191,26 @@ public class Carrier extends Entity implements IKillable {
         }
     }
 
+    /**
+     * Task that gets executed when the carrier stops being immobilised.
+     * @author Marcel
+     *
+     */
     class ImmobalizedTimerTask extends TimerTask {
 
         private Carrier carrier;
 
+        /**
+         * Constructor.
+         * @param carrier the target carrier
+         */
         public ImmobalizedTimerTask(Carrier carrier) {
             this.carrier = carrier;
         }
+
+        /**
+         * When the carrier is not immobilised anymore, give his health back.
+         */
         @Override
         public void run() {
             carrier.setHealth(3);

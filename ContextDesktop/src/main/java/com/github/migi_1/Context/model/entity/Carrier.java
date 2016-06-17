@@ -11,7 +11,6 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.server.HitMissMessenger;
-import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.Direction;
 import com.github.migi_1.ContextMessages.ImmobilisedMessage;
@@ -129,8 +128,7 @@ public class Carrier extends Entity implements IKillable {
     public void onKilled() {
         immobalisedTimer.schedule(new ImmobilisedTimerTask(), IMMOBILISATION_TIME);
         ImmobilisedMessage message = new ImmobilisedMessage(true, position);
-        ServerWrapper serverWrapper = main.getServer();
-        Server server = serverWrapper.getServer();
+        Server server = main.getServer().getServer();
         if (server.isRunning()) {
             server.broadcast(message);
         }
@@ -211,8 +209,7 @@ public class Carrier extends Entity implements IKillable {
         public void run() {
             setHealth(3);
             ImmobilisedMessage message = new ImmobilisedMessage(false, position);
-            ServerWrapper serverWrapper = main.getServer();
-            Server server = serverWrapper.getServer();
+            Server server = main.getServer().getServer();
             if (server.isRunning()) {
                 server.broadcast(message);
             }

@@ -127,7 +127,6 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-        System.out.println("hoi");
         immobalisedTimer.schedule(new ImmobilisedTimerTask(), IMMOBILISATION_TIME);
         ImmobilisedMessage message = new ImmobilisedMessage(true, position);
         ServerWrapper serverWrapper = main.getServer();

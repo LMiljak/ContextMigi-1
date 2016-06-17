@@ -61,7 +61,6 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
             spots.get(random).setOccupied(true);            
             return spots.get(random);
         } else {
-            System.out.println("no more spots");
             return null;
         }
     }

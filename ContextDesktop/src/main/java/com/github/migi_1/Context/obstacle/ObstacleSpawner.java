@@ -77,7 +77,7 @@ public class ObstacleSpawner {
             location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
 
             movingObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
-            staticObstacle.move(location.add(new Vector3f(getDistanceToNextObstacle() / 4, 0, getZLocation())));
+            staticObstacle.move(location.add(new Vector3f(getDistanceToNextObstacle() / 2, 0, getZLocation())));
             
             obstacleList.add(movingObstacle);
             obstacleList.add(staticObstacle);

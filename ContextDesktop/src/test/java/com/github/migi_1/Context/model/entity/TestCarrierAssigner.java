@@ -14,23 +14,28 @@ import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.network.HostedConnection;
 import com.jme3.network.Server;
 
+/**
+ * Tests everything that has to with the CarrierAssigner.
+ * @author Nils
+ *
+ */
 public class TestCarrierAssigner {
 
     private CarrierAssigner carrierAssigner;
-    private Platform platform;
     private ServerWrapper serverWrapper;
     private Server server;
-    private MainEnvironment mainEnv;
     private HostedConnection connection;
     private String ipAdress = "IP";
     private HashMap<PlatformPosition, HostedConnection> carrierMap;
-
+    
+    /**
+     * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
+     */
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         connection = Mockito.mock(HostedConnection.class);
-        mainEnv = Mockito.mock(MainEnvironment.class);
-        platform = Mockito.mock(Platform.class);
         server = Mockito.mock(Server.class);
         serverWrapper = Mockito.mock(ServerWrapper.class);
         carrierMap = Mockito.mock(HashMap.class);
@@ -40,7 +45,10 @@ public class TestCarrierAssigner {
 
         carrierAssigner = new CarrierAssigner(serverWrapper);
     }
-
+    
+    /**
+     * Tests if the correct carrier was assigned when a connection has been made.
+     */
     @Test
     public void connectionAddedTest() {
         assertEquals("", carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
@@ -49,12 +57,17 @@ public class TestCarrierAssigner {
         assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
     }
 
-
+    /**
+     * Tests the getAdress method.
+     */
     @Test
     public void getAdressTest() {
         assertEquals("", carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
     }
-
+    
+    /**
+     * Tests when 2 players join, their carriers are assigned the correct position.
+     */
     @Test
     public void connectionAddedTwiceTest() {
         carrierAssigner.connectionAdded(server, connection);
@@ -62,7 +75,10 @@ public class TestCarrierAssigner {
         assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
         assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTRIGHT));
     }
-
+    
+    /**
+     * Tests if a connection is lost the carrier gets removed.
+     */
     @Test
     public void connectionRemovedTest() {
         carrierAssigner.setCarrierAdressMap(carrierMap);

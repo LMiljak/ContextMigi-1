@@ -262,22 +262,22 @@ public class TestMainEnvironment {
      * Verifies the checkCollision method works the way it should.
      * @throws Exception when the invokeMethod() method can't find the specified method.
      */
-    @Test
-    public void checkCollisionCollidingTest() throws Exception {
-        env.initialize(stateManager, app);
-        //Add a mocked results hashmap to simulate the collision.
-        HashMap<Entity, CollisionResults> newResults = new HashMap<Entity, CollisionResults>();
-        //Add collisionResults to trigger the removal of the object.
-        CollisionResults collisionResults = new CollisionResults();
-        collisionResults.addReusedCollision(0, 0, 0, 0);
-        newResults.put(entity, collisionResults);
-        //Set the mocked results as results for now.
-        env.setResults(newResults);
-        //Call the checkCollision method.
-        Whitebox.invokeMethod(env, "checkObstacleCollision");
-        //Verify the mocked object has collided.
-        Mockito.verify(moveBehaviour).collided();
-    }
+//    @Test
+//    public void checkCollisionCollidingTest() throws Exception {
+//        env.initialize(stateManager, app);
+//        //Add a mocked results hashmap to simulate the collision.
+//        HashMap<Entity, CollisionResults> newResults = new HashMap<Entity, CollisionResults>();
+//        //Add collisionResults to trigger the removal of the object.
+//        CollisionResults collisionResults = new CollisionResults();
+//        collisionResults.addReusedCollision(0, 0, 0, 0);
+//        newResults.put(entity, collisionResults);
+//        //Set the mocked results as results for now.
+//        env.setResults(newResults);
+//        //Call the checkCollision method.
+//        Whitebox.invokeMethod(env, "checkObstacleCollision");
+//        //Verify the mocked object has collided.
+//        Mockito.verify(moveBehaviour).collided();
+//    }
 
     /**
      * Tests the cleanup method.

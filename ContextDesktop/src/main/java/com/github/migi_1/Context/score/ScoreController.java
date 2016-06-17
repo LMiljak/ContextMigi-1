@@ -10,19 +10,28 @@ import java.util.ArrayList;
  *
  */
 public class ScoreController {
-
+	
+	private static final String SCORE_FILE = System.getProperty("user.dir") + "/assets/Scores/scores.txt";
+	private static final ScoreController INSTANCE = new ScoreController();
+	
     private ArrayList<Score> scores;
-
-    private static final String SCORE_FILE = System.getProperty("user.dir") + "/assets/Scores/scores.txt";
-
     private ScoreReader reader;
-
     private ScoreWriter writer;
 
     /**
+     * Gets the ScoreController instance.
+     * 
+     * @return
+     * 		The ScoreController instance.
+     */
+    public static ScoreController getInstance() {
+    	return INSTANCE;
+    }
+    
+    /**
      * Constructor.
      */
-    public ScoreController() {
+    private ScoreController() {
 
         reader = new ScoreReader();
         writer = new ScoreWriter();

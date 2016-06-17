@@ -125,7 +125,7 @@ public class MainEnvironment extends Environment {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-        scoreController = new ScoreController();
+        scoreController = ScoreController.getInstance();
         results = new HashMap<Entity, CollisionResults>();
 
         this.hudController = new HUDController(app);

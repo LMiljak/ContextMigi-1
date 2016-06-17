@@ -44,8 +44,6 @@ public class LobbyEnvironment extends Environment {
 
         lobbyHUDController = new LobbyHUDController(app);
 
-        scoreController = new ScoreController();
-        int highScore = scoreController.getHighScore();
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
     }
 

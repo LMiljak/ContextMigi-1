@@ -14,13 +14,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.migi_1.Context.audio.AudioController;
 import com.github.migi_1.Context.main.HUDController;
-import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
-import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -41,11 +39,6 @@ public class TestCollisionHandler {
     private AudioController audioController;
 
     private CollisionHandler collisionHandler;
-
-    private AppStateManager stateManager;
-
-    private Main app;
-
     /**
      * Initialises the environment field for testing.
      * @throws Exception exception that is thrown.
@@ -58,10 +51,7 @@ public class TestCollisionHandler {
         CarrierAssigner carrierAssigner = Mockito.mock(CarrierAssigner.class);
         environment = PowerMockito.spy(new MainEnvironment(carrierAssigner));
         Spatial model = Mockito.mock(Spatial.class);
-        Path path = Mockito.mock(Path.class);
-        stateManager = Mockito.mock(AppStateManager.class);
-        app = Mockito.mock(Main.class);
-        
+        Path path = Mockito.mock(Path.class); 
         
         
         hudController = Mockito.mock(HUDController.class);
@@ -79,6 +69,9 @@ public class TestCollisionHandler {
         collisionHandler = new CollisionHandler(commander, platform, obstacleSpawner, environment);
     }
     
+    /**
+     * Tests the creation of boundingBoxes.
+     */
     @Test
     public void testCreateBoundingBoxes() {
         assertNull(collisionHandler.getBoundingBoxWallLeft());

@@ -32,7 +32,10 @@ public class TestAudioController {
     private AssetManager assetManager;
     private Node rootNode;
     private AudioNode backGroundMusic;
-
+    
+    /**
+     * Sets up everything needed for the tests. Happens before every test.
+     */
     @Before
     public void setUp() {
         main = Mockito.mock(Main.class);
@@ -49,21 +52,30 @@ public class TestAudioController {
         audioController = Mockito.spy(new AudioController(main));
         audioController.setBackgroundMusic(backGroundMusic);
     }
-
+    
+    /**
+     * Tests if the setPlaying function of the audiocontroller works.
+     */
     @Test
     public void isPlayingTest() {
         assertFalse(audioController.isPlaying());
         audioController.setPlaying(true);
         assertTrue(audioController.isPlaying());
     }
-
+    
+    /**
+     * Tests if the getter and setter for the backgroundmusic work.
+     */
     @Test
     public void getAndSetBackgroundMusicTest() {
         AudioNode oldBGMusic = audioController.getBackgroundMusic();
         audioController.setBackgroundMusic(new AudioNode());
         assertNotEquals(oldBGMusic, audioController.getBackgroundMusic());
     }
-
+    
+    /**
+     * Tests if the mute function works.
+     */
     @Test
     public void muteTest() {
         assertFalse(audioController.isPlaying());

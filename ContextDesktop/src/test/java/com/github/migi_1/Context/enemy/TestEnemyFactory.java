@@ -37,7 +37,11 @@ public class TestEnemyFactory {
     private BoundingBox boundingBox;
     private Enemy enemy;
     private Vector3f vector;
-
+    
+    /**     
+     * Sets up everything needed for the tests. Happens before every test.   
+     * @throws Exception Any Exception when one occurs.
+     */
     @Before
     public void setUp() throws Exception {
         PowerMockito.mockStatic(ProjectAssetManager.class);
@@ -66,7 +70,10 @@ public class TestEnemyFactory {
         Mockito.when(enemy.getDefaultModel()).thenReturn(model);
         enemyFactory = new EnemyFactory(carriers);
     }
-
+    
+    /**
+     * Tests creating enemy1. Checks if the model is rotated and checks if its location is used.
+     */
     @Test
     public void createEnemy1test() {
         Enemy enemy1 = enemyFactory.createEnemy1(0);
@@ -74,7 +81,10 @@ public class TestEnemyFactory {
         Mockito.verify(model, Mockito.times(0)).rotate(Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat());
         assertNotNull(enemy1);
     }
-
+    
+    /**
+     * Tests creating enemy2. Checks if the model is rotated and checks if its location is used.
+     */
     @Test
     public void createEnemy2test() {
         Enemy enemy2 = enemyFactory.createEnemy2(0);
@@ -82,7 +92,10 @@ public class TestEnemyFactory {
         Mockito.verify(model, Mockito.times(0)).rotate(Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat());
         assertNotNull(enemy2);
     }
-
+    
+    /**
+     * Tests creating enemy3. Checks if the model is rotated and checks if its location is used.
+     */
     @Test
     public void createEnemy3test() {
         Enemy enemy3 = enemyFactory.createEnemy3(0);

@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This class contains the main activity that is started you run the project.
+ * This class contains the main activity that is started when you run the project.
  */
 public class MainActivity extends Activity {
 

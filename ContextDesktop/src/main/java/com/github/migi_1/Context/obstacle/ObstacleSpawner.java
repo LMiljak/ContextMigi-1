@@ -24,7 +24,8 @@ public class ObstacleSpawner {
     private Vector3f location;
 
     /** Abstract factory. **/
-    private AbstractObstacleFactory obstacleFactory;
+    private MovingObstacleFactory movingObstacleFactory;
+    private StaticObstacleFactory staticObstacleFactory;
 
     /** ArrayList of all geometry pieces. **/
     private ArrayList<Obstacle> obstacleList;
@@ -47,7 +48,8 @@ public class ObstacleSpawner {
         this.location = commander.getModel().getLocalTranslation();
         this.obstacleList = new ArrayList<Obstacle>();
         this.deleteList = new LinkedList<Obstacle>();
-        this.obstacleFactory = new MovingObstacleFactory(environment);
+        this.movingObstacleFactory = new MovingObstacleFactory(environment);
+        this.staticObstacleFactory = new StaticObstacleFactory();
         this.leftBound = getBound(environment.getLeftBound());
         this.rightBound = getBound(environment.getRightBound());
     }
@@ -58,20 +60,29 @@ public class ObstacleSpawner {
      */
     public ArrayList<Obstacle> updateObstacles() {
         //call removeDamageDealer when an obstacle is too far away
-        for (Obstacle obs : obstacleList) {
-            if ((obs.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
-                deleteList.add(obs);
+        for (Obstacle obstacle : obstacleList) {
+            if ((obstacle.getModel().getLocalTranslation().x - commander.getModel().getLocalTranslation().x) > 200) {
+                deleteList.add(obstacle);
 
             }
         }
         obstacleList.removeAll(deleteList);
         while (obstacleList.size() < NUMBER_OBSTACLES) {
-            Obstacle obs = obstacleFactory.produce();
-            obs.scale(0.3f);
+            Obstacle movingObstacle = movingObstacleFactory.produce();
+            movingObstacle.scale(0.3f);
+            
+            Obstacle staticObstacle = staticObstacleFactory.produce();
+            staticObstacle.scale(2);
+            
+            location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));            
+            movingObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
+            
             location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
-
-            obs.move(location.add(new Vector3f(0, 0, getZLocation())));
-            obstacleList.add(obs);
+            staticObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
+            
+            obstacleList.add(movingObstacle);
+            obstacleList.add(staticObstacle);
+            
         }
         return obstacleList;
     }
@@ -83,7 +94,7 @@ public class ObstacleSpawner {
      */
     private float getDistanceToNextObstacle() {
     	final Random rand = new Random();
-    	final float minimumDistance = 30.f;
+    	final float minimumDistance = 60.f;
     	final float maximumDistance = 180.f;
     	
     	final float result = rand.nextFloat() * (maximumDistance - minimumDistance) + minimumDistance;
@@ -120,22 +131,6 @@ public class ObstacleSpawner {
     }
 
     /**
-     * Sets the current obstacleFactory.
-     * @param obstacleFactory the obstacleFactory to set.
-     */
-    public void setObstacleFactory(AbstractObstacleFactory obstacleFactory) {
-        this.obstacleFactory = obstacleFactory;
-    }
-
-    /**
-     * Gets the current obstacleFactory.
-     * @return the obstacleFactory.
-     */
-    public AbstractObstacleFactory getObstacleFactory() {
-        return obstacleFactory;
-    }
-
-    /**
      * Get the z coordinate of the center of a bounding box.
      * @param boundingBox Bounding box to check
      * @return z coordinate of the center
@@ -153,4 +148,34 @@ public class ObstacleSpawner {
         deleteList = new LinkedList<Obstacle>();
         return temp;
     }
+
+    /**
+     * @return the movingObstacleFactory
+     */
+    public MovingObstacleFactory getMovingObstacleFactory() {
+        return movingObstacleFactory;
+    }
+
+    /**
+     * @param movingObstacleFactory the movingObstacleFactory to set
+     */
+    public void setMovingObstacleFactory(MovingObstacleFactory movingObstacleFactory) {
+        this.movingObstacleFactory = movingObstacleFactory;
+    }
+
+    /**
+     * @return the staticObstacleFactory
+     */
+    public StaticObstacleFactory getStaticObstacleFactory() {
+        return staticObstacleFactory;
+    }
+
+    /**
+     * @param staticObstacleFactory the staticObstacleFactory to set
+     */
+    public void setStaticObstacleFactory(StaticObstacleFactory staticObstacleFactory) {
+        this.staticObstacleFactory = staticObstacleFactory;
+    }
+    
+    
 }

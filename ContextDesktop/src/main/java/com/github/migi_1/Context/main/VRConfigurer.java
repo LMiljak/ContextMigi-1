@@ -9,6 +9,9 @@ import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
  */
 public final class VRConfigurer {
 
+	/** Private empty constructor to prevent initialisation. */
+	private VRConfigurer() { }
+	
     /**
      * Method to configure the vr.
      * @param main the main Menu that the VR has to be configured for.

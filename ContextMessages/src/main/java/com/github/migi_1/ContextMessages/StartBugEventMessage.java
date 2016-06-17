@@ -43,5 +43,4 @@ public class StartBugEventMessage extends AbstractMessage {
     public PlatformPosition getSprayPosition() {
         return sprayPosition;
     }
-
 }

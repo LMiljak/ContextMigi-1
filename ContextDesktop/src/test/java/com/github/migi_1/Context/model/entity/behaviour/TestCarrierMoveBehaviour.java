@@ -2,7 +2,10 @@ package com.github.migi_1.Context.model.entity.behaviour;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +23,6 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
-import java.util.ArrayList;
 
 /**
  * Test class for CarrierMoveBehaviour.
@@ -153,5 +155,33 @@ public class TestCarrierMoveBehaviour extends TestEntityMoveBehaviour {
     @Test
     public void getRelativeLocationTest() {
         assertEquals(new Vector3f(0, 0, 0), testMoveBehaviour.getRelativeLocation());
+    }
+
+    /**
+     * Tests the getter for the carrier.
+     */
+    @Test
+    public void getAndSetCarrierTest() {
+        Carrier oldCarrier = testMoveBehaviour.getCarrier();
+        testMoveBehaviour.setCarrier(Mockito.mock(Carrier.class));
+        assertNotEquals(oldCarrier, testMoveBehaviour.getCarrier());
+    }
+
+    /**
+     * Tests if the carrier move behaviour stays in the correct
+     * position when the carrier overshoots the platform.
+     */
+    @Test
+    public void updateMoveVector_overshot_Test() {
+        Carrier carrier = Mockito.mock(Carrier.class);
+        assertFalse(testMoveBehaviour.getCatchUp());
+        Mockito.when(carrier.getRelativeLocation()).thenReturn(new Vector3f(100, 100, 100));
+        Mockito.when(carrier.getModel()).thenReturn(model);
+        Mockito.when(model.getLocalTranslation()).thenReturn(new Vector3f(10, 0, 0));
+        testMoveBehaviour = new CarrierMoveBehaviour(carrier, getMoveVector(), environment);
+        testMoveBehaviour.setCarrier(carrier);
+        testMoveBehaviour.updateMoveVector();
+        assertFalse(testMoveBehaviour.getCatchUp());
+
     }
 }

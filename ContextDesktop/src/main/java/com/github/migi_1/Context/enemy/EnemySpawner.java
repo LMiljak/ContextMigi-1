@@ -120,4 +120,22 @@ public class EnemySpawner {
     public ArrayList<Carrier> getCarriers() {
         return carriers;
     }
+
+    /**
+     * Getter for the enemies list.
+     * Used in testing.
+     * @return the enemies list.
+     */
+    public LinkedList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    /**
+     * Setter for the enemies list.
+     * Used in testing ONLY.
+     * @param newEnemies the new enemies list.
+     */
+    public void setEnemies(LinkedList<Enemy> newEnemies) {
+        enemies = newEnemies;
+    }
 }

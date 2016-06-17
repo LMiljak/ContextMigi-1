@@ -9,8 +9,6 @@ import com.jme3.math.Vector3f;
 
 /**
  * This class is a factory that produces Enemy objects.
- * @author Damian
- *
  */
 public class EnemyFactory {
 
@@ -20,7 +18,6 @@ public class EnemyFactory {
     private float levelPieceLength;
     private float levelPieceWidth;
     private ArrayList<Carrier> carriers;
-
 
     /**
      * Constructor of the EnemyFactory.
@@ -44,7 +41,7 @@ public class EnemyFactory {
                 -(((int) currentLevelPiece + 2) * levelPieceLength),
                 SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers); 
+                carriers);
         return enemy;
     }
 
@@ -59,8 +56,7 @@ public class EnemyFactory {
                 + levelPieceLength * 1 / 2,
                 SPAWN_HEIGHT,
                 levelPieceWidth + (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers);        
-
+                carriers);
         return enemy;
     }
 
@@ -75,12 +71,8 @@ public class EnemyFactory {
                 + levelPieceLength * 1 / 2,
                 SPAWN_HEIGHT,
                 levelPieceWidth - (levelPieceBoundingBox.getZExtent() / 2)),
-                carriers); 
+                carriers);
         enemy.getModel().rotate(0, (float) Math.PI, 0);
         return enemy;
     }
-
-
-
-
 }

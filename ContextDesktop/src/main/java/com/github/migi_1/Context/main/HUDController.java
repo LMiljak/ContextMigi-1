@@ -192,6 +192,33 @@ public class HUDController {
     }
 
     /**
+     * Getter for the gameScore.
+     * Used in testing.
+     * @return the score.
+     */
+    public float getScore() {
+        return gameScore;
+    }
+
+    /**
+     * Getter for checkpointUpdated
+     * Used in testing.
+     * @return the checkpoint updated attribute (boolean)
+     */
+    public boolean getCheckpointUpdated() {
+        return checkpointUpdated;
+    }
+
+    /**
+     * Setter for the hudText
+     * Used in testing ONLY.
+     * @param newText the new HUDtext
+     */
+    public void setHUDText(BitmapText newText) {
+        hudText = newText;
+    }
+
+    /**
      * Show the game over screen.
      */
     public void gameOver() {
@@ -219,7 +246,4 @@ public class HUDController {
     public void setGameScore(float gameScore) {
         this.gameScore = gameScore;
     }
-
-
-
 }

@@ -243,7 +243,6 @@ public class TestInputHandler {
         Mockito.when(stateManager.hasState(envState)).thenReturn(true);
         inputHandler.getActionListener().onAction("restart", true, 0f);
         Mockito.verify(envState).cleanup();
-        Mockito.verify(envState).initialize(Mockito.any(), Mockito.any());
     }
 
     /**

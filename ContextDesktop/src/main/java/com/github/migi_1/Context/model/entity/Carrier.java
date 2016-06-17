@@ -46,8 +46,6 @@ public class Carrier extends Entity implements IKillable {
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
 
-    private boolean immobalized;
-
     private Timer immobalizedTimer;
 
     /**
@@ -77,7 +75,6 @@ public class Carrier extends Entity implements IKillable {
 
         this.position = position;
         this.environment = environment;
-        this.immobalized = false;
         this.immobalizedTimer = new Timer();
         createEnemyLocations();
 

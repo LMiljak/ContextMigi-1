@@ -51,6 +51,9 @@ public class LobbyHUDController {
         addHighScore();
     }
     
+    /**
+     * Adds a text box for the HighScore.
+     */
     private void addHighScore() {
     	ScoreController scoreController = new ScoreController();
     	int highScore = scoreController.getHighScore();

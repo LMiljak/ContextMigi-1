@@ -10,6 +10,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
 
@@ -25,7 +26,7 @@ public class LobbyHUDController {
     private HashMap<PlatformPosition, BitmapText> players = new HashMap<>(4);
     private BitmapFont menuFont;
     
-    private Main main;
+    private Node guiNode;
     private AssetManager assetManager;
     private AppSettings settings;
 
@@ -34,7 +35,7 @@ public class LobbyHUDController {
      * @param app Application
      */
     public LobbyHUDController(Application app) {
-        this.main = (Main) app;
+    	this.guiNode = ((Main) app).getGuiNode();
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         BitmapFont titleFont = assetManager.loadFont(TITLEFONT_LOCATION);
         menuFont = assetManager.loadFont(MENUFONT_LOCATION);
@@ -42,10 +43,9 @@ public class LobbyHUDController {
         title.setSize(titleFont.getCharSet().getRenderedSize());
         title.setColor(ColorRGBA.White);
         title.setText("CarriedfAway");
-        settings = main.getSettings();
+        settings = ((Main) app).getSettings();
         setTextPosition(title, 0.5f, 0.8f);
-        main.getGuiNode().attachChild(title);
-        
+        guiNode.attachChild(title);
         addPlayers();
         addInstruction();
         addHighScore();
@@ -61,10 +61,9 @@ public class LobbyHUDController {
     	highScoreText.setSize(menuFont.getCharSet().getRenderedSize());
     	highScoreText.setColor(ColorRGBA.Green);
     	highScoreText.setText("Highscore\n\t " + highScore);
-    	settings = main.getSettings();
     	setTextPosition(highScoreText, 0.3f, 0.6f);
     	
-    	main.getGuiNode().attachChild(highScoreText);
+    	guiNode.attachChild(highScoreText);
     }
     
     /**
@@ -82,7 +81,7 @@ public class LobbyHUDController {
             player.setText("|");
         	
         	players.put(position, player);
-        	main.getGuiNode().attachChild(player);
+        	guiNode.attachChild(player);
         	
         	textPosition -= distanceBetweenText;
         }
@@ -97,9 +96,8 @@ public class LobbyHUDController {
         instruction.setSize(titleFont.getCharSet().getRenderedSize() * 0.75f);
         instruction.setColor(ColorRGBA.White);
         instruction.setText("Pressfspaceftofstart");
-        settings = main.getSettings();
         setTextPosition(instruction, 0.5f, 0.3f);
-        main.getGuiNode().attachChild(instruction);
+        guiNode.attachChild(instruction);
     }
     
     /**

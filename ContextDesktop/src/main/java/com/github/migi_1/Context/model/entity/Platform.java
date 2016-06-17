@@ -33,12 +33,10 @@ public class Platform extends Entity implements IRotatable {
      *
      * @param startLocation
      * 		location where the carrier will be initialised
-     * @param environment
-     * 		The environment that contains this platform.
      * @param carrierAssigner
      * 		The carrierAssigner that contains the addresses of each carrier.
      */
-    public Platform(Vector3f startLocation, MainEnvironment environment, CarrierAssigner carrierAssigner) {
+    public Platform(Vector3f startLocation, CarrierAssigner carrierAssigner) {
         super();
 
         ArrayList<AccelerometerMoveBehaviour> carrierBehaviours = new ArrayList<>(4);

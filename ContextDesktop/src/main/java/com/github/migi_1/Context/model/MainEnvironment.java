@@ -324,7 +324,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         createWallBoundingBoxes();
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
-        platform = new Platform(PLATFORM_LOCATION, this, carrierAssigner);
+        platform = new Platform(PLATFORM_LOCATION, carrierAssigner);
         commander = new Commander(COMMANDER_LOCATION, platform);
         obstacleSpawner = new ObstacleSpawner(this);
 

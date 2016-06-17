@@ -1,9 +1,7 @@
 package com.github.migi_1.Context.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import jmevr.app.VRApplication;
@@ -20,7 +18,6 @@ import com.github.migi_1.Context.model.entity.Commander;
 import com.github.migi_1.Context.model.entity.Entity;
 import com.github.migi_1.Context.model.entity.FlyCamera;
 import com.github.migi_1.Context.model.entity.Platform;
-import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.Score;
@@ -95,9 +92,6 @@ public class MainEnvironment extends Environment implements KeyInputListener {
     private HashMap<Entity, CollisionResults> results;
 
     private ObstacleSpawner obstacleSpawner;
-    private BoundingBox boundingBoxWallLeft;
-
-    private BoundingBox boundingBoxWallRight;
     private ScoreController scoreController;
 
     private HUDController hudController;

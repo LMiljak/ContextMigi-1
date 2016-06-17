@@ -25,8 +25,8 @@ public class ImmobilisedMessageHandler extends MessageListener<ImmobilisedMessag
     }
 
     @Override
-    public Class<ImmobilisedMessage> getMessageClass() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Class<ImmobilisedMessage> getMessageClass() { 
+        return ImmobilisedMessage.class;
     }
 
     

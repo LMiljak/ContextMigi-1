@@ -75,8 +75,8 @@ public class CarrierAssigner implements ConnectionListener {
 	}
 
 	/**
-	 * Setter for the carrierAdressMap
-	 * @param newMap the new carrier adress map
+	 * Setter for the carrierAdressMap.
+	 * @param newMap the new carrier adress map.
 	 */
 	public void setCarrierAdressMap(HashMap<PlatformPosition, HostedConnection> newMap) {
 	    carrierAddressMap = newMap;

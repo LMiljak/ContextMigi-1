@@ -58,7 +58,7 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
 
         if (spots.size() != 0) {
             int random = new Random().nextInt(spots.size());
-            spots.get(random).setOccupied(true);            
+            spots.get(random).setOccupied(true);
             return spots.get(random);
         } else {
             return null;
@@ -81,7 +81,6 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
      * the enemy has reached the generated targetSpot at createTargetSpot.
      */
     @Override
-
     public void updateMoveVector() {
         speed += getAcceleratingFactor();
         if (targetSpot != null) {
@@ -93,6 +92,9 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
         }
     }
 
+    /**
+     * Handles the movement in the x direction.
+     */
     private void handleXmovement() {
         if (targetSpot.getLocation().x > localTranslation.getX()) {
             if (targetSpot.getLocation().subtract(localTranslation).x < speed) {
@@ -109,6 +111,9 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
         }
     }
 
+    /**
+     * Handles the movement in the z direction.
+     */
     private void handleZmovement() {
         if (Math.abs(targetSpot.getLocation().subtract(localTranslation).z) < 0.05f) {
             moveVector.setZ(0);
@@ -128,16 +133,23 @@ public class EnemyMoveBehaviour extends EntityMoveBehaviour {
         }
     }
 
+    /**
+     * Handles what happens when the enemy reaches an enemys spot.
+     */
     private void reachedSpot() {
         if (targetSpot.getLocation().distance(localTranslation) < speed
                 && !atSpot) {
-            targetSpot.setEnemy(enemy);            
+            targetSpot.setEnemy(enemy);
             enemy.rotateCorrectly();
             speed *= 3;
             atSpot = true;
         }
     }
 
+    /**
+     * Getter for the atSpot attribute.
+     * @return true when atSpot is true.
+     */
     public boolean isAtSpot() {
         return atSpot;
     }

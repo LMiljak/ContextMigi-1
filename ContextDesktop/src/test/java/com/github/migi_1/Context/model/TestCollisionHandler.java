@@ -48,7 +48,6 @@ public class TestCollisionHandler {
         Platform platform = mock(Platform.class);
         ObstacleSpawner obstacleSpawner = mock(ObstacleSpawner.class);
         CarrierAssigner carrierAssigner = mock(CarrierAssigner.class);
-        environment = PowerMockito.spy(new MainEnvironment(carrierAssigner));
         Spatial model = mock(Spatial.class);
         Path path = mock(Path.class); 
         

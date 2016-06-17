@@ -24,6 +24,8 @@ import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.score.Score;
 import com.github.migi_1.Context.score.ScoreController;
+import com.github.migi_1.Context.server.ServerWrapper;
+import com.github.migi_1.ContextMessages.ImmobilisedMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
 import com.jme3.app.Application;
@@ -281,7 +283,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      */
     private void initLights() {
         ((VRApplication) app).setBackgroundColors(ColorRGBA.Blue);
-        
+
         sun = new DirectionalLight();
         sun2 = new DirectionalLight();
 
@@ -549,6 +551,12 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         if (enemySpawner != null) {
             for (Carrier carrier : enemySpawner.getCarriers()) {
                 carrier.setHealth(3);
+                ImmobilisedMessage message = new ImmobilisedMessage(false, carrier.getPosition());
+                ServerWrapper serverWrapper = ((Main) app).getServer();
+                Server server = serverWrapper.getServer();
+                if (server.isRunning()) {
+                    server.broadcast(message);
+                }
             }
         }
         enemySpawner = null;
@@ -616,6 +624,4 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
 	@Override
 	public void onKeyReleased(int key) { }
-    
-    
 }

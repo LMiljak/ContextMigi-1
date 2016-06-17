@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.CarrierAssigner;
 import com.github.migi_1.Context.model.LobbyEnvironment;
-import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.ClientFinder;
 import com.github.migi_1.Context.server.EnableSprayToVRMessageHandler;
 import com.github.migi_1.Context.server.ServerWrapper;
@@ -14,8 +13,8 @@ import com.github.migi_1.Context.server.StopEventMessageHandler;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
-
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+
 import com.jme3.input.KeyInput;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
@@ -46,8 +45,6 @@ public class Main extends VRApplication implements KeyInputListener {
     private static AppSettings settings;
 
     private ServerWrapper server;
-
-    private AttackMessageHandler attackMessageHandler;
     
     private boolean inLobby;
 

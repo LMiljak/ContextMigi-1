@@ -46,7 +46,9 @@ public class MainActivity extends Activity {
 
     private boolean cooldown;
     private boolean eventStarted;
+    private boolean immobilised;
     private ArrayList<ImageView> images;
+    private TextView immobilisedText;
 
     private Timer timer;
     private TimerTask timerTask;
@@ -98,7 +100,10 @@ public class MainActivity extends Activity {
 
         // set cooldown to false
         setCooldown(false);
-
+        
+        //set immobilised to false
+        setImmobilised(false);
+        
         // create the accelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, getClient());
     }
@@ -153,10 +158,14 @@ public class MainActivity extends Activity {
         images.add((ImageView) findViewById(R.id.Heart_2));
         images.add((ImageView) findViewById(R.id.Heart_3));
 
+        immobilisedText = (TextView) findViewById(R.id.Immobilized);
+        immobilisedText.setVisibility(View.GONE);
+        
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
         healthListener = new HealthMessageHandler(this);
+        new ImmobilisedMessageHandler(this);
 
         startBugEventListener = new StartBugEventMessageListener(this);
 
@@ -180,7 +189,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (!cooldown) {
+                if (!cooldown && !immobilised) {
                     atkMessenger.sendAttack(posHolder.getPosition(), direction);
                 }
 
@@ -310,5 +319,46 @@ public class MainActivity extends Activity {
             }
         };
     }
+
+    /**
+     * Set whether immobilised or not.
+     * @param immobilised true when immobilised
+     */
+    public void setImmobilised(boolean immobilised) {
+     this.immobilised = immobilised;
+    }
+    
+    /**
+     * Returns true when the carrier is immobilised.
+     * @return true when immobilised
+     */
+    public boolean isImmobilised() {
+        return immobilised;
+    }
+
+    /**
+     * Become immobilised or stop being immobilised.
+     * @param immobilised True when the carrier is immobilised
+     */
+    public void immobilise(final boolean immobilised) {
+        
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                if (immobilised) {
+                    setImmobilised(true);
+                    immobilisedText.setVisibility(View.VISIBLE);
+                }
+                else {
+                    setImmobilised(false);
+                    immobilisedText.setVisibility(View.GONE);
+                }
+            }
+
+        });
+    }
+    
+    
 
 }

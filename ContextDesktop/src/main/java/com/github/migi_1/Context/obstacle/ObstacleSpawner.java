@@ -74,10 +74,11 @@ public class ObstacleSpawner {
             Obstacle staticObstacle = staticObstacleFactory.produce();
             staticObstacle.scale(2);
             
-            location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
-
+            location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));            
             movingObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
-            staticObstacle.move(location.add(new Vector3f(getDistanceToNextObstacle() / 2, 0, getZLocation())));
+            
+            location = location.add(new Vector3f(-1 * getDistanceToNextObstacle(), 0, 0));
+            staticObstacle.move(location.add(new Vector3f(0, 0, getZLocation())));
             
             obstacleList.add(movingObstacle);
             obstacleList.add(staticObstacle);

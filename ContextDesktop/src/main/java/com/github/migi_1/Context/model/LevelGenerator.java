@@ -14,7 +14,7 @@ import com.jme3.math.Vector3f;
  */
 public class LevelGenerator {
 
-    private static final int LEVEL_PIECES = 5;
+    private static final int LEVEL_PIECES = 15;
 
     private LinkedList<LevelPiece> levelPieces;
     private LinkedList<Path> pathPieces;
@@ -65,7 +65,7 @@ public class LevelGenerator {
                 Vector3f v = checkLevelPiece.getModel().getLocalTranslation();
                 Vector2f v1 = new Vector2f(v.getX(), v.getY());
                 Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
-                if (v1.distance(v2) > 100) {
+                if (v1.distance(v2) > 500) {
                    deleteList.add(levelPieces.poll());
                 }
                 else {
@@ -112,7 +112,7 @@ public class LevelGenerator {
                 Vector3f v = path.getModel().getLocalTranslation();
                 Vector2f v1 = new Vector2f(v.getX(), v.getY());
                 Vector2f v2 = new Vector2f(commanderLocation.x, commanderLocation.y);
-                if (v1.distance(v2) > 100) {
+                if (v1.distance(v2) > 500) {
                    deleteList.add(pathPieces.poll());
                 }
                 else {

@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import jmevr.app.VRApplication;
+
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -18,6 +20,7 @@ import com.github.migi_1.Context.model.entity.Platform;
 import com.github.migi_1.Context.model.entity.behaviour.EntityMoveBehaviour;
 import com.github.migi_1.Context.obstacle.Obstacle;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
+import com.github.migi_1.Context.score.Score;
 import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StartBugEventMessage;
@@ -35,8 +38,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
-
-import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -57,8 +58,8 @@ public class MainEnvironment extends Environment {
     private static final Vector3f WORLD_LOCATION = new Vector3f(300, -20, 0);
 
     private static final Vector3f PLATFORM_LOCATION = new Vector3f(20, -18, -1);
-    private static final Vector3f COMMANDER_LOCATION = new Vector3f(23, -10, -1f);
-    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-4f, -7.5f, 6f);
+    private static final Vector3f COMMANDER_LOCATION = new Vector3f(20, -10, -1f);
+    private static final Vector3f RELATIVE_CARRIER_LOCATION = new Vector3f(-5f, -7.5f, 6f);
 
     private static final float COMMANDER_ROTATION = -1.5f;
 
@@ -155,11 +156,29 @@ public class MainEnvironment extends Environment {
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
+            checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
         }
     }
 
+
+    private void checkGameOver() {
+        int count = 0;
+        for (Carrier carrier: enemySpawner.getCarriers()) {
+            if (carrier.isDead()) {
+                count++;
+            }
+        }
+        if (count >= 2) {
+            hudController.gameOver();
+            setPaused(true);
+            if (!isGameOver()) {
+                scoreController.addScore(new Score("placeholder", (int) hudController.getGameScore()));
+            }
+            setGameOver(true);
+        }
+    }
 
     /**
      * Handle collision checking.
@@ -200,7 +219,7 @@ public class MainEnvironment extends Environment {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
             		|| boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
             	Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
-            	
+
                 commander.move(antiMoveVector);
                 platform.move(antiMoveVector);
                 for (Carrier carr : platform.getCarriers()) {
@@ -525,6 +544,12 @@ public class MainEnvironment extends Environment {
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
+        if (enemySpawner != null) {
+            for (Carrier carrier : enemySpawner.getCarriers()) {
+                carrier.setHealth(3);
+            }
+        }
+        enemySpawner = null;
         super.cleanup();
     }
 

@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -45,23 +44,23 @@ public class TestCollisionHandler {
      */
     @Before
     public void setUp() throws Exception {   
-        Commander commander = Mockito.mock(Commander.class);
-        Platform platform = Mockito.mock(Platform.class);
-        ObstacleSpawner obstacleSpawner = Mockito.mock(ObstacleSpawner.class);
-        CarrierAssigner carrierAssigner = Mockito.mock(CarrierAssigner.class);
+        Commander commander = mock(Commander.class);
+        Platform platform = mock(Platform.class);
+        ObstacleSpawner obstacleSpawner = mock(ObstacleSpawner.class);
+        CarrierAssigner carrierAssigner = mock(CarrierAssigner.class);
         environment = PowerMockito.spy(new MainEnvironment(carrierAssigner));
-        Spatial model = Mockito.mock(Spatial.class);
-        Path path = Mockito.mock(Path.class); 
+        Spatial model = mock(Spatial.class);
+        Path path = mock(Path.class); 
         
         
-        hudController = Mockito.mock(HUDController.class);
-        audioController = Mockito.mock(AudioController.class);
+        hudController = mock(HUDController.class);
+        audioController = mock(AudioController.class);
         ProjectAssetManager projectAssetManager = mock(ProjectAssetManager.class);
         PowerMockito.mockStatic(ProjectAssetManager.class);
         PowerMockito.whenNew(HUDController.class).withAnyArguments().thenReturn(hudController);
         PowerMockito.whenNew(AudioController.class).withAnyArguments().thenReturn(audioController);
         when(ProjectAssetManager.getInstance()).thenReturn(projectAssetManager);
-        this.assetManager = Mockito.mock(AssetManager.class);
+        this.assetManager = mock(AssetManager.class);
         when(projectAssetManager.getAssetManager()).thenReturn(assetManager);
         when(path.getModel()).thenReturn(model);
         when(model.center()).thenReturn(model);

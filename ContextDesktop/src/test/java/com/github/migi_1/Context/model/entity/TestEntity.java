@@ -19,7 +19,7 @@ public abstract class TestEntity {
 
     /**
      * Initialise attributes.
-     * @throws Exception
+     * @throws Exception any Exception that is thrown.
      */
     @Before
     public abstract void setUp() throws Exception;

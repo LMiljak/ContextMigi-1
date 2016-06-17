@@ -22,6 +22,13 @@ public class FlyRotateBehaviour extends RotateBehaviour implements KeyInputListe
 		}
 	}
 	
+	/**
+	 * Called when a key has been pressed.
+	 * Registers that a unpressed key is being pressed.
+	 * 
+	 * @param key
+	 * 		The key that got pressed.
+	 */
 	@Override
 	public void onKeyPressed(int key) {
 		switch (key) {
@@ -35,6 +42,13 @@ public class FlyRotateBehaviour extends RotateBehaviour implements KeyInputListe
 		}
 	}
 
+	/**
+	 * Called when a key has been released.
+	 * Registers that a pressed key is being released.
+	 * 
+	 * @param key
+	 * 		The key that got released.
+	 */
 	@Override
 	public void onKeyReleased(int key) {
 		switch (key) {
@@ -48,6 +62,10 @@ public class FlyRotateBehaviour extends RotateBehaviour implements KeyInputListe
 		}
 	}
 
+	/**
+	 * Updates the rotate vector depending on what keys are currently being
+	 * pressed.
+	 */
 	@Override
 	public void updateRotateVector() {
 		final float rotateSpeed = 0.01f;

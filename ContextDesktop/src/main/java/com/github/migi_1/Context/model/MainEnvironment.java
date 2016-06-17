@@ -272,6 +272,8 @@ public class MainEnvironment extends Environment {
      * Initializes all lights of the scene.
      */
     private void initLights() {
+        ((VRApplication) app).setBackgroundColors(ColorRGBA.Blue);
+        
         sun = new DirectionalLight();
         sun2 = new DirectionalLight();
 
@@ -601,4 +603,14 @@ public class MainEnvironment extends Environment {
     public BoundingBox getRightBound() {
         return boundingBoxWallRight;
     }
+
+    /**
+     * Sets the app.
+     * @param app the app to set
+     */
+    public void setApp(Application app) {
+        this.app = app;
+    }
+    
+    
 }

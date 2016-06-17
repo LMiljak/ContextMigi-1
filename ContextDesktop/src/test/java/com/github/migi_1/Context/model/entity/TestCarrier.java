@@ -178,16 +178,6 @@ public class TestCarrier extends TestEntity {
     }
 
     /**
-     * Tests the send health method.
-     */
-    @Test
-    public void sendHealthTest() {
-        testCarrier.sendHealth();
-        //Verify this is the only method called in this testcase by the testCarrier
-        Mockito.verify(testCarrier);
-    }
-
-    /**
      * Tests the createEnemyLocations method for
      * a carrier at another position.
      */

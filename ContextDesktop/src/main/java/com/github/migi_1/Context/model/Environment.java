@@ -204,6 +204,4 @@ public class Environment extends AbstractAppState {
         this.gameOver = gameOver;
     }
 
-
-
 }

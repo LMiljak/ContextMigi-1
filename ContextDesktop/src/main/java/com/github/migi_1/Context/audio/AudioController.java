@@ -74,7 +74,6 @@ public class AudioController {
         this.isPlaying = isPlaying;
     }
 
-
     /**
      * Setter for the background music.
      * Used in testing only.
@@ -83,5 +82,4 @@ public class AudioController {
     public void setBackgroundMusic(AudioNode newBackgroundMusic) {
         backgroundMusic = newBackgroundMusic;
     }
-
 }

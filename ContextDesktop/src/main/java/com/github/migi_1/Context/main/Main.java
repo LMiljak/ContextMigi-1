@@ -14,6 +14,7 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.jme3.input.KeyInput;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
@@ -27,7 +28,7 @@ import jmevr.app.VRApplication;
  * @author Damian
  */
 
-public class Main extends VRApplication {
+public class Main extends VRApplication implements KeyInputListener {
 
     //the game state
     private MainEnvironment environmentState;
@@ -84,9 +85,9 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleInitApp() {
-        inputHandler = new InputHandler(main);
-        inputHandler.initInputs(main);
-
+        inputHandler = InputHandler.getInstance();
+        inputHandler.initialise(main);
+        inputHandler.register(this, KeyInput.KEY_SPACE);
         launchServer();
 
         CarrierAssigner carrierAssigner = new CarrierAssigner(server);
@@ -122,7 +123,6 @@ public class Main extends VRApplication {
         if (getStateManager().hasState(environmentState)) {
             getStateManager().getState(MainEnvironment.class).update(tpf);
         }
-        inputHandler.moveCamera(tpf);
     }
 
     /**
@@ -131,16 +131,6 @@ public class Main extends VRApplication {
      */
     @Override
     public void simpleRender(RenderManager rm) { }
-
-    /**
-     * Steers the platform depending on the orientation of an accelerometer.
-     *
-     * @param orientation
-     *      The acceleration force along the z axis (including gravity).
-     */
-    public void handleAccelerometerMessage(float orientation) {
-        environmentState.steer(orientation);
-    }
 
     /**
      * Sends the enable spray message.
@@ -251,20 +241,24 @@ public class Main extends VRApplication {
      * Makes the game switch to the level.
      */
     public void toMainEnvironment() {
-        setInLobby(false);
-        lobbyState.cleanup();
-        this.getStateManager().attach(environmentState);
-        this.getStateManager().detach(lobbyState);
+        if (inLobby) {
+        	setInLobby(false);
+        	lobbyState.cleanup();
+            this.getStateManager().detach(lobbyState);
+            this.getStateManager().attach(environmentState);
+        }
     }
 
     /**
      * Makes the game switch to the lobby.
      */
     public void toLobby() {
-        setInLobby(true);
-        environmentState.cleanup();
-        this.getStateManager().attach(lobbyState);
-        this.getStateManager().detach(environmentState);
+        if (!inLobby) {
+        	setInLobby(true);
+        	environmentState.cleanup();
+            this.getStateManager().attach(lobbyState);
+            this.getStateManager().detach(environmentState);
+        }
     }
 
     /**
@@ -327,4 +321,17 @@ public class Main extends VRApplication {
     public void setServerWrapper(ServerWrapper newServerWrapper) {
         server = newServerWrapper;
     }
+
+	@Override
+	public void onKeyPressed(int key) {
+		switch (key) {
+		case KeyInput.KEY_SPACE:
+			toMainEnvironment();
+			break;
+		default:
+		}
+	}
+
+	@Override
+	public void onKeyReleased(int key) { }
 }

@@ -26,7 +26,7 @@ public class TestMovingObstacleMoveBehaviour {
     private MovingObstacle movingObstacle;
     private BoundingBox boundingBox;
     private Spatial model;
-    
+
     /**
      * This method starts every time a new test case starts.
      * @throws Exception exception that is thrown.
@@ -45,14 +45,14 @@ public class TestMovingObstacleMoveBehaviour {
                         new MovingObstacleMoveBehaviour(movingObstacle, boundingBox, boundingBox)
                         );
     }
-    
+
     /**
      * Tests if the moveVector gets updated when updateMoveVector method gets called.
      */
     @Test
     public void testUpdateMoveVectors() {
         moveBehaviour.updateMoveVector();
-        Mockito.verify(model, Mockito.times(2)).getLocalTranslation();
+        Mockito.verify(moveBehaviour, Mockito.times(2)).setMoveVector(Mockito.any());
     }
 
 }

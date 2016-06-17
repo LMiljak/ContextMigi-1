@@ -134,7 +134,7 @@ public class LobbyHUDController {
      * Used in testing ONLY.
      * @return the players hashmap.
      */
-    public HashMap<PlatformPosition, BitmapText> getPlayers() {
+    protected HashMap<PlatformPosition, BitmapText> getPlayers() {
         return players;
     }
 }

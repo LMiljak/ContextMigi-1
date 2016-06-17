@@ -318,7 +318,7 @@ public class Main extends VRApplication implements KeyInputListener {
      * Used in testing ONLY.
      * @param newServerWrapper the new serverWrapper
      */
-    public void setServerWrapper(ServerWrapper newServerWrapper) {
+    protected void setServerWrapper(ServerWrapper newServerWrapper) {
         server = newServerWrapper;
     }
 

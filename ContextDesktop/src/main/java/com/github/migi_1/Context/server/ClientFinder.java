@@ -117,7 +117,7 @@ public final class ClientFinder {
 			}
 
 		} catch (IOException e) {
-		    e.getStackTrace();
+		    e.printStackTrace();
 		}
 
 	}

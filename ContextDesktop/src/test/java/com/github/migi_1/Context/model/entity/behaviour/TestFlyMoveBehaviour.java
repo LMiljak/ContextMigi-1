@@ -67,7 +67,7 @@ public class TestFlyMoveBehaviour {
     @Test
     public void pressed_D_Test() {
         assertFalse(moveBehaviour.isBack());
-        moveBehaviour.onKeyPressed(KeyInput.KEY_D);
+        moveBehaviour.onKeyPressed(KeyInput.KEY_S);
         assertTrue(moveBehaviour.isBack());
     }
 
@@ -89,9 +89,9 @@ public class TestFlyMoveBehaviour {
     @Test
     public void release_D_Test() {
         assertFalse(moveBehaviour.isBack());
-        moveBehaviour.onKeyPressed(KeyInput.KEY_D);
+        moveBehaviour.onKeyPressed(KeyInput.KEY_S);
         assertTrue(moveBehaviour.isBack());
-        moveBehaviour.onKeyReleased(KeyInput.KEY_D);
+        moveBehaviour.onKeyReleased(KeyInput.KEY_S);
         assertFalse(moveBehaviour.isBack());
     }
 
@@ -110,7 +110,7 @@ public class TestFlyMoveBehaviour {
      */
     @Test
     public void updateMoveVector_Back_Test() {
-        moveBehaviour.onKeyPressed(KeyInput.KEY_D);
+        moveBehaviour.onKeyPressed(KeyInput.KEY_S);
         moveBehaviour.updateMoveVector();
         Mockito.verify(vector).mult(-0.1f);
     }

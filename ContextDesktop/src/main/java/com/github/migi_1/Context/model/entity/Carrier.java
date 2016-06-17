@@ -126,13 +126,6 @@ public class Carrier extends Entity implements IKillable {
     }
 
     /**
-     * This function sends the health value to the right android app.
-     */
-    public void sendHealth() {
-        // TODO
-    }
-
-    /**
      * Get relativeLocation attribute.
      * @return relativeLocation attribute
      */

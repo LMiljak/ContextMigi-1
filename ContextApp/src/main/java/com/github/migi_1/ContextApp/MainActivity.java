@@ -355,6 +355,10 @@ public class MainActivity extends AndroidHarness {
         return immobilised;
     }
 
+    /**
+     * Become immobilised or stop being immobilised.
+     * @param immobilised True when the carrier is immobilised
+     */
     public void immobilise(final boolean immobilised) {
         
         runOnUiThread(new Runnable() {

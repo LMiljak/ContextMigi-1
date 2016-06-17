@@ -49,6 +49,7 @@ public class MainActivity extends AndroidHarness {
     private boolean eventStarted;
     private boolean immobilised;
     private ArrayList<ImageView> images;
+    private TextView immobilisedText;
 
     private Timer timer;
     private TimerTask timerTask;
@@ -164,6 +165,9 @@ public class MainActivity extends AndroidHarness {
         images.add((ImageView) findViewById(R.id.Heart_2));
         images.add((ImageView) findViewById(R.id.Heart_3));
 
+        immobilisedText = (TextView) findViewById(R.id.Immobilized);
+        immobilisedText.setVisibility(View.GONE);
+        
         atkMessenger = new AttackMessenger(this);
         mbFunctions = new MakeButtonFunctions(this);
         hitMissListener = new HitMissMessageHandler(this);
@@ -349,6 +353,17 @@ public class MainActivity extends AndroidHarness {
      */
     public boolean isImmobilised() {
         return immobilised;
+    }
+
+    public void immobilise(boolean immobilised) {
+        if (immobilised) {
+            setImmobilised(true);
+            immobilisedText.setVisibility(View.VISIBLE);
+        }
+        else {
+            setImmobilised(true);
+            immobilisedText.setVisibility(View.GONE);
+        }
     }
     
     

@@ -26,6 +26,7 @@ public class ImmobilisedMessage extends AbstractMessage {
      * @param immobilised
      *                      True when the carrier becomes immobilised
      *                      False when the carrier stops being immobilised
+     * @param position      Carrier position
      */
     public ImmobilisedMessage(boolean immobilised, PlatformPosition position) {
         this.immobilised = immobilised;

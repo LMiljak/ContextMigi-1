@@ -2,6 +2,7 @@ package com.github.migi_1.Context.main;
 
 import jmevr.app.VRApplication;
 
+import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -80,10 +81,10 @@ public final class InputHandler {
                         }
                     } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
                         main.getEnv().cleanup();
-                        main.getEnv().initialize(main.getStateManager(), main);
+                        inMenu = true;
+                        main.toLobby();
                     } else if (name.equals("mute") && keyPressed) {
                         main.getEnv().getAudioController().mute();
-
                     }
                 } else if (name.equals("start") && keyPressed) {
                     if (main.getInLobby()) {

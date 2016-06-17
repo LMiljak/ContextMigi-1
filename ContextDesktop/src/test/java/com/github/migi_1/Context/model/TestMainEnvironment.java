@@ -146,6 +146,7 @@ public class TestMainEnvironment {
         Mockito.when(wrapper.getServer()).thenReturn(Mockito.mock(Server.class));
         PowerMockito.whenNew(Platform.class).withAnyArguments().thenReturn(platform);
         PowerMockito.whenNew(CarrierAssigner.class).withAnyArguments().thenReturn(carrierAssigner);
+        PowerMockito.suppress(PowerMockito.method(MainEnvironment.class, "initLights"));
         PowerMockito.whenNew(EnemySpawner.class).withAnyArguments().thenReturn(enemySpawner);
         env = PowerMockito.spy(new MainEnvironment(Mockito.mock(CarrierAssigner.class)));
     }

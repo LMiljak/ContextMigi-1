@@ -33,7 +33,7 @@ public class Carrier extends Entity implements IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final int INITIAL_HEALTH = 3;
-    private static final long  IMMOBILISATION_TIME = 1000;
+    private static final long  IMMOBILISATION_TIME = 10000;
 
     private Main main;
     private HealthMessenger healthMessenger;
@@ -85,14 +85,14 @@ public class Carrier extends Entity implements IKillable {
     }
 
     private void createEnemyLocations() {
-        enemySpots.add(new EnemySpot(new Vector3f(-2, 0, 0), this, environment.getCommander(), Direction.NORTH));
+        enemySpots.add(new EnemySpot(new Vector3f(-4, 0, 0), this, environment.getCommander(), Direction.NORTH));
         if (position.getzFactor() == 1) {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 2), this, environment.getCommander(), Direction.WEST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, 4), this, environment.getCommander(), Direction.WEST));
         }
         else {
-            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -2), this, environment.getCommander(), Direction.EAST));
+            enemySpots.add(new EnemySpot(new Vector3f(0, 0, -4), this, environment.getCommander(), Direction.EAST));
         }
-        enemySpots.add(new EnemySpot(new Vector3f(2, 0, 0), this, environment.getCommander(), Direction.SOUTH));
+        enemySpots.add(new EnemySpot(new Vector3f(4, 0, 0), this, environment.getCommander(), Direction.SOUTH));
 
     }
 

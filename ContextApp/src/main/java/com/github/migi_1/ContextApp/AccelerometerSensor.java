@@ -36,10 +36,6 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
      */
     @Override
     public void onSensorChanged(SensorEvent se) {
-            // check whether the game has already been instantiated
-            if (act.getMain() == null) {
-                return;
-            }
 
             float xforce = se.values[0];
             float yforce = se.values[1];
@@ -64,7 +60,7 @@ public class AccelerometerSensor extends Activity implements SensorEventListener
     private void sendSensorInformation(float xforce, float yforce, float zforce) {
         AccelerometerMessage message = new AccelerometerMessage(xforce, yforce, zforce);
         Client c = client.getClient();
-        if (c.isStarted()) {
+        if (c.isStarted() && !act.isImmobilised()) {
             client.getClient().send(message);
         }
     }

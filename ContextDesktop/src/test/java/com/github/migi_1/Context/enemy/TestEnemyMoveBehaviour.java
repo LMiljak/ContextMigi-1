@@ -44,7 +44,10 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
     private EnemyMoveBehaviour enemyMoveBehaviour;
     private ArrayList<EnemySpot> enemySpots;
     private EnemySpot enemySpot;
-
+    
+    /**
+     * Sets up everything needed for the tests. Happens before every test.   
+     */
     @Override
     @Before
     public void setUp() {
@@ -141,26 +144,38 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         enemyMoveBehaviour.setMoveVector(oldMoveVector.add(new Vector3f(10, 10, 10)));
         assertNotEquals(oldMoveVector, enemyMoveBehaviour.getMoveVector());
     }
-
+    
+    /**
+     * Tests the getter and setter of the targetSpot.
+     */
     @Test
     public void testGetAndSetTargetSpot() {
         EnemySpot oldSpot = enemyMoveBehaviour.getTargetSpot();
         enemyMoveBehaviour.setTargetSpot(Mockito.mock(EnemySpot.class));
         assertNotEquals(oldSpot, enemyMoveBehaviour.getTargetSpot());
     }
-
+    
+    /**
+     * Tests the getter and setter for the AtSpot boolean.
+     */
     @Test
     public void testGetAndSetAtSpot() {
         assertFalse(enemyMoveBehaviour.isAtSpot());
         enemyMoveBehaviour.setAtSpot(true);
         assertTrue(enemyMoveBehaviour.isAtSpot());
     }
-
+    
+    /**
+     * Tests the getter for the speed of the moveBehaviour.
+     */
     @Test
     public void testGetSpeed() {
         assertEquals(0.5f, enemyMoveBehaviour.getSpeed(), 0);
     }
-
+    
+    /**
+     * Tests if both the methods for z and x movement are called in the update method of the movebehaviour.
+     */
     @Test
     public void testUpdateMoveVector_MovementHandling() {
         Mockito.when(enemySpot.getLocation()).thenReturn(new Vector3f(-90, -90, -90));
@@ -172,7 +187,10 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Tests if both the methods for z and x movement are called in the update method of the movebehaviour.
+     */
     @Test
     public void testUpdateMoveVector_MovementHandling2() {
         Mockito.when(enemySpot.getLocation()).thenReturn(new Vector3f(-110, -110, -110));
@@ -184,14 +202,37 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Tests if both the methods for z and x movement aren't called in the update method of the movebehaviour,
+     * because the enemies are out of range of the commander.
+     */
+    @Test
+    public void testUpdateMoveVector_MovementHandling3() {
+        Mockito.when(enemySpot.getLocation()).thenReturn(new Vector3f(-200, -200, -200));
+        enemyMoveBehaviour.updateMoveVector();
+        try {
+            PowerMockito.verifyPrivate(enemyMoveBehaviour, Mockito.never()).invoke("handleXmovement");
+            PowerMockito.verifyPrivate(enemyMoveBehaviour, Mockito.never()).invoke("handleZmovement");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Tests if the methods are called regardless of their interaction.
+     */
     @Test
     public void testUpdateMoveVectorTargetSpotNull() {
         enemyMoveBehaviour.setTargetSpot(null);
         enemyMoveBehaviour.updateMoveVector();
         Mockito.verify(enemyMoveBehaviour, Mockito.times(2));
     }
-
+    
+    /**
+     * Tests if the right methods are called when the enemy reaches its targetSpot.
+     * @throws Exception any Exception that may occur.
+     */
     @Test
     public void testReachedSpot() throws Exception {
         Mockito.when(enemySpot.getLocation()).thenReturn(Vector3f.ZERO);
@@ -202,7 +243,10 @@ public class TestEnemyMoveBehaviour extends TestMoveBehaviour {
         Mockito.verify(enemySpot).setEnemy(Mockito.any());
         Mockito.verify(enemy).rotateCorrectly();
     }
-
+    
+    /**
+     * Tests if the enemyBehaviour reacts to a collision.
+     */
     @Test
     public void testCollided() {
         enemyMoveBehaviour.collided();

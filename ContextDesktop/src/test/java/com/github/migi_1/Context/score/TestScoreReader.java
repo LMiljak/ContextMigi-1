@@ -20,6 +20,11 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+/**
+ * Tests everything that has to with the ScoreReader class.
+ * @author Nils
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ScoreReader.class})
 public class TestScoreReader {
@@ -28,7 +33,11 @@ public class TestScoreReader {
     private List<String> lines;
     private Iterator<String> iterator;
 
-    @SuppressWarnings("unchecked")
+    /**
+     * This method starts every time a new test case starts.
+     * @throws Exception exception that is thrown.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Before
     public void setUp() throws Exception {
         lines = Mockito.mock(List.class);
@@ -58,7 +67,10 @@ public class TestScoreReader {
 
         scoreReader = Mockito.spy(new ScoreReader());
     }
-
+    
+    /**
+     * Tests if an invalid file can be read.
+     */
     @Test
     public void read_InvalidFile_Test() {
         try {
@@ -67,14 +79,22 @@ public class TestScoreReader {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Tests if an empty file can be read but no score is returned.
+     * @throws IOException when an exception occurs during reading.
+     */
     @Test
     public void read_validFileNoLines_Test() throws IOException {
         BDDMockito.given(Files.exists(Mockito.any())).willReturn(true);
         ArrayList<Score> scoreList = scoreReader.read("validFile");
         assertTrue(scoreList.isEmpty());
     }
-
+    
+    /**
+     * Tests if a file with information outputs the right information when read.
+     * @throws IOException when an exception occurs during reading.
+     */
     @Test
     public void read_validFileHasLines_Test() throws IOException {
         System.out.println("=======");
@@ -85,3 +105,4 @@ public class TestScoreReader {
     }
 
 }
+    

@@ -1,7 +1,6 @@
 package com.github.migi_1.Context.damageDealers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.Commander;
-import com.github.migi_1.Context.obstacle.AbstractObstacleFactory;
 import com.github.migi_1.Context.obstacle.MovingObstacleFactory;
 import com.github.migi_1.Context.obstacle.ObstacleSpawner;
 import com.github.migi_1.Context.obstacle.StaticObstacleFactory;
@@ -40,7 +38,6 @@ public class TestObstacleSpawner {
     private AssetManager assetManager;
     private Spatial model;
     private ObstacleSpawner obstacleSpawner;
-    private StaticObstacleFactory obstacleFactory;
     private Main main;
     private ServerWrapper serverWrapper;
     private Server server;
@@ -97,6 +94,9 @@ public class TestObstacleSpawner {
         assertNull(obstacleSpawner.getStaticObstacleFactory());        
     }
     
+    /**
+     * Tests the getters/setters for the MovingObstacleFactory.
+     */
     @Test
     public void getSetMovingObstacleFactory() {
         obstacleSpawner.setMovingObstacleFactory(new MovingObstacleFactory(environment));

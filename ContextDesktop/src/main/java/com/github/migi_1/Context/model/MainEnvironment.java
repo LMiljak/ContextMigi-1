@@ -156,7 +156,7 @@ public class MainEnvironment extends Environment {
             updateEnemies(tpf);
             checkObstacleCollision();
             checkPathCollision();
-            checkGameOver();
+            //checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
         }

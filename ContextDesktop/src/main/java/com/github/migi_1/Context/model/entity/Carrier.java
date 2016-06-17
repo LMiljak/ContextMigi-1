@@ -10,10 +10,13 @@ import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.server.AttackMessageHandler;
 import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.server.HitMissMessenger;
+import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.Direction;
+import com.github.migi_1.ContextMessages.ImmobilisedMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.scene.Spatial;
 
 /**
@@ -124,6 +127,12 @@ public class Carrier extends Entity implements IKillable {
     @Override
     public void onKilled() {
         immobalisedTimer.schedule(new ImmobilisedTimerTask(this), IMMOBILISATION_TIME);
+        ImmobilisedMessage message = new ImmobilisedMessage(true, position);
+        ServerWrapper serverWrapper = main.getServer();
+        Server server = serverWrapper.getServer();
+        if (server.isRunning()) {
+            server.broadcast(message);
+        }
     }
 
     @Override

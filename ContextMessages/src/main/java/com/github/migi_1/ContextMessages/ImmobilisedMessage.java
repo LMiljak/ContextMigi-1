@@ -13,6 +13,8 @@ public class ImmobilisedMessage extends AbstractMessage {
 
     private boolean immobilised;
 
+    private PlatformPosition position;
+
     /**
      * Public empty constructor used by the JME3 networking
      * library.
@@ -25,8 +27,9 @@ public class ImmobilisedMessage extends AbstractMessage {
      *                      True when the carrier becomes immobilised
      *                      False when the carrier stops being immobilised
      */
-    public ImmobilisedMessage(boolean immobilised) {
+    public ImmobilisedMessage(boolean immobilised, PlatformPosition position) {
         this.immobilised = immobilised;
+        this.position = position;
     }
 
     /**
@@ -35,5 +38,13 @@ public class ImmobilisedMessage extends AbstractMessage {
      */
     public boolean getImmobilised() {
         return immobilised;
+    }
+
+    /**
+     * Getter for the platform position.
+     * @return platform position
+     */
+    public PlatformPosition getPosition() {
+        return position;
     }
 }

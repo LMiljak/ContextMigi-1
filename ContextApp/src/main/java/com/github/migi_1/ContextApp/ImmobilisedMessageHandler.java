@@ -14,7 +14,9 @@ public class ImmobilisedMessageHandler extends MessageListener<ImmobilisedMessag
 
     @Override
     public void messageReceived(Object source, ImmobilisedMessage message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (main.getPosHolder().getPosition() == message.getPosition()) {
+            
+        }
     }
 
     @Override

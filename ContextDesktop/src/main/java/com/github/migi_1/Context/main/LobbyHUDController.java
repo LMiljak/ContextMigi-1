@@ -2,7 +2,6 @@ package com.github.migi_1.Context.main;
 
 import java.util.HashMap;
 
-import com.github.migi_1.Context.score.ScoreController;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.app.Application;
@@ -20,7 +19,6 @@ public class LobbyHUDController {
 
     private BitmapText title, instruction;
     private HashMap<PlatformPosition, BitmapText> players = new HashMap<>(4);
-    private BitmapFont menuFont;
     
     private Main main;
     private AssetManager assetManager;
@@ -34,7 +32,6 @@ public class LobbyHUDController {
         this.main = (Main) app;
         assetManager = ProjectAssetManager.getInstance().getAssetManager();
         BitmapFont titleFont = assetManager.loadFont("Interface/Fonts/myfont.fnt");
-        menuFont = assetManager.loadFont("Interface/Fonts/myfont2.fnt");
         title = new BitmapText(titleFont, false);
         title.setSize(titleFont.getCharSet().getRenderedSize());
         title.setColor(ColorRGBA.White);
@@ -45,20 +42,6 @@ public class LobbyHUDController {
         
         addPlayers();
         addInstruction();
-        addHighScore();
-    }
-    
-    private void addHighScore() {
-    	ScoreController scoreController = new ScoreController();
-    	int highScore = scoreController.getHighScore();
-    	BitmapText highScoreText = new BitmapText(menuFont, true);
-    	highScoreText.setSize(menuFont.getCharSet().getRenderedSize());
-    	highScoreText.setColor(ColorRGBA.Green);
-    	highScoreText.setText("Highscore\n\t " + highScore);
-    	settings = main.getSettings();
-    	setTextPosition(highScoreText, 0.3f, 0.6f);
-    	
-    	main.getGuiNode().attachChild(highScoreText);
     }
     
     /**

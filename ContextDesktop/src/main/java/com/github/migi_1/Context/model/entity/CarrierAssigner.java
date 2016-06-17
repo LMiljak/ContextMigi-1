@@ -51,10 +51,10 @@ public class CarrierAssigner implements ConnectionListener {
 
 	@Override
 	public void connectionRemoved(Server server, HostedConnection conn) {
-		Logger.getGlobal().log(Level.INFO, conn.getAddress() + " has disconnected");
-		for (PlatformPosition position : PlatformPosition.values()) {
-			carrierAddressMap.remove(position, conn);
-		}
+        Logger.getGlobal().log(Level.INFO, conn.getAddress() + " has disconnected");
+        for (PlatformPosition position : PlatformPosition.values()) {
+        	carrierAddressMap.remove(position, conn);
+        }
 	}
 
 	/**
@@ -72,5 +72,13 @@ public class CarrierAssigner implements ConnectionListener {
 		} else {
 			return conn.getAddress();
 		}
+	}
+
+	/**
+	 * Setter for the carrierAdressMap
+	 * @param newMap the new carrier adress map
+	 */
+	public void setCarrierAdressMap(HashMap<PlatformPosition, HostedConnection> newMap) {
+	    carrierAddressMap = newMap;
 	}
 }

@@ -2,6 +2,8 @@ package com.github.migi_1.Context.model.entity;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -21,7 +23,9 @@ public class TestCarrierAssigner {
     private MainEnvironment mainEnv;
     private HostedConnection connection;
     private String ipAdress = "IP";
+    private HashMap<PlatformPosition, HostedConnection> carrierMap;
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         connection = Mockito.mock(HostedConnection.class);
@@ -29,6 +33,7 @@ public class TestCarrierAssigner {
         platform = Mockito.mock(Platform.class);
         server = Mockito.mock(Server.class);
         serverWrapper = Mockito.mock(ServerWrapper.class);
+        carrierMap = Mockito.mock(HashMap.class);
 
         Mockito.when(serverWrapper.getServer()).thenReturn(server);
         Mockito.when(connection.getAddress()).thenReturn(ipAdress);
@@ -56,6 +61,13 @@ public class TestCarrierAssigner {
         carrierAssigner.connectionAdded(server, connection);
         assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTLEFT));
         assertEquals(ipAdress, carrierAssigner.getAddress(PlatformPosition.FRONTRIGHT));
+    }
+
+    @Test
+    public void connectionRemovedTest() {
+        carrierAssigner.setCarrierAdressMap(carrierMap);
+        carrierAssigner.connectionRemoved(server, connection);
+        Mockito.verify(carrierMap, Mockito.times(4)).remove(Mockito.any(), Mockito.any());
     }
 
 }

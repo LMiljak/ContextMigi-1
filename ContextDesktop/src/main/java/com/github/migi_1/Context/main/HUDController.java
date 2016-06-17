@@ -9,6 +9,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.system.AppSettings;
 
@@ -37,9 +38,9 @@ public class HUDController {
 
 
     private AppSettings settings;
-
-    private Application app;
-
+    
+    private Node guiNode;
+    
     private Geometry gameOver;
 
     private BitmapText gameOverText;
@@ -54,6 +55,7 @@ public class HUDController {
      */
     public HUDController(Application app) {
         this.main = (Main) app;
+        this.guiNode = main.getGuiNode();
         AssetManager assetManager = ProjectAssetManager.getInstance().getAssetManager();
         scoreFont = assetManager.loadFont("Interface/Fonts/ScoreFont.fnt");
         gameOverFont = assetManager.loadFont("Interface/Fonts/GameOverFont.fnt");
@@ -62,7 +64,7 @@ public class HUDController {
         initScoreText();
         initCheckPointText();
 
-        main.getGuiNode().attachChild(hudText);
+        guiNode.attachChild(hudText);
         createGameOverScreen();
     }
 
@@ -166,7 +168,7 @@ public class HUDController {
          * the player would see the checkpoint reached message at the start of the game.
          */
         if (Math.abs(commanderLoc.x) % CHECKPOINT_DISTANCE < DISPLAY_DISTANCE && commanderLoc.x < 0) {
-            main.getGuiNode().attachChild(checkpointAlertText);
+        	guiNode.attachChild(checkpointAlertText);
             if (checkpointUpdated) {
                 checkpointUpdated = false;
             }
@@ -177,7 +179,7 @@ public class HUDController {
                 checkpointAlertText.setText("CHECKPOINT " + Integer.toString(checkpointCounter) + " REACHED");
                 checkpointUpdated = true;
             }
-            main.getGuiNode().detachChild(checkpointAlertText);
+            guiNode.detachChild(checkpointAlertText);
         }
     }
 
@@ -223,9 +225,9 @@ public class HUDController {
         float height = (float) (settings.getHeight() / 1.5);
         gameOverScore.setText("Score: " + Integer.toString(Math.round(gameScore)));
         gameOverScore.setLocalTranslation((settings.getWidth() - gameOverScore.getLineWidth()) / 2, height, 1);
-        main.getGuiNode().attachChild(gameOver);
-        main.getGuiNode().attachChild(gameOverText);
-        main.getGuiNode().attachChild(gameOverScore);
+        guiNode.attachChild(gameOver);
+        guiNode.attachChild(gameOverText);
+        guiNode.attachChild(gameOverScore);
 
     }
 

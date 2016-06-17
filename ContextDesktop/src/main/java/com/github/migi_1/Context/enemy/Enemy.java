@@ -110,7 +110,6 @@ public class Enemy extends Entity implements IKillable {
         Quaternion spat = getModel().getLocalRotation().inverse();
         getModel().rotate(spat);
         double angle = 0;
-        System.out.println(getSpot().getDirection().ordinal());
         if (getSpot().getDirection().ordinal() == 1) {
             angle = 1;
         } else if (getSpot().getDirection().ordinal() == 2) {

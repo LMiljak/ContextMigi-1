@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.main;
 
+
+import com.github.migi_1.Context.model.MainEnvironment;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -59,18 +61,20 @@ public final class InputHandler {
 
             @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
+            	MainEnvironment environment = main.getEnv();
+
                 if (!inMenu) {
                     if (name.equals("cam_switch") && keyPressed) {
-                        main.getEnv().swapCamera();
+                        environment.swapCamera();
                     } else if (name.equals("pause") && keyPressed) {
-                        if (!main.getEnv().isPaused() || main.getEnv().isGameOver()) {
-                            main.getEnv().setPaused(true);
-                            main.getEnv().getAudioController().getBackgroundMusic().pause();
+                        if (!environment.isPaused() || environment.isGameOver()) {
+                        	environment.setPaused(true);
+                        	environment.getAudioController().getBackgroundMusic().pause();
                         }
                         else {
-                            main.getEnv().setPaused(false);
-                            if (main.getEnv().getAudioController().isPlaying()) {
-                                main.getEnv().getAudioController().getBackgroundMusic().play();
+                        	environment.setPaused(false);
+                            if (environment.getAudioController().isPlaying()) {
+                            	environment.getAudioController().getBackgroundMusic().play();
                             }
                         }
                     } else if (name.equals("menu") && keyPressed) {
@@ -78,12 +82,12 @@ public final class InputHandler {
                             inMenu = true;
                             main.toLobby();
                         }
-                    } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(main.getEnv())) {
-                        main.getEnv().cleanup();
+                    } else if (name.equals("restart") && keyPressed && main.getStateManager().hasState(environment)) {
+                    	environment.cleanup();
                         inMenu = true;
                         main.toLobby();
                     } else if (name.equals("mute") && keyPressed) {
-                        main.getEnv().getAudioController().mute();
+                    	environment.getAudioController().mute();
                     }
                 } else if (name.equals("start") && keyPressed) {
                     if (main.getInLobby()) {
@@ -96,7 +100,7 @@ public final class InputHandler {
                 }
 
                 //Controls that only work with flycam.
-                if (main.getEnv().getFlyCamActive()) {
+                if (environment.getFlyCamActive()) {
                     checkMovements(name, keyPressed);
                 }
                 checkSteering(name, keyPressed);

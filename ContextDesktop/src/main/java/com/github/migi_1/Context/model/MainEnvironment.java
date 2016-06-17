@@ -107,7 +107,7 @@ public class MainEnvironment extends Environment {
      * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
-    	this.carrierAssigner = carrierAssigner;
+        this.carrierAssigner = carrierAssigner;
     }
 
     /**
@@ -198,6 +198,9 @@ public class MainEnvironment extends Environment {
         for (Entry<Entity, CollisionResults> entry: results.entrySet()) {
             if (entry.getValue().size() > 0 && !collided) {
                 collided = true;
+                for (Carrier carrier : platform.getCarriers()) {
+                    carrier.takeDamage(1);
+                }
                 removeDisplayable(obstacleSpawner.removeDamageDealer());
                 entry.setValue(new CollisionResults());
                 if (entry.getKey().getMoveBehaviour() instanceof EntityMoveBehaviour) {
@@ -217,13 +220,13 @@ public class MainEnvironment extends Environment {
     private void checkPathCollision() {
         for (Carrier carrier : platform.getCarriers()) {
             if (boundingBoxWallLeft.intersects(carrier.getModel().getWorldBound())
-            		|| boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
-            	Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
+                    || boundingBoxWallRight.intersects(carrier.getModel().getWorldBound())) {
+                Vector3f antiMoveVector = platform.getMoveBehaviour().getMoveVector().mult(new Vector3f(0, 0, -1.1f));
 
                 commander.move(antiMoveVector);
                 platform.move(antiMoveVector);
                 for (Carrier carr : platform.getCarriers()) {
-                	carr.move(antiMoveVector);
+                    carr.move(antiMoveVector);
                 }
                 break;
             }
@@ -329,9 +332,9 @@ public class MainEnvironment extends Environment {
             addDisplayable(path);
         }
         for (PlatformPosition position : PlatformPosition.values()) {
-        	Carrier carrier = createCarrier(position);
-        	addEntity(carrier);
-        	platform.addCarrier(carrier);
+            Carrier carrier = createCarrier(position);
+            addEntity(carrier);
+            platform.addCarrier(carrier);
         }
 
         addEntity(platform);

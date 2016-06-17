@@ -102,6 +102,9 @@ public class EnemySpawner {
                     enemy.getSpot().setOccupied(false);
                 }
             }
+            if (enemy.getSpot().getCarrier().isDead()) {
+                deleteList.add(enemy);
+            }
             
         }
         enemies.removeAll(deleteList);

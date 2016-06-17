@@ -1,17 +1,22 @@
 package com.github.migi_1.Context.model.entity;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.github.migi_1.Context.enemy.Enemy;
+import com.github.migi_1.Context.enemy.EnemyMoveBehaviour;
 import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
-import com.github.migi_1.Context.server.HealthMessenger;
-import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.Context.server.AttackMessageHandler;
+import com.github.migi_1.Context.server.HealthMessenger;
 import com.github.migi_1.Context.server.HitMissMessenger;
+import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.Direction;
+import com.github.migi_1.ContextMessages.ImmobilisedMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Server;
 import com.jme3.scene.Spatial;
 
 /**
@@ -27,10 +32,11 @@ public class Carrier extends Entity implements IKillable {
     //String of the path to the carrier model
     private static final String PATHNAME = "Models/ninja.j3o";
     private static final int INITIAL_HEALTH = 3;
+    private static final long  IMMOBILISATION_TIME = 10000;
 
     private Main main;
     private HealthMessenger healthMessenger;
-    
+
     @SuppressWarnings("unused")
     private AttackMessageHandler attackMessageHandler;
     private HitMissMessenger hitMissMessenger;
@@ -42,6 +48,8 @@ public class Carrier extends Entity implements IKillable {
     private Vector3f relativeLocation;
     private ArrayList<EnemySpot> enemySpots;
     private MainEnvironment environment;
+
+    private Timer immobalisedTimer;
 
     /**
      * Constructor of the carrier.
@@ -70,6 +78,7 @@ public class Carrier extends Entity implements IKillable {
 
         this.position = position;
         this.environment = environment;
+        this.immobalisedTimer = new Timer();
         createEnemyLocations();
 
     }
@@ -117,7 +126,12 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void onKilled() {
-
+        immobalisedTimer.schedule(new ImmobilisedTimerTask(), IMMOBILISATION_TIME);
+        ImmobilisedMessage message = new ImmobilisedMessage(true, position);
+        Server server = main.getServer().getServer();
+        if (server.isRunning()) {
+            server.broadcast(message);
+        }
     }
 
     @Override
@@ -171,7 +185,7 @@ public class Carrier extends Entity implements IKillable {
         for (EnemySpot enemySpot : enemySpots) {
             if (direction.equals(enemySpot.getDirection())) {
                 Enemy enemy = enemySpot.getEnemy();
-                if (enemy == null) {
+                if (enemy == null || !((EnemyMoveBehaviour) enemy.getMoveBehaviour()).isAtSpot()) {
                     hitMissMessenger.sendHitMiss(false, position);
                 }
                 else {
@@ -179,7 +193,28 @@ public class Carrier extends Entity implements IKillable {
                     enemy.takeDamage(1);
                 }
             }
-        }  
+        }
+    }
+
+    /**
+     * Task that gets executed when the carrier stops being immobilised.
+     * @author Marcel
+     *
+     */
+    class ImmobilisedTimerTask extends TimerTask {
+        /**
+         * When the carrier is not immobilised anymore, give his health back.
+         */
+        @Override
+        public void run() {
+            setHealth(3);
+            ImmobilisedMessage message = new ImmobilisedMessage(false, position);
+            Server server = main.getServer().getServer();
+            if (server.isRunning()) {
+                server.broadcast(message);
+            }
+        }
+
     }
 
 }

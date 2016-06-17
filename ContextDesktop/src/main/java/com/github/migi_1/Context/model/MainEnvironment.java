@@ -420,6 +420,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
         commander.makeObserver();
         addEntity(flyObs);
+        addRotatable(flyObs);
     }
 
     /**

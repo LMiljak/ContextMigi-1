@@ -152,7 +152,6 @@ public class TestEnvironment {
 
 		Vector3f moveVector = new Vector3f(1, 2, 3);
 		when(entity.getMoveBehaviour()).thenReturn(new ConstantSpeedMoveBehaviour(moveVector));
-		System.out.println(entity.getMoveBehaviour());
 
 		environment.addEntity(entity);
 		environment.update(0);

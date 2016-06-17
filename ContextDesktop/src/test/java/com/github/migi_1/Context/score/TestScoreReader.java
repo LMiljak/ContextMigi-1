@@ -67,7 +67,7 @@ public class TestScoreReader {
 
         scoreReader = Mockito.spy(new ScoreReader());
     }
-    
+
     /**
      * Tests if an invalid file can be read.
      */
@@ -79,7 +79,7 @@ public class TestScoreReader {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Tests if an empty file can be read but no score is returned.
      * @throws IOException when an exception occurs during reading.
@@ -90,14 +90,13 @@ public class TestScoreReader {
         ArrayList<Score> scoreList = scoreReader.read("validFile");
         assertTrue(scoreList.isEmpty());
     }
-    
+
     /**
      * Tests if a file with information outputs the right information when read.
      * @throws IOException when an exception occurs during reading.
      */
     @Test
     public void read_validFileHasLines_Test() throws IOException {
-        System.out.println("=======");
         BDDMockito.given(Files.exists(Mockito.any())).willReturn(true);
         BDDMockito.given(Files.readAllLines(Mockito.any())).willReturn(lines);
         ArrayList<Score> scoreList = scoreReader.read("validFile");
@@ -105,4 +104,3 @@ public class TestScoreReader {
     }
 
 }
-    

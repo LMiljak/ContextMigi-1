@@ -121,10 +121,18 @@ public class Platform extends Entity implements IRotatable {
         return results;
     }
 
-	@Override
-	public RotateBehaviour getRotateBehaviour() {
-		return rotateBehaviour;
-	}
+    @Override
+    public RotateBehaviour getRotateBehaviour() {
+    	return rotateBehaviour;
+    }
+
+    /**
+     * Setter for the carriers map.
+     * @param newCarriers the new map.
+     */
+    public void setCarriers(HashMap<PlatformPosition, Carrier> newCarriers) {
+        carriers = newCarriers;
+    }
 
 
 

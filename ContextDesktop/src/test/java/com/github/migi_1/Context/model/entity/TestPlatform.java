@@ -1,6 +1,10 @@
 package com.github.migi_1.Context.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +19,10 @@ import com.github.migi_1.Context.main.Main;
 import com.github.migi_1.Context.model.MainEnvironment;
 import com.github.migi_1.Context.model.entity.behaviour.AccelerometerMoveBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.MoveBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.PlatformRotateBehaviour;
 import com.github.migi_1.Context.server.ServerWrapper;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
+import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -36,11 +42,13 @@ public class TestPlatform extends TestEntity {
     private AssetManager assetManager;
     private MoveBehaviour moveBehaviour;
     private Spatial model;
+    private HashMap<PlatformPosition, Carrier> carriers;
 
     /**
      * Initialises all mock objects, static class responses and initialise the tested object.
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Before
     public void setUp() throws Exception {
@@ -51,6 +59,7 @@ public class TestPlatform extends TestEntity {
 		        e.printStackTrace();
 		}
 
+    	carriers = Mockito.mock(HashMap.class);
         pAssetManager = PowerMockito.mock(ProjectAssetManager.class);
         assetManager = Mockito.mock(AssetManager.class);
         model =  Mockito.mock(Spatial.class);
@@ -68,6 +77,7 @@ public class TestPlatform extends TestEntity {
         platform = new Platform(new Vector3f(0, 0, 0),
         		Mockito.mock(MainEnvironment.class),
         		Mockito.mock(CarrierAssigner.class));
+        platform.setCarriers(carriers);
 
         setMoveBehaviour(moveBehaviour);
         setEntity(platform);
@@ -78,7 +88,36 @@ public class TestPlatform extends TestEntity {
      * Tests getDefaultModel method.
      */
     @Test
-    public void testGetDefaultModel() {
+    public void getDefaultModelTest() {
         assertEquals(platform.getDefaultModel(), model);
+    }
+
+    @Test
+    public void addCarrierTest() {
+        platform.addCarrier(Mockito.mock(Carrier.class));
+        Mockito.verify(carriers).put(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void getCarrierTest() {
+        Carrier carrier = Mockito.mock(Carrier.class);
+        Mockito.when(carrier.getPosition()).thenReturn(PlatformPosition.FRONTLEFT);
+        platform.addCarrier(carrier);
+        platform.getCarrier(PlatformPosition.FRONTLEFT);
+    }
+
+    @Test
+    public void isFullTest() {
+        assertFalse(platform.isFull());
+    }
+
+    @Test
+    public void getCarriersTest() {
+        assertTrue(platform.getCarriers().isEmpty());
+    }
+
+    @Test
+    public void getRotateBehaviourTest() {
+        assertEquals(PlatformRotateBehaviour.class, platform.getRotateBehaviour().getClass());
     }
 }

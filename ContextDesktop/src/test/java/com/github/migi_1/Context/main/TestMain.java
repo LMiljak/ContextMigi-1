@@ -217,12 +217,18 @@ public class TestMain {
         assertEquals(newMain.getSettings().getClass(), main.getSettings().getClass());
     }
 
+    /**
+     * Tests if enabling the spray message functions correctly.
+     */
     @Test
     public void testHandleEnableSprayMessage() {
         main.handleEnableSprayMessage(PlatformPosition.FRONTLEFT);
         Mockito.verify(server).broadcast(Mockito.any());
     }
 
+    /**
+     * Tests if stopping the bug event functions correctly.
+     */
     @Test
     public void testHandleStopBugEvent() {
         main.setBugEventRunning(true);
@@ -230,6 +236,9 @@ public class TestMain {
         Mockito.verify(server).broadcast(Mockito.any());
     }
 
+    /**
+     * Tests setter and getter of inLobby boolean.
+     */
     @Test
     public void testGetAndSetInLobby() {
         assertFalse(main.getInLobby());
@@ -237,20 +246,29 @@ public class TestMain {
         assertTrue(main.getInLobby());
     }
 
+    /**
+     * tests getter and setter for the bugEventRunning boolean.
+     */
     @Test
     public void testGetAndSetBugEventRunning() {
         assertFalse(main.isBugEventRunning());
         main.setBugEventRunning(true);
         assertTrue(main.isBugEventRunning());
     }
-
+    
+    /**
+     * Tests going to the main environment functions correctly.
+     */
     @Test
     public void testToMainEnvironment() {
         main.toMainEnvironment();
         //Verify the lobby is left.
         Mockito.verify(main).setInLobby(false);
     }
-
+    
+    /**
+     * Test going to the lobby functions correctly.
+     */
     @Test
     public void testToLobby() {
         main.toLobby();

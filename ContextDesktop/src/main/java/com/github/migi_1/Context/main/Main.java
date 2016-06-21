@@ -105,13 +105,13 @@ public class Main extends VRApplication implements KeyInputListener {
      * Creates, initialises and starts the server.
      */
     private void launchServer() {
-    	try {
-			this.server = new ServerWrapper();
-			ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(10));
-			server.startServer();
-		} catch (IOException e) {
-			this.stop();
-		}
+        try {
+            this.server = new ServerWrapper();
+            ClientFinder.getInstance().findClients(Executors.newFixedThreadPool(10));
+            server.startServer();
+        } catch (IOException e) {
+            this.stop();
+        }
     }
 
     /**
@@ -218,7 +218,7 @@ public class Main extends VRApplication implements KeyInputListener {
      * 		The server on which this server is running.
      */
     public ServerWrapper getServer() {
-    	return server;
+        return server;
     }
 
     /**
@@ -242,10 +242,11 @@ public class Main extends VRApplication implements KeyInputListener {
      */
     public void toMainEnvironment() {
         if (inLobby) {
-        	setInLobby(false);
-        	lobbyState.cleanup();
+            setInLobby(false);
+            lobbyState.cleanup();
             this.getStateManager().detach(lobbyState);
             this.getStateManager().attach(environmentState);
+            environmentState.setEnabled(true);
         }
     }
 
@@ -254,8 +255,8 @@ public class Main extends VRApplication implements KeyInputListener {
      */
     public void toLobby() {
         if (!inLobby) {
-        	setInLobby(true);
-        	environmentState.cleanup();
+            setInLobby(true);
+            environmentState.cleanup();
             this.getStateManager().attach(lobbyState);
             this.getStateManager().detach(environmentState);
         }
@@ -322,16 +323,17 @@ public class Main extends VRApplication implements KeyInputListener {
         server = newServerWrapper;
     }
 
-	@Override
-	public void onKeyPressed(int key) {
-		switch (key) {
-		case KeyInput.KEY_SPACE:
-			toMainEnvironment();
-			break;
-		default:
-		}
-	}
+    @Override
+    public void onKeyPressed(int key) {
+        switch (key) {
+        case KeyInput.KEY_SPACE:
+            System.out.println("space");
+            toMainEnvironment();			
+            break;
+        default:
+        }
+    }
 
-	@Override
-	public void onKeyReleased(int key) { }
+    @Override
+    public void onKeyReleased(int key) { }
 }

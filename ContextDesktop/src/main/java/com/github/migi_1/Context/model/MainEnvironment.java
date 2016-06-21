@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -41,6 +39,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -108,7 +108,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
         this.carrierAssigner = carrierAssigner;
-        
+
         int[] keys = {KeyInput.KEY_R, KeyInput.KEY_P, KeyInput.KEY_C, KeyInput.KEY_M};
         for (int key : keys) {
         	InputHandler.getInstance().register(this, key);
@@ -129,7 +129,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-        scoreController = new ScoreController();          
+        scoreController = new ScoreController();
         this.hudController = new HUDController(app);
 
         //creates the lights
@@ -182,8 +182,8 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         }
     }
 
-    
-    
+
+
 
     /**
      * Checks every update if a random event should start.
@@ -227,7 +227,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Initializes all lights of the scene.
      */
     private void initLights() {
-        ((VRApplication) app).setBackgroundColors(ColorRGBA.Blue);
+//        ((VRApplication) app).setBackgroundColors(ColorRGBA.Blue);
 
         sun = new DirectionalLight();
         sun2 = new DirectionalLight();
@@ -266,22 +266,22 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Initializes all objects and translations/rotations of the scene.
      */
     private void initSpatials() {
-        
+
         enemies = new LinkedList<Enemy>();
         levelGenerator = new LevelGenerator(WORLD_LOCATION);
         platform = new Platform(PLATFORM_LOCATION, carrierAssigner);
         commander = new Commander(COMMANDER_LOCATION, platform);
-        
+
         collisionHandler = new CollisionHandler(commander, platform, obstacleSpawner, this);
         collisionHandler.createWallBoundingBoxes();
         obstacleSpawner = new ObstacleSpawner(this);
         collisionHandler.setObstacleSpawner(obstacleSpawner);
-        
-        
+
+
         results = collisionHandler.getResults();
-        
-        
-        
+
+
+
         //collisionHandler.setObstacleSpawner(obstacleSpawner);
         //attach all objects to the root pane
         for (LevelPiece levelPiece : levelGenerator.getLevelPieces(COMMANDER_LOCATION)) {
@@ -305,7 +305,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         addRotatable(commander);
     }
 
-   
+
 
     /**
      * Creates a carrier.
@@ -562,7 +562,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 		case KeyInput.KEY_M:
 			getAudioController().mute();
 			break;
-		default: 
+		default:
 		}
 	}
 

@@ -14,13 +14,12 @@ import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.github.migi_1.ContextMessages.EnableSprayToAppMessage;
 import com.github.migi_1.ContextMessages.PlatformPosition;
 import com.github.migi_1.ContextMessages.StopAllEventsMessage;
+import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-
-import jmevr.app.VRApplication;
 
 /**
  * Creates the main desktop application. It initializes the main menu on startup,
@@ -28,7 +27,7 @@ import jmevr.app.VRApplication;
  * @author Damian
  */
 
-public class Main extends VRApplication implements KeyInputListener {
+public class Main extends SimpleApplication implements KeyInputListener {
 
     //the game state
     private MainEnvironment environmentState;

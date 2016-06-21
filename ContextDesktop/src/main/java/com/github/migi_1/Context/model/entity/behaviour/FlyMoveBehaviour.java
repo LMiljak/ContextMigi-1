@@ -14,7 +14,7 @@ import jmevr.app.VRApplication;
 public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener {
 
 	private boolean forwards, back, up, down = false;
-	
+
 	/**
 	 * Constructor for FlyMoveBehaviour.
 	 */
@@ -25,16 +25,17 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 			InputHandler.getInstance().register(this, key);
 		}
 	}
-	
+
 	/**
 	 * Called when a key has been pressed.
 	 * Registers that a unpressed key is being pressed.
-	 * 
+	 *
 	 * @param key
 	 * 		The key that got pressed.
 	 */
 	@Override
 	public void onKeyPressed(int key) {
+	    System.out.println(key);
 		switch (key) {
 		case KeyInput.KEY_W:
 			forwards = true;
@@ -55,7 +56,7 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 	/**
 	 * Called when a key has been released.
 	 * Registers that a pressed key is being released.
-	 * 
+	 *
 	 * @param key
 	 * 		The key that got released.
 	 */
@@ -85,12 +86,12 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 	@Override
 	public void updateMoveVector() {
 		Vector3f result = Vector3f.ZERO;
-		
+		System.out.println("Updating");
 		Quaternion rotation = VRApplication.getFinalObserverRotation();
 		final float mult = 0.1f;
 		if (forwards) {
             result = result.add(rotation.getRotationColumn(2).mult(mult));
-        } 
+        }
 		if (back) {
         	result = result.add(rotation.getRotationColumn(2).mult(-mult));
         }
@@ -100,7 +101,7 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 		if (down) {
 			result = result.add(rotation.getRotationColumn(1).mult(-mult));
 		}
-		
+
 		setMoveVector(result);
 	}
 

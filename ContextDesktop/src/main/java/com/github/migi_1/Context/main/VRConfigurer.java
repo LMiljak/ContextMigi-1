@@ -1,6 +1,8 @@
 package com.github.migi_1.Context.main;
 
 import jmevr.app.VRApplication.PRECONFIG_PARAMETER;
+import jmevr.util.VRGuiManager;
+import jmevr.util.VRGuiManager.POSITIONING_MODE;
 
 /**
  * Configures the VR setup for the game.
@@ -33,5 +35,8 @@ public final class VRConfigurer {
         main.preconfigureVRApp(PRECONFIG_PARAMETER.FORCE_VR_MODE, false);
         // you can downsample for performance reasons
         main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
+        
+        VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_OBSERVER_POS_CAM_ROTATION);
+        VRGuiManager.setGuiScale(0.5f);
     }
 }

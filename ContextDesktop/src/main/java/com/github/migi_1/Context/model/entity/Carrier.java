@@ -106,6 +106,8 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void takeDamage(int damage) {
+        getModel().setMaterial(ProjectAssetManager.getInstance().getAssetManager().loadMaterial("Materials/ninjaRed.j3m"));
+        
         setHealth(getHealth() - damage);
         if (getHealth() <= 0) {
             onKilled();

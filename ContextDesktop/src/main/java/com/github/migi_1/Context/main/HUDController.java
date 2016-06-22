@@ -132,7 +132,7 @@ public class HUDController {
      */
     public void updateHUD() {
         updateScoreElementHUD();
-        updateCheckpointElementHUD();
+        //updateCheckpointElementHUD();
     }
 
     /**

@@ -559,7 +559,6 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
     @Override
     public void onKeyPressed(int key) {
-        //System.out.println(isEnabled());
         if (isEnabled()) {
             switch (key) {
             case KeyInput.KEY_C:
@@ -567,7 +566,6 @@ public class MainEnvironment extends Environment implements KeyInputListener {
                 break;
             case KeyInput.KEY_P:
                 setPaused(!isPaused());
-                System.out.println(isPaused());
                 break;
             case KeyInput.KEY_R:
                 cleanup();

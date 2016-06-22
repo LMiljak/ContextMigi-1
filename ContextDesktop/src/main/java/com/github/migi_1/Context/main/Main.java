@@ -327,7 +327,6 @@ public class Main extends VRApplication implements KeyInputListener {
     public void onKeyPressed(int key) {
         switch (key) {
         case KeyInput.KEY_SPACE:
-            System.out.println("space");
             toMainEnvironment();			
             break;
         default:

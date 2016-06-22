@@ -149,7 +149,7 @@ public class TestHUDController {
         for (int i = 0; i < 1000; i++) {
             hudController.updateHUD();
         }
-        Mockito.verify(hudText, Mockito.atLeastOnce()).setLocalTranslation(0f, 0f, 0f);
+        Mockito.verify(hudText, Mockito.atLeastOnce()).setLocalTranslation(0f, 2.5f, 0f);
 
     }
 

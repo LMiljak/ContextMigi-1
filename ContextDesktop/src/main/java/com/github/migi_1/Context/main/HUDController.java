@@ -77,7 +77,7 @@ public class HUDController {
         hudText.setColor(ColorRGBA.White);
         hudText.setText("0");
         float width = (settings.getWidth() - hudText.getLineWidth()) * SCREEN_RATIO;
-        float height = settings.getHeight() * SCREEN_RATIO;
+        float height = settings.getHeight() + 2.5f;
         hudText.setLocalTranslation(width, height, 0);
     }
 
@@ -144,7 +144,7 @@ public class HUDController {
         if (Math.round(gameScore) >= threshold) {
             threshold *= 10;
             float width = (settings.getWidth() - hudText.getLineWidth()) * SCREEN_RATIO;
-            float height = settings.getHeight() * SCREEN_RATIO;
+            float height = settings.getHeight() + 2.5f;
             hudText.setLocalTranslation(width, height, 0);
         }
     }

@@ -8,6 +8,8 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.ViewPort;
 
+import jmevr.app.VRApplication;
+
 /**
  * The LobbyEnvironment is a 3D environment that functions
  * as the lobby screen.
@@ -41,6 +43,7 @@ public class LobbyEnvironment extends Environment {
         lobbyHUDController = new LobbyHUDController(app);
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
+        VRApplication.setBackgroundColors(ColorRGBA.Black);
     }
 
     @Override

@@ -50,6 +50,8 @@ public class Carrier extends Entity implements IKillable {
     private MainEnvironment environment;
 
     private Timer immobalisedTimer;
+    private TimerTask task;
+    private Timer timer;
 
     /**
      * Constructor of the carrier.
@@ -106,11 +108,31 @@ public class Carrier extends Entity implements IKillable {
 
     @Override
     public void takeDamage(int damage) {
-        getModel().setMaterial(ProjectAssetManager.getInstance().getAssetManager().loadMaterial("Materials/ninjaRed.j3m"));
-        
+        if (!isDead()) {
+            timer = new Timer();                        
+            getModel().setMaterial(
+                    ProjectAssetManager.getInstance().getAssetManager().
+                    loadMaterial("Materials/ninjaRed.j3m"));            
+            timer.schedule(new HurtTimerTask(), 250);            
+        }
         setHealth(getHealth() - damage);
         if (getHealth() <= 0) {
             onKilled();
+        }
+    }
+    
+    /**     
+     * Task for setting the material back to normal grey.
+     * 
+     */
+    class HurtTimerTask extends TimerTask {
+        /**
+         * When the carrier is not immobilised anymore, give his health back.
+         */
+        @Override
+        public void run() {
+            getModel().setMaterial(
+                    ProjectAssetManager.getInstance().getAssetManager().loadMaterial("Materials/ninjaNormal.j3m"));
         }
     }
 

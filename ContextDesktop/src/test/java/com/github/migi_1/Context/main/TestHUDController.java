@@ -107,7 +107,7 @@ public class TestHUDController {
         hudController.updateHUD();
         assertEquals(hudController.getScore(), oldScore + 0.1f, 0);
         assertEquals(hudTextOld, hudText.getText());
-        Mockito.verify(guiNode, Mockito.times(2)).attachChild(Mockito.any());
+        Mockito.verify(guiNode, Mockito.times(1)).attachChild(Mockito.any());
         assertFalse(hudController.getCheckpointUpdated());
     }
 
@@ -124,7 +124,7 @@ public class TestHUDController {
         assertEquals(hudController.getScore(), oldScore + 0.1f, 0);
         assertEquals(hudTextOld, hudText.getText());
         Mockito.verify(guiNode).attachChild(Mockito.any());
-        assertTrue(hudController.getCheckpointUpdated());
+        assertFalse(hudController.getCheckpointUpdated());
     }
 
     /**
@@ -149,7 +149,7 @@ public class TestHUDController {
         for (int i = 0; i < 1000; i++) {
             hudController.updateHUD();
         }
-        Mockito.verify(hudText, Mockito.atLeastOnce()).setLocalTranslation(0f, 0f, 0f);
+        Mockito.verify(hudText, Mockito.atLeastOnce()).setLocalTranslation(0f, 2.5f, 0f);
 
     }
 

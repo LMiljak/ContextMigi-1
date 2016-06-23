@@ -100,6 +100,8 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
     private CollisionHandler collisionHandler;
 
+    private boolean constructed = false;
+
     /**
      * Constructor for MainEnvironment.
      *
@@ -131,7 +133,6 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
         scoreController = new ScoreController();
         this.hudController = new HUDController(app);
-
         //creates the lights
         initLights();
 
@@ -143,10 +144,24 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
         //Init the camera
         initCameras();
-
+        
+        
+        //Init input
+        initInput();
+        constructed = true; 
         //Start the random event timer.
         setNewRandomEventTime();
         setPaused(true);
+        
+    }
+
+    private void initInput() {
+        if (isInitialized() && !constructed) {
+            int[] keys = {KeyInput.KEY_R, KeyInput.KEY_P, KeyInput.KEY_C, KeyInput.KEY_M};
+            for (int key : keys) {
+                InputHandler.getInstance().register(this, key);
+            }
+        }
     }
 
     @Override
@@ -486,7 +501,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
-    public void cleanup() {
+    public void cleanup() {        
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
@@ -502,6 +517,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             }
         }
         enemySpawner = null;
+        this.setEnabled(false);
         super.cleanup();
     }
 
@@ -546,26 +562,28 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         this.app = app;
     }
 
-	@Override
-	public void onKeyPressed(int key) {
-		switch (key) {
-		case KeyInput.KEY_C:
-			swapCamera();
-			break;
-		case KeyInput.KEY_P:
-			setPaused(!isPaused());
-			break;
-		case KeyInput.KEY_R:
-			cleanup();
-			((Main) app).toLobby();
-			break;
-		case KeyInput.KEY_M:
-			getAudioController().mute();
-			break;
-		default:
-		}
-	}
+    @Override
+    public void onKeyPressed(int key) {
+        if (isEnabled()) {
+            switch (key) {
+            case KeyInput.KEY_C:
+                swapCamera();
+                break;
+            case KeyInput.KEY_P:
+                setPaused(!isPaused());
+                break;
+            case KeyInput.KEY_R:
+                cleanup();
+                ((Main) app).toLobby();
+                break;
+            case KeyInput.KEY_M:
+                getAudioController().mute();
+                break;
+            default: 
+            }
+        }
+    }
 
-	@Override
-	public void onKeyReleased(int key) { }
+    @Override
+    public void onKeyReleased(int key) { }
 }

@@ -35,7 +35,6 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 	 */
 	@Override
 	public void onKeyPressed(int key) {
-	    System.out.println(key);
 		switch (key) {
 		case KeyInput.KEY_W:
 			forwards = true;
@@ -86,7 +85,6 @@ public class FlyMoveBehaviour extends MoveBehaviour implements KeyInputListener 
 	@Override
 	public void updateMoveVector() {
 		Vector3f result = Vector3f.ZERO;
-		System.out.println("Updating");
 		Quaternion rotation = VRApplication.getFinalObserverRotation();
 		final float mult = 0.1f;
 		if (forwards) {

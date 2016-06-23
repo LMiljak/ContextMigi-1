@@ -144,15 +144,15 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
         //Init the camera
         initCameras();
-        
-        
+
+
         //Init input
         initInput();
-        constructed = true; 
+        constructed = true;
         //Start the random event timer.
         setNewRandomEventTime();
-        setPaused(true);
-        
+//        setPaused(true);
+
     }
 
     private void initInput() {
@@ -171,7 +171,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             checkRandomEvent();
 
             updateEnemies(tpf);
-            checkGameOver();
+//            checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
             collisionHandler.checkObstacleCollision();
@@ -501,7 +501,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
-    public void cleanup() {        
+    public void cleanup() {
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
@@ -579,7 +579,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             case KeyInput.KEY_M:
                 getAudioController().mute();
                 break;
-            default: 
+            default:
             }
         }
     }

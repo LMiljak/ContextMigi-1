@@ -1,10 +1,13 @@
 package com.github.migi_1.Context.main;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 
@@ -20,6 +23,10 @@ public final class InputHandler {
 
     private ActionListener actionListener;
     private InputManager inputManager;
+    private List<Integer> keys = Arrays.asList(
+        KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_S, KeyInput.KEY_D,
+        KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT, KeyInput.KEY_UP, KeyInput.KEY_DOWN
+        );
 
     /**
      * @return
@@ -83,6 +90,9 @@ public final class InputHandler {
 
             @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
+                if(keyPressed && !keys.contains(Integer.parseInt(name))) {
+                    main.getEnv().setPaused(!main.getEnv().isPaused());
+                }
         		Collection<KeyInputListener> keyObservers = observers.get(Integer.parseInt(name));
             	if (keyObservers != null) {
             		for (KeyInputListener observer : keyObservers) {

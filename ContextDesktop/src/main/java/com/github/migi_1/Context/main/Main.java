@@ -73,7 +73,7 @@ public class Main extends SimpleApplication implements KeyInputListener {
         settings.setVSync(true);
 
         super.setSettings(settings);
-        VRConfigurer.configureVR(this);
+//        VRConfigurer.configureVR(this);
         super.setPauseOnLostFocus(true);
 
     }
@@ -95,6 +95,8 @@ public class Main extends SimpleApplication implements KeyInputListener {
         ProjectAssetManager.getInstance().setAssetManager(getAssetManager());
         this.getStateManager().attach(lobbyState);
         inLobby = true;
+
+        this.flyCam.setMoveSpeed(50);
 
         new EnableSprayToVRMessageHandler(this);
         new StopEventMessageHandler(this);
@@ -326,7 +328,7 @@ public class Main extends SimpleApplication implements KeyInputListener {
     public void onKeyPressed(int key) {
         switch (key) {
         case KeyInput.KEY_SPACE:
-            toMainEnvironment();			
+            toMainEnvironment();
             break;
         default:
         }

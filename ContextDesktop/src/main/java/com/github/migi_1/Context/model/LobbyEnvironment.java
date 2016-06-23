@@ -43,7 +43,6 @@ public class LobbyEnvironment extends Environment {
         lobbyHUDController = new LobbyHUDController(app);
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-        VRApplication.setBackgroundColors(ColorRGBA.Black);
     }
 
     @Override

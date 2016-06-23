@@ -10,16 +10,17 @@ public interface IRotatable extends IDisplayable {
 
 	/**
 	 * Gets the rotateBehaviour of this Rotatable.
-	 * 
+	 *
 	 * @return
 	 * 		The rotateBehaviour for this Rotatable.
 	 */
 	RotateBehaviour getRotateBehaviour();
-	
+
 	/**
 	 * Rotates this Rotatable.
 	 */
 	default void rotate() {
+	    System.out.println(this.toString());
 		Vector3f rotateVector = getRotateBehaviour().getRotateVector();
 		getModel().rotate(rotateVector.x, rotateVector.y, rotateVector.z);
 	}

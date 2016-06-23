@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -41,6 +39,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -109,7 +109,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
-        this.carrierAssigner = carrierAssigner;         
+        this.carrierAssigner = carrierAssigner;
     }
 
     /**
@@ -126,7 +126,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-        scoreController = new ScoreController();          
+        scoreController = new ScoreController();
         this.hudController = new HUDController(app);
         //creates the lights
         initLights();
@@ -139,15 +139,15 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
         //Init the camera
         initCameras();
-        
-        
+
+
         //Init input
         initInput();
-        constructed = true; 
+        constructed = true;
         //Start the random event timer.
         setNewRandomEventTime();
         setPaused(true);
-        
+
     }
 
     private void initInput() {
@@ -368,10 +368,11 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         commander.getModel().rotate(0f, COMMANDER_ROTATION, 0f);
         flyObs.getModel().setLocalTranslation(new Vector3f(COMMANDER_LOCATION.x, 0f, -16f));
         flyObs.getModel().setLocalRotation(new Quaternion(0f, 0f, 0f, 1f));
-
         commander.makeObserver();
         addEntity(flyObs);
         addRotatable(flyObs);
+        addEntity(commander);
+        addRotatable(commander);
     }
 
     /**
@@ -381,21 +382,6 @@ public class MainEnvironment extends Environment implements KeyInputListener {
     @Override
     public void render(RenderManager rm) { }
 
-    /**
-     * Moves the flycam.
-     * @param move a vector representation of the movement of the flyCamera.
-     */
-    public void moveCam(Vector3f move) {
-        flyObs.getModel().move(move);
-    }
-
-    /**
-     * Rotates the flycam.
-     * @param rotation the rotation vector.
-     */
-    public void rotateCam(Vector3f rotation) {
-        flyObs.getModel().rotate(rotation.x, rotation.y, rotation.z);
-    }
 
     /**
      * Returns the current camera (which is a observer).
@@ -427,7 +413,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         Vector3f loc = commander.getModel().getLocalTranslation();
         addDisplayables(loc);
         removeDisplayables(loc);
-        flyObs.move(new Vector3f(-0.2f, 0, 0));
+        flyObs.move(new Vector3f(-0.08f, 0, 0));
     }
 
     /**
@@ -496,7 +482,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
-    public void cleanup() {        
+    public void cleanup() {
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
@@ -574,7 +560,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             case KeyInput.KEY_M:
                 getAudioController().mute();
                 break;
-            default: 
+            default:
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.entity.behaviour.FlyRotateBehaviour;
+import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -13,7 +15,9 @@ import jmevr.app.VRApplication;
  * @author Marcel
  *
  */
-public class Camera extends Entity {
+public class Camera extends Entity implements IRotatable {
+
+    private FlyRotateBehaviour rotateBehaviour = new FlyRotateBehaviour();
 
     /**
      * Displays the view of this camera on the screen.
@@ -26,5 +30,10 @@ public class Camera extends Entity {
 	public Spatial getDefaultModel() {
 		return new Node();
 	}
+
+    @Override
+    public RotateBehaviour getRotateBehaviour() {
+        return rotateBehaviour;
+    }
 
 }

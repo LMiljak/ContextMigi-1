@@ -1,5 +1,6 @@
 package com.github.migi_1.Context.model.entity;
 
+import com.github.migi_1.Context.model.entity.behaviour.FlyRotateBehaviour;
 import com.github.migi_1.Context.model.entity.behaviour.RotateBehaviour;
 import com.github.migi_1.Context.utility.ProjectAssetManager;
 import com.jme3.math.Vector3f;
@@ -32,7 +33,7 @@ public class Commander extends Camera implements IRotatable {
         getModel().setLocalTranslation(startLocation);
 
         setMoveBehaviour(platform.getMoveBehaviour());
-        rotateBehaviour = platform.getRotateBehaviour();
+        rotateBehaviour = new FlyRotateBehaviour();
     }
 
 

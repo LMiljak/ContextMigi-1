@@ -166,7 +166,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             checkRandomEvent();
 
             updateEnemies(tpf);
-            checkGameOver();
+            // checkGameOver();
             updateTestWorld();
             hudController.updateHUD();
             collisionHandler.checkObstacleCollision();

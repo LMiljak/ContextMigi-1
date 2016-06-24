@@ -36,7 +36,7 @@ public final class VRConfigurer {
         // you can downsample for performance reasons
         main.preconfigureVRApp(PRECONFIG_PARAMETER.SET_GUI_CURVED_SURFACE, true);
         
-        VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_OBSERVER_POS_CAM_ROTATION);
+        VRGuiManager.setPositioningMode(POSITIONING_MODE.AUTO_OBSERVER_ALL);
         VRGuiManager.setGuiScale(0.5f);
     }
 }

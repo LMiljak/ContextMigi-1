@@ -76,7 +76,7 @@ public class Main extends VRApplication implements KeyInputListener {
         super.setSettings(settings);
         VRConfigurer.configureVR(this);
         super.setPauseOnLostFocus(true);
-
+        super.getInputManager().setCursorVisible(false);
     }
 
     /**

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import jmevr.app.VRApplication;
-
 import com.github.migi_1.Context.enemy.Enemy;
 import com.github.migi_1.Context.enemy.EnemySpawner;
 import com.github.migi_1.Context.main.HUDController;
@@ -41,6 +39,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
+
+import jmevr.app.VRApplication;
 
 /**
  * The Environment class handles all visual aspects of the world, excluding the characters and enemies etc.
@@ -109,7 +109,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * 		The carrierAssigner that contains a map from all position to the addressed of the clients.
      */
     public MainEnvironment(CarrierAssigner carrierAssigner) {
-        this.carrierAssigner = carrierAssigner;         
+        this.carrierAssigner = carrierAssigner;
     }
 
     /**
@@ -126,7 +126,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         flyCamActive = false;
 
         viewPort.setBackgroundColor(BACKGROUNDCOLOR);
-        scoreController = new ScoreController();          
+        scoreController = new ScoreController();
         this.hudController = new HUDController(app);
         //creates the lights
         initLights();
@@ -139,15 +139,15 @@ public class MainEnvironment extends Environment implements KeyInputListener {
 
         //Init the camera
         initCameras();
-        
-        
+
+
         //Init input
         initInput();
-        constructed = true; 
+        constructed = true;
         //Start the random event timer.
         setNewRandomEventTime();
         setPaused(true);
-        
+
     }
 
     private void initInput() {
@@ -496,7 +496,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
      * Handles everything that happens when the MainEnvironment state is detached from the main application.
      */
     @Override
-    public void cleanup() {        
+    public void cleanup() {
         viewPort.clearProcessors();
         this.getRootNode().removeLight(sun);
         this.getRootNode().removeLight(sun2);
@@ -513,6 +513,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
         }
         enemySpawner = null;
         this.setEnabled(false);
+        getMain().setBugEventRunning(false);
         super.cleanup();
     }
 
@@ -574,7 +575,7 @@ public class MainEnvironment extends Environment implements KeyInputListener {
             case KeyInput.KEY_M:
                 getAudioController().mute();
                 break;
-            default: 
+            default:
             }
         }
     }

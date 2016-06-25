@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import com.github.migi_1.Context.model.LobbyEnvironment;
 import com.github.migi_1.Context.model.MainEnvironment;
@@ -26,7 +25,6 @@ import com.jme3.input.InputManager;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
-import com.jme3.system.AppSettings;
 
 /**
  * TestSuite for the Main class.
@@ -74,22 +72,6 @@ public class TestMain {
         main.setLobby(lobbyEnv);
         Mockito.when(server.isRunning()).thenReturn(true);
         Main.setMain(main);
-    }
-
-    /**
-     * Tests if the setup of the main is done properly.
-     * @throws Exception when the invokeMethod calls
-     * an unknown private method.
-     */
-    @Test
-    public void testSetUpMain() throws Exception {
-        Whitebox.invokeMethod(main, "setUpMain");
-        //Verify all settings are set correctly.
-        AppSettings settings = main.getSettings();
-        assertEquals("Carried Away", settings.getTitle());
-        assertEquals(1280, settings.getWidth());
-        assertEquals(720, settings.getHeight());
-        assertTrue(settings.isVSync());
     }
 
     /**
@@ -181,19 +163,6 @@ public class TestMain {
         //Verify this also works with a "regular" main
         Main newMain = new Main();
         assertEquals(newMain.getGuiNode().getClass(), main.getGuiNode().getClass());
-    }
-
-    /**
-     * Tests if the getter for the settings works.
-     * @throws Exception When invokeMethod tries to invoke an unknown method.
-     */
-    @Test
-    public void testGetSettings() throws Exception {
-        Whitebox.invokeMethod(main, "setUpMain");
-        assertEquals(AppSettings.class, main.getSettings().getClass());
-        //Verify this also works with a "regular" main
-        Main newMain = new Main();
-        assertEquals(newMain.getSettings().getClass(), main.getSettings().getClass());
     }
 
     /**
